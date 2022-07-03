@@ -1,20 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { NextPage } from 'next';
 
-import App from './App';
+const Home: NextPage = () => {
+  return <div>Next.js</div>;
+};
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLDivElement
-);
-
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
+export default Home;
