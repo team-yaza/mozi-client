@@ -1,13 +1,18 @@
-import TestComponent from '@src/components/TestComponent';
+import TestComponent from 'components/TestComponent';
 import { NextPage } from 'next';
+import styled from 'styled-components';
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <Container>
       Next.js
       <TestComponent />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: grid;
+`;
 
 export default Home;
