@@ -25,9 +25,9 @@
     "eslint": "^8.18.0",
     "eslint-plugin-react": "^7.30.1",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.1",
     "jest": "^28.1.2",
     "jest-environment-jsdom": "^28.1.2",
-    "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
@@ -36,6 +36,7 @@
     "next": "^12.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.1",
     "styled-components": "^5.3.5"
   },
   "lint-staged": {
