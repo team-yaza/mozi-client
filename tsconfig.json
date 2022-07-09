@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "cypress/e2e/app.test.js"],
   "exclude": ["node_modules"]
 }
