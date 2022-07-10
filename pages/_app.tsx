@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <GlobalStyle />
-      <Component {...pageProps} />
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
