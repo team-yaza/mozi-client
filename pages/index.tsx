@@ -5,15 +5,22 @@ import styled from 'styled-components';
 
 const Home: NextPage = () => {
   const { data: areas } = useQuery('areas', async () => apiClient.get('/area/all'));
-  console.log(areas);
+  const { data: projects } = useQuery('project', async () => apiClient.get('/project/all'));
+
+  console.log(projects);
+
   return (
     <Container>
       <Menu>
-        {areas?.data.map((area) => (
+        {areas?.data.map((area: any) => (
           <div>{area.name}</div>
         ))}
       </Menu>
-      <Content>hi2</Content>
+      <Content>
+        {projects?.data.map((project: any) => (
+          <div>{project.title}</div>
+        ))}
+      </Content>
     </Container>
   );
 };
