@@ -1,25 +1,43 @@
-import { apiClient } from '@/shared/api/apiClient';
+import axios from 'axios';
 import { NextPage } from 'next';
-import { useQuery } from 'react-query';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Home: NextPage = () => {
-  const { data: areas } = useQuery('areas', async () => apiClient.get('/area/all'));
-  const { data: projects } = useQuery('project', async () => apiClient.get('/project/all'));
+  const [todo, setTodo] = useState('');
 
-  console.log(projects);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodo(e.target.value);
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const response = await axios.post('http://localhost:3001/api/v1/todo/create', {
+      title: todo,
+    });
+
+    if (response.status === 200) {
+      setTodo('');
+    } else {
+      console.log('에러남.');
+    }
+
+    alert('저장되었습니다.');
+  };
+
+  console.log(todo);
 
   return (
     <Container>
       <Menu>
-        {areas?.data.map((area: any) => (
-          <div>{area.name}</div>
-        ))}
       </Menu>
       <Content>
-        {projects?.data.map((project: any) => (
-          <div>{project.title}</div>
-        ))}
+        <form onSubmit={onSubmit}>
+          <input value={todo} onChange={onChange} />
+
+          <button>Add</button>
+        </form>
       </Content>
     </Container>
   );
