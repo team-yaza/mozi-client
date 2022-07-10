@@ -1,4 +1,4 @@
-import TestComponent from '@src/components/TestComponent';
+import TestComponent from 'components/TestComponent';
 import { NextPage } from 'next';
 
 const Home: NextPage = () => {
