@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -33,6 +34,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "next": "^12.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
