@@ -1,0 +1,22 @@
+name: test
+
+on:
+  pull_request:
+    types: [opened, assigned, synchronize, labeled]
+
+defaults:
+  run:
+    working-directory: ./
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Test
+        run: yarn test
