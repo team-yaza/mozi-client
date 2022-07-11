@@ -43,6 +43,11 @@
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2"
   },
+  "huksy": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
