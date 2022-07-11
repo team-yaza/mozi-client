@@ -26,8 +26,6 @@ const Home: NextPage = () => {
     alert('저장되었습니다.');
   };
 
-  console.log(todo);
-
   return (
     <Container>
       <Menu></Menu>
