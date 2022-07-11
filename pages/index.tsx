@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { NextPage } from 'next';
 import { useState } from 'react';
+import { NextPage } from 'next';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const Home: NextPage = () => {
@@ -30,8 +30,7 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      <Menu>
-      </Menu>
+      <Menu></Menu>
       <Content>
         <form onSubmit={onSubmit}>
           <input value={todo} onChange={onChange} />
