@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
-    "test": "jest --watch"
+    "test": "jest",
+    "watch": "jest --watchAll"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
