@@ -9,16 +9,26 @@ defaults:
     working-directory: ./
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout source code
-      uses: actions/checkout@v2
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
 
-    - name: Install Dependencies
-      run: yarn install
+      - name: Install Dependencies
+        run: yarn install
 
-    - name: Test
-      run: yarn test
+      - name: Test
+        run: yarn test
 
-    - name: Lint
-      run: yarn lint
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Lint
+        run: yarn lint
