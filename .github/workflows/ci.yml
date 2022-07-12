@@ -1,4 +1,4 @@
-name: test & lint
+name: Test & Lint
 
 on:
   pull_request:
@@ -9,17 +9,16 @@ defaults:
     working-directory: ./
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        run: yarn install
+    - name: Install Dependencies
+      run: yarn install
 
-      - name: Test
-        run: yarn test
+    - name: Test
+      run: yarn test
 
-      - name: Lint
-        run: yarn lint
+    - name: Lint
+      run: yarn lint
