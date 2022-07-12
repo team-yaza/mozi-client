@@ -1,10 +1,24 @@
 import axios from 'axios';
 import { NextPage } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { findAllTodo } from '@/shared/api/todoAPI';
+
+interface Todo {
+  title: string;
+}
 
 const Home: NextPage = () => {
   const [todo, setTodo] = useState('');
+  const [todoList, setTodoList] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await findAllTodo();
+      setTodoList(response);
+    })();
+  }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
@@ -26,13 +40,13 @@ const Home: NextPage = () => {
     alert('저장되었습니다.');
   };
 
-  console.log(todo);
-
   return (
     <Container>
-      <Menu>
-      </Menu>
+      <Menu></Menu>
       <Content>
+        {todoList?.map((todo: Todo) => (
+          <p>{todo.title}</p>
+        ))}
         <form onSubmit={onSubmit}>
           <input value={todo} onChange={onChange} />
 
