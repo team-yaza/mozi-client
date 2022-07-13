@@ -3,60 +3,43 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { findAllTodo, createTodo, deleteTodo } from '@/shared/api/todoAPI';
-
-interface Todo {
-  _id: string;
-  title: string;
-}
+import TodoSubmitForm from '@/components/index/TodoSubmitForm';
+import TodoList from '@/components/index/TodoList';
+import { Todo } from '@/shared/types/todo';
 
 const Home: NextPage = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
-  const todoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getAllTodo();
   }, []);
 
   const getAllTodo = useCallback(async () => {
-    const response = await findAllTodo();
-    setTodoList(response as Todo[]);
-  }, []);
-
-  const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const title = todoInputRef.current?.value;
-    if (!title) return;
-
-    const response = await createTodo(title);
-    if (response) {
-      todoInputRef.current.value = '';
-      getAllTodo();
-    } else alert('todo 생성 실패');
+    try {
+      const todos = await findAllTodo();
+      setTodoList(todos);
+    } catch (error) {
+      // !TODO 토스트 팝업
+      alert('투두를 가져오지 못했습니다.');
+    }
   }, []);
 
   const onDeleteTodo = useCallback(async (todoId: string) => {
-    const response = await deleteTodo(todoId);
+    try {
+      await deleteTodo(todoId);
+    } catch (error: any) {
+      alert(error.message);
+    }
 
-    if (response) getAllTodo();
-    else alert('todo 삭제 실패');
+    getAllTodo();
   }, []);
 
   return (
     <Container>
       <Menu></Menu>
       <Content>
-        {todoList?.map((todo: Todo) => (
-          <div key={todo._id}>
-            <p>{todo.title}</p>
-            <button onClick={() => onDeleteTodo(todo._id)}>삭제</button>
-          </div>
-        ))}
-
-        <form onSubmit={onSubmit}>
-          <input ref={todoInputRef} />
-          <button>Add</button>
-        </form>
+        <TodoList todoList={todoList} onDeleteTodo={onDeleteTodo} />
+        <TodoSubmitForm setTodoList={setTodoList} />
       </Content>
     </Container>
   );
