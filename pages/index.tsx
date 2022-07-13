@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { findAllTodo, createTodo, deleteTodo } from '@/shared/api/todoAPI';
+import { findAllTodo, deleteTodo } from '@/shared/api/todoAPI';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 import TodoList from '@/components/index/TodoList';
+import SideBar from '@/components/sidebar';
 import { Todo } from '@/shared/types/todo';
 
 const Home: NextPage = () => {
@@ -27,8 +28,8 @@ const Home: NextPage = () => {
   const onDeleteTodo = useCallback(async (todoId: string) => {
     try {
       await deleteTodo(todoId);
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error) {
+      alert('todo 삭제 실패');
     }
 
     getAllTodo();
@@ -36,7 +37,7 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      <Menu></Menu>
+      <SideBar />
       <Content>
         <TodoList todoList={todoList} onDeleteTodo={onDeleteTodo} />
         <TodoSubmitForm setTodoList={setTodoList} />
@@ -49,15 +50,6 @@ const Container = styled.div`
   display: grid;
   height: 100vh;
   grid-template-columns: 24rem 1fr;
-`;
-
-const Menu = styled.div`
-  width: 100%;
-  height: 100%;
-
-  font-size: 5rem;
-
-  background-color: #f7f6f3;
 `;
 
 const Content = styled.div`
