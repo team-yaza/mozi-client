@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { findAllTodo } from '@/shared/api/todoAPI';
 
 interface Todo {
+  _id: string;
   title: string;
 }
 
@@ -13,10 +14,12 @@ const Home: NextPage = () => {
   const [todo, setTodo] = useState('');
   const [todoList, setTodoList] = useState<Todo[]>([]);
 
+  console.log(todoList);
+
   useEffect(() => {
     (async () => {
       const response = await findAllTodo();
-      setTodoList(response);
+      setTodoList(response as Todo[]);
     })();
   }, []);
 
@@ -40,13 +43,27 @@ const Home: NextPage = () => {
     alert('저장되었습니다.');
   };
 
+  const onDeleteTodo = async (id: string) => {
+    const response = await axios.delete(`http://localhost:3001/api/v1/todo?todoId=${id}`);
+
+    if (response.status === 200) {
+      setTodoList(todoList.filter((todo) => todo._id !== id));
+    } else {
+      console.log('에러남.');
+    }
+  };
+
   return (
     <Container>
       <Menu></Menu>
       <Content>
         {todoList?.map((todo: Todo) => (
-          <p>{todo.title}</p>
+          <div key={todo._id}>
+            <p>{todo.title}</p>
+            <button onClick={() => onDeleteTodo(todo._id)}>삭제</button>
+          </div>
         ))}
+
         <form onSubmit={onSubmit}>
           <input value={todo} onChange={onChange} />
 
