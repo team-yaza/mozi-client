@@ -1,40 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { NextPage } from 'next';
-import axios from 'axios';
 import styled from 'styled-components';
 
+import { findAllTodo, deleteTodo } from '@/shared/api/todoAPI';
+import TodoSubmitForm from '@/components/index/TodoSubmitForm';
+import TodoList from '@/components/index/TodoList';
+import SideBar from '@/components/sidebar';
+import { Todo } from '@/shared/types/todo';
+
 const Home: NextPage = () => {
-  const [todo, setTodo] = useState('');
+  const [todoList, setTodoList] = useState<Todo[]>([]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodo(e.target.value);
-  };
+  useEffect(() => {
+    getAllTodo();
+  }, []);
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const getAllTodo = useCallback(async () => {
+    try {
+      const todos = await findAllTodo();
+      setTodoList(todos);
+    } catch (error) {
+      // !TODO 토스트 팝업
+      alert('투두를 가져오지 못했습니다.');
+    }
+  }, []);
 
-    const response = await axios.post('http://localhost:3001/api/v1/todo/create', {
-      title: todo,
-    });
-
-    if (response.status === 200) {
-      setTodo('');
-    } else {
-      console.log('에러남.');
+  const onDeleteTodo = useCallback(async (todoId: string) => {
+    try {
+      await deleteTodo(todoId);
+    } catch (error) {
+      alert('todo 삭제 실패');
     }
 
-    alert('저장되었습니다.');
-  };
+    getAllTodo();
+  }, []);
 
   return (
     <Container>
-      <Menu></Menu>
+      <SideBar />
       <Content>
-        <form onSubmit={onSubmit}>
-          <input value={todo} onChange={onChange} />
-
-          <button>Add</button>
-        </form>
+        <TodoList todoList={todoList} onDeleteTodo={onDeleteTodo} />
+        <TodoSubmitForm setTodoList={setTodoList} />
       </Content>
     </Container>
   );
@@ -44,15 +50,6 @@ const Container = styled.div`
   display: grid;
   height: 100vh;
   grid-template-columns: 24rem 1fr;
-`;
-
-const Menu = styled.div`
-  width: 100%;
-  height: 100%;
-
-  font-size: 5rem;
-
-  background-color: #f7f6f3;
 `;
 
 const Content = styled.div`

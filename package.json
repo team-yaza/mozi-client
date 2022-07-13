@@ -53,7 +53,7 @@
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "prettier --write",
-      "jest --ci"
+      "jest --ci --passWithNoTests"
     ]
   }
 }
