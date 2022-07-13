@@ -1,9 +1,8 @@
-import axios from 'axios';
 import { NextPage } from 'next';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { findAllTodo, createTodo } from '@/shared/api/todoAPI';
+import { findAllTodo, createTodo, deleteTodo } from '@/shared/api/todoAPI';
 
 interface Todo {
   _id: string;
@@ -23,7 +22,7 @@ const Home: NextPage = () => {
     setTodoList(response as Todo[]);
   }, []);
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const title = todoInputRef.current?.value;
@@ -33,18 +32,15 @@ const Home: NextPage = () => {
     if (response) {
       todoInputRef.current.value = '';
       getAllTodo();
-    }
-  };
+    } else alert('todo 생성 실패');
+  }, []);
 
-  const onDeleteTodo = async (id: string) => {
-    const response = await axios.delete(`http://localhost:3001/api/v1/todo?todoId=${id}`);
+  const onDeleteTodo = useCallback(async (todoId: string) => {
+    const response = await deleteTodo(todoId);
 
-    if (response.status === 200) {
-      setTodoList(todoList.filter((todo) => todo._id !== id));
-    } else {
-      console.log('에러남.');
-    }
-  };
+    if (response) getAllTodo();
+    else alert('todo 삭제 실패');
+  }, []);
 
   return (
     <Container>
