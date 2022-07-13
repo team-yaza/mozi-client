@@ -18,8 +18,9 @@ const MenuList: MenuProps[] = [
 const SideBar = () => {
   return (
     <Container>
-      {MenuList.map((menu: MenuProps) => (
-        <Menu title={menu.title} iconUrl={menu.iconUrl} link={menu.link} />
+      {MenuList.map((menu: MenuProps, index: number) => (
+        // !TODO index는 키이면 안되므로 다음에 수정 필요
+        <Menu key={index} title={menu.title} iconUrl={menu.iconUrl} link={menu.link} />
       ))}
     </Container>
   );
