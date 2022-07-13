@@ -1,12 +1,11 @@
-import { apiClient } from './apiClient';
-
-interface Todo {
-  title: string;
-}
+import { apiClient } from '@/shared/api/apiClient';
+import { Todo } from '@/shared/types/todo';
 
 export const findAllTodo = async () => {
-  const { data } = await apiClient.get<Todo[]>('/todo/all');
-  return data;
+  const response = await apiClient.get<Todo[]>('/todo/all');
+
+  if (response.status === 200) return response.data;
+  else throw new Error('Error fetching todos');
 };
 
 export const createTodo = async (title: string) => {
