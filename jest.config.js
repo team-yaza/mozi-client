@@ -11,6 +11,8 @@ const customJestConfig = {
   moduleNameMapper: {
     '@/components/(.*)': '<rootDir>/components/$1',
     '@/shared/(.*)': '<rootDir>/shared/$1',
+    '@/pages/(.*)': '<rootDir>/pages/$1',
+    '@/store/(.*)': '<rootDir>/store/$1',
   },
 };
 
