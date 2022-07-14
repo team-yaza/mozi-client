@@ -1,8 +1,14 @@
-import { Container, Icon } from '@/components/sidebar/menu/style';
-import { MenuProps } from '@/shared/types/menu';
 import Link from 'next/link';
 
-export const Menu = ({ title, iconUrl, link }: MenuProps) => {
+import { Container, Icon } from '@/components/sidebar/menu/style';
+
+interface MenuProps {
+  title: string;
+  iconUrl: string;
+  link: string;
+}
+
+const SideBarMenu: React.FC<MenuProps> = ({ title, iconUrl, link }) => {
   return (
     <Container>
       <Icon src={iconUrl} />
@@ -12,3 +18,5 @@ export const Menu = ({ title, iconUrl, link }: MenuProps) => {
     </Container>
   );
 };
+
+export default SideBarMenu;
