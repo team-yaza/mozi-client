@@ -3,10 +3,11 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { findAllTodo, deleteTodo } from '@/shared/api/todoAPI';
-import TodoSubmitForm from '@/components/index/TodoSubmitForm';
-import TodoList from '@/components/index/TodoList';
-import SideBar from '@/components/sidebar';
 import { Todo } from '@/shared/types/todo';
+import Header from '@/components/index/Header';
+import SideBar from '@/components/sidebar';
+import TodoList from '@/components/index/TodoList';
+import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 
 const Home: NextPage = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -39,6 +40,7 @@ const Home: NextPage = () => {
     <Container>
       <SideBar />
       <Content>
+        <Header />
         <TodoList todoList={todoList} onDeleteTodo={onDeleteTodo} />
         <TodoSubmitForm setTodoList={setTodoList} />
       </Content>
