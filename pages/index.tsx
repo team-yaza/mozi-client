@@ -1,5 +1,5 @@
-import { NextPage } from 'next';
 import { useEffect, useState, useCallback } from 'react';
+import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { findAllTodo, deleteTodo } from '@/shared/api/todoAPI';

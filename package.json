@@ -11,8 +11,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "prepare": "husky install",
     "cypress": "cypress open",
-    "test": "jest --watch"
+    "test": "jest",
+    "watch": "jest --watchAll"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -44,16 +46,16 @@
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2"
   },
+  "huksy": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "prettier --write",
-      "git add"
-    ],
-    "*.+{json|css|md}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
+      "jest --ci --passWithNoTests"
     ]
   }
 }
