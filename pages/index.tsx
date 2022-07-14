@@ -1,12 +1,12 @@
-import { useEffect, useState, useCallback } from 'react';
 import { NextPage } from 'next';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
+import { Todo } from '@/shared/types/todo';
 import { findAllTodo, deleteTodo } from '@/shared/api/todoAPI';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 import TodoList from '@/components/index/TodoList';
 import SideBar from '@/components/sidebar';
-import { Todo } from '@/shared/types/todo';
 
 const Home: NextPage = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
