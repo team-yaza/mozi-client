@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { Todo } from '@/shared/types/todo';
@@ -7,6 +7,10 @@ import { deleteTodo, findAllTodo } from '@/shared/api/todoAPI';
 
 const TodoList: React.FC = () => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
+
+  useEffect(() => {
+    getAllTodo();
+  }, []);
 
   const getAllTodo = useCallback(async () => {
     try {

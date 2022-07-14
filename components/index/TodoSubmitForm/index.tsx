@@ -1,26 +1,23 @@
 import { useCallback, useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import { createTodo, findAllTodo } from '@/shared/api/todoAPI';
 import { Todo } from '@/shared/types/todo';
+import { todoListState } from '@/store/todo/atom';
 
-interface TodoSubmitFormProps {
-  setTodoList: (todoList: Todo[]) => void;
-}
-
-const TodoSubmitForm: React.FC<TodoSubmitFormProps> = ({ setTodoList }) => {
+const TodoSubmitForm: React.FC = () => {
+  const setTodoList = useSetRecoilState(todoListState);
   const todoInputRef = useRef<HTMLInputElement>(null);
 
   const getAllTodo = useCallback(async () => {
-    const response = await findAllTodo();
-    setTodoList(response as Todo[]);
-    return response;
+    const todos = await findAllTodo();
+    setTodoList(todos as Todo[]);
   }, []);
 
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const title = todoInputRef.current?.value;
-    console.log(title, '?');
     if (!title) return;
 
     const response = await createTodo(title);
