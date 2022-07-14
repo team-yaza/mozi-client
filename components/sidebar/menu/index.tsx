@@ -2,13 +2,13 @@ import Link from 'next/link';
 
 import { Container, Icon } from '@/components/sidebar/menu/style';
 
-interface MenuProps {
+interface SideBarMenuProps {
   title: string;
   iconUrl: string;
   link: string;
 }
 
-const SideBarMenu: React.FC<MenuProps> = ({ title, iconUrl, link }) => {
+const SideBarMenu: React.FC<SideBarMenuProps> = ({ title, iconUrl, link }) => {
   return (
     <Container>
       <Icon src={iconUrl} />
