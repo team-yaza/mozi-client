@@ -43,6 +43,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.1",
+    "recoil": "^0.7.4",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2"
   },
