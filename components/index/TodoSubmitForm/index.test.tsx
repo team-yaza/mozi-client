@@ -4,9 +4,7 @@ import TodoSubmitForm from '.';
 
 describe('<TodoSubmitForm />', () => {
   it('렌더링', () => {
-    const setTodoList = jest.fn();
-
-    render(<TodoSubmitForm setTodoList={setTodoList} />);
+    render(<TodoSubmitForm />);
 
     const addText = screen.getByText('Add');
     expect(addText).toBeInTheDocument();
