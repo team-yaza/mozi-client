@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Container, Icon } from '@/components/sidebar/menu/style';
 import { MenuProps } from '@/shared/types/menu';
 
-export const Menu = ({ title, iconUrl, link }) => {
+export const Menu = ({ title, iconUrl, link }: any) => {
   return (
     <Container>
       <Icon src={iconUrl} />
