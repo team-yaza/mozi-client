@@ -1,9 +1,10 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { GlobalStyle } from 'styles/globalStyle';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { RecoilRoot } from 'recoil';
 
+import { GlobalStyle } from 'styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <RecoilRoot>
+          <Component {...pageProps} />
+        </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </>

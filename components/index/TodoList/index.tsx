@@ -1,20 +1,23 @@
+import { useQuery } from 'react-query';
+
+import { Container } from './styles';
 import { Todo } from '@/shared/types/todo';
+import { findAllTodos } from '@/shared/api/todoApi';
+import TodoListItem from '@/components/index/TodoListItem';
 
-interface TodoListProps {
-  todoList: Todo[];
-  onDeleteTodo: (todoId: string) => Promise<void>;
-}
+const TodoList: React.FC = () => {
+  const { data: todoList, isLoading } = useQuery('todoList', findAllTodos);
 
-const TodoList: React.FC<TodoListProps> = ({ todoList, onDeleteTodo }) => {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
+    <Container>
       {todoList?.map((todo: Todo) => (
-        <div key={todo._id}>
-          <p>{todo.title}</p>
-          <button onClick={() => onDeleteTodo(todo._id)}>삭제</button>
-        </div>
+        <TodoListItem key={todo._id} todo={todo} />
       ))}
-    </>
+    </Container>
   );
 };
 
