@@ -1,36 +1,35 @@
-import { useCallback, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useCallback, useEffect, useRef } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
-import { createTodo, findAllTodo } from '@/shared/api/todoAPI';
-import { Todo } from '@/shared/types/todo';
-import { todoListState } from '@/store/todo/atom';
+import { createTodo } from '@/shared/api/todoApi';
 
 const TodoSubmitForm: React.FC = () => {
-  const setTodoList = useSetRecoilState(todoListState);
-  const todoInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+  const addTodoMutation = useMutation(createTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('todoList');
+    },
+    onError: () => {
+      alert('todo 생성 실패');
+    },
+  });
 
-  const getAllTodo = useCallback(async () => {
-    const todos = await findAllTodo();
-    setTodoList(todos as Todo[]);
-  }, []);
+  useEffect(() => inputRef.current?.focus(), []);
 
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const title = todoInputRef.current?.value;
+    const title = inputRef.current?.value;
     if (!title) return;
 
-    const response = await createTodo(title);
-
-    if (response) {
-      todoInputRef.current.value = '';
-      getAllTodo();
-    } else alert('todo 생성 실패');
+    addTodoMutation.mutate(title);
+    inputRef.current.value = '';
   }, []);
 
   return (
     <form onSubmit={onSubmit}>
-      <input ref={todoInputRef} />
+      <input ref={inputRef} />
       <button>Add</button>
     </form>
   );
