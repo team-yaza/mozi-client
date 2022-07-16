@@ -6,7 +6,7 @@ import { findAllTodos } from '@/shared/api/todoApi';
 import TodoListItem from '@/components/index/TodoListItem';
 
 const TodoList: React.FC = () => {
-  const { data: todoList, isLoading } = useQuery('todoList', async () => await findAllTodos());
+  const { data: todoList, isLoading } = useQuery('todoList', findAllTodos);
 
   if (isLoading) {
     return <div>Loading...</div>;
