@@ -1,5 +1,5 @@
-import { apiClient } from '@/shared/api/apiClient';
 import { Todo } from '@/shared/types/todo';
+import { apiClient } from '@/shared/api/apiClient';
 
 export const findAllTodos = async () => {
   const response = await apiClient.get<Todo[]>('/todo/all');
