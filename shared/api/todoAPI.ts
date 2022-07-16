@@ -1,7 +1,7 @@
 import { apiClient } from '@/shared/api/apiClient';
 import { Todo } from '@/shared/types/todo';
 
-export const findAllTodo = async () => {
+export const findAllTodos = async () => {
   const response = await apiClient.get<Todo[]>('/todo/all');
 
   if (response.status === 200) return response.data;
