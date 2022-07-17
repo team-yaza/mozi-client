@@ -1,14 +1,18 @@
-import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
+import { QueryClientProvider } from 'react-query';
+import { render } from '@testing-library/react';
 
-import Home from 'pages/index';
+import Home from '@/pages/index';
+import { queryClient } from '@/shared/utils/queryClient';
 
-describe('HomePage', () => {
+describe('<HomePage/>', () => {
   test('렌더링', () => {
     render(
-      <RecoilRoot>
-        <Home />
-      </RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <Home />
+        </RecoilRoot>
+      </QueryClientProvider>
     );
   });
 });

@@ -1,46 +1,23 @@
-import { useCallback, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
 
+import { Container } from './styles';
 import { Todo } from '@/shared/types/todo';
-import { todoListState } from '@/store/todo/atom';
-import { deleteTodo, findAllTodo } from '@/shared/api/todoAPI';
+import { findAllTodos } from '@/shared/api/todoApi';
+import TodoListItem from '@/components/index/TodoListItem';
 
 const TodoList: React.FC = () => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
+  const { data: todoList, isLoading } = useQuery('todoList', findAllTodos);
 
-  useEffect(() => {
-    getAllTodo();
-  }, []);
-
-  const getAllTodo = useCallback(async () => {
-    try {
-      const todos = await findAllTodo();
-      setTodoList(todos);
-    } catch (error) {
-      // !TODO 토스트 팝업
-      alert('투두를 가져오지 못했습니다.');
-    }
-  }, []);
-
-  const onDeleteTodo = useCallback(async (todoId: string) => {
-    try {
-      await deleteTodo(todoId);
-    } catch (error) {
-      alert('todo 삭제 실패');
-    }
-
-    getAllTodo();
-  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
+    <Container>
       {todoList?.map((todo: Todo) => (
-        <div key={todo._id}>
-          <p>{todo.title}</p>
-          <button onClick={() => onDeleteTodo(todo._id)}>삭제</button>
-        </div>
+        <TodoListItem key={todo._id} todo={todo} />
       ))}
-    </>
+    </Container>
   );
 };
 

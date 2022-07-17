@@ -1,9 +1,9 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
-import TodoSubmitForm from '@/components/index/TodoSubmitForm';
-import TodoList from '@/components/index/TodoList';
 import SideBar from '@/components/sidebar';
+import TodoList from '@/components/index/TodoList';
+import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 
 const Home: NextPage = () => {
   return (
