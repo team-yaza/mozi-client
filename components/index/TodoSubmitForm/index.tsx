@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
+import { Form, SubmitButton, TodoInput } from './styles';
 import { createTodo } from '@/shared/api/todoApi';
 
 const TodoSubmitForm: React.FC = () => {
@@ -28,10 +29,10 @@ const TodoSubmitForm: React.FC = () => {
   }, []);
 
   return (
-    <form onSubmit={onSubmit}>
-      <input ref={inputRef} />
-      <button>Add</button>
-    </form>
+    <Form onSubmit={onSubmit}>
+      <TodoInput ref={inputRef} />
+      <SubmitButton type="submit">Add</SubmitButton>
+    </Form>
   );
 };
 

@@ -1,5 +1,7 @@
+import { Container } from './styles';
+
 const Header: React.FC = () => {
-  return <div>Inbox</div>;
+  return <Container>Inbox</Container>;
 };
 
 export default Header;
