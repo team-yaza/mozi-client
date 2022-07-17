@@ -5,6 +5,11 @@ import { Todo } from '@/shared/types/todo';
 import { deleteTodo } from '@/shared/api/todoApi';
 
 interface TodoListItemProps {
+
+
+
+
+  
   todo: Todo;
 }
 
@@ -14,6 +19,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo }) => {
     onSuccess: () => {
       queryClient.invalidateQueries('todoList');
     },
+
+
+
+
+
     onError: () => {
       alert('todo 삭제 실패');
     },
