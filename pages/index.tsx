@@ -4,12 +4,14 @@ import styled from 'styled-components';
 import SideBar from '@/components/sidebar';
 import TodoList from '@/components/index/TodoList';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
+import Header from '@/components/index/Header';
 
 const Home: NextPage = () => {
   return (
     <Container>
       <SideBar />
       <Content>
+        <Header />
         <TodoList />
         <TodoSubmitForm />
       </Content>
@@ -26,6 +28,10 @@ const Container = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 `;
 
 export default Home;

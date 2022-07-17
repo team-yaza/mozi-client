@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { Container } from './styles';
+import { Container, DeleteButton, Title } from './styles';
 import { Todo } from '@/shared/types/todo';
 import { deleteTodo } from '@/shared/api/todoApi';
 
@@ -21,8 +21,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo }) => {
 
   return (
     <Container>
-      <p>{todo.title}</p>
-      <button onClick={() => deleteTodoMutation.mutate(todo._id)}>삭제</button>
+      <Title>{todo.title}</Title>
+      <DeleteButton onClick={() => deleteTodoMutation.mutate(todo._id)}>삭제</DeleteButton>
     </Container>
   );
 };
