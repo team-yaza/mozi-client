@@ -17,6 +17,7 @@
     "watch": "jest --watchAll"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.2.2",
     "@testing-library/dom": "^8.16.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
