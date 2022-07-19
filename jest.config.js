@@ -14,6 +14,7 @@ const customJestConfig = {
     '@/pages/(.*)': '<rootDir>/pages/$1',
     '@/store/(.*)': '<rootDir>/store/$1',
   },
+  verbose: true,
 };
 
 module.exports = createJestConfig(customJestConfig);
