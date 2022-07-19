@@ -1,4 +1,4 @@
-import SideBarMenu from './menu';
+import SideBarMenu from './SideBarMenu';
 import { Container } from './styles';
 import { Menu } from '@/shared/types/menu';
 
