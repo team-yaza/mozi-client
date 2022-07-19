@@ -1,10 +1,10 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
-import SideBar from '@/components/common/SideBar';
+import Header from '@/components/index/Header';
+import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
-import Header from '@/components/index/Header';
 
 const Home: NextPage = () => {
   return (
