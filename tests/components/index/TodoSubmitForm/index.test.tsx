@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { QueryClientProvider } from 'react-query';
 
-import TodoSubmitForm from '.';
 import { queryClient } from '@/shared/utils/queryClient';
+import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 
 describe('<TodoSubmitForm />', () => {
   it('렌더링', () => {
