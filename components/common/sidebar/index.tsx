@@ -1,6 +1,6 @@
-import SideBarMenu from './SideBarMenu';
 import { Container } from './styles';
 import { Menu } from '@/shared/types/menu';
+import SideBarMenu from '@/components/common/SideBarMenu';
 
 const menuList = [
   {
