@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Container, Icon } from '@/components/sidebar/menu/style';
+import { Container, Icon } from '@/components/common/SideBar/Menu/style';
 
 interface SideBarMenuProps {
   title: string;
