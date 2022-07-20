@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -39,7 +40,14 @@ const Map: NextPage = () => {
     }
   }, [mapRef, myLocation]);
 
-  return <MapLayout id="map" />;
+  return (
+    <>
+      <Script
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
+      ></Script>
+      <MapLayout id="map" />
+    </>
+  );
 };
 
 const MapLayout = styled.div`
