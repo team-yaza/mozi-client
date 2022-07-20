@@ -45,7 +45,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo }) => {
   if (focused) {
     return (
       <Container>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} onBlur={onSubmit}>
           <input type="text" defaultValue={todo.title} ref={inputRef} />
         </form>
         <DeleteButton onClick={() => deleteTodoMutation.mutate(todo._id)}>삭제</DeleteButton>
