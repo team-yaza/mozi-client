@@ -42,20 +42,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo }) => {
     setFocused(false);
   }, []);
 
-  if (focused) {
-    return (
-      <Container>
+  return (
+    <Container onClick={() => setFocused(true)}>
+      {focused ? (
         <form onSubmit={onSubmit} onBlur={onSubmit}>
           <input type="text" defaultValue={todo.title} ref={inputRef} />
         </form>
-        <DeleteButton onClick={() => deleteTodoMutation.mutate(todo._id)}>삭제</DeleteButton>
-      </Container>
-    );
-  }
-
-  return (
-    <Container onClick={() => setFocused(true)}>
-      <Title>{todo.title}</Title>
+      ) : (
+        <Title>{todo.title}</Title>
+      )}
       <DeleteButton onClick={() => deleteTodoMutation.mutate(todo._id)}>삭제</DeleteButton>
     </Container>
   );
