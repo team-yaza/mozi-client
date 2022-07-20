@@ -21,3 +21,9 @@ export const deleteTodo = async (todoId: string) => {
   if (response.status === 200) return true;
   else throw new Error('delete failed');
 };
+
+export const updateTodo = async ({ todoId, newTitle }: { todoId: string; newTitle: string }) => {
+  const response = await apiClient.patch('http://localhost:3001/api/v1/todo', { todoId, newTitle });
+  if (response.status == 200) return true;
+  else throw new Error('update failed');
+};
