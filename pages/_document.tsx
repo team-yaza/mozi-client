@@ -1,6 +1,7 @@
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
+import Script from 'next/script';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -42,6 +43,10 @@ class MyDocument extends Document {
           <meta name="description" content="" />
           <meta name="keywords" content="" />
         </Head>
+        {/* <Script
+          strategy="beforeInteractive"
+          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
+        ></Script> */}
         <body>
           <Main />
           <NextScript />
