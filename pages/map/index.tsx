@@ -4,10 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const Map: NextPage = () => {
-  console.log(process.env.NEXT_PUBLIC_MAP_KEY);
-  console.log(process.env.NEXT_PUBLIC_NAVER_CLIENT_ID);
-
-  const mapRef = useRef<HTMLElement | null | any>(null);
+  const mapRef = useRef<HTMLElement | naver.maps.Map | null>(null);
   const [myLocation, setMyLocation] = useState<
     | {
         latitude: number;
@@ -51,8 +48,8 @@ const Map: NextPage = () => {
 };
 
 const MapLayout = styled.div`
-  width: 800rem;
-  height: 80rem;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export default Map;
