@@ -35,10 +35,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo }) => {
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newTitle = inputRef.current?.value;
-    if (!newTitle) return;
+    const title = inputRef.current?.value;
+    if (!title) return;
 
-    updateTodoMutation.mutate({ todoId: todo._id, newTitle });
+    updateTodoMutation.mutate({ id: todo._id, title });
     setFocused(false);
   }, []);
 
