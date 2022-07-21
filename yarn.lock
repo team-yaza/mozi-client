@@ -2962,6 +2962,11 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
+"@types/navermaps@^3.0.16":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@types/navermaps/-/navermaps-3.0.16.tgz#7baa56aff014926be519b6fd4172ee337a055dd7"
+  integrity sha512-F650exi+4DzQ07aYazmzLCcfGwxy7ZLVLd0iC21W+IyKzZPaui/z34C0Wy0RWu2g7WSVx4+5pMfPhFualy+8nw==
+
 "@types/node-fetch@^2.5.7":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.2.tgz#d1a9c5fd049d9415dce61571557104dec3ec81da"
