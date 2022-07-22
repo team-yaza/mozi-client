@@ -2,28 +2,28 @@ import { Todo } from '@/shared/types/todo';
 import { apiClient } from '@/shared/api/apiClient';
 
 export const findAllTodos = async () => {
-  const response = await apiClient.get<Todo[]>('/todo/all');
+  const response = await apiClient.get<Todo[]>('/todos');
 
   if (response.status === 200) return response.data;
   else throw new Error('Error fetching todos');
 };
 
 export const createTodo = async (title: string) => {
-  const response = await apiClient.post('http://localhost:3001/api/v1/todo/create', { title });
+  const response = await apiClient.post('/todos', { title });
 
-  if (response.status === 200) return true;
+  if (response.status === 201) return true;
   else throw new Error('can not create todo');
 };
 
-export const deleteTodo = async (todoId: string) => {
-  const response = await apiClient.delete(`http://localhost:3001/api/v1/todo?todoId=${todoId}`);
+export const deleteTodo = async (id: string) => {
+  const response = await apiClient.delete(`/todos/${id}`);
 
   if (response.status === 200) return true;
   else throw new Error('delete failed');
 };
 
-export const updateTodo = async ({ todoId, newTitle }: { todoId: string; newTitle: string }) => {
-  const response = await apiClient.patch('http://localhost:3001/api/v1/todo', { todoId, newTitle });
-  if (response.status == 200) return true;
+export const updateTodo = async ({ id, title }: { id: string; title: string }) => {
+  const response = await apiClient.patch('/todos', { id, title });
+  if (response.status == 201) return true;
   else throw new Error('update failed');
 };
