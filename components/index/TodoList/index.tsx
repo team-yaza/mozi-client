@@ -1,20 +1,15 @@
-import { useQuery } from 'react-query';
-
 import { Container } from './styles';
 import { Todo } from '@/shared/types/todo';
-import { findAllTodos } from '@/shared/api/todoApi';
 import TodoListItem from '@/components/index/TodoListItem';
 
-const TodoList: React.FC = () => {
-  const { data: todoList, isLoading } = useQuery('todoList', findAllTodos);
+interface TodoListProps {
+  todos: Todo[];
+}
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+const TodoList: React.FC<TodoListProps> = ({ todos = [] }) => {
   return (
     <Container>
-      {todoList?.map((todo: Todo) => (
+      {todos?.map((todo: Todo) => (
         <TodoListItem key={todo._id} todo={todo} />
       ))}
     </Container>

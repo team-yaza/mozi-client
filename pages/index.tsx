@@ -1,18 +1,22 @@
 import { NextPage } from 'next';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
 import Header from '@/components/index/Header';
 import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
+import { findAllTodos } from '@/shared/api/todoApi';
 
 const Home: NextPage = () => {
+  const { data: todos } = useQuery('todoList', findAllTodos);
+
   return (
     <Container>
       <SideBar />
       <Content>
         <Header />
-        <TodoList />
+        <TodoList todos={todos} />
         <TodoSubmitForm />
       </Content>
     </Container>
