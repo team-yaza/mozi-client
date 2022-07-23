@@ -4,6 +4,14 @@ const withPlugins = require('next-compose-plugins');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/openapi/:path*',
+  //       destination: 'https://openapi.map.naver.com/:path*',
+  //     },
+  //   ];
+  // },
   // pageExtensions: ['page.tsx', 'page.tx'],
 };
 

@@ -7,4 +7,9 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
   }
+
+  #__next {
+    width: 100vw;
+    height: 100vh;
+  }
 `;
