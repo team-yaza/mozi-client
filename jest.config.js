@@ -12,9 +12,12 @@ const customJestConfig = {
   moduleNameMapper: {
     '@/components/(.*)': '<rootDir>/components/$1',
     '@/shared/(.*)': '<rootDir>/shared/$1',
+    '@/services/(.*)': '<rootDir>/services/$1',
     '@/pages/(.*)': '<rootDir>/pages/$1',
     '@/store/(.*)': '<rootDir>/store/$1',
     '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/utils/(.*)': '<rootDir>/utils/$1',
+    '@/hooks/(.*)': '<rootDir>/hooks/$1',
   },
   verbose: true,
 };
