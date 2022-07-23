@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-function useMap() {
+export const useMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [myLocation, setMyLocation] = useState<
     | {
@@ -29,17 +29,22 @@ function useMap() {
       // 현재 위치 추적
       const currentPosition = [myLocation.latitude, myLocation.longitude];
 
-      // Naver Map 생성
-      // mapRef.current = new naver.maps.Map('map', {
-      //   center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-      //   zoomControl: true,
-      // });
+      if (mapRef.current) {
+        new naver.maps.Map('map', {
+          center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+          scaleControl: false,
+          logoControl: false,
+          mapDataControl: false,
+          zoomControl: true,
+          minZoom: 6,
+        });
+      }
     }
   }, [myLocation]);
 
   return {
+    mapRef,
     myLocation,
+    setMyLocation,
   };
-}
-
-export default useMap;
+};
