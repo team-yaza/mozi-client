@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-function useMap() {
+export const useMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [myLocation, setMyLocation] = useState<
     | {
@@ -47,6 +47,4 @@ function useMap() {
     myLocation,
     setMyLocation,
   };
-}
-
-export default useMap;
+};

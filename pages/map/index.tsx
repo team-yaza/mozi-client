@@ -3,7 +3,7 @@ import Script from 'next/script';
 import styled from 'styled-components';
 
 import SearchInput from '@/components/map/SearchInput';
-import useMap from '@/hooks/useMap';
+import { useMap } from '@/hooks/useMap';
 
 const Map: NextPage = () => {
   const { mapRef, myLocation, setMyLocation } = useMap();
