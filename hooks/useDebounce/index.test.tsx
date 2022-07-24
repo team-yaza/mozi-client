@@ -5,35 +5,31 @@ jest.useFakeTimers();
 
 describe('useDebounce', () => {
   it('초기값 렌더링은 바로 이루어져야한다.', () => {
-    const { result } = renderHook(() => useDebounce('이현진', 1000));
-    expect(result.current).toEqual('이현진');
+    const { result, rerender } = renderHook(({ value }) => useDebounce(value), {
+      initialProps: { value: 'INITIAL_VALUE' },
+    });
+    expect(result.current).toEqual('INITIAL_VALUE');
   });
 
-  it('새로운 값은 곧바로 렌더링하지 않아야한다.', () => {
-    let initialValue = '이현진';
-    const { result, rerender } = renderHook(() => useDebounce(initialValue, 1000));
-    expect(result.current).toEqual('이현진');
-
-    initialValue = '유찬희';
-
-    rerender();
-    expect(result.current).toEqual('이현진');
-  });
-
-  it('새로운 값은 delay가 지난 후에 렌더링되어야 한다.', () => {
-    let initialValue = '이현진';
-    const { result, rerender } = renderHook(() => useDebounce(initialValue, 1000));
-    expect(result.current).toEqual('이현진');
-
-    initialValue = '유찬희';
-
-    rerender();
-    expect(result.current).toEqual('이현진');
-
-    act(() => {
-      jest.runAllTimers();
+  it('새로운 값은 지정한 딜레이 전에 렌더링하지 않아야한다.', () => {
+    const { result, rerender } = renderHook(({ value }) => useDebounce(value), {
+      initialProps: { value: 'INITIAL_VALUE' },
     });
 
-    expect(result.current).toEqual('유찬희');
+    rerender({ value: 'NEW_VALUE' });
+    expect(result.current).toEqual('INITIAL_VALUE');
+  });
+
+  it('새로운 값은 지정한 딜레이 이후 렌더링되어야 한다.', () => {
+    const delay = 1000;
+    const { result, rerender } = renderHook(({ value }) => useDebounce(value, delay), {
+      initialProps: { value: 'INITIAL_VALUE' },
+    });
+
+    rerender({ value: 'NEW_VALUE' });
+    act(() => {
+      jest.advanceTimersByTime(delay + 100);
+    });
+    expect(result.current).toEqual('NEW_VALUE');
   });
 });
