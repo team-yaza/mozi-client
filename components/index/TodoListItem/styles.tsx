@@ -7,6 +7,11 @@ export const Container = styled.div`
 
   padding-left: 2rem;
   border-bottom: 1px solid #e6e6e6;
+
+  input {
+    border: none;
+    /* outline: none; */
+  }
 `;
 
 export const Title = styled.div`
