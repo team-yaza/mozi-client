@@ -28,8 +28,8 @@ describe('<TodoList />', () => {
       />
     );
 
-    const todo1 = screen.getByText('Todo 1');
-    const todo2 = screen.getByText('Todo 2');
+    const todo1 = screen.getByDisplayValue('Todo 1');
+    const todo2 = screen.getByDisplayValue('Todo 2');
 
     expect(todo1).toBeInTheDocument();
     expect(todo2).toBeInTheDocument();

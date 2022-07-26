@@ -24,18 +24,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   return (
     <Container>
-      {focused ? (
-        <input
-          type="text"
-          defaultValue={todo.title}
-          onChange={onChangeHandler}
-          onBlur={() => setFocused(false)}
-          onKeyDown={onPressEnterHandler}
-          autoFocus
-        />
-      ) : (
-        <Title onClick={() => setFocused(true)}>{todo.title}</Title>
-      )}
+      <input
+        placeholder="New Todo"
+        type="text"
+        defaultValue={todo.title}
+        onChange={onChangeHandler}
+        onBlur={() => setFocused(false)}
+        onKeyDown={onPressEnterHandler}
+        autoFocus
+      />
       <DeleteButton onClick={() => onDeleteTodo(todo._id)}>삭제</DeleteButton>
     </Container>
   );
