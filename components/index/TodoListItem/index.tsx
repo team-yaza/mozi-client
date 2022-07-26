@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
-import { Container, DeleteButton, Title } from './styles';
+import { Container, DeleteButton } from './styles';
 import { Todo } from '@/shared/types/todo';
 
 interface TodoListItemProps {
@@ -10,28 +10,27 @@ interface TodoListItemProps {
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
-  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     onUpdateTodo({ id: todo._id, title: e.target.value });
   }, []);
 
-  const onPressEnterHandler = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key != 'Enter') return;
-    onChangeHandler(e);
-    setFocused(false);
+  const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') inputRef.current?.blur();
   }, []);
 
   return (
     <Container>
       <input
-        placeholder="New Todo"
-        type="text"
-        defaultValue={todo.title}
-        onChange={onChangeHandler}
-        onBlur={() => setFocused(false)}
-        onKeyDown={onPressEnterHandler}
         autoFocus
+        type="text"
+        ref={inputRef}
+        placeholder="New Todo"
+        defaultValue={todo.title}
+        onChange={onChange}
+        onKeyUp={onKeyUp}
       />
       <DeleteButton onClick={() => onDeleteTodo(todo._id)}>삭제</DeleteButton>
     </Container>

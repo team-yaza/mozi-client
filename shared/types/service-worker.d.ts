@@ -1,4 +1,3 @@
-// tslint:disable:file-header
 /**
  * Copyright (c) 2016, Tiernan Cridland
  *
@@ -112,11 +111,11 @@ interface ExtendableMessageEvent extends ExtendableEvent {
 }
 
 // ServiceWorkerGlobalScope
-
 interface ServiceWorkerGlobalScope {
   caches: CacheStorage;
   clients: Clients;
   registration: ServiceWorkerRegistration;
+  __WB_DISABLE_DEV_LOGS: boolean;
 
   addEventListener(event: 'activate', fn: (event?: ExtendableEvent) => any): void;
   addEventListener(event: 'message', fn: (event?: ExtendableMessageEvent) => any): void;

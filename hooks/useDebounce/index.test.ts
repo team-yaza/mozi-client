@@ -5,7 +5,7 @@ jest.useFakeTimers();
 
 describe('useDebounce', () => {
   it('초기값 렌더링은 바로 이루어져야한다.', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value), {
+    const { result } = renderHook(({ value }) => useDebounce(value), {
       initialProps: { value: 'INITIAL_VALUE' },
     });
     expect(result.current).toEqual('INITIAL_VALUE');
