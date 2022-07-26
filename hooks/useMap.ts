@@ -1,3 +1,4 @@
+import { getCurrentPosition } from '@/shared/utils/getCurrentPosition';
 import { useEffect, useRef, useState } from 'react';
 
 export const useMap = () => {
@@ -12,12 +13,7 @@ export const useMap = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-        setMyLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-      });
+      getCurrentPosition(setMyLocation);
     } else {
       window.alert('현재 위치를 알 수 없어 기본 위치로 지정합니다.');
       setMyLocation({ latitude: 37.4862618, longitude: 127.1222903 });
@@ -30,13 +26,18 @@ export const useMap = () => {
       const currentPosition = [myLocation.latitude, myLocation.longitude];
 
       if (mapRef.current) {
-        new naver.maps.Map('map', {
+        const map = new naver.maps.Map('map', {
           center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
           scaleControl: false,
           logoControl: false,
           mapDataControl: false,
           zoomControl: true,
           minZoom: 6,
+        });
+
+        new naver.maps.Marker({
+          map,
+          position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
         });
       }
     }
