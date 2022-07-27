@@ -24,7 +24,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   return (
     <Container>
       <input
-        autoFocus
         type="text"
         ref={inputRef}
         placeholder="New Todo"
