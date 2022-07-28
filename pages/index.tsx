@@ -50,7 +50,7 @@ const Home: NextPage = () => {
       <Content>
         <Header />
         <TodoList todos={todoList || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
-        <TodoSubmitForm onSubmit={onSubmitTodo} inputValue={inputValue} onChangeInput={onChangeInput} />
+        <TodoSubmitForm inputValue={inputValue} onSubmit={onSubmitTodo} onChangeInput={onChangeInput} />
       </Content>
     </Container>
   );
