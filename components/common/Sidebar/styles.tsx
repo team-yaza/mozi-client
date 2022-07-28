@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.section<{ width: number }>`
+export const Container = styled.div`
   position: relative;
   height: 100vh;
   background-color: #f7f6f3;
@@ -12,7 +12,6 @@ export const Container = styled.section<{ width: number }>`
   pointer-events: none;
   user-select: none;
 
-  width: ${({ width }) => width / 10}rem;
   // ! 최대 너비를 제한하는 코드
   /* max-width: 48rem; */
   /* min-width: 19rem; */
