@@ -15,18 +15,11 @@ const todos: Todo[] = [
 ];
 
 describe('<TodoList />', () => {
+  const onUpdateTodo = jest.fn();
+  const onDeleteTodo = jest.fn();
+
   it('렌더링시에 todo 목록을 보여줘야한다.', () => {
-    render(
-      <TodoList
-        todos={todos}
-        onUpdateTodo={function ({ id, title }: { id: string; title: string }): void {
-          throw new Error('Function not implemented.');
-        }}
-        onDeleteTodo={function (id: string): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
-    );
+    render(<TodoList todos={todos} onUpdateTodo={onUpdateTodo} onDeleteTodo={onDeleteTodo} />);
 
     const todo1 = screen.getByDisplayValue('Todo 1');
     const todo2 = screen.getByDisplayValue('Todo 2');
