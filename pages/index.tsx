@@ -38,11 +38,15 @@ const Home: NextPage = () => {
     deleteTodoMutation.mutate(id);
   };
 
+  const onSideBarClose = () => {
+    console.log('SideBar가 닫힙니다.');
+  };
+
   if (isLoading) return <div>로딩중</div>;
 
   return (
     <Container>
-      <SideBar />
+      <SideBar onClose={onSideBarClose} />
       <Content>
         <Header />
         <TodoList todos={todoList || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
@@ -53,16 +57,16 @@ const Home: NextPage = () => {
 };
 
 const Container = styled.div`
-  display: grid;
-  height: 100vh;
-  grid-template-columns: 24rem 1fr;
+  display: flex;
 `;
 
 const Content = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
 
   display: flex;
+  flex: 1;
   flex-direction: column;
   margin: 0 auto;
 `;
