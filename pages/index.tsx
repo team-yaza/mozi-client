@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useInput } from '@/hooks/useInput';
 import todoService from '@/services/apis/todo';
 import Header from '@/components/index/Header';
-import SideBar from '@/components/common/Sidebar2';
+import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
   };
 
   const onSideBarClose = () => {
-    console.log('temp');
+    console.log('SideBar가 닫힙니다.');
   };
 
   if (isLoading) return <div>로딩중</div>;
