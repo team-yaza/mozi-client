@@ -45,7 +45,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   });
 
   return (
-    <Container tabIndex={0} width={width}>
+    <Container tabIndex={0} style={{ width }}>
       <SideBarContents>
         <SideBarMenuContainer>
           {menuList.map((menu: Menu, index: number) => (
