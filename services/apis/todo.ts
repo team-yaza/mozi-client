@@ -1,5 +1,5 @@
 import { Todo } from '@/shared/types/todo';
-import fetcher from '@/utils/fetcher';
+import fetcher from '@/shared/utils/fetcher';
 
 const todoService = {
   createTodo: async (title: string) => await fetcher('post', '/todos', { title }),
