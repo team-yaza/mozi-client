@@ -1,6 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+import Image from 'next/image';
 
-import { Container, DeleteButton } from './styles';
+import { CheckBox, Container, DeleteButton } from './styles';
 import { Todo } from '@/shared/types/todo';
 
 interface TodoListItemProps {
@@ -10,6 +11,7 @@ interface TodoListItemProps {
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
+  const [checked, setChecked] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,8 +23,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
     if (e.key === 'Enter') inputRef.current?.blur();
   }, []);
 
+  const onCheckHandler = useCallback(() => {
+    setChecked((prevCheckedState) => !prevCheckedState);
+  }, []);
+
   return (
     <Container>
+      <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
       <input
         autoFocus
         type="text"
