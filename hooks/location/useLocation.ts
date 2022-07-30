@@ -1,15 +1,10 @@
 import { useCallback, useState, useEffect } from 'react';
 
 import { getCurrentPosition } from '@/shared/utils/getCurrentPosition';
+import { Location } from '@/shared/types/location';
 
 export const useLocation = () => {
-  const [myLocation, setMyLocation] = useState<
-    | {
-        latitude: number;
-        longitude: number;
-      }
-    | string
-  >('');
+  const [myLocation, setMyLocation] = useState<Location | string>('');
 
   useEffect(() => {
     if (navigator.geolocation) {

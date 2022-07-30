@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLocation } from './useLocation';
+import { useLocation } from '@/hooks/location/useLocation';
 
 export const useMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
