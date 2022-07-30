@@ -6,7 +6,7 @@ import { useMap } from '@/hooks/useMap';
 import Head from 'next/head';
 
 const Map: NextPage = () => {
-  const { mapRef, myLocation, setMyLocation } = useMap();
+  const { mapRef } = useMap();
 
   return (
     <>

@@ -31,7 +31,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
     <Container>
       <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
       <input
-        autoFocus
         type="text"
         ref={inputRef}
         placeholder="New Todo"
