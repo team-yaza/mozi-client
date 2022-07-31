@@ -1,18 +1,17 @@
 import { NextPage } from 'next';
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
 import { useInput } from '@/hooks/useInput';
-import todoService from '@/services/apis/todo';
 import Header from '@/components/index/Header';
 import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 
 const Home: NextPage = () => {
   const [inputValue, onChangeInput, setInputValue] = useInput('');
-  const { data: todoList, isLoading } = useQuery('todoList', todoService.getTodos);
+  const { data: todoList, isLoading } = useTodoListQuery();
   const createTodoMutation = useCreateTodoMutation();
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
