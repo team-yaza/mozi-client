@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
 
 import ErrorBoundary from '.';
 
