@@ -20,14 +20,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const alarmHandler = () => {
     if (!myLocationRef.current) return;
     alarmQueue.forEach((location: Location, index: number) => {
-      console.log(
-        getDistance(
-          myLocationRef.current.latitude,
-          myLocationRef.current.longitude,
-          location.latitude,
-          location.longitude
-        )
-      );
       if (
         getDistance(
           myLocationRef.current.latitude,
@@ -41,16 +33,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         waitingQueue.push(alarmLocation[0]);
       }
     });
-    console.log('now: ', myLocationRef.current.latitude, myLocationRef.current.longitude);
-    console.log('alarm: ', alarmQueue);
-    console.log('wait: ', waitingQueue);
     updateCurrentPosition();
   };
 
   useEffect(() => {
-    const c = setInterval(alarmHandler, 1000);
+    const alarmInterval = setInterval(alarmHandler, 1000);
     return () => {
-      clearInterval(c);
+      clearInterval(alarmInterval);
     };
   }, []);
 

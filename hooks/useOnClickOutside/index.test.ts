@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useOnOutsideClick } from '.';
+import { useOnClickOutside } from '.';
 
 const triggerRef = (value = false) => {
   const ref = { current: null };
@@ -17,7 +17,7 @@ describe('useOnClickOutside', () => {
     const ref = triggerRef(true);
     const handler = jest.fn();
 
-    renderHook(() => useOnOutsideClick(ref, handler));
+    renderHook(() => useOnClickOutside(ref, handler));
 
     act(() => {
       document.dispatchEvent(new Event('mousedown'));
@@ -31,7 +31,7 @@ describe('useOnClickOutside', () => {
     const ref = triggerRef(false);
     const handler = jest.fn();
 
-    renderHook(() => useOnOutsideClick(ref, handler));
+    renderHook(() => useOnClickOutside(ref, handler));
 
     act(() => {
       document.dispatchEvent(new Event('mousedown'));
@@ -45,7 +45,7 @@ describe('useOnClickOutside', () => {
     const handler = jest.fn();
     const ref = triggerRef(true);
 
-    renderHook(() => useOnOutsideClick(ref, handler));
+    renderHook(() => useOnClickOutside(ref, handler));
 
     act(() => {
       document.dispatchEvent(new Event('mousedown'));
@@ -58,7 +58,7 @@ describe('useOnClickOutside', () => {
     const handler = jest.fn();
     const ref = triggerRef(true);
 
-    renderHook(() => useOnOutsideClick(ref, handler));
+    renderHook(() => useOnClickOutside(ref, handler));
 
     act(() => {
       document.dispatchEvent(new Event('touchstart'));

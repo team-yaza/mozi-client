@@ -1,24 +1,11 @@
 import styled from 'styled-components';
 import { flexCenter } from '@/styles/utils';
 
-export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-size: 1.6rem;
-  line-height: 1.92rem;
-  padding-left: 2rem;
-  border-bottom: 1px solid #e6e6e6;
-
-  text-decoration: none solid rgb(85, 85, 85);
-  /* color: #555555; */
-
-  input {
-    border: none;
-    width: 100%;
-    /* outline: none; */
-  }
+export const Container = styled.div<{ isDoubleClicked: boolean }>`
+  padding: 1rem;
+  margin: ${({ isDoubleClicked }) => (isDoubleClicked ? '1rem 3rem' : '0rem 3rem')};
+  border: ${({ isDoubleClicked }) => (isDoubleClicked ? '2px black solid' : 'none')};
+  border-radius: 1rem;
 `;
 
 export const CheckBox = styled.div`
@@ -37,9 +24,37 @@ export const CheckBox = styled.div`
 `;
 
 export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   font-size: 1.6rem;
+  line-height: 1.92rem;
+  padding-left: 2rem;
+
+  text-decoration: none solid rgb(85, 85, 85);
+  /* color: #555555; */
 `;
 
 export const DeleteButton = styled.button`
   font-size: 1.6rem;
+`;
+
+export const Content = styled.input`
+  width: 90%;
+  border: none;
+`;
+
+export const Description = styled.div`
+  display: flex;
+  width: 100%;
+
+  justify-content: center;
+`;
+
+export const Footer = styled.div`
+  width: 80%;
+  height: 2.5rem;
+
+  margin-top: 2rem;
 `;
