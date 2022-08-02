@@ -40,12 +40,9 @@ const SearchInput: React.FC = () => {
           center: new naver.maps.LatLng(Number(item.y), Number(item.x)),
           zoom: 14,
         });
-        const marker = new naver.maps.Marker({
+        new naver.maps.Marker({
           map: map,
           position: new naver.maps.LatLng(Number(item.y), Number(item.x)),
-        });
-        naver.maps.Event.addListener(map, 'click', function (e) {
-          marker.setPosition(e.coord);
         });
       }
     );

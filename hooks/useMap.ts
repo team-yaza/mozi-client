@@ -3,7 +3,7 @@ import { useLocation } from '@/hooks/location/useLocation';
 
 export const useMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const { myLocation, setMyLocation } = useLocation();
+  const { myLocation } = useLocation();
 
   useEffect(() => {
     if (typeof myLocation !== 'string') {
