@@ -6,6 +6,8 @@ export const Container = styled.div<{ isDoubleClicked: boolean }>`
   margin: ${({ isDoubleClicked }) => (isDoubleClicked ? '1rem 3rem' : '0rem 3rem')};
   border: ${({ isDoubleClicked }) => (isDoubleClicked ? '2px black solid' : 'none')};
   border-radius: 1rem;
+
+  position: relative;
 `;
 
 export const CheckBox = styled.div`
