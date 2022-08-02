@@ -3,7 +3,7 @@ import { useLocation } from '@/hooks/location/useLocation';
 
 export const useMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const { myLocation } = useLocation();
+  const { myLocation, setMyLocation } = useLocation();
 
   useEffect(() => {
     if (typeof myLocation !== 'string') {
@@ -20,9 +20,13 @@ export const useMap = () => {
           minZoom: 6,
         });
 
-        new naver.maps.Marker({
+        const marker = new naver.maps.Marker({
           map,
           position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+        });
+
+        naver.maps.Event.addListener(map, 'click', function (e) {
+          marker.setPosition(e.coord);
         });
       }
     }
