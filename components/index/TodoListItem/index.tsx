@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { CheckBox, Container, DeleteButton, Content, Title, Description, Footer } from './styles';
+import { MapModal } from '@/components/index/MapModal';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
 import { Todo } from '@/shared/types/todo';
 
@@ -14,11 +15,13 @@ interface TodoListItemProps {
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
+    setIsModal(false);
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
@@ -56,9 +59,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
       </Title>
       {isDoubleClicked ? (
         <Description>
-          <Footer></Footer>
+          <Footer>
+            <button onClick={() => setIsModal(true)}>Map</button>
+          </Footer>
         </Description>
       ) : null}
+      {isModal ? <MapModal /> : null}
     </Container>
   );
 };

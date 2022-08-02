@@ -16,7 +16,7 @@ export const useMap = () => {
           scaleControl: false,
           logoControl: false,
           mapDataControl: false,
-          zoomControl: true,
+          zoomControl: false,
           minZoom: 6,
         });
 
