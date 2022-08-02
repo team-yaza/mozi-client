@@ -6,7 +6,6 @@ const SearchInput: React.FC = () => {
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     e.stopPropagation();
-    console.log(e.key);
   };
 
   const searchAddressToCoordinate = (address: string) => {
