@@ -94,7 +94,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           <SubTaskContainer></SubTaskContainer>
 
           <OptionContainer>
-            <button onClick={() => setIsModal(true)}>Map</button>
+            <button onClick={() => setIsModal(!isModal)}>Map</button>
           </OptionContainer>
         </>
       )}
