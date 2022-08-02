@@ -48,6 +48,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>MOZI</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          defer
+          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}
+        ></script>
       </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
