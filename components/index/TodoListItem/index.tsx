@@ -1,10 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import { CheckBox, Container, DeleteButton, Content, Title, Description, Footer } from './styles';
+import { Todo } from '@/shared/types/todo';
 import { MapModal } from '@/components/index/MapModal';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { Todo } from '@/shared/types/todo';
+import { CheckBox, Container, DeleteButton, Content, Title, Description, Footer } from './styles';
 
 interface TodoListItemProps {
   todo: Todo;
@@ -17,7 +17,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -57,14 +57,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
         />
         <DeleteButton onClick={() => onDeleteTodo(todo._id)}>삭제</DeleteButton>
       </Title>
-      {isDoubleClicked ? (
+      {isDoubleClicked && (
         <Description>
           <Footer>
             <button onClick={() => setIsModal(true)}>Map</button>
           </Footer>
         </Description>
-      ) : null}
-      {isModal ? <MapModal /> : null}
+      )}
+      {isModal && <MapModal />}
     </Container>
   );
 };
