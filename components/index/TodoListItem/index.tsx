@@ -1,10 +1,20 @@
 import React, { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import { CheckBox, Container, DeleteButton, Content, Title, Description, Footer } from './styles';
+import { Todo } from '@/shared/types/todo';
 import { MapModal } from '@/components/index/MapModal';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { Todo } from '@/shared/types/todo';
+import {
+  CheckBox,
+  Container,
+  DeleteButton,
+  TitleContainer,
+  Title,
+  DescriptionContainer,
+  Description,
+  SubTaskContainer,
+  OptionContainer,
+} from './styles';
 
 interface TodoListItemProps {
   todo: Todo;
@@ -17,7 +27,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // todolistItem의 상태이다. -> todo title, description ,location
+  // const [title, setTitle] = useState(todo.title);
+  // const [description, setDescription] = useState(todo.description);
+  // const [location, setLocation] = useState(todo.location);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -45,26 +60,32 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   return (
     <Container isDoubleClicked={isDoubleClicked} onDoubleClick={onDoubleClickHandler} ref={containerRef}>
-      <Title>
+      <TitleContainer>
         <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
-        <Content
-          placeholder="new todo"
+        <Title
+          placeholder="New Todo"
           onDoubleClick={onDoubleClickHandler}
           ref={inputRef}
           onChange={onChange}
           onKeyUp={onKeyUp}
           defaultValue={todo.title}
         />
-        <DeleteButton onClick={() => onDeleteTodo(todo._id)}>삭제</DeleteButton>
-      </Title>
-      {isDoubleClicked ? (
-        <Description>
-          <Footer>
+        <DeleteButton onClick={() => onDeleteTodo(todo._id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
+      </TitleContainer>
+      {isDoubleClicked && (
+        <>
+          <DescriptionContainer>
+            <Description></Description>
+          </DescriptionContainer>
+
+          <SubTaskContainer></SubTaskContainer>
+
+          <OptionContainer>
             <button onClick={() => setIsModal(true)}>Map</button>
-          </Footer>
-        </Description>
-      ) : null}
-      {isModal ? <MapModal /> : null}
+          </OptionContainer>
+        </>
+      )}
+      {isModal && <MapModal />}
     </Container>
   );
 };

@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.div<{ isDoubleClicked: boolean }>`
+  position: relative;
+
   padding: 1rem;
   margin: ${({ isDoubleClicked }) => (isDoubleClicked ? '1rem 3rem' : '0rem 3rem')};
-  border: ${({ isDoubleClicked }) => (isDoubleClicked ? '2px black solid' : 'none')};
+  border: ${({ isDoubleClicked }) => (isDoubleClicked ? '0.2rem black solid' : 'none')};
   border-radius: 1rem;
-
-  position: relative;
 `;
 
 export const CheckBox = styled.div`
@@ -25,7 +25,7 @@ export const CheckBox = styled.div`
   cursor: pointer;
 `;
 
-export const Title = styled.div`
+export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,19 +42,23 @@ export const DeleteButton = styled.button`
   font-size: 1.6rem;
 `;
 
-export const Content = styled.input`
+export const Title = styled.input`
   width: 90%;
   border: none;
 `;
 
-export const Description = styled.div`
+export const DescriptionContainer = styled.div`
   display: flex;
-  width: 100%;
-
   justify-content: center;
+
+  width: 100%;
 `;
 
-export const Footer = styled.div`
+export const Description = styled.div``;
+
+export const SubTaskContainer = styled.div``;
+
+export const OptionContainer = styled.div`
   width: 80%;
   height: 2.5rem;
 
