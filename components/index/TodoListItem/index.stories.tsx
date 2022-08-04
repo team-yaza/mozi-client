@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof TodoListItem>;
 
 const todo: Todo = {
-  _id: '1',
+  id: '1',
   title: 'Todo 1',
 };
 
