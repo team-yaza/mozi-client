@@ -54,7 +54,20 @@ export const DescriptionContainer = styled.div`
   width: 100%;
 `;
 
-export const Description = styled.div``;
+export const Description = styled.div`
+  width: 100%;
+
+  margin-top: 2rem;
+  padding: 1.6rem 2.4rem;
+  border: 0.1rem solid #d6d6d6;
+  border-radius: 0.4rem;
+
+  &:empty:before {
+    content: attr(placeholder);
+    color: grey;
+    display: inline-block;
+  }
+`;
 
 export const SubTaskContainer = styled.div``;
 
