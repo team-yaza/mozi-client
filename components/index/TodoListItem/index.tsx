@@ -56,9 +56,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
     setIsDoubleClicked(true);
   }, []);
 
-  const onChangeDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    setDescription(e.target.value);
+    setDescription(e.target.innerText);
+
     if (description) onUpdateTodo({ id: todo.id, description: e.target.value });
   }, []);
 
@@ -79,8 +80,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description contentEditable onChange={onChangeDescription}>
-              {description || '설명을 입력해주세요'}
+            <Description
+              placeholder="Notes"
+              contentEditable
+              suppressContentEditableWarning
+              spellCheck={false}
+              onInput={onInputDescription}
+            >
+              {description}
             </Description>
           </DescriptionContainer>
 
