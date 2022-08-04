@@ -19,20 +19,17 @@ import {
 interface TodoListItemProps {
   todo: Todo;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title }: { id: string; title: string }) => void;
+  onUpdateTodo: ({ id, title, description }: { id: string; title?: string; description?: string }) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
+  const [title, setTitle] = useState<string>(todo.title);
+  const [description, setDescription] = useState<string | undefined>(todo.description);
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // todolistItem의 상태이다. -> todo title, description ,location
-  // const [title, setTitle] = useState(todo.title);
-  // const [description, setDescription] = useState(todo.description);
-  // const [location, setLocation] = useState(todo.location);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -43,7 +40,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    onUpdateTodo({ id: todo._id, title: e.target.value });
+    setTitle(e.target.value);
+    onUpdateTodo({ id: todo.id, title: e.target.value });
   }, []);
 
   const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -58,24 +56,32 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
     setIsDoubleClicked(true);
   }, []);
 
+  const onChangeDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    setDescription(e.target.value);
+    if (description) onUpdateTodo({ id: todo.id, description: e.target.value });
+  }, []);
+
   return (
     <Container isDoubleClicked={isDoubleClicked} onDoubleClick={onDoubleClickHandler} ref={containerRef}>
       <TitleContainer>
         <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
         <Title
-          placeholder="New Todo"
-          onDoubleClick={onDoubleClickHandler}
           ref={inputRef}
+          placeholder="New Todo"
+          value={title}
           onChange={onChange}
           onKeyUp={onKeyUp}
-          defaultValue={todo.title}
+          onDoubleClick={onDoubleClickHandler}
         />
-        <DeleteButton onClick={() => onDeleteTodo(todo._id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
+        <DeleteButton onClick={() => onDeleteTodo(todo.id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description></Description>
+            <Description contentEditable onChange={onChangeDescription}>
+              {description || '설명을 입력해주세요'}
+            </Description>
           </DescriptionContainer>
 
           <SubTaskContainer></SubTaskContainer>
