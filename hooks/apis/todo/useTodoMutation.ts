@@ -17,11 +17,15 @@ export const useCreateTodoMutation = () =>
   });
 
 export const useUpdateTodoMutation = () =>
-  useMutation(({ id, title }: { id: string; title: string }) => todoService.updateTodo({ id, title }), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('todoList');
-    },
-  });
+  useMutation(
+    ({ id, title, description }: { id: string; title?: string; description?: string }) =>
+      todoService.updateTodo({ id, title, description }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todoList');
+      },
+    }
+  );
 
 export const useDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.deleteTodo(id), {

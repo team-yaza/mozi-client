@@ -4,7 +4,7 @@ import { Todo } from '@/shared/types/todo';
 import TodoListItem from '.';
 
 const todo: Todo = {
-  _id: '1',
+  id: '1',
   title: 'Todo 1',
 };
 
@@ -19,7 +19,7 @@ describe('<TodoListItem />', () => {
     expect(todoItem).toBeInTheDocument();
   });
 
-  it('DeleteButton', () => {
+  it('Delete Todo', () => {
     render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
     const button = screen.getByText('삭제');
@@ -28,7 +28,7 @@ describe('<TodoListItem />', () => {
     expect(onDelete).toHaveBeenCalledTimes(1);
   });
 
-  it('UpdateButton', () => {
+  it('Update Title', () => {
     render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
     const input = screen.getByDisplayValue('Todo 1');
