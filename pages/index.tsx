@@ -29,8 +29,8 @@ const Home: NextPage = () => {
     });
   };
 
-  const onUpdateTodo = ({ id, title }: { id: string; title: string }) => {
-    updateTodoMutation.mutate({ id, title });
+  const onUpdateTodo = ({ id, title, description }: { id: string; title?: string; description?: string }) => {
+    updateTodoMutation.mutate({ id, title, description });
   };
 
   const onDeleteTodo = (id: string) => {
