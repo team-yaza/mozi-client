@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import ErrorBoundary from '.';
 
-const ComponentThatThrowsError = () => {
+const ComponentThatThrowsError: React.FC = () => {
   throw new Error('Bomb');
 };
 
