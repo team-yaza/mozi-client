@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
 import { useMap } from '@/hooks/useMap';
-import { Container, Map, ModalWrapper, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { GeoJson } from '@/shared/types/location';
+import { Container, Map, ModalWrapper, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
 
 interface MapModalProps {
   id: string;
