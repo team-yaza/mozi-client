@@ -20,7 +20,7 @@ import { UpdateTodoProps } from '@/shared/types/todo';
 interface TodoListItemProps {
   todo: Todo;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, longitude, latitude }: UpdateTodoProps) => void;
+  onUpdateTodo: ({ id, title, longitude, latitude, description }: UpdateTodoProps) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
@@ -60,8 +60,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     setDescription(e.target.innerText);
+    console.log(e.target.innerText);
 
-    if (description) onUpdateTodo({ id: todo.id, description: e.target.value });
+    if (description) onUpdateTodo({ id: todo.id, description: e.target.innerText });
   }, []);
 
   return (

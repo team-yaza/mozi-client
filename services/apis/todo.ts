@@ -5,8 +5,8 @@ import { UpdateTodoProps } from '@/shared/types/todo';
 const todoService = {
   createTodo: async (title: string) => await fetcher('post', '/todos', { title }),
   getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
-  updateTodo: async ({ id, title, longitude, latitude }: UpdateTodoProps) =>
-    await fetcher('patch', `/todos/${id}`, { title, longitude, latitude }),
+  updateTodo: async ({ id, title, longitude, latitude, description }: UpdateTodoProps) =>
+    await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description }),
   deleteTodo: async (id: string) => await fetcher('delete', `/todos/${id}`),
 };
 
