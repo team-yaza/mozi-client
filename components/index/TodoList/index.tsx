@@ -1,11 +1,11 @@
 import { Container } from './styles';
-import { Todo } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import TodoListItem from '@/components/index/TodoListItem';
 
 interface TodoListProps {
   todos: Todo[];
+  onUpdateTodo: ({ id, title }: TodoUpdateRequest) => void;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, description }: { id: string; title?: string; description?: string }) => void;
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }) => {

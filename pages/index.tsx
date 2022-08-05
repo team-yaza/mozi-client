@@ -8,6 +8,7 @@ import TodoList from '@/components/index/TodoList';
 import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import { TodoUpdateRequest } from '@/shared/types/todo';
 
 const Home: NextPage = () => {
   const [inputValue, onChangeInput, setInputValue] = useInput('');
@@ -29,8 +30,8 @@ const Home: NextPage = () => {
     });
   };
 
-  const onUpdateTodo = ({ id, title, description }: { id: string; title?: string; description?: string }) => {
-    updateTodoMutation.mutate({ id, title, description });
+  const onUpdateTodo = ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
+    updateTodoMutation.mutate({ id, title, latitude, longitude, description });
   };
 
   const onDeleteTodo = (id: string) => {

@@ -15,11 +15,12 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
+import { TodoUpdateRequest } from '@/shared/types/todo';
 
 interface TodoListItemProps {
   todo: Todo;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, description }: { id: string; title?: string; description?: string }) => void;
+  onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
@@ -27,13 +28,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const [description, setDescription] = useState<string | undefined>(todo.description);
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
-  const [isModal, setIsModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
-    setIsModal(false);
+    setIsModalOpen(false);
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
@@ -59,8 +60,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     setDescription(e.target.innerText);
+    console.log(e.target.innerText);
 
-    if (description) onUpdateTodo({ id: todo.id, description: e.target.value });
+    if (description) onUpdateTodo({ id: todo.id, description: e.target.innerText });
   }, []);
 
   return (
@@ -94,11 +96,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           <SubTaskContainer></SubTaskContainer>
 
           <OptionContainer>
-            <button onClick={() => setIsModal(true)}>Map</button>
+            <button onClick={() => setIsModalOpen(!isModalOpen)}>Map</button>
           </OptionContainer>
         </>
       )}
-      {isModal && <MapModal />}
+      {isModalOpen && <MapModal id={todo.id} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />}
     </Container>
   );
 };
