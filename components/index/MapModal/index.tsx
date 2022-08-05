@@ -7,16 +7,16 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 interface MapModalProps {
   id: string;
   onUpdateTodo: ({ id, latitude, longitude }: TodoUpdateRequest) => void;
-  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MapModal = ({ id, onUpdateTodo, setIsModal }: MapModalProps) => {
+export const MapModal = ({ id, onUpdateTodo, setIsModalOpen }: MapModalProps) => {
   const { mapRef, markerLocation } = useMap();
 
   const updateLocationHandler = useCallback(() => {
     if (typeof markerLocation == 'string') return;
     onUpdateTodo({ id, latitude: markerLocation.latitude, longitude: markerLocation.longitude });
-    setIsModal(false);
+    setIsModalOpen(false);
   }, [markerLocation]);
 
   return (

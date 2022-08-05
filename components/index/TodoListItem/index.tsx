@@ -28,13 +28,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const [description, setDescription] = useState<string | undefined>(todo.description);
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
-  const [isModal, setIsModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
-    setIsModal(false);
+    setIsModalOpen(false);
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
@@ -96,11 +96,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           <SubTaskContainer></SubTaskContainer>
 
           <OptionContainer>
-            <button onClick={() => setIsModal(!isModal)}>Map</button>
+            <button onClick={() => setIsModalOpen(!isModalOpen)}>Map</button>
           </OptionContainer>
         </>
       )}
-      {isModal && <MapModal id={todo.id} onUpdateTodo={onUpdateTodo} setIsModal={setIsModal} />}
+      {isModalOpen && <MapModal id={todo.id} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />}
     </Container>
   );
 };
