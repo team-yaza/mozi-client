@@ -60,9 +60,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     setDescription(e.target.innerText);
-    console.log(e.target.innerText);
 
-    if (description) onUpdateTodo({ id: todo.id, description: e.target.innerText });
+    onUpdateTodo({ id: todo.id, description: e.target.innerText });
   }, []);
 
   return (
