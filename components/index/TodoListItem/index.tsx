@@ -2,7 +2,8 @@ import React, { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { Todo } from '@/shared/types/todo';
-import { MapModal } from '@/components/index/MapModal';
+import { TodoUpdateRequest } from '@/shared/types/todo';
+import MapModal from '@/components/index/MapModal';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
 import {
   CheckBox,
@@ -15,7 +16,6 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
-import { TodoUpdateRequest } from '@/shared/types/todo';
 
 interface TodoListItemProps {
   todo: Todo;

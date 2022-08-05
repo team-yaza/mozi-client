@@ -10,7 +10,7 @@ interface MapModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MapModal = ({ id, onUpdateTodo, setIsModalOpen }: MapModalProps) => {
+const MapModal: React.FC<MapModalProps> = ({ id, onUpdateTodo, setIsModalOpen }) => {
   const { mapRef, markerLocation } = useMap();
 
   const updateLocationHandler = useCallback(() => {
@@ -29,3 +29,5 @@ export const MapModal = ({ id, onUpdateTodo, setIsModalOpen }: MapModalProps) =>
     </Container>
   );
 };
+
+export default MapModal;
