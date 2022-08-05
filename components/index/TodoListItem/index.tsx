@@ -100,7 +100,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           </OptionContainer>
         </>
       )}
-      {isModalOpen && <MapModal id={todo.id} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && (
+        <MapModal id={todo.id} location={todo.location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
+      )}
     </Container>
   );
 };

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from '@/hooks/location/useLocation';
-import { Location } from '@/shared/types/location';
+import { GeoJson, Location } from '@/shared/types/location';
 
-export const useMap = ({ latitude, longitude }: { latitude?: number; longitude?: number }) => {
+export const useMap = (location: GeoJson | undefined = undefined) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const { myLocation } = useLocation();
   const [markerLocation, setMarkerLocation] = useState<Location | string>('');
@@ -10,15 +10,14 @@ export const useMap = ({ latitude, longitude }: { latitude?: number; longitude?:
   useEffect(() => {
     if (typeof myLocation !== 'string') {
       // 현재 위치 추적
-      const currentPosition =
-        latitude && longitude
-          ? { latitude, longitude }
-          : { latitude: myLocation.latitude, longitude: myLocation.longitude };
-      setMarkerLocation({ latitude: currentPosition.latitude, longitude: currentPosition.longitude });
+      const currentPosition = location
+        ? { lat: location.coordinates[1], lon: location.coordinates[0] }
+        : { lat: myLocation.latitude, lon: myLocation.longitude };
+      setMarkerLocation({ latitude: currentPosition.lat, longitude: currentPosition.lon });
 
       if (mapRef.current) {
         const map = new naver.maps.Map('map', {
-          center: new naver.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
+          center: new naver.maps.LatLng(currentPosition.lat, currentPosition.lon),
           scaleControl: false,
           logoControl: false,
           mapDataControl: false,
@@ -28,7 +27,7 @@ export const useMap = ({ latitude, longitude }: { latitude?: number; longitude?:
 
         const marker = new naver.maps.Marker({
           map,
-          position: new naver.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
+          position: new naver.maps.LatLng(currentPosition.lat, currentPosition.lon),
         });
 
         naver.maps.Event.addListener(map, 'click', function (e) {
