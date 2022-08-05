@@ -98,7 +98,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           </OptionContainer>
         </>
       )}
-      {isModal && <MapModal />}
+      {isModal && <MapModal id={todo.id} />}
     </Container>
   );
 };
