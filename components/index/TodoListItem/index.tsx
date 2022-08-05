@@ -15,11 +15,12 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
+import { UpdateTodoProps } from '@/shared/types/todo';
 
 interface TodoListItemProps {
   todo: Todo;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, description }: { id: string; title?: string; description?: string }) => void;
+  onUpdateTodo: ({ id, title, longitude, latitude }: UpdateTodoProps) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
@@ -98,7 +99,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           </OptionContainer>
         </>
       )}
-      {isModal && <MapModal id={todo.id} />}
+      {isModal && <MapModal id={todo.id} onUpdateTodo={onUpdateTodo} />}
     </Container>
   );
 };

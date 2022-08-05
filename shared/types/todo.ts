@@ -9,3 +9,11 @@ export interface TodoSuccessResponse {
   title: string;
   description?: string;
 }
+
+export interface UpdateTodoProps {
+  id: string;
+  title?: string;
+  longitude?: number;
+  latitude?: number;
+  description?: string;
+}

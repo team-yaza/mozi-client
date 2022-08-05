@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 
-import { TodoSuccessResponse } from '@/shared/types/todo';
+import { TodoSuccessResponse, UpdateTodoProps } from '@/shared/types/todo';
 import { queryClient } from '@/shared/utils/queryClient';
 import todoService from '@/services/apis/todo';
 
@@ -18,8 +18,8 @@ export const useCreateTodoMutation = () =>
 
 export const useUpdateTodoMutation = () =>
   useMutation(
-    ({ id, title, description }: { id: string; title?: string; description?: string }) =>
-      todoService.updateTodo({ id, title, description }),
+    ({ id, title, latitude, longitude, description }: UpdateTodoProps) =>
+      todoService.updateTodo({ id, title, latitude, longitude, description }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todoList');
