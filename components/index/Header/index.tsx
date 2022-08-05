@@ -1,7 +1,16 @@
 import { Container } from './styles';
 
-const Header: React.FC = () => {
-  return <Container>Inbox</Container>;
+interface HeaderProps {
+  onCreate: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onCreate }) => {
+  return (
+    <Container>
+      Inbox
+      <button onClick={onCreate}>메모 추가</button>
+    </Container>
+  );
 };
 
 export default Header;

@@ -3,9 +3,11 @@ import { useCallback } from 'react';
 import { useMap } from '@/hooks/useMap';
 import { Container, Map, ModalWrapper, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
 import { TodoUpdateRequest } from '@/shared/types/todo';
+import { GeoJson } from '@/shared/types/location';
 
 interface MapModalProps {
   id: string;
+  location?: GeoJson;
   onUpdateTodo: ({ id, latitude, longitude }: TodoUpdateRequest) => void;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
