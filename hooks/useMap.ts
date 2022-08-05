@@ -10,9 +10,10 @@ export const useMap = (location: GeoJson | undefined = undefined) => {
   useEffect(() => {
     if (typeof myLocation !== 'string') {
       // 현재 위치 추적
-      const currentPosition = location
-        ? { lat: location.coordinates[1], lon: location.coordinates[0] }
-        : { lat: myLocation.latitude, lon: myLocation.longitude };
+      const currentPosition =
+        location && location.coordinates[0] && location.coordinates[1]
+          ? { lat: location.coordinates[1], lon: location.coordinates[0] }
+          : { lat: myLocation.latitude, lon: myLocation.longitude };
       setMarkerLocation({ latitude: currentPosition.lat, longitude: currentPosition.lon });
 
       if (mapRef.current) {
