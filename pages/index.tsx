@@ -15,11 +15,7 @@ const Home: NextPage = () => {
   const deleteTodoMutation = useDeleteTodoMutation();
 
   const onSubmitTodo = () => {
-    createTodoMutation.mutate('', {
-      onError: (error) => {
-        console.log(error);
-      },
-    });
+    createTodoMutation.mutate();
   };
 
   const onUpdateTodo = ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {

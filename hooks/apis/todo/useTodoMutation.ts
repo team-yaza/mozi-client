@@ -6,7 +6,7 @@ import { queryClient } from '@/shared/utils/queryClient';
 import todoService from '@/services/apis/todo';
 
 export const useCreateTodoMutation = () =>
-  useMutation<TodoSuccessResponse, AxiosError, string>((title: string) => todoService.createTodo(title), {
+  useMutation<TodoSuccessResponse, AxiosError>(() => todoService.createTodo(), {
     onSuccess: () => {
       queryClient.invalidateQueries('todoList');
     },
