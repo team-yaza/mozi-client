@@ -72,7 +72,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
         <Title
           ref={inputRef}
           placeholder="New Todo"
-          value={title}
+          defaultValue={title}
           onChange={onChange}
           onKeyUp={onKeyUp}
           onDoubleClick={onDoubleClickHandler}
