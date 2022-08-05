@@ -1,14 +1,14 @@
 import { Container } from './styles';
 
 interface TodoSubmitFormProps {
-  onSubmit: () => void;
+  onCreate: () => void;
 }
 
-const Header: React.FC<TodoSubmitFormProps> = ({ onSubmit }) => {
+const Header: React.FC<TodoSubmitFormProps> = ({ onCreate }) => {
   return (
     <Container>
       Inbox
-      <button onClick={onSubmit}>메모 추가</button>
+      <button onClick={onCreate}>메모 추가</button>
     </Container>
   );
 };

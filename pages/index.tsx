@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
 
-  const onSubmitTodo = () => {
+  const onCreateTodo = () => {
     createTodoMutation.mutate();
   };
 
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
     <Container>
       <SideBar onClose={onSideBarClose} />
       <Content>
-        <Header onSubmit={onSubmitTodo} />
+        <Header onCreate={onCreateTodo} />
         <TodoList todos={todoList || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
       </Content>
     </Container>
