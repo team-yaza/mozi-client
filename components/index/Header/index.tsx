@@ -1,10 +1,10 @@
 import { Container } from './styles';
 
-interface TodoSubmitFormProps {
+interface HeaderProps {
   onCreate: () => void;
 }
 
-const Header: React.FC<TodoSubmitFormProps> = ({ onCreate }) => {
+const Header: React.FC<HeaderProps> = ({ onCreate }) => {
   return (
     <Container>
       Inbox
