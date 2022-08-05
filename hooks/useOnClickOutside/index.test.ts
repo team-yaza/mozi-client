@@ -1,16 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
+
+import { triggerRef } from '@/shared/utils/testUtils';
 import { useOnClickOutside } from '.';
-
-const triggerRef = (value = false) => {
-  const ref = { current: null };
-
-  Object.defineProperty(ref, 'current', {
-    get: jest.fn(() => (value ? document.createElement('div') : null)),
-    set: jest.fn(() => null),
-  });
-
-  return ref;
-};
 
 describe('useOnClickOutside', () => {
   it('ref가 있다면 document에 이벤트 리스너를 달아야한다.', () => {
