@@ -1,33 +1,21 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
-import { useInput } from '@/hooks/useInput';
 import Header from '@/components/index/Header';
 import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
-import TodoSubmitForm from '@/components/index/TodoSubmitForm';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 
 const Home: NextPage = () => {
-  const [inputValue, onChangeInput, setInputValue] = useInput('');
   const { data: todoList, isLoading } = useTodoListQuery();
   const createTodoMutation = useCreateTodoMutation();
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
 
-  const onSubmitTodo = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    createTodoMutation.mutate(inputValue, {
-      onSuccess: () => {
-        setInputValue('');
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    });
+  const onCreateTodo = () => {
+    createTodoMutation.mutate();
   };
 
   const onUpdateTodo = ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
@@ -48,9 +36,8 @@ const Home: NextPage = () => {
     <Container>
       <SideBar onClose={onSideBarClose} />
       <Content>
-        <Header />
+        <Header onCreate={onCreateTodo} />
         <TodoList todos={todoList || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
-        <TodoSubmitForm inputValue={inputValue} onSubmit={onSubmitTodo} onChangeInput={onChangeInput} />
       </Content>
     </Container>
   );

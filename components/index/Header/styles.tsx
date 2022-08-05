@@ -5,7 +5,8 @@ export const Container = styled.div`
 
   font-size: 3rem;
 
-  margin-top: 3rem;
-  margin-left: 2rem;
-  margin-bottom: 3rem;
+  margin: 3rem 3rem;
+
+  display: flex;
+  justify-content: space-between;
 `;
