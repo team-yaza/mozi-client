@@ -15,12 +15,12 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
-import { UpdateTodoProps } from '@/shared/types/todo';
+import { TodoUpdateRequest } from '@/shared/types/todo';
 
 interface TodoListItemProps {
   todo: Todo;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, longitude, latitude, description }: UpdateTodoProps) => void;
+  onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {

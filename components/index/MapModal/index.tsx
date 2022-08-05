@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 
 import { useMap } from '@/hooks/useMap';
 import { Container, Map, ModalWrapper, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
-import { UpdateTodoProps } from '@/shared/types/todo';
+import { TodoUpdateRequest } from '@/shared/types/todo';
 
 interface MapModalProps {
   id: string;
-  onUpdateTodo: ({ id, latitude, longitude }: UpdateTodoProps) => void;
+  onUpdateTodo: ({ id, latitude, longitude }: TodoUpdateRequest) => void;
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

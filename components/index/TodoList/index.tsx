@@ -1,10 +1,10 @@
 import { Container } from './styles';
-import { Todo, UpdateTodoProps } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import TodoListItem from '@/components/index/TodoListItem';
 
 interface TodoListProps {
   todos: Todo[];
-  onUpdateTodo: ({ id, title }: UpdateTodoProps) => void;
+  onUpdateTodo: ({ id, title }: TodoUpdateRequest) => void;
   onDeleteTodo: (id: string) => void;
 }
 

@@ -10,7 +10,7 @@ export interface TodoSuccessResponse {
   description?: string;
 }
 
-export interface UpdateTodoProps {
+export interface TodoUpdateRequest {
   id: string;
   title?: string;
   longitude?: number;
