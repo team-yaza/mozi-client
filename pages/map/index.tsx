@@ -5,7 +5,7 @@ import SearchInput from '@/components/map/SearchInput';
 import { useMap } from '@/hooks/useMap';
 
 const Map: NextPage = () => {
-  const { mapRef } = useMap();
+  const { mapRef } = useMap({});
 
   return (
     <>

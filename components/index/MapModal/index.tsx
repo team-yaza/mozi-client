@@ -11,7 +11,7 @@ interface MapModalProps {
 }
 
 export const MapModal = ({ id, onUpdateTodo, setIsModalOpen }: MapModalProps) => {
-  const { mapRef, markerLocation } = useMap();
+  const { mapRef, markerLocation } = useMap({});
 
   const updateLocationHandler = useCallback(() => {
     if (typeof markerLocation == 'string') return;
