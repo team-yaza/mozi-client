@@ -1,2 +1,2 @@
 import '@testing-library/jest-dom/extend-expect';
-import './testUtils';
+import '@/shared/utils/testUtils';
