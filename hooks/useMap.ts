@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from '@/hooks/location/useLocation';
-import { Location } from '@/shared/types/location';
+import { GeoJson, Location } from '@/shared/types/location';
 
-export const useMap = () => {
+export const useMap = (location: GeoJson | undefined = undefined) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const { myLocation } = useLocation();
   const [markerLocation, setMarkerLocation] = useState<Location | string>('');
@@ -10,12 +10,15 @@ export const useMap = () => {
   useEffect(() => {
     if (typeof myLocation !== 'string') {
       // 현재 위치 추적
-      const currentPosition = [myLocation.latitude, myLocation.longitude];
-      setMarkerLocation({ latitude: myLocation.latitude, longitude: myLocation.longitude });
+      const currentPosition =
+        location && location.coordinates[0] && location.coordinates[1]
+          ? { lat: location.coordinates[1], lon: location.coordinates[0] }
+          : { lat: myLocation.latitude, lon: myLocation.longitude };
+      setMarkerLocation({ latitude: currentPosition.lat, longitude: currentPosition.lon });
 
       if (mapRef.current) {
         const map = new naver.maps.Map('map', {
-          center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+          center: new naver.maps.LatLng(currentPosition.lat, currentPosition.lon),
           scaleControl: false,
           logoControl: false,
           mapDataControl: false,
@@ -25,7 +28,7 @@ export const useMap = () => {
 
         const marker = new naver.maps.Marker({
           map,
-          position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+          position: new naver.maps.LatLng(currentPosition.lat, currentPosition.lon),
         });
 
         naver.maps.Event.addListener(map, 'click', function (e) {

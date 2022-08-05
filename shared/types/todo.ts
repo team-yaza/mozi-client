@@ -1,6 +1,9 @@
+import { GeoJson } from './location';
+
 export interface Todo {
   id: string;
   title: string;
+  location?: GeoJson;
   description?: string;
 }
 
