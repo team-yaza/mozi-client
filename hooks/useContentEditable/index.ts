@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-export const useContentEditable = (initialContent = '') => {
+export const useContentEditable = (initialContent: string | undefined = '') => {
   const $contentEditable = useRef<HTMLDivElement>(null);
   const [content, _setContent] = useState(initialContent);
 

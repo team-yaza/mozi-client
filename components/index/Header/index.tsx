@@ -1,3 +1,4 @@
+import React from 'react';
 import { Container } from './styles';
 
 interface HeaderProps {
@@ -13,4 +14,4 @@ const Header: React.FC<HeaderProps> = ({ onCreate }) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
