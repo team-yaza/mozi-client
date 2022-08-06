@@ -1,10 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
+import MapModal from '@/components/index/MapModal';
 import { Todo } from '@/shared/types/todo';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import MapModal from '@/components/index/MapModal';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
+import { useContentEditable } from '@/hooks/useContentEditable';
+import { focusContentEditableTextToEnd } from '@/shared/utils/focus';
 import {
   CheckBox,
   Container,
@@ -16,7 +18,6 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
-import { useContentEditable } from '@/hooks/useContentEditable';
 
 interface TodoListItemProps {
   todo: Todo;
@@ -40,21 +41,23 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
-  const onInputTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
     setTitle(e.target.innerText);
     onUpdateTodo({ id: todo.id, title: e.target.innerText });
+
+    focusContentEditableTextToEnd(e.target);
   }, []);
 
-  const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputDescription = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setDescription(e.target.innerText);
 
     onUpdateTodo({ id: todo.id, description: e.target.innerText });
   }, []);
 
-  const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') onClickOutsideHandler();
   }, []);
 
