@@ -16,6 +16,7 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
+import { useContentEditable } from '@/hooks/useContentEditable';
 
 interface TodoListItemProps {
   todo: Todo;
@@ -24,12 +25,12 @@ interface TodoListItemProps {
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
-  const [title, setTitle] = useState<string>(todo.title);
-  const [description, setDescription] = useState<string | undefined>(todo.description);
+  const [title, setTitle, titleRef] = useContentEditable(todo.title);
+  const [description, setDescription, descriptionRef] = useContentEditable(todo.description);
+
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onClickOutsideHandler = useCallback(() => {
@@ -39,10 +40,18 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
-  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    setTitle(e.target.value);
-    onUpdateTodo({ id: todo.id, title: e.target.value });
+
+    setTitle(e.target.innerText);
+    onUpdateTodo({ id: todo.id, title: e.target.innerText });
+  }, []);
+
+  const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    setDescription(e.target.innerText);
+
+    onUpdateTodo({ id: todo.id, description: e.target.innerText });
   }, []);
 
   const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -57,25 +66,22 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
     setIsDoubleClicked(true);
   }, []);
 
-  const onInputDescription = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    setDescription(e.target.innerText);
-
-    onUpdateTodo({ id: todo.id, description: e.target.innerText });
-  }, []);
-
   return (
     <Container isDoubleClicked={isDoubleClicked} onDoubleClick={onDoubleClickHandler} ref={containerRef}>
       <TitleContainer>
         <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
         <Title
-          ref={inputRef}
           placeholder="New Todo"
-          defaultValue={title}
-          onChange={onChange}
+          contentEditable
+          suppressContentEditableWarning
+          ref={titleRef}
+          onInput={onInputTitle}
           onKeyUp={onKeyUp}
           onDoubleClick={onDoubleClickHandler}
-        />
+          spellCheck={false}
+        >
+          {title}
+        </Title>
         <DeleteButton onClick={() => onDeleteTodo(todo.id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
       {isDoubleClicked && (
@@ -85,8 +91,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
               placeholder="Notes"
               contentEditable
               suppressContentEditableWarning
-              spellCheck={false}
+              ref={descriptionRef}
               onInput={onInputDescription}
+              spellCheck={false}
             >
               {description}
             </Description>
