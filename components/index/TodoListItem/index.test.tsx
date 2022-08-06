@@ -14,14 +14,14 @@ describe('<TodoListItem />', () => {
   const onUpdate = jest.fn();
 
   it('렌더링', async () => {
-    render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(<TodoListItem id={todo.id} _title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
     const todoItem = screen.getByText(todo.title);
     expect(todoItem).toBeInTheDocument();
   });
 
   it('Delete Todo', () => {
-    render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(<TodoListItem id={todo.id} _title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
     const button = screen.getByText('삭제');
     expect(onDelete).toHaveBeenCalledTimes(0);
@@ -31,7 +31,7 @@ describe('<TodoListItem />', () => {
 
   it('Update Title', async () => {
     // Arrange
-    render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(<TodoListItem id={todo.id} _title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
     const $div = screen.getByText('Todo');
     // Act
     await userEvent.click($div);
