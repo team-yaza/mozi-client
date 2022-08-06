@@ -1,23 +1,28 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 export const useContentEditable = (initialContent = '') => {
-  const $contentEditable = useRef<HTMLElement | null>(null);
+  const $contentEditable = useRef<HTMLDivElement>(null);
   const [content, _setContent] = useState(initialContent);
 
-  const onInput = (event: React.ChangeEvent<HTMLElement>) => {
+  const onInput = useCallback((event: React.ChangeEvent<HTMLDivElement>) => {
     _setContent(event.target.innerText);
-  };
+  }, []);
 
-  const setContent = (newContent: string) => {
+  const setContent = useCallback((newContent: string) => {
     if ($contentEditable.current) {
       $contentEditable.current.innerText = newContent;
       _setContent(newContent);
     }
-  };
+  }, []);
 
   useEffect(() => {
     setContent(initialContent);
   }, []);
 
-  return { content, setContent, onInput, $contentEditable };
+  return [content, setContent, $contentEditable, onInput] as [
+    string,
+    typeof setContent,
+    typeof $contentEditable,
+    typeof onInput
+  ];
 };
