@@ -127,32 +127,3 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 };
 
 export default React.memo(TodoListItem);
-
-// class App extends React.Component {
-//   constructor(...args) {
-//     super(...args);
-//     this.state = {
-//       value: 'Start typing',
-//     };
-//     this.node = null;
-//   }
-
-//   componentDidMount() {
-//     if (this.node) {
-//       this.node.innerText = this.state.value;
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <div
-//         contentEditable
-//         id="editable"
-//         ref={node => this.node = node}
-//         onInput={e => this.setState({ value: e.target.innerText, updated: true })}
-//       />
-//     );
-//   }
-// }
-
-// ReactDOM.render(<App />, document.getElementById('app'));
