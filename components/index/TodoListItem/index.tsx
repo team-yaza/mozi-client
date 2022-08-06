@@ -20,14 +20,24 @@ import {
 } from './styles';
 
 interface TodoListItemProps {
-  todo: Todo;
+  id: string;
+  _title?: string;
+  _description?: string;
+  location?: any;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
-  const [title, setTitle, titleRef] = useContentEditable(todo.title);
-  const [description, setDescription, descriptionRef] = useContentEditable(todo.description);
+const TodoListItem: React.FC<TodoListItemProps> = ({
+  id,
+  _title,
+  _description,
+  location,
+  onDeleteTodo,
+  onUpdateTodo,
+}) => {
+  const [title, setTitle, titleRef] = useContentEditable(_title);
+  const [description, setDescription, descriptionRef] = useContentEditable(_description);
 
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
@@ -43,10 +53,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    onUpdateTodo({ id, title: e.target.innerText });
 
     setTitle(e.target.innerText);
-    onUpdateTodo({ id: todo.id, title: e.target.innerText });
-
     focusContentEditableTextToEnd(e.target);
   }, []);
 
@@ -54,7 +63,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
     e.stopPropagation();
     setDescription(e.target.innerText);
 
-    onUpdateTodo({ id: todo.id, description: e.target.innerText });
+    onUpdateTodo({ id, description: e.target.innerText });
+    focusContentEditableTextToEnd(e.target);
   }, []);
 
   const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -85,7 +95,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
         >
           {title}
         </Title>
-        <DeleteButton onClick={() => onDeleteTodo(todo.id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
+        <DeleteButton onClick={() => onDeleteTodo(id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
       {isDoubleClicked && (
         <>
@@ -109,11 +119,40 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           </OptionContainer>
         </>
       )}
-      {isModalOpen && (
-        <MapModal id={todo.id} location={todo.location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
-      )}
+      {/* {isModalOpen && (
+        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
+      )} */}
     </Container>
   );
 };
 
 export default React.memo(TodoListItem);
+
+// class App extends React.Component {
+//   constructor(...args) {
+//     super(...args);
+//     this.state = {
+//       value: 'Start typing',
+//     };
+//     this.node = null;
+//   }
+
+//   componentDidMount() {
+//     if (this.node) {
+//       this.node.innerText = this.state.value;
+//     }
+//   }
+
+//   render() {
+//     return (
+//       <div
+//         contentEditable
+//         id="editable"
+//         ref={node => this.node = node}
+//         onInput={e => this.setState({ value: e.target.innerText, updated: true })}
+//       />
+//     );
+//   }
+// }
+
+// ReactDOM.render(<App />, document.getElementById('app'));

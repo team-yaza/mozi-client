@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Header from '@/components/index/Header';
@@ -14,21 +15,21 @@ const Home: NextPage = () => {
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
 
-  const onCreateTodo = () => {
+  const onCreateTodo = useCallback(() => {
     createTodoMutation.mutate();
-  };
+  }, []);
 
-  const onUpdateTodo = ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
+  const onUpdateTodo = useCallback(({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
     updateTodoMutation.mutate({ id, title, latitude, longitude, description });
-  };
+  }, []);
 
-  const onDeleteTodo = (id: string) => {
+  const onDeleteTodo = useCallback((id: string) => {
     deleteTodoMutation.mutate(id);
-  };
+  }, []);
 
-  const onSideBarClose = () => {
-    console.log('SideBar가 닫힙니다.');
-  };
+  const onSideBarClose = useCallback(() => {
+    // console.log('SideBar가 닫힙니다.');
+  }, []);
 
   if (isLoading) return <div>로딩중</div>;
 
@@ -45,6 +46,11 @@ const Home: NextPage = () => {
 
 const Container = styled.div`
   display: flex;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
 `;
 
 const Content = styled.div`

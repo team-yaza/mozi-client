@@ -12,7 +12,14 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }
   return (
     <Container>
       {todos?.map((todo: Todo) => (
-        <TodoListItem key={todo.id} todo={todo} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
+        <TodoListItem
+          key={todo.id}
+          id={todo.id}
+          _title={todo.title}
+          _description={todo.description}
+          onDeleteTodo={onDeleteTodo}
+          onUpdateTodo={onUpdateTodo}
+        />
       ))}
     </Container>
   );

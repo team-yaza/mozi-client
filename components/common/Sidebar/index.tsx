@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Container, SideBarContents, SideBarMenuContainer, SideBarResizer } from './styles';
 import { Menu } from '@/shared/types/menu';
@@ -59,7 +59,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
   );
 };
 
-export default SideBar;
+export default React.memo(SideBar);
 
 // ! SideBar의 두번째 구현입니다. 위 방법과 다른 방법으로 구현했고 추후 사용할 가능성이 존재해서 코드베이스로 남겨두었습니다.
 
