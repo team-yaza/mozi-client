@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
 import { useMap } from '@/hooks/useMap';
-import { Container, Map, ModalWrapper, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { GeoJson } from '@/shared/types/location';
+import { Container, Map, ModalWrapper, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
 
 interface MapModalProps {
   id: string;
@@ -12,8 +12,8 @@ interface MapModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MapModal = ({ id, onUpdateTodo, setIsModalOpen, location }: MapModalProps) => {
-  const { mapRef, markerLocation } = useMap(location);
+const MapModal: React.FC<MapModalProps> = ({ id, onUpdateTodo, setIsModalOpen }) => {
+  const { mapRef, markerLocation } = useMap();
 
   const updateLocationHandler = useCallback(() => {
     if (typeof markerLocation == 'string') return;
@@ -31,3 +31,5 @@ export const MapModal = ({ id, onUpdateTodo, setIsModalOpen, location }: MapModa
     </Container>
   );
 };
+
+export default MapModal;

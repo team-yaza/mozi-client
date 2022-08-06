@@ -42,9 +42,15 @@ export const DeleteButton = styled.button`
   font-size: 1.6rem;
 `;
 
-export const Title = styled.input`
+export const Title = styled.div`
   width: 90%;
   border: none;
+
+  &:empty:before {
+    content: attr(placeholder);
+    color: grey;
+    display: inline-block;
+  }
 `;
 
 export const DescriptionContainer = styled.div`

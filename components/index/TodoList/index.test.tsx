@@ -21,8 +21,8 @@ describe('<TodoList />', () => {
   it('렌더링시에 todo 목록을 보여줘야한다.', () => {
     render(<TodoList todos={todos} onUpdateTodo={onUpdateTodo} onDeleteTodo={onDeleteTodo} />);
 
-    const todo1 = screen.getByDisplayValue('Todo 1');
-    const todo2 = screen.getByDisplayValue('Todo 2');
+    const todo1 = screen.getByText('Todo 1');
+    const todo2 = screen.getByText('Todo 2');
 
     expect(todo1).toBeInTheDocument();
     expect(todo2).toBeInTheDocument();

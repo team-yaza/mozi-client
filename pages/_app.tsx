@@ -5,8 +5,9 @@ import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
-import { GlobalStyle } from 'styles/globalStyle';
+import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>

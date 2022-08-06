@@ -1,21 +1,22 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Todo } from '@/shared/types/todo';
 import TodoListItem from '.';
 
 const todo: Todo = {
   id: '1',
-  title: 'Todo 1',
+  title: 'Todo',
 };
 
 describe('<TodoListItem />', () => {
   const onDelete = jest.fn();
   const onUpdate = jest.fn();
 
-  it('렌더링', () => {
+  it('렌더링', async () => {
     render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
-    const todoItem = screen.getByDisplayValue(todo.title);
+    const todoItem = screen.getByText(todo.title);
     expect(todoItem).toBeInTheDocument();
   });
 
@@ -28,16 +29,15 @@ describe('<TodoListItem />', () => {
     expect(onDelete).toHaveBeenCalledTimes(1);
   });
 
-  it('Update Title', () => {
+  it('Update Title', async () => {
+    // Arrange
     render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
-
-    const input = screen.getByDisplayValue('Todo 1');
-
-    expect(onUpdate).toHaveBeenCalledTimes(0);
-    fireEvent.change(input, { target: { value: 'Todo 2' } });
-    expect(onUpdate).toHaveBeenCalledTimes(1);
-
-    const changedInputValue = screen.getByDisplayValue('Todo 2');
+    const $div = screen.getByText('Todo');
+    // Act
+    await userEvent.click($div);
+    await userEvent.type($div, 'Todo');
+    // Assert
+    const changedInputValue = screen.getByText('TodoTodo');
     expect(changedInputValue).toBeInTheDocument();
   });
 });
