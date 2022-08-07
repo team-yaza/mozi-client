@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
+
 import { Container } from './styles';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import { setItemToLocalForage } from '@/shared/utils/localForage';
 import TodoListItem from '@/components/index/TodoListItem';
 
 interface TodoListProps {
@@ -9,6 +12,10 @@ interface TodoListProps {
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }) => {
+  useEffect(() => {
+    setItemToLocalForage('todos', todos);
+  }, [todos]);
+
   return (
     <Container>
       {todos?.map((todo: Todo) => (
