@@ -7,10 +7,10 @@ declare const self: ServiceWorkerGlobalScope;
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
-// listen to message event from window
+// const WB_MANIFEST = self.__WB_MANIFEST;
 
 self.addEventListener('fetch', (event) => {
-  // console.log('1 : ', event?.request.url);
+  // console.log(event?.request.url);
 });
 
 self.addEventListener('push', (event) => {
