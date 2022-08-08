@@ -19,6 +19,7 @@ module.exports = withPlugins([
   withPWA({
     pwa: {
       dest: 'public',
+      register: true,
     },
   }),
   nextConfig,
