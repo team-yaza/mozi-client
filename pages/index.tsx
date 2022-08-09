@@ -31,7 +31,7 @@ const Home: NextPage = () => {
     // console.log('SideBar가 닫힙니다.');
   }, []);
 
-  if (isLoading) return <div>로딩중</div>;
+  // if (isLoading) return <div>로딩중</div>;
 
   return (
     <Container>
