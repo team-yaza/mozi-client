@@ -1,22 +1,38 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
-import { Window } from '@/shared/types/workbox';
+import { urlBase64ToUint8Array } from '@/shared/utils/encryption';
 
-declare const window: Window;
+const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
+  const subscribeEvent = useCallback(async () => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
-      console.log('w box : ', window.workbox);
+      const serviceWorker = await navigator.serviceWorker.ready;
+
+      const sub = await serviceWorker.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+      });
+      await fetch('http://localhost:3001/api/v1/webpush/fire', {
+        method: 'POST',
+        body: JSON.stringify(sub),
+        headers: {
+          'content-type': 'application/json',
+        },
+      });
     }
+  }, []);
+
+  useEffect(() => {
+    subscribeEvent();
   }, []);
 
   return (
