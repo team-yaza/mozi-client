@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil';
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { urlBase64ToUint8Array } from '@/shared/utils/encryption';
+import webPushService from '@/services/apis/webpush';
 
 const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
 
@@ -21,13 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
       });
-      await fetch('http://localhost:3001/api/v1/webpush/fire', {
-        method: 'POST',
-        body: JSON.stringify(sub),
-        headers: {
-          'content-type': 'application/json',
-        },
-      });
+      await webPushService.notification(JSON.stringify(sub));
     }
   }, []);
 
