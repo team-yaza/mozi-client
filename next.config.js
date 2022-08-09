@@ -5,6 +5,21 @@ const withPlugins = require('next-compose-plugins');
 const nextConfig = {
   distDir: 'build',
   reactStrictMode: true,
+  // ! next에서 캐싱하는 다른 방법 HTTP Cache
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/:all*(svg|jpg|png)',
+  //       locale: false,
+  //       headers: [
+  //         {
+  //           key: 'Cache-Control',
+  //           value: 'public, max-age=9999999999, must-revalidate',
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
   // async rewrites() {
   //   return [
   //     {
@@ -21,6 +36,9 @@ module.exports = withPlugins([
     pwa: {
       dest: 'public',
       register: true,
+      fallbacks: {
+        document: '/_offline',
+      },
     },
   }),
   nextConfig,
