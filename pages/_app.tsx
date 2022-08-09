@@ -1,14 +1,24 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
+import { useEffect } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
+import { Window } from '@/shared/types/workbox';
+
+declare const window: Window;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
+      console.log('w box : ', window.workbox);
+    }
+  }, []);
+
   return (
     <>
       <Head>
