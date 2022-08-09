@@ -3,6 +3,7 @@ const withPlugins = require('next-compose-plugins');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: 'build',
   reactStrictMode: true,
   // async rewrites() {
   //   return [
