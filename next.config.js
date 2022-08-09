@@ -3,7 +3,6 @@ const withPlugins = require('next-compose-plugins');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: 'build',
   reactStrictMode: true,
   // ! next에서 캐싱하는 다른 방법 HTTP Cache
   // async headers() {
