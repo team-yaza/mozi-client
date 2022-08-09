@@ -35,7 +35,6 @@ self.addEventListener('fetch', async (event) => {
 
 self.addEventListener('push', (event) => {
   const data = event?.data.json();
-  console.log('push 받음');
   self.registration.showNotification(data.title, {
     body: 'Notified by Noel',
     icon: 'https://tistory2.daumcdn.net/tistory/2794117/attach/aa31f12030a2404cafc028e2c8e2b1af',
