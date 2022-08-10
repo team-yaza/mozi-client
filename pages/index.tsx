@@ -15,12 +15,11 @@ const Home: NextPage = () => {
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
 
-  // ! 서비스워커와 페이지와 통신 준비 코드
-  // useEffect(() => {
-  //   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-  //     navigator.serviceWorker.controller.postMessage('cache-current-page');
-  //   }
-  // }, []);
+  useEffect(() => {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage('cache-current-page');
+    }
+  }, []);
 
   const onCreateTodo = useCallback(() => {
     createTodoMutation.mutate();

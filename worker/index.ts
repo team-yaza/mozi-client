@@ -114,3 +114,9 @@ registerRoute(
   }),
   'GET'
 );
+
+self.addEventListener('message', (event) => {
+  if (event.data === 'cache-current-page') {
+    console.log('페이지로 부터 메시지를 받음');
+  }
+});
