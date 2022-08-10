@@ -1,35 +1,14 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
-import { useCallback, useEffect, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
-import { urlBase64ToUint8Array } from '@/shared/utils/encryption';
-import webPushService from '@/services/apis/webpush';
-
-const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const subscribeEvent = useCallback(async () => {
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
-      const serviceWorker = await navigator.serviceWorker.ready;
-
-      const sub = await serviceWorker.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-      });
-      await webPushService.notification(JSON.stringify(sub));
-    }
-  }, []);
-
-  useEffect(() => {
-    subscribeEvent();
-  }, []);
-
   return (
     <>
       <Head>
