@@ -120,3 +120,4 @@ self.addEventListener('message', (event) => {
     console.log('페이지로 부터 메시지를 받음');
   }
 });
+
