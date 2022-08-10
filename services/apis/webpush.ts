@@ -1,6 +1,9 @@
+const fetchURL =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/v1' : 'https://mozi-server.com/api/v1';
+
 const webPushService = {
   notification: async (subscription: string) => {
-    await fetch('http://localhost:3001/api/v1/webpush/', {
+    await fetch(`${fetchURL}/webpush/`, {
       method: 'POST',
       body: subscription,
       headers: {
