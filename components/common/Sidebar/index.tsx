@@ -8,17 +8,14 @@ import { useDrag } from '@/hooks/useDrag';
 const menuList = [
   {
     title: 'Inbox',
-    iconUrl: 'https://user-images.githubusercontent.com/51700274/178726362-ece91e50-ab92-48ca-aec0-54b92c021997.png',
     link: '/',
   },
   {
-    title: 'today',
-    iconUrl: 'https://user-images.githubusercontent.com/51700274/178726362-ece91e50-ab92-48ca-aec0-54b92c021997.png',
+    title: 'Today',
     link: '/today',
   },
   {
-    title: 'map',
-    iconUrl: 'https://user-images.githubusercontent.com/51700274/178726362-ece91e50-ab92-48ca-aec0-54b92c021997.png',
+    title: 'Map',
     link: '/map',
   },
 ];
@@ -28,7 +25,7 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
-  const [width, setWidth] = useState(190);
+  const [width, setWidth] = useState(300);
   const { isDragging, startDrag } = useDrag((movement) => {
     const nextWidth = width + movement.x;
     if (nextWidth <= 90) {
@@ -48,9 +45,8 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
     <Container tabIndex={0} style={{ width }}>
       <SideBarContents>
         <SideBarMenuContainer>
-          {menuList.map((menu: Menu, index: number) => (
-            // TODO index는 키이면 안되므로 다음에 수정 필요
-            <SideBarMenu key={index} title={menu.title} iconUrl={menu.iconUrl} link={menu.link} />
+          {menuList.map((menu: Menu) => (
+            <SideBarMenu key={menu.title} title={menu.title} link={menu.link} />
           ))}
         </SideBarMenuContainer>
         <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />

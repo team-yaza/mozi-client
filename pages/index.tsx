@@ -57,11 +57,13 @@ const Content = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-
   display: flex;
   flex: 1;
   flex-direction: column;
+
   margin: 0 auto;
+
+  background-color: #f9f9f9;
 `;
 
 export default Home;

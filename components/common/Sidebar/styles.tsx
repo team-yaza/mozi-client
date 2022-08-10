@@ -3,23 +3,26 @@ import styled from 'styled-components';
 export const Container = styled.div`
   position: relative;
   height: 100vh;
-  background-color: #f7f6f3;
 
-  flex-grow: 0;
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
   overflow: hidden;
 
   pointer-events: none;
   user-select: none;
 
+  background-color: #ffffff;
   // ! 최대 너비를 제한하는 코드
   /* max-width: 48rem; */
   /* min-width: 19rem; */
-
-  padding-top: 1.5rem;
-  padding-left: 1.5rem;
-
   // ! css 추후 사용
+  /* padding-top: 1.5rem;
+  padding-left: 1.5rem; */
+  /* 
+  flex-grow: 0;
+  flex-shrink: 0; */
   /* display: flex; */
   /* flex-direction: row; */
   /* font-size: 5rem; */
@@ -31,8 +34,8 @@ export const SideBarContents = styled.div`
 
   pointer-events: auto;
 
-  flex-grow: 0;
-  flex-shrink: 0;
+  /* flex-grow: 0;
+  flex-shrink: 0; */
 
   // ! css 추후 사용
   /* flex-direction: row; */
