@@ -15,9 +15,6 @@ interface SideBarMenuProps {
 const SideBarMenu: React.FC<SideBarMenuProps> = ({ title, link }) => {
   const [focused, setFocused] = useState(false);
   const router = useRouter();
-  console.log(router.pathname);
-
-  console.log(title);
 
   useEffect(() => {
     if (router.pathname === link) setFocused(true);
