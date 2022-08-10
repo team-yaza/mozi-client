@@ -35,9 +35,6 @@ module.exports = withPlugins([
     pwa: {
       dest: 'public',
       register: true,
-      fallbacks: {
-        document: '/_offline',
-      },
     },
   }),
   nextConfig,
