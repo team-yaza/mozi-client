@@ -1,26 +1,3 @@
-/**
- * Copyright (c) 2016, Tiernan Cridland
- *
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without
- * fee is hereby
- * granted, provided that the above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
- * SOFTWARE INCLUDING ALL
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
- * SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER
- * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
- * WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- *
- * Typings for Service Worker
- * @author Tiernan Cridland
- * @email tiernanc@gmail.com
- * @license: ISC
- */
 interface ExtendableEvent extends Event {
   waitUntil(fn: Promise<any>): void;
 }
@@ -37,6 +14,7 @@ declare class Client {
   id: string;
   url: string;
   focused: boolean;
+  visibilityState: WindowClientState;
   focus(): void;
   postMessage(message: any): void;
 }
@@ -63,9 +41,7 @@ interface WindowClient {
 type ClientFrameType = 'auxiliary' | 'top-level' | 'nested' | 'none';
 type ClientMatchTypes = 'window' | 'worker' | 'sharedworker' | 'all';
 type WindowClientState = 'hidden' | 'visible' | 'prerender' | 'unloaded';
-
 // Fetch API
-
 interface FetchEvent extends ExtendableEvent {
   clientId: string | null;
   request: Request;
@@ -106,8 +82,8 @@ interface SyncEvent extends ExtendableEvent {
 }
 
 interface ExtendableMessageEvent extends ExtendableEvent {
-  data: any;
-  source: Client | Object;
+  readonly data: any;
+  readonly source: Client | ServiceWorker | MessagePort;
 }
 
 // ServiceWorkerGlobalScope
