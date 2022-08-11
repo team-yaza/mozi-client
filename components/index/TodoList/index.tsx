@@ -26,6 +26,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }
           _description={todo.description}
           onDeleteTodo={onDeleteTodo}
           onUpdateTodo={onUpdateTodo}
+          location={todo.location}
         />
       ))}
     </Container>

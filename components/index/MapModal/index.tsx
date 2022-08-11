@@ -12,8 +12,8 @@ interface MapModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MapModal: React.FC<MapModalProps> = ({ id, onUpdateTodo, setIsModalOpen }) => {
-  const { mapRef, markerLocation } = useMap();
+const MapModal: React.FC<MapModalProps> = ({ id, onUpdateTodo, setIsModalOpen, location }) => {
+  const { mapRef, markerLocation } = useMap(location);
 
   const updateLocationHandler = useCallback(() => {
     if (typeof markerLocation == 'string') return;
