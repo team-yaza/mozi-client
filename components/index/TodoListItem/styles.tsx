@@ -77,9 +77,21 @@ export const Description = styled.div`
 
 export const SubTaskContainer = styled.div``;
 
-export const OptionContainer = styled.div`
-  width: 80%;
+export const OptionsContainer = styled.div`
+  position: relative;
+  width: 100%;
   height: 2.5rem;
 
   margin-top: 2rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+`;
+
+export const OptionContainer = styled.div`
+  position: relative;
+
+  width: 2.5rem;
+  height: 2.5rem;
 `;
