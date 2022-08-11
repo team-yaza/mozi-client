@@ -34,7 +34,7 @@ const SideBarMenu: React.FC<SideBarMenuProps> = ({ title, link }) => {
   }, []);
 
   return (
-    <Container foucsed={focused}>
+    <Container focused={focused}>
       <IconContainer>{renderCategory(title)}</IconContainer>
       <Link href={link}>
         <a>{title}</a>

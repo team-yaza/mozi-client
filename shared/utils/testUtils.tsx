@@ -1,3 +1,11 @@
+import { render, RenderOptions } from '@testing-library/react';
+import { QueryClientProvider } from 'react-query';
+import { ThemeProvider } from 'styled-components';
+
+import { queryClient } from '@/shared/utils/queryClient';
+import { darkTheme } from '@/styles/theme';
+import { RecoilRoot } from 'recoil';
+
 export const triggerRef = (value = false) => {
   const ref = { current: null };
 
@@ -9,18 +17,18 @@ export const triggerRef = (value = false) => {
   return ref;
 };
 
-// ! 현재 사용하지 않는 customRenderer
-// import { render, RenderOptions } from '@testing-library/react';
-// import { QueryClientProvider } from 'react-query';
+const Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={darkTheme}>
+        <RecoilRoot>{children}</RecoilRoot>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
-// import { queryClient } from '@/shared/utils/queryClient';
+const customRender = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+  render(ui, { wrapper: Provider, ...options });
 
-// const Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-//   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-// };
-
-// const customRender = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
-//   render(ui, { wrapper: Provider, ...options });
-
-// export * from '@testing-library/react';
-// export { customRender as render };
+export * from '@testing-library/react';
+export { customRender as render };

@@ -69,7 +69,7 @@ const Content = styled.div`
 
   margin: 0 auto;
 
-  background-color: #f9f9f9;
+  background-color: ${({ theme }) => theme.color.background};
 `;
 
 export default Home;

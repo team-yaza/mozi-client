@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div<{ foucsed: boolean }>`
+export const Container = styled.div<{ focused: boolean }>`
   width: 25rem;
   height: 4.2rem;
 
@@ -9,8 +9,8 @@ export const Container = styled.div<{ foucsed: boolean }>`
 
   font-size: 2rem;
 
-  color: ${({ foucsed }) => (foucsed ? '#735AFF' : '#585858')};
-  background-color: ${({ foucsed }) => (foucsed ? '#F4F2FF' : '#ffffff')};
+  color: ${({ focused, theme }) => (focused ? '#735AFF' : '#585858')};
+  background-color: ${({ focused }) => (focused ? '#F4F2FF' : '#ffffff')};
 
   margin: 1rem 0rem;
   padding-left: 1.7rem;
