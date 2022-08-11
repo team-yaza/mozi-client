@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 20rem;
+  width: 100%;
   height: 20rem;
 
-  position: absolute !important;
+  position: relative;
 
   z-index: 10;
 
@@ -12,13 +12,6 @@ export const Container = styled.div`
 `;
 
 export const Map = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-export const ModalWrapper = styled.div`
-  position: relative;
-
   width: 100%;
   height: 100%;
 `;
