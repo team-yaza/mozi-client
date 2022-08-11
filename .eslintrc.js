@@ -18,7 +18,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   ignorePatterns: ['/public', 'shared/types/service-worker.d.ts'],
   rules: {
-    indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
