@@ -1,14 +1,24 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
+import { useState, useCallback } from 'react';
+import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { RecoilRoot } from 'recoil';
+import styled, { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
+import { darkTheme, lightTheme } from '@/styles/theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [theme, setTheme] = useState('dark');
+
+  const handleTheme = useCallback(() => {
+    if (theme === 'dark') setTheme('light');
+    else setTheme('dark');
+  }, [theme]);
+
   return (
     <>
       <Head>
@@ -25,12 +35,29 @@ function MyApp({ Component, pageProps }: AppProps) {
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          <Component {...pageProps} />
+          <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+            <Component {...pageProps} />
+            <ModeButton onClick={handleTheme} />
+          </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </>
   );
 }
+
+const ModeButton = styled.div`
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+
+  bottom: 2rem;
+  left: 2rem;
+
+  background-color: blue;
+  border-radius: 50%;
+
+  cursor: pointer;
+`;
 
 export default MyApp;
