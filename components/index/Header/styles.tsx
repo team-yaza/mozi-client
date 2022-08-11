@@ -4,9 +4,9 @@ export const Container = styled.div`
   display: flex;
 
   font-size: 3rem;
+  color: ${({ theme }) => theme.color.white};
 
   margin: 3rem 3rem;
 
-  display: flex;
   justify-content: space-between;
 `;
