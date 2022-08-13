@@ -1,5 +1,5 @@
 import { render, RenderOptions } from '@testing-library/react';
-import { QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
 import { queryClient } from '@/shared/utils/queryClient';
