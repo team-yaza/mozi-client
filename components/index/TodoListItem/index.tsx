@@ -5,8 +5,6 @@ import MapModal from '@/components/index/MapModal';
 import { Todo } from '@/shared/types/todo';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { useContentEditable } from '@/hooks/useContentEditable';
-import { focusContentEditableTextToEnd } from '@/shared/utils/focus';
 import {
   CheckBox,
   Container,
@@ -18,27 +16,15 @@ import {
   SubTaskContainer,
   OptionContainer,
 } from './styles';
+import { todoStore } from '@/store/forage';
 
 interface TodoListItemProps {
-  id: string;
-  _title?: string;
-  _description?: string;
-  location?: any;
+  todo: Todo;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({
-  id,
-  _title,
-  _description,
-  location,
-  onDeleteTodo,
-  onUpdateTodo,
-}) => {
-  const [title, setTitle, titleRef] = useContentEditable(_title);
-  const [description, setDescription, descriptionRef] = useContentEditable(_description);
-
+const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,18 +39,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onUpdateTodo({ id, title: e.target.innerText });
+    onUpdateTodo({ id: todo.id, title: e.target.innerText });
 
-    setTitle(e.target.innerText);
-    focusContentEditableTextToEnd(e.target);
+    todoStore.setItem(todo.id, { ...todo, title: e.target.innerText });
   }, []);
 
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    setDescription(e.target.innerText);
 
-    onUpdateTodo({ id, description: e.target.innerText });
-    focusContentEditableTextToEnd(e.target);
+    onUpdateTodo({ id: todo.id, description: e.target.innerText });
   }, []);
 
   const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -87,15 +70,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           placeholder="New Todo"
           contentEditable
           suppressContentEditableWarning
-          ref={titleRef}
           onInput={onInputTitle}
           onKeyUp={onKeyUp}
           onDoubleClick={onDoubleClickHandler}
           spellCheck={false}
         >
-          {title}
+          {todo.title}
         </Title>
-        <DeleteButton onClick={() => onDeleteTodo(id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
+        <DeleteButton onClick={() => onDeleteTodo(todo.id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
       {isDoubleClicked && (
         <>
@@ -104,11 +86,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               placeholder="Notes"
               contentEditable
               suppressContentEditableWarning
-              ref={descriptionRef}
               onInput={onInputDescription}
               spellCheck={false}
             >
-              {description}
+              {todo.description}
             </Description>
           </DescriptionContainer>
 
@@ -120,7 +101,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         </>
       )}
       {isModalOpen && (
-        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
+        <MapModal id={todo.id} location={todo.location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
       )}
     </Container>
   );
