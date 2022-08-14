@@ -4,6 +4,7 @@ import { Container } from './styles';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import { setItemToLocalForage } from '@/shared/utils/localForage';
 import TodoListItem from '@/components/index/TodoListItem';
+import { todoStore } from '@/store/forage';
 
 interface TodoListProps {
   todos: Todo[];
@@ -13,21 +14,14 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }) => {
   useEffect(() => {
-    setItemToLocalForage('todos', todos);
+    todoStore.clear();
+    todos.map((todo) => setItemToLocalForage(todoStore, todo.id, todo));
   }, [todos]);
 
   return (
     <Container>
       {todos?.map((todo: Todo) => (
-        <TodoListItem
-          key={todo.id}
-          id={todo.id}
-          _title={todo.title}
-          _description={todo.description}
-          onDeleteTodo={onDeleteTodo}
-          onUpdateTodo={onUpdateTodo}
-          location={todo.location}
-        />
+        <TodoListItem key={todo.id} todo={todo} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
       ))}
     </Container>
   );
