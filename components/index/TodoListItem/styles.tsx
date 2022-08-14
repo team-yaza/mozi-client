@@ -45,6 +45,7 @@ export const DeleteButton = styled.button`
 export const Title = styled.div`
   width: 90%;
   border: none;
+  color: ${({ theme }) => theme.color.white};
 
   &:empty:before {
     content: attr(placeholder);
