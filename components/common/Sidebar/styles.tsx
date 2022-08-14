@@ -13,6 +13,7 @@ export const Container = styled.div`
   pointer-events: none;
   user-select: none;
 
+  transition: 0.3s background-color;
   background-color: ${({ theme }) => theme.color.sidebar};
   // ! 최대 너비를 제한하는 코드
   /* max-width: 48rem; */
