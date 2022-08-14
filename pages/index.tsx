@@ -54,6 +54,7 @@ const Container = styled.div`
 
   margin: 0 auto;
 
+  transition: 0.3s;
   background-color: ${({ theme }) => theme.color.background};
 `;
 
