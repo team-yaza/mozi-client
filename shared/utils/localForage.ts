@@ -1,16 +1,14 @@
-import localForage from 'localforage';
-
-export const getItemFromLocalForage = async (key: string) => {
+export const getItemFromLocalForage = async (store: LocalForage, key: string) => {
   try {
-    return await localForage.getItem(key);
+    return await store.getItem(key);
   } catch (error) {
     console.error(error);
   }
 };
 
-export const setItemToLocalForage = async (key: string, value: any) => {
+export const setItemToLocalForage = async (store: LocalForage, key: string, value: any) => {
   try {
-    await localForage.setItem(key, value);
+    await store.setItem(key, value);
   } catch (error) {
     console.error(error);
   }
