@@ -69,21 +69,6 @@ registerRoute(
 );
 
 registerRoute(
-  /\.(?:js)$/i,
-  new CacheFirst({
-    cacheName: 'static-js-assets',
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 32,
-        maxAgeSeconds: 86400,
-        purgeOnQuotaError: !0,
-      }),
-    ],
-  }),
-  'GET'
-);
-
-registerRoute(
   /\/api\/.*$/i,
   new NetworkFirst({
     cacheName: 'apis',
@@ -103,6 +88,21 @@ registerRoute(
 //   /\/_next\/static\/.*/i,
 //   new CacheFirst({
 //     cacheName: 'next-static',
+//     plugins: [
+//       new ExpirationPlugin({
+//         maxEntries: 32,
+//         maxAgeSeconds: 86400,
+//         purgeOnQuotaError: !0,
+//       }),
+//     ],
+//   }),
+//   'GET'
+// );
+
+// registerRoute(
+//   /\.(?:js)$/i,
+//   new CacheFirst({
+//     cacheName: 'static-js-assets',
 //     plugins: [
 //       new ExpirationPlugin({
 //         maxEntries: 32,
