@@ -1,14 +1,14 @@
 import { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import { TodoSuccessResponse, TodoUpdateRequest } from '@/shared/types/todo';
-import { queryClient } from '@/shared/utils/queryClient';
 import todoService from '@/services/apis/todo';
+import { queryClient } from '@/shared/utils/queryClient';
 
 export const useCreateTodoMutation = () =>
   useMutation<TodoSuccessResponse, AxiosError>(() => todoService.createTodo(), {
     onSuccess: () => {
-      queryClient.invalidateQueries('todoList');
+      queryClient.invalidateQueries(['todos']);
     },
     onError: (error) => {
       // TODO 콘솔에 에러 없애기
@@ -21,15 +21,15 @@ export const useUpdateTodoMutation = () =>
     ({ id, title, latitude, longitude, description }: TodoUpdateRequest) =>
       todoService.updateTodo({ id, title, latitude, longitude, description }),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todoList');
-      },
+      // onSuccess: () => {
+      //   queryClient.invalidateQueries(['todos']);
+      // },
     }
   );
 
 export const useDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.deleteTodo(id), {
     onSuccess: () => {
-      queryClient.invalidateQueries('todoList');
+      queryClient.invalidateQueries(['todos']);
     },
   });

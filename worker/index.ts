@@ -69,21 +69,6 @@ registerRoute(
 );
 
 registerRoute(
-  /\.(?:js)$/i,
-  new CacheFirst({
-    cacheName: 'static-js-assets',
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 32,
-        maxAgeSeconds: 86400,
-        purgeOnQuotaError: !0,
-      }),
-    ],
-  }),
-  'GET'
-);
-
-registerRoute(
   /\/api\/.*$/i,
   new NetworkFirst({
     cacheName: 'apis',
@@ -98,6 +83,36 @@ registerRoute(
   }),
   'GET'
 );
+
+// registerRoute(
+//   /\/_next\/static\/.*/i,
+//   new CacheFirst({
+//     cacheName: 'next-static',
+//     plugins: [
+//       new ExpirationPlugin({
+//         maxEntries: 32,
+//         maxAgeSeconds: 86400,
+//         purgeOnQuotaError: !0,
+//       }),
+//     ],
+//   }),
+//   'GET'
+// );
+
+// registerRoute(
+//   /\.(?:js)$/i,
+//   new CacheFirst({
+//     cacheName: 'static-js-assets',
+//     plugins: [
+//       new ExpirationPlugin({
+//         maxEntries: 32,
+//         maxAgeSeconds: 86400,
+//         purgeOnQuotaError: !0,
+//       }),
+//     ],
+//   }),
+//   'GET'
+// );
 
 registerRoute(
   /.*/i,
@@ -128,4 +143,14 @@ self.addEventListener('push', (event) => {
     body: data.body,
     icon: 'https://tistory2.daumcdn.net/tistory/2794117/attach/aa31f12030a2404cafc028e2c8e2b1af',
   });
+});
+
+self.addEventListener('sync', (event: SyncEvent) => {
+  if (event.tag === 'sync-todo') {
+    console.log('sync-todo');
+  }
+});
+
+self.addEventListener('fetch', (event) => {
+  console.log(event.request.url);
 });

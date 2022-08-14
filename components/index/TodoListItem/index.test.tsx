@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Todo } from '@/shared/types/todo';
@@ -14,14 +14,14 @@ describe('<TodoListItem />', () => {
   const onUpdate = jest.fn();
 
   it('렌더링', async () => {
-    render(<TodoListItem id={todo.id} _title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
     const todoItem = screen.getByText(todo.title);
     expect(todoItem).toBeInTheDocument();
   });
 
   it('Delete Todo', () => {
-    render(<TodoListItem id={todo.id} _title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
 
     const button = screen.getByText('삭제');
     expect(onDelete).toHaveBeenCalledTimes(0);
@@ -31,7 +31,7 @@ describe('<TodoListItem />', () => {
 
   it('Update Title', async () => {
     // Arrange
-    render(<TodoListItem id={todo.id} _title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(<TodoListItem todo={todo} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
     const $div = screen.getByText('Todo');
     // Act
     await userEvent.click($div);

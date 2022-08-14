@@ -3,8 +3,8 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useState, useCallback } from 'react';
 import { RecoilRoot } from 'recoil';
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@/styles/globalStyle';

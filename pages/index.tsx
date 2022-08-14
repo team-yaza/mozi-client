@@ -10,7 +10,7 @@ import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } f
 import { TodoUpdateRequest } from '@/shared/types/todo';
 
 const Home: NextPage = () => {
-  const { data: todoList, isLoading } = useTodoListQuery();
+  const { data: todos } = useTodoListQuery();
   const createTodoMutation = useCreateTodoMutation();
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
       <SideBar onClose={onSideBarClose} />
       <Content>
         <Header onCreate={onCreateTodo} />
-        <TodoList todos={todoList || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
+        <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
       </Content>
     </Container>
   );
