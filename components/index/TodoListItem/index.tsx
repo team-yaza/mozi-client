@@ -52,6 +52,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') onClickOutsideHandler();
+    else if (e.key === 'Escape') onClickOutsideHandler();
   }, []);
 
   const onCheckHandler = useCallback(() => {
@@ -87,6 +88,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
               contentEditable
               suppressContentEditableWarning
               onInput={onInputDescription}
+              onKeyUp={onKeyUp}
               spellCheck={false}
             >
               {todo.description}
