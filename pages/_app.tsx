@@ -10,6 +10,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
+import AppLayout from '@/components/common/AppLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState('dark');
@@ -36,7 +37,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <Component {...pageProps} />
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>
         </RecoilRoot>

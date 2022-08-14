@@ -3,7 +3,6 @@ import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Header from '@/components/index/Header';
-import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -37,29 +36,15 @@ const Home: NextPage = () => {
     // console.log('SideBar가 닫힙니다.');
   }, []);
 
-  // if (isLoading) return <div>로딩중</div>;
-
   return (
     <Container>
-      <SideBar onClose={onSideBarClose} />
-      <Content>
-        <Header onCreate={onCreateTodo} />
-        <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
-      </Content>
+      <Header onCreate={onCreateTodo} />
+      <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
-
-  width: 100%;
-  height: 100%;
-
-  overflow: hidden;
-`;
-
-const Content = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
