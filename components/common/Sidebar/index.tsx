@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 
-import { Container, SideBarContents, SideBarMenuContainer, SideBarResizer } from './styles';
+import { Container, LogoContainer, SideBarContents, SideBarMenuContainer, SideBarResizer } from './styles';
 import { Menu } from '@/shared/types/menu';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
@@ -43,6 +44,9 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
 
   return (
     <Container tabIndex={0} style={{ width }}>
+      <LogoContainer>
+        <Image src="/assets/svgs/mozi.svg" layout="fill" />
+      </LogoContainer>
       <SideBarContents>
         <SideBarMenuContainer>
           {menuList.map((menu: Menu) => (

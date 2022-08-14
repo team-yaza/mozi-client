@@ -5,8 +5,11 @@ export const Container = styled.div`
   height: 100vh;
 
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 3rem;
+  padding-left: 3rem;
 
   overflow: hidden;
 
@@ -30,13 +33,22 @@ export const Container = styled.div`
   /* padding: 1.5rem; */
 `;
 
+export const LogoContainer = styled.div`
+  position: relative;
+  width: 4.4rem;
+  height: 4.4rem;
+
+  align-self: flex-start;
+`;
+
 export const SideBarContents = styled.div`
   display: flex;
+  align-self: flex-start;
+
+  flex-grow: 0;
+  flex-shrink: 0;
 
   pointer-events: auto;
-
-  /* flex-grow: 0;
-  flex-shrink: 0; */
 
   // ! css 추후 사용
   /* flex-direction: row; */
