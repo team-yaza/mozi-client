@@ -1,19 +1,16 @@
 import { NextPage } from 'next';
 import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Header from '@/components/index/Header';
 import SideBar from '@/components/common/Sidebar';
 import TodoList from '@/components/index/TodoList';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import { TodoUpdateRequest } from '@/shared/types/todo';
 
-interface HomeProps {
-  todos: Todo[];
-}
-
-const Home: NextPage<HomeProps> = ({ todos }) => {
+const Home: NextPage = () => {
+  const { data: todos } = useTodoListQuery();
   const createTodoMutation = useCreateTodoMutation();
   const updateTodoMutation = useUpdateTodoMutation();
   const deleteTodoMutation = useDeleteTodoMutation();
@@ -74,32 +71,5 @@ const Content = styled.div`
 
   background-color: ${({ theme }) => theme.color.background};
 `;
-
-export const getServerSideProps = async () => {
-  try {
-    const response = await axios.get('http://localhost:3001/api/v1/todos');
-
-    if (response.status === 200) {
-      return {
-        props: {
-          todos: response.data,
-        },
-      };
-    }
-
-    return {
-      props: {
-        todos: [],
-      },
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      props: {
-        todos: [],
-      },
-    };
-  }
-};
 
 export default Home;
