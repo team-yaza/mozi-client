@@ -117,3 +117,7 @@ dist
 # next build files
 build/
 fallback-*.js
+
+# lighthouse
+.lighthouseci
+lhci_reports
