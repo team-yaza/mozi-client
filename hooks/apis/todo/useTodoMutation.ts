@@ -11,7 +11,6 @@ export const useCreateTodoMutation = () =>
       queryClient.invalidateQueries(['todos']);
     },
     onError: (error) => {
-      // TODO 콘솔에 에러 없애기
       console.log(error);
     },
   });
