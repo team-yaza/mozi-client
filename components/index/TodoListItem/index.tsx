@@ -2,9 +2,15 @@ import React, { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import MapModal from '@/components/index/MapModal';
-import { Todo } from '@/shared/types/todo';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
+import { useContentEditable } from '@/hooks/useContentEditable';
+import { focusContentEditableTextToEnd } from '@/shared/utils/focus';
+import ADD_CALENDAR from '@/components/common/Figure/ADD_CALENDAR';
+import ADD_DEADLINE from '@/components/common/Figure/ADD_DEADLINE';
+import ADD_PLACE from '@/components/common/Figure/ADD_PLACE';
+import ADD_TAG from '@/components/common/Figure/ADD_TAG';
+import { Todo } from '@/shared/types/todo';
 import {
   CheckBox,
   Container,
@@ -15,6 +21,7 @@ import {
   Description,
   SubTaskContainer,
   OptionContainer,
+  OptionsContainer,
 } from './styles';
 import { todoStore } from '@/store/forage';
 
@@ -97,9 +104,20 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
           <SubTaskContainer></SubTaskContainer>
 
-          <OptionContainer>
-            <button onClick={() => setIsModalOpen(!isModalOpen)}>Map</button>
-          </OptionContainer>
+          <OptionsContainer>
+            <OptionContainer onClick={() => setIsModalOpen(!isModalOpen)}>
+              <ADD_PLACE stroke="#585858" />
+            </OptionContainer>
+            <OptionContainer onClick={() => 1}>
+              <ADD_CALENDAR stroke="#585858" />
+            </OptionContainer>
+            <OptionContainer onClick={() => 2}>
+              <ADD_TAG stroke="#585858" />
+            </OptionContainer>
+            <OptionContainer onClick={() => 3}>
+              <ADD_DEADLINE stroke="#585858" />
+            </OptionContainer>
+          </OptionsContainer>
         </>
       )}
       {isModalOpen && (

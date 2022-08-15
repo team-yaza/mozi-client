@@ -1,10 +1,7 @@
 import { SvgWrap } from './styles';
+import { FigureProps } from '@/shared/types/figure';
 
-interface TODAYProps {
-  stroke: string;
-}
-
-const TODAY: React.FC<TODAYProps> = ({ stroke = '#585858' }) => {
+const TODAY: React.FC<FigureProps> = ({ stroke = '#585858' }) => {
   return (
     <SvgWrap>
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
