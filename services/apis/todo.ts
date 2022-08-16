@@ -57,7 +57,15 @@ const todoService = {
 
     return;
   },
-  deleteTodo: async (id: string) => await fetcher('delete', `/todos/${id}`),
+  deleteTodo: async (id: string) => {
+    try {
+      await fetcher('delete', `/todos/${id}`);
+    } catch (error) {
+      console.error(error); // network error
+    }
+    const todo = (await todoStore.getItem(id)) as Todo;
+    await todoStore.setItem(id, { ...todo, deleted: true });
+  },
 };
 
 export default todoService;
