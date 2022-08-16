@@ -8,6 +8,8 @@ import { Container, Map, SizeBtn, ConfirmBtn } from '@/components/index/MapModal
 interface MapModalProps {
   id: string;
   location?: GeoJson;
+  longitude?: number;
+  latitude?: number;
   onUpdateTodo: ({ id, latitude, longitude }: TodoUpdateRequest) => void;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
