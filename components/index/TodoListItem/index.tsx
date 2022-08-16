@@ -4,8 +4,6 @@ import Image from 'next/image';
 import MapModal from '@/components/index/MapModal';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { useContentEditable } from '@/hooks/useContentEditable';
-import { focusContentEditableTextToEnd } from '@/shared/utils/focus';
 import ADD_CALENDAR from '@/components/common/Figure/ADD_CALENDAR';
 import ADD_DEADLINE from '@/components/common/Figure/ADD_DEADLINE';
 import ADD_PLACE from '@/components/common/Figure/ADD_PLACE';
