@@ -1,110 +1,102 @@
 name: CI
+
 on: [push]
+
 jobs:
   lighthouseci:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-      - run: yarn install && npm install -g @lhci/cli@0.6.x
-      - run: yarn build
-      - run: lhci autorun
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Use Node.js 16.15.1
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.1
+      - name: npm install, build
+        run: |
+          npm install
+          npm run build
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.8.x
+          lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-# name: CI
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            const pages = ["404", "500", "_offline", "index", "map"]
+            let comments = "⚡️ MOZI Lighthouse 성능 측정 결과 ⚡️" + "\n";
+            results.forEach((result, i) => {
+              const { summary, jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath));
+              const { audits } = details;
 
-# on: [push]
+              const formatResult = (res) => Math.round(res * 100);
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+              const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
-# defaults:
-#   run:
-#     working-directory: ./
+              const comment = [
+                `${pages[i]} page`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(summary.performance)} Performance | ${summary.performance} |`,
+                `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${score(summary["best-practices"])} Best-Practices | ${summary["best-practices"]} |`,
+                `| ${score(summary.seo)} SEO | ${summary.seo} |`,
+                `| ${score(summary.pwa)} PWA | ${summary.pwa} |`
+              ].join("\n");
 
-# jobs:
-#   lighthouse:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
+              const detail = [
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(
+                  audits["first-contentful-paint"].score * 100
+                )} First Contentful Paint | ${
+                  audits["first-contentful-paint"].displayValue
+                } |`,
+                `| ${score(
+                  audits["largest-contentful-paint"].score * 100
+                )} Largest Contentful Paint | ${
+                  audits["largest-contentful-paint"].displayValue
+                } |`,
+                `| ${score(
+                  audits["first-meaningful-paint"].score * 100
+                )} First Meaningful Paint | ${
+                  audits["first-meaningful-paint"].displayValue
+                } |`,
+                `| ${score(
+                  audits["speed-index"].score * 100
+                )} Speed Index | ${
+                  audits["speed-index"].displayValue
+                } |`,
+                `| ${score(
+                  audits["total-blocking-time"].score * 100
+                )} Total Blocking Time | ${
+                  audits["total-blocking-time"].displayValue
+                } |`,
+              ].join("\n");
 
-#       - name: Get yarn cache directory path
-#         id: yarn-cache-dir-path
-#         run: echo "::set-output name=dir::$(yarn cache dir)"
+              comments += comment + "\n" +"\n"+ detail + "\n" + "\n";
+            });
 
-#       - uses: actions/cache@v3
-#         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-#         with:
-#           path: |
-#             ${{ steps.yarn-cache-dir-path.outputs.dir }}
-#             **/node_modules
-#           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-#           restore-keys: |
-#             ${{ runner.os }}-yarn-
+            core.setOutput('comments', comments)
 
-#       - name: Install Dependencies
-#         if: steps.yarn-cache.outputs.cache-hit != 'true'
-#         run: yarn install
-
-#       - run: yarn build
-
-#       - name: Run Lighthouse CI
-#         env:
-#           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-#         run: |
-#           npm install -g @lhci/cli
-#           lhci autorun
-
-#       - name: Format lighthouse score
-#         id: format_lighthouse_score
-#         uses: actions/github-script@v3
-#         with:
-#           github-token: ${{secrets.GITHUB_TOKEN}}
-#           script: |
-#             const fs = require('fs');
-#             const results = JSON.parse(fs.readFileSync('./lhci_reports/manifest.json'));
-#             let comments = '';
-#             results.forEach((result) => {
-#               const { summary, jsonPath } = result;
-#               const details = JSON.parse(fs.readFileSync(jsonPath));
-#               const { audits } = details;
-#               const formatResult = (res) => Math.round(res * 100);
-
-#               Object.keys(summary).forEach((key) => (summary[key] = formatResult(summary[key])));
-
-#               const score = (res) => (res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴');
-#               const comment = [
-#                 `⚡️ MOZI Lighthouse 성능 측정 결과`,
-#                 `| Category | Score |`,
-#                 `| --- | --- |`,
-#                 `| ${score(summary.performance)} Performance | ${summary.performance} |`,
-#                 `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
-#                 `| ${score(summary['best-practices'])} Best-Practices | ${summary['best-practices']} |`,
-#                 `| ${score(summary.seo)} SEO | ${summary.seo} |`,
-#                 `| ${score(summary.pwa)} PWA | ${summary.pwa} |`,
-#               ].join('\n');
-#               const detail = [
-#                 `| Category | Score |`,
-#                 `| --- | --- |`,
-#                 `| ${score(audits['first-contentful-paint'].score * 100)} First Contentful Paint | ${
-#                   audits['first-contentful-paint'].displayValue
-#                 } |`,
-#                 `| ${score(audits['largest-contentful-paint'].score * 100)} Largest Contentful Paint | ${
-#                   audits['largest-contentful-paint'].displayValue
-#                 } |`,
-#                 `| ${score(audits['first-meaningful-paint'].score * 100)} First Meaningful Paint | ${
-#                   audits['first-meaningful-paint'].displayValue
-#                 } |`,
-#                 `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`,
-#                 `| ${score(audits['total-blocking-time'].score * 100)} Total Blocking Time | ${
-#                   audits['total-blocking-time'].displayValue
-#                 } |`,
-#               ].join('\n');
-
-#               comments += comment + '\n' + '\n' + detail + '\n';
-#             });
-#             core.setOutput('comments', comments);
-
-#       - name: Comment PR
-#         uses: unsplash/comment-on-pr@v1.3.0
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           msg: ${{ steps.format_lighthouse_score.outputs.comments}}
+      - uses: jwalton/gh-find-current-pr@v1
+        id: finder
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ steps.finder.outputs.pr }}
+          message: |
+            ${{ github.sha }}
+            Lighthouse CI ended successfully.
+            ${{ steps.format_lighthouse_score.outputs.comments}}
