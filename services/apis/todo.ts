@@ -42,14 +42,20 @@ const todoService = {
     return localTodos;
   },
   updateTodo: async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
-    await todoStore.setItem(id, { title, longitude, latitude, description, changed: true });
-
     try {
+      // 네트워크 요청을 보낸다.
       const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description });
-      todoStore.setItem(id, { ...updatedTodo, changed: false });
+      // 네트워크 요청이 성공하면 서버에서 업데이트된 todo를 로컬에 적는다.
+      await todoStore.setItem(id, { ...updatedTodo, changed: false });
+
+      return updatedTodo;
     } catch (error) {
       console.error(error); // network error
     }
+    // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
+    await todoStore.setItem(id, { title, longitude, latitude, description, changed: true });
+
+    return;
   },
   deleteTodo: async (id: string) => await fetcher('delete', `/todos/${id}`),
 };
