@@ -8,18 +8,25 @@ import { todoStore } from '@/store/forage';
 
 const todoService = {
   createTodo: async (): Promise<Todo> => {
-    const tempTodoId = new mongoose.Types.ObjectId().toString();
-    const localTodo = { created: true, id: tempTodoId };
-
-    await todoStore.setItem(tempTodoId, localTodo);
-
     try {
-      const createdTodo = await fetcher('post', '/todos', { _id: tempTodoId });
+      const createdTodo = await fetcher('post', '/todos');
       await todoStore.setItem(createdTodo.id, createdTodo);
+
+      return createdTodo;
     } catch (error) {
       console.log(error); // network error
 
       await syncTodos();
+    }
+
+    // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
+    const tempTodoId = new mongoose.Types.ObjectId().toString();
+    const localTodo = { created: true, id: tempTodoId };
+
+    try {
+      await todoStore.setItem(tempTodoId, { id: tempTodoId, title: '', description: '', created: true });
+    } catch (error) {
+      console.log(error);
     }
 
     return localTodo;
@@ -29,9 +36,12 @@ const todoService = {
       const todos = await fetcher('get', '/todos');
 
       await todoStore.clear();
-      await todos.map(async (todo: Todo) => {
-        await todoStore.setItem(todo.id, todo);
-      });
+
+      if (todos) {
+        await todos.map(async (todo: Todo) => {
+          await todoStore.setItem(todo.id, todo);
+        });
+      }
     } catch (error) {
       console.log(error); // network error
 
@@ -50,8 +60,8 @@ const todoService = {
   updateTodo: async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description });
+      await todoStore.setItem(id, updatedTodo);
 
-      await todoStore.setItem(id, { ...updatedTodo, updated: false });
       return updatedTodo;
     } catch (error) {
       console.error(error); // network error
@@ -59,7 +69,7 @@ const todoService = {
       await syncTodos();
     }
     // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
-    await todoStore.setItem(id, { title, longitude, latitude, description, updated: true });
+    await todoStore.setItem(id, { id, title, longitude, latitude, description, updated: true });
     return;
   },
   deleteTodo: async (id: string) => {
@@ -70,8 +80,12 @@ const todoService = {
 
       await syncTodos();
     }
-    const todo = (await todoStore.getItem(id)) as Todo;
-    await todoStore.setItem(id, { ...todo, deleted: true });
+    try {
+      const todo = (await todoStore.getItem(id)) as Todo;
+      await todoStore.setItem(id, { ...todo, deleted: true, id });
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 
