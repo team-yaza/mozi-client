@@ -121,3 +121,6 @@ fallback-*.js
 # lighthouse
 .lighthouseci
 lhci_reports
+
+# worker files
+worker-*
