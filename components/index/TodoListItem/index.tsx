@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import MapModal from '@/components/index/MapModal';
@@ -40,10 +40,22 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   onDeleteTodo,
   onUpdateTodo,
 }) => {
+  const titleRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLDivElement>(null);
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (titleRef && titleRef.current && title) {
+      titleRef.current.innerText = title;
+    }
+
+    if (descriptionRef && descriptionRef.current && description) {
+      descriptionRef.current.innerText = description;
+    }
+  }, []);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -54,6 +66,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
+
     onUpdateTodo({ id, title: e.target.innerText });
   }, []);
 
@@ -80,6 +93,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       <TitleContainer>
         <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
         <Title
+          ref={titleRef}
           placeholder="New Todo"
           contentEditable
           suppressContentEditableWarning
@@ -87,7 +101,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           onKeyUp={onKeyUp}
           onDoubleClick={onDoubleClickHandler}
           spellCheck={false}
-          defaultValue={title}
         />
         <DeleteButton onClick={() => onDeleteTodo(id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
@@ -95,13 +108,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         <>
           <DescriptionContainer>
             <Description
+              ref={descriptionRef}
               placeholder="Notes"
               contentEditable
               suppressContentEditableWarning
               onInput={onInputDescription}
               onKeyUp={onKeyUp}
               spellCheck={false}
-              defaultValue={description}
             />
           </DescriptionContainer>
 
@@ -136,4 +149,4 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   );
 };
 
-export default React.memo(TodoListItem);
+export default TodoListItem;
