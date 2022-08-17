@@ -5,6 +5,9 @@ export interface Todo {
   title?: string;
   location?: GeoJson;
   description?: string;
+  created?: boolean;
+  updated?: boolean;
+  deleted?: boolean;
 }
 
 export interface TodoSuccessResponse {

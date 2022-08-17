@@ -1,35 +1,45 @@
 import { NextPage } from 'next';
 import { useCallback, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import Header from '@/components/index/Header';
 import TodoList from '@/components/index/TodoList';
-import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { TodoUpdateRequest } from '@/shared/types/todo';
+import { todoListState } from '@/store/todo/atom';
+import todoService from '@/services/apis/todo';
 
 const Home: NextPage = () => {
-  const { data: todos } = useTodoListQuery();
-  const createTodoMutation = useCreateTodoMutation();
-  const updateTodoMutation = useUpdateTodoMutation();
-  const deleteTodoMutation = useDeleteTodoMutation();
+  const [todos, setTodos] = useRecoilState(todoListState);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage('cache-current-page');
-    }
+    const fetchTodos = async () => {
+      const todos = await todoService.getTodos();
+      // console.log(todos);
+      setTodos(todos);
+    };
+
+    fetchTodos();
   }, []);
 
-  const onCreateTodo = useCallback(() => {
-    createTodoMutation.mutate();
+  const onCreateTodo = useCallback(async () => {
+    const createdTodo = await todoService.createTodo();
+
+    setTodos((prev) => [...prev, createdTodo]);
   }, []);
 
-  const onUpdateTodo = useCallback(({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
-    updateTodoMutation.mutate({ id, title, latitude, longitude, description });
+  const onUpdateTodo = useCallback(async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, title, longitude, latitude, description } : todo))
+    );
+    console.log('updatetodo실행');
+    await todoService.updateTodo({ id, title, longitude, latitude, description });
   }, []);
 
-  const onDeleteTodo = useCallback((id: string) => {
-    deleteTodoMutation.mutate(id);
+  const onDeleteTodo = useCallback(async (id: string) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+
+    await todoService.deleteTodo(id);
   }, []);
 
   const onSideBarClose = useCallback(() => {

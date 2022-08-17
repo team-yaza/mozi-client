@@ -18,5 +18,6 @@ const Template: ComponentStory<typeof TodoListItem> = (args) => <TodoListItem {.
 export const Basic = Template.bind({});
 
 Basic.args = {
-  todo,
+  id: todo.id,
+  title: todo.title,
 };

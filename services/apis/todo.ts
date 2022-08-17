@@ -1,3 +1,4 @@
+import { syncTodos } from './../../shared/utils/sync';
 import mongoose from 'mongoose';
 
 import { Todo } from '@/shared/types/todo';
@@ -6,9 +7,9 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore } from '@/store/forage';
 
 const todoService = {
-  createTodo: async () => {
+  createTodo: async (): Promise<Todo> => {
     const tempTodoId = new mongoose.Types.ObjectId().toString();
-    const localTodo = { created: true, tempTodoId };
+    const localTodo = { created: true, id: tempTodoId };
 
     await todoStore.setItem(tempTodoId, localTodo);
 
@@ -17,6 +18,8 @@ const todoService = {
       await todoStore.setItem(createdTodo.id, createdTodo);
     } catch (error) {
       console.log(error); // network error
+
+      await syncTodos();
     }
 
     return localTodo;
@@ -31,6 +34,9 @@ const todoService = {
       });
     } catch (error) {
       console.log(error); // network error
+
+      // sync 이벤트
+      await syncTodos();
     }
 
     const localTodos: Todo[] = [];
@@ -43,18 +49,17 @@ const todoService = {
   },
   updateTodo: async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
     try {
-      // 네트워크 요청을 보낸다.
       const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description });
-      // 네트워크 요청이 성공하면 서버에서 업데이트된 todo를 로컬에 적는다.
-      await todoStore.setItem(id, { ...updatedTodo, changed: false });
 
+      await todoStore.setItem(id, { ...updatedTodo, updated: false });
       return updatedTodo;
     } catch (error) {
       console.error(error); // network error
+
+      await syncTodos();
     }
     // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
-    await todoStore.setItem(id, { title, longitude, latitude, description, changed: true });
-
+    await todoStore.setItem(id, { title, longitude, latitude, description, updated: true });
     return;
   },
   deleteTodo: async (id: string) => {
@@ -62,6 +67,8 @@ const todoService = {
       await fetcher('delete', `/todos/${id}`);
     } catch (error) {
       console.error(error); // network error
+
+      await syncTodos();
     }
     const todo = (await todoStore.getItem(id)) as Todo;
     await todoStore.setItem(id, { ...todo, deleted: true });

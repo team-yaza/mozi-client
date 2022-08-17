@@ -6,6 +6,10 @@ import { NetworkOnly, NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'wor
 import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routing';
 import { matchPrecache, precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 
+import fetcher from '../shared/utils/fetcher';
+import { todoStore } from '../store/forage';
+import { Todo } from '../shared/types/todo';
+
 declare const self: ServiceWorkerGlobalScope;
 
 self.skipWaiting();
@@ -130,12 +134,6 @@ registerRoute(
   'GET'
 );
 
-self.addEventListener('message', (event) => {
-  if (event.data === 'cache-current-page') {
-    console.log('페이지로 부터 메시지를 받음');
-  }
-});
-
 self.addEventListener('push', (event) => {
   if (!event.data) return;
   const data = event.data.json();
@@ -145,12 +143,32 @@ self.addEventListener('push', (event) => {
   });
 });
 
-self.addEventListener('sync', (event: SyncEvent) => {
-  if (event.tag === 'sync-todo') {
-    console.log('sync-todo');
+self.addEventListener('sync', async (event: SyncEvent) => {
+  console.log(event);
+  if (event.tag === 'sync-todos') {
+    event.waitUntil(async () => {
+      await todoStore.iterate(async (todo: Todo) => {
+        if (todo.created) {
+          console.log('todo created 실행');
+          const createdTodo = await fetcher('post', '/todos', { _id: todo.title, ...todo });
+          console.log(createdTodo);
+        } else if (todo.updated) {
+          const updatedTodo = await fetcher('patch', `/todos/${todo.id}`, {
+            title: todo.title,
+            longitude: todo.location?.coordinates[0],
+            latitude: todo.location?.coordinates[1],
+            description: todo.description,
+          });
+        } else if (todo.deleted) {
+          await fetcher('delete', `/todos/${todo.id}`);
+        }
+      });
+    });
   }
 });
 
 self.addEventListener('fetch', (event) => {
   console.log(event.request.url);
 });
+
+// console.log(SYNC_TODOS);
