@@ -13,7 +13,7 @@ import { darkTheme, lightTheme } from '@/styles/theme';
 import AppLayout from '@/components/common/AppLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
 
   const handleTheme = useCallback(() => {
     if (theme === 'dark') setTheme('light');
