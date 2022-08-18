@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -13,7 +13,7 @@ import { darkTheme, lightTheme } from '@/styles/theme';
 import AppLayout from '@/components/common/AppLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
 
   const handleTheme = useCallback(() => {
     if (theme === 'dark') setTheme('light');
@@ -38,7 +38,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             <AppLayout>
-              <Component {...pageProps} />
+              <Suspense fallback={<div>Loading</div>}>
+                <Component {...pageProps} />
+              </Suspense>
             </AppLayout>
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>

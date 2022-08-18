@@ -1,3 +1,4 @@
+import { syncTodos } from './../../shared/utils/sync';
 import mongoose from 'mongoose';
 
 import { Todo } from '@/shared/types/todo';
@@ -6,17 +7,26 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore } from '@/store/forage';
 
 const todoService = {
-  createTodo: async () => {
-    const tempTodoId = new mongoose.Types.ObjectId().toString();
-    const localTodo = { created: true, tempTodoId };
-
-    await todoStore.setItem(tempTodoId, localTodo);
-
+  createTodo: async (): Promise<Todo> => {
     try {
-      const createdTodo = await fetcher('post', '/todos', { _id: tempTodoId });
+      const createdTodo = await fetcher('post', '/todos');
       await todoStore.setItem(createdTodo.id, createdTodo);
+
+      return createdTodo;
     } catch (error) {
       console.log(error); // network error
+
+      await syncTodos();
+    }
+
+    // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
+    const tempTodoId = new mongoose.Types.ObjectId().toString();
+    const localTodo = { created: true, id: tempTodoId };
+
+    try {
+      await todoStore.setItem(tempTodoId, { id: tempTodoId, title: '', description: '', created: true });
+    } catch (error) {
+      console.log(error);
     }
 
     return localTodo;
@@ -26,11 +36,17 @@ const todoService = {
       const todos = await fetcher('get', '/todos');
 
       await todoStore.clear();
-      await todos.map(async (todo: Todo) => {
-        await todoStore.setItem(todo.id, todo);
-      });
+
+      if (todos) {
+        await todos.map(async (todo: Todo) => {
+          await todoStore.setItem(todo.id, todo);
+        });
+      }
     } catch (error) {
       console.log(error); // network error
+
+      // sync 이벤트
+      await syncTodos();
     }
 
     const localTodos: Todo[] = [];
@@ -42,16 +58,35 @@ const todoService = {
     return localTodos;
   },
   updateTodo: async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
-    await todoStore.setItem(id, { title, longitude, latitude, description, changed: true });
-
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description });
-      todoStore.setItem(id, { ...updatedTodo, changed: false });
+      await todoStore.setItem(id, updatedTodo);
+
+      return updatedTodo;
     } catch (error) {
       console.error(error); // network error
+
+      await syncTodos();
+    }
+    // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
+    await todoStore.setItem(id, { id, title, longitude, latitude, description, updated: true });
+    return;
+  },
+  deleteTodo: async (id: string) => {
+    try {
+      await fetcher('delete', `/todos/${id}`);
+    } catch (error) {
+      console.error(error); // network error
+
+      await syncTodos();
+    }
+    try {
+      const todo = (await todoStore.getItem(id)) as Todo;
+      await todoStore.setItem(id, { ...todo, deleted: true, id });
+    } catch (error) {
+      console.log(error);
     }
   },
-  deleteTodo: async (id: string) => await fetcher('delete', `/todos/${id}`),
 };
 
 export default todoService;

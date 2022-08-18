@@ -1,35 +1,58 @@
 import { NextPage } from 'next';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Header from '@/components/index/Header';
 import TodoList from '@/components/index/TodoList';
-import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
-import { TodoUpdateRequest } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import todoService from '@/services/apis/todo';
 
 const Home: NextPage = () => {
-  const { data: todos } = useTodoListQuery();
-  const createTodoMutation = useCreateTodoMutation();
-  const updateTodoMutation = useUpdateTodoMutation();
-  const deleteTodoMutation = useDeleteTodoMutation();
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage('cache-current-page');
-    }
+    const fetchTodos = async () => {
+      const todos = await todoService.getTodos();
+      // console.log(todos);
+      setTodos(todos);
+    };
+
+    fetchTodos();
   }, []);
 
-  const onCreateTodo = useCallback(() => {
-    createTodoMutation.mutate();
+  // useEffect(() => {
+  //   if ('serviceWorker' in navigator && 'SyncManager' in window) {
+  //     navigator.serviceWorker.ready.then((registration) => {
+  //       registration.sync
+  //         .register('hello-sync')
+  //         .then(() => {
+  //           return registration.sync.getTags();
+  //         })
+  //         .then((tags) => {
+  //           console.log(tags);
+  //         });
+  //     });
+  //   }
+  // }, []);
+
+  const onCreateTodo = useCallback(async () => {
+    const createdTodo = await todoService.createTodo();
+
+    setTodos((prev) => [...prev, createdTodo]);
   }, []);
 
-  const onUpdateTodo = useCallback(({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
-    updateTodoMutation.mutate({ id, title, latitude, longitude, description });
+  const onUpdateTodo = useCallback(async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, title, longitude, latitude, description } : todo))
+    );
+
+    await todoService.updateTodo({ id, title, longitude, latitude, description });
   }, []);
 
-  const onDeleteTodo = useCallback((id: string) => {
-    deleteTodoMutation.mutate(id);
+  const onDeleteTodo = useCallback(async (id: string) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+
+    await todoService.deleteTodo(id);
   }, []);
 
   const onSideBarClose = useCallback(() => {

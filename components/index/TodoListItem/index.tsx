@@ -1,16 +1,13 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import MapModal from '@/components/index/MapModal';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { useContentEditable } from '@/hooks/useContentEditable';
-import { focusContentEditableTextToEnd } from '@/shared/utils/focus';
-import ADD_CALENDAR from '@/components/common/Figure/ADD_CALENDAR';
-import ADD_DEADLINE from '@/components/common/Figure/ADD_DEADLINE';
-import ADD_PLACE from '@/components/common/Figure/ADD_PLACE';
-import ADD_TAG from '@/components/common/Figure/ADD_TAG';
-import { Todo } from '@/shared/types/todo';
+import CALENDAR from '@/components/common/Figure/CALENDAR';
+import DEADLINE from '@/components/common/Figure/DEADLINE';
+import PLACE from '@/components/common/Figure/PLACE';
+import TAG from '@/components/common/Figure/TAG';
 import {
   CheckBox,
   Container,
@@ -23,19 +20,42 @@ import {
   OptionContainer,
   OptionsContainer,
 } from './styles';
-import { todoStore } from '@/store/forage';
 
 interface TodoListItemProps {
-  todo: Todo;
+  id: string;
+  title?: string;
+  description?: string;
+  longitude?: number;
+  latitude?: number;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
+const TodoListItem: React.FC<TodoListItemProps> = ({
+  id,
+  title,
+  description,
+  longitude,
+  latitude,
+  onDeleteTodo,
+  onUpdateTodo,
+}) => {
+  const titleRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLDivElement>(null);
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (titleRef && titleRef.current && title) {
+      titleRef.current.innerText = title;
+    }
+
+    if (descriptionRef && descriptionRef.current && description) {
+      descriptionRef.current.innerText = description;
+    }
+  }, []);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -46,15 +66,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
 
   const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onUpdateTodo({ id: todo.id, title: e.target.innerText });
 
-    todoStore.setItem(todo.id, { ...todo, title: e.target.innerText });
+    onUpdateTodo({ id, title: e.target.innerText });
   }, []);
 
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
-
-    onUpdateTodo({ id: todo.id, description: e.target.innerText });
+    onUpdateTodo({ id, description: e.target.innerText });
   }, []);
 
   const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -75,6 +93,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
       <TitleContainer>
         <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
         <Title
+          ref={titleRef}
           placeholder="New Todo"
           contentEditable
           suppressContentEditableWarning
@@ -82,46 +101,49 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onDeleteTodo, onUpdat
           onKeyUp={onKeyUp}
           onDoubleClick={onDoubleClickHandler}
           spellCheck={false}
-        >
-          {todo.title}
-        </Title>
-        <DeleteButton onClick={() => onDeleteTodo(todo.id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
+        />
+        <DeleteButton onClick={() => onDeleteTodo(id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
             <Description
+              ref={descriptionRef}
               placeholder="Notes"
               contentEditable
               suppressContentEditableWarning
               onInput={onInputDescription}
               onKeyUp={onKeyUp}
               spellCheck={false}
-            >
-              {todo.description}
-            </Description>
+            />
           </DescriptionContainer>
 
           <SubTaskContainer></SubTaskContainer>
 
           <OptionsContainer>
             <OptionContainer onClick={() => setIsModalOpen(!isModalOpen)}>
-              <ADD_PLACE stroke="#585858" />
+              <PLACE stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 1}>
-              <ADD_CALENDAR stroke="#585858" />
+              <CALENDAR stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 2}>
-              <ADD_TAG stroke="#585858" />
+              <TAG stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 3}>
-              <ADD_DEADLINE stroke="#585858" />
+              <DEADLINE stroke="#585858" />
             </OptionContainer>
           </OptionsContainer>
         </>
       )}
       {isModalOpen && (
-        <MapModal id={todo.id} location={todo.location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
+        <MapModal
+          id={id}
+          longitude={longitude}
+          latitude={latitude}
+          onUpdateTodo={onUpdateTodo}
+          setIsModalOpen={setIsModalOpen}
+        />
       )}
     </Container>
   );

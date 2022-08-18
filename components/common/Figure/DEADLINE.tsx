@@ -1,7 +1,7 @@
 import { SvgWrap } from './styles';
 import { FigureProps } from '@/shared/types/figure';
 
-const ADD_DEADLINE: React.FC<FigureProps> = ({ stroke = '#585858' }) => {
+const DEADLINE: React.FC<FigureProps> = ({ stroke = '#585858' }) => {
   return (
     <SvgWrap>
       <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,4 +17,4 @@ const ADD_DEADLINE: React.FC<FigureProps> = ({ stroke = '#585858' }) => {
   );
 };
 
-export default ADD_DEADLINE;
+export default DEADLINE;
