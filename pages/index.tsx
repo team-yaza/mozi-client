@@ -1,22 +1,33 @@
 import { NextPage } from 'next';
 import { useCallback, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import Header from '@/components/index/Header';
 import TodoList from '@/components/index/TodoList';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
+import { alarmListState } from '@/store/alarm/atom';
+import alarmService from '@/services/apis/alarm';
+import { UpdateAlarmProps } from '@/shared/types/alarm';
+import { serializeAlarmList, serializeGeoJson } from '@/shared/utils/serialize';
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [alarms, setAlarms] = useRecoilState(alarmListState);
 
   useEffect(() => {
     const fetchTodos = async () => {
       const todos = await todoService.getTodos();
-      // console.log(todos);
       setTodos(todos);
     };
 
+    const fetchAlarms = async () => {
+      const alarmList = await alarmService.getAlarms();
+      setAlarms(serializeAlarmList(alarmList));
+    };
+
+    fetchAlarms();
     fetchTodos();
   }, []);
 
@@ -34,6 +45,16 @@ const Home: NextPage = () => {
   //     });
   //   }
   // }, []);
+
+  const onUpdateAlarm = useCallback(({ todoId, longitude, latitude, name }: UpdateAlarmProps) => {
+    setAlarms((prev) =>
+      prev.map((alarm) =>
+        alarm.todoId == todoId
+          ? { ...alarm, location: serializeGeoJson(longitude, latitude, name), visited: false }
+          : alarm
+      )
+    );
+  }, []);
 
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
@@ -62,7 +83,12 @@ const Home: NextPage = () => {
   return (
     <Container>
       <Header onCreate={onCreateTodo} />
-      <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
+      <TodoList
+        todos={todos || []}
+        onDeleteTodo={onDeleteTodo}
+        onUpdateTodo={onUpdateTodo}
+        onUpdateAlarm={onUpdateAlarm}
+      />
     </Container>
   );
 };

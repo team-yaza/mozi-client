@@ -1,14 +1,16 @@
 import { Container } from './styles';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import { UpdateAlarmProps } from '@/shared/types/alarm';
 import TodoListItem from '@/components/index/TodoListItem';
 
 interface TodoListProps {
   todos: Todo[];
   onUpdateTodo: ({ id, title }: TodoUpdateRequest) => void;
   onDeleteTodo: (id: string) => void;
+  onUpdateAlarm: ({ todoId }: UpdateAlarmProps) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }) => {
+const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo, onUpdateAlarm }) => {
   return (
     <Container>
       {todos?.map((todo: Todo) => (
@@ -21,6 +23,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }
           latitude={todo.location?.coordinates[1]}
           onDeleteTodo={onDeleteTodo}
           onUpdateTodo={onUpdateTodo}
+          onUpdateAlarm={onUpdateAlarm}
         />
       ))}
     </Container>
