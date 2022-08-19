@@ -1,5 +1,4 @@
 /// <reference lib="webworker" />
-import axios from 'axios';
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { NetworkOnly, NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
@@ -10,9 +9,9 @@ import { matchPrecache, precacheAndRoute, cleanupOutdatedCaches } from 'workbox-
 import { todoStore, alarmStore } from '../store/forage';
 import { Todo } from '../shared/types/todo';
 import { SYNC_TODOS } from '../shared/constants/sync';
-import notification from '../services/webpush/todo';
 import { Alarm } from '../shared/types/alarm';
 import { getDistance } from '../shared/utils/getDistance';
+import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -218,24 +217,42 @@ self.addEventListener('fetch', (event) => {
 });
 
 const ALARM_DISTANCE_STANDARD = 10000; //10 km
+const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
 
-self.addEventListener('message', async (event) => {
+let sub: PushSubscription | null = null;
+
+(async () => {
+  sub = await self.registration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+  });
+})();
+
+self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SET_INTERVAL') {
-    alarmStore.iterate((alarm: Alarm, todoId) => {
-      const distance = getDistance(
-        alarm.location.coordinates[1],
-        alarm.location.coordinates[0],
-        event.data.latitude,
-        event.data.longitude
-      );
+    event.waitUntil(
+      alarmStore.iterate((alarm: Alarm, todoId) => {
+        const distance = getDistance(
+          alarm.location.coordinates[0],
+          alarm.location.coordinates[1],
+          event.data.latitude,
+          event.data.longitude
+        );
 
-      console.log(todoId, distance);
-
-      if (distance < ALARM_DISTANCE_STANDARD && !alarm.visited) {
-        notification(todoId);
-        alarmStore.setItem(todoId, { ...alarm, visited: true });
-      } else if (distance > ALARM_DISTANCE_STANDARD && alarm.visited)
-        alarmStore.setItem(todoId, { ...alarm, visited: false });
-    });
+        if (distance < ALARM_DISTANCE_STANDARD && !alarm.visited) {
+          fetch(`http://localhost:3001/api/v1/webpush/${todoId}`, {
+            method: 'POST',
+            body: JSON.stringify({
+              subscription: JSON.stringify(sub),
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          alarmStore.setItem(todoId, { ...alarm, visited: true });
+        } else if (distance > ALARM_DISTANCE_STANDARD && alarm.visited)
+          alarmStore.setItem(todoId, { ...alarm, visited: false });
+      })
+    );
   }
 });

@@ -44,7 +44,7 @@ const Home: NextPage = () => {
     updateCurrentPosition();
     navigator.serviceWorker.controller.postMessage({
       type: 'SET_INTERVAL',
-      latitude: myLocationRef.current.longitude,
+      latitude: myLocationRef.current.latitude,
       longitude: myLocationRef.current.longitude,
     });
   };
