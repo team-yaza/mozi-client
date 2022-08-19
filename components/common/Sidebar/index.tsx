@@ -53,8 +53,8 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
             <SideBarMenu key={menu.title} title={menu.title} link={menu.link} />
           ))}
         </SideBarMenuContainer>
-        <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />
       </SideBarContents>
+      <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />
     </Container>
   );
 };

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { darkTheme, lightTheme } from '@/styles/theme';
 
 export const Container = styled.div<{ focused: boolean }>`
-  width: 25rem;
+  width: 100%;
   height: 4.2rem;
 
   display: flex;

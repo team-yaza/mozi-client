@@ -42,22 +42,18 @@ export const LogoContainer = styled.div`
 `;
 
 export const SideBarContents = styled.div`
+  position: relative;
   display: flex;
   align-self: flex-start;
+  width: 100%;
 
   flex-grow: 0;
   flex-shrink: 0;
-
-  pointer-events: auto;
-
-  // ! css 추후 사용
-  /* flex-direction: row; */
-  /* height: 100vh; */
-  /* flex-direction: column; */
 `;
 
 export const SideBarMenuContainer = styled.div`
-  flex: 1;
+  width: 100%;
+  margin-right: 3rem;
 `;
 
 export const SideBarResizer = styled.div<{ isVisible: boolean }>`
@@ -68,6 +64,7 @@ export const SideBarResizer = styled.div<{ isVisible: boolean }>`
   width: 1.2rem;
   margin-left: -0.6rem;
 
+  pointer-events: auto;
   cursor: col-resize;
 
   &:hover {
