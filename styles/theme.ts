@@ -14,6 +14,7 @@ export const darkTheme: DefaultTheme = {
     sidebar: '#2C2B30',
     background: '#1E1C24',
     purple: '#735AFF',
+    header: '#2C2B30',
     // focused:
   },
 };
@@ -26,5 +27,6 @@ export const lightTheme: DefaultTheme = {
     sidebar: '#ffffff',
     background: '#f9f9f9',
     purple: '#735AFF',
+    header: '#ffffff',
   },
 };
