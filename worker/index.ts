@@ -7,9 +7,12 @@ import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routi
 import { matchPrecache, precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 
 // import fetcher from '../shared/utils/fetcher';
-import { todoStore } from '../store/forage';
+import { todoStore, alarmStore } from '../store/forage';
 import { Todo } from '../shared/types/todo';
 import { SYNC_TODOS } from '../shared/constants/sync';
+import notification from '../services/webpush/todo';
+import { Alarm } from '../shared/types/alarm';
+import { getDistance } from '../shared/utils/getDistance';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -20,10 +23,12 @@ self.__WB_DISABLE_DEV_LOGS = true;
 
 self.addEventListener('install', (event) => {
   console.log('service worker installed');
+  event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 
 self.addEventListener('activate', (event) => {
   console.log('service worker activated');
+  event.waitUntil(self.clients.claim()); // Become available to all pages
 });
 
 cleanupOutdatedCaches();
@@ -212,4 +217,25 @@ self.addEventListener('fetch', (event) => {
   // console.log(event.request.url);
 });
 
-// console.log(SYNC_TODOS);
+const ALARM_DISTANCE_STANDARD = 10000; //10 km
+
+self.addEventListener('message', async (event) => {
+  if (event.data && event.data.type === 'SET_INTERVAL') {
+    alarmStore.iterate((alarm: Alarm, todoId) => {
+      const distance = getDistance(
+        alarm.location.coordinates[1],
+        alarm.location.coordinates[0],
+        event.data.latitude,
+        event.data.longitude
+      );
+
+      console.log(todoId, distance);
+
+      if (distance < ALARM_DISTANCE_STANDARD && !alarm.visited) {
+        notification(todoId);
+        alarmStore.setItem(todoId, { ...alarm, visited: true });
+      } else if (distance > ALARM_DISTANCE_STANDARD && alarm.visited)
+        alarmStore.setItem(todoId, { ...alarm, visited: false });
+    });
+  }
+});
