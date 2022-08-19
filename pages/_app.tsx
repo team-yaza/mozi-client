@@ -11,8 +11,9 @@ import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
 import AppLayout from '@/components/common/AppLayout';
+import { SessionProvider } from 'next-auth/react';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [theme, setTheme] = useState('light');
 
   const handleTheme = useCallback(() => {
@@ -37,11 +38,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <AppLayout>
-              <Suspense fallback={<div>Loading</div>}>
-                <Component {...pageProps} />
-              </Suspense>
-            </AppLayout>
+            <SessionProvider session={session}>
+              <AppLayout>
+                <Suspense fallback={<div>Loading</div>}>
+                  <Component {...pageProps} />
+                </Suspense>
+              </AppLayout>
+            </SessionProvider>
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>
         </RecoilRoot>
