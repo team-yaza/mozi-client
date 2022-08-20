@@ -2,11 +2,12 @@ import { NextPage } from 'next';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import Header from '@/components/index/Header';
-import TodoList from '@/components/index/TodoList';
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
 import { useLocationRef } from '@/hooks/location/useLocationRef';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import Title from '@/components/index/Title';
+import TodoList from '@/components/index/TodoList';
+import Header from '@/components/common/Header';
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -20,7 +21,6 @@ const Home: NextPage = () => {
 
     fetchTodos();
   }, []);
-
   const sendLocation = useCallback(() => {
     if (!navigator.serviceWorker.controller) return;
     if (!myLocationRef.current) return;
@@ -38,7 +38,6 @@ const Home: NextPage = () => {
       clearInterval(sendLocationInterval);
     };
   }, [myLocationRef]);
-
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
 
@@ -65,7 +64,8 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      <Header onCreate={onCreateTodo} />
+      <Header />
+      <Title onCreate={onCreateTodo} />
       <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
     </Container>
   );

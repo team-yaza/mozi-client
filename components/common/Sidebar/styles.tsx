@@ -1,36 +1,55 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const Container = styled.div`
+export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   position: relative;
   height: 100vh;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding-top: 3rem;
-  padding-left: 3rem;
+  padding-left: ${({ isSideBarOpened }) => (isSideBarOpened ? '3rem;' : 0)};
 
-  overflow: hidden;
-
+  /* overflow: hidden; */
   pointer-events: none;
   user-select: none;
+  /* flex-grow: 0;
+  flex-shrink: 0; */
 
   transition: 0.3s background-color;
   background-color: ${({ theme }) => theme.color.sidebar};
   // ! 최대 너비를 제한하는 코드
   /* max-width: 48rem; */
   /* min-width: 19rem; */
-  // ! css 추후 사용
-  /* padding-top: 1.5rem;
-  padding-left: 1.5rem; */
-  /* 
-  flex-grow: 0;
-  flex-shrink: 0; */
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* font-size: 5rem; */
-  /* padding: 1.5rem; */
+`;
+
+export const AnimatedContainer = () => <Container animate={{ scale: 2 }} />;
+
+export const ControlContainer = styled.div`
+  height: 5.4rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  padding-right: 1.65rem;
+
+  margin-bottom: 0.4rem;
+`;
+
+export const ArrowLeftContainer = styled(motion.div)<{ isSideBarOpened?: boolean }>`
+  position: absolute;
+  /* position: ${({ isSideBarOpened }) => (isSideBarOpened ? 'relative' : 'absolute')}; */
+  width: 3rem;
+  height: 3rem;
+  right: ${({ isSideBarOpened }) => !isSideBarOpened && '-6rem'};
+  z-index: 10;
+  /* right: ${({ isSideBarOpened }) => (isSideBarOpened ? '0' : '-10.65rem')}; */
+
+  pointer-events: all;
+  cursor: pointer;
 `;
 
 export const LogoContainer = styled.div`
@@ -42,22 +61,18 @@ export const LogoContainer = styled.div`
 `;
 
 export const SideBarContents = styled.div`
+  position: relative;
   display: flex;
   align-self: flex-start;
+  width: 100%;
 
   flex-grow: 0;
   flex-shrink: 0;
-
-  pointer-events: auto;
-
-  // ! css 추후 사용
-  /* flex-direction: row; */
-  /* height: 100vh; */
-  /* flex-direction: column; */
 `;
 
 export const SideBarMenuContainer = styled.div`
-  flex: 1;
+  width: 100%;
+  margin-right: 2rem;
 `;
 
 export const SideBarResizer = styled.div<{ isVisible: boolean }>`
@@ -68,6 +83,7 @@ export const SideBarResizer = styled.div<{ isVisible: boolean }>`
   width: 1.2rem;
   margin-left: -0.6rem;
 
+  pointer-events: auto;
   cursor: col-resize;
 
   &:hover {
@@ -83,8 +99,6 @@ export const SideBarResizer = styled.div<{ isVisible: boolean }>`
   /* flex-shrink: 0; */
   /* flex-grow: 0; */
   /* height: 100%; */
-  /* width: 100px; */
-  /* width: 100px; */
   /* width: 5rem;
   border-right: red 1px solid;
   height: 100%; */
