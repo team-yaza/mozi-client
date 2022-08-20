@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Image from 'next/image';
+import { useRecoilState } from 'recoil';
 
-import { Container, LogoContainer, SideBarContents, SideBarMenuContainer, SideBarResizer } from './styles';
+import {
+  Container,
+  AnimatedContainer,
+  ArrowLeftContainer,
+  ControlContainer,
+  LogoContainer,
+  SideBarContents,
+  SideBarMenuContainer,
+  SideBarResizer,
+} from './styles';
 import { Menu } from '@/shared/types/menu';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
+import { ARROWLEFT, HAMBURGER } from '@/components/common/Figure';
+import { sideBarStateAtom } from '@/store/sidebar/atom';
 
 const menuList = [
   {
@@ -21,32 +33,53 @@ const menuList = [
   },
 ];
 
-interface SideBarProps {
-  onClose: () => void;
-}
-
-const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
+const SideBar: React.FC = () => {
+  const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
   const [width, setWidth] = useState(300);
   const { isDragging, startDrag } = useDrag((movement) => {
     const nextWidth = width + movement.x;
-    if (nextWidth <= 90) {
-      // ! 상위 컴포넌트에서 onClose 메서드는 구현되지 않았습니다.
-      onClose();
 
-      // ! onClose는 구현되지 않았기 때문에 setWidth로 넓이 이동만 합니다.
-      setWidth(nextWidth);
+    // 드래그 할 수 있다는 것 자체를 사이드바가 열려있다는 것으로 간주
+    setIsSideBarOpened(true);
 
+    if (nextWidth <= width / 3) {
+      closeSideBar();
       return;
     }
 
     setWidth(nextWidth);
   });
 
+  const closeSideBar = useCallback(() => {
+    setIsSideBarOpened(false);
+    setWidth(0);
+  }, []);
+
   return (
-    <Container tabIndex={0} style={{ width }}>
+    <Container
+      tabIndex={0}
+      style={{ width }}
+      initial={{ width }}
+      animate={{ width }}
+      exit={{ width: 0 }}
+      isSideBarOpened={isSideBarOpened}
+      transition={
+        {
+          // type: 'spring'
+          // duration: 0,
+        }
+      }
+    >
+      <ControlContainer>
+        <ArrowLeftContainer onClick={closeSideBar} whileHover={{ scale: 1.1 }}>
+          {isSideBarOpened ? <ARROWLEFT /> : <HAMBURGER />}
+        </ArrowLeftContainer>
+      </ControlContainer>
+
       <LogoContainer>
         <Image src="/assets/svgs/mozi.svg" layout="fill" />
       </LogoContainer>
+
       <SideBarContents>
         <SideBarMenuContainer>
           {menuList.map((menu: Menu) => (
@@ -54,15 +87,16 @@ const SideBar: React.FC<SideBarProps> = ({ onClose }) => {
           ))}
         </SideBarMenuContainer>
       </SideBarContents>
+
       <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />
     </Container>
   );
 };
 
-export default React.memo(SideBar);
+export default SideBar;
 
 // ! SideBar의 두번째 구현입니다. 위 방법과 다른 방법으로 구현했고 추후 사용할 가능성이 존재해서 코드베이스로 남겨두었습니다.
-
+//
 // const SideBar: React.FC = () => {
 //   const sideBarRef = useRef<HTMLDivElement>(null);
 //   const [isResizing, setIsResizing] = useState(false);

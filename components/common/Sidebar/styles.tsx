@@ -1,37 +1,31 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-export const Container = styled.aside`
+export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   position: relative;
   height: 100vh;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding-left: 3rem;
+  padding-left: ${({ isSideBarOpened }) => (isSideBarOpened ? '3rem;' : 0)};
 
   overflow: hidden;
-
   pointer-events: none;
   user-select: none;
+  /* flex-grow: 0;
+  flex-shrink: 0; */
 
   transition: 0.3s background-color;
   background-color: ${({ theme }) => theme.color.sidebar};
   // ! 최대 너비를 제한하는 코드
   /* max-width: 48rem; */
   /* min-width: 19rem; */
-  // ! css 추후 사용
-  /* padding-top: 1.5rem;
-  padding-left: 1.5rem; */
-  /* 
-  flex-grow: 0;
-  flex-shrink: 0; */
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* font-size: 5rem; */
-  /* padding: 1.5rem; */
 `;
+
+export const AnimatedContainer = () => <Container animate={{ scale: 2 }} />;
 
 export const ControlContainer = styled.div`
   height: 5.4rem;
@@ -45,7 +39,7 @@ export const ControlContainer = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-export const ArrowLeftContainer = styled.div`
+export const ArrowLeftContainer = styled(motion.div)`
   position: relative;
   width: 3rem;
   height: 3rem;
@@ -60,12 +54,6 @@ export const LogoContainer = styled.div`
   height: 4.4rem;
 
   align-self: flex-start;
-
-  :hover {
-    svg {
-      transform: scale(1.1);
-    }
-  }
 `;
 
 export const SideBarContents = styled.div`

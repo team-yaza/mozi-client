@@ -2,10 +2,11 @@ import { NextPage } from 'next';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import Header from '@/components/index/Header';
-import TodoList from '@/components/index/TodoList';
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import Title from '@/components/index/Title';
+import TodoList from '@/components/index/TodoList';
+import Header from '@/components/common/Header';
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -13,27 +14,11 @@ const Home: NextPage = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       const todos = await todoService.getTodos();
-      // console.log(todos);
       setTodos(todos);
     };
 
     fetchTodos();
   }, []);
-
-  // useEffect(() => {
-  //   if ('serviceWorker' in navigator && 'SyncManager' in window) {
-  //     navigator.serviceWorker.ready.then((registration) => {
-  //       registration.sync
-  //         .register('hello-sync')
-  //         .then(() => {
-  //           return registration.sync.getTags();
-  //         })
-  //         .then((tags) => {
-  //           console.log(tags);
-  //         });
-  //     });
-  //   }
-  // }, []);
 
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
@@ -61,7 +46,8 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      <Header onCreate={onCreateTodo} />
+      <Header />
+      <Title onCreate={onCreateTodo} />
       <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
     </Container>
   );
