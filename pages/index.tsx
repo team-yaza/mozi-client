@@ -6,7 +6,6 @@ import Header from '@/components/index/Header';
 import TodoList from '@/components/index/TodoList';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
-import { serializeGeoJson } from '@/shared/utils/serialize';
 import { useLocationRef } from '@/hooks/location/useLocationRef';
 
 const Home: NextPage = () => {

@@ -7,10 +7,12 @@ const todos: Todo[] = [
   {
     id: '1',
     title: 'Todo 1',
+    alarmed: false,
   },
   {
     id: '2',
     title: 'Todo 2',
+    alarmed: false,
   },
 ];
 
