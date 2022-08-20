@@ -8,6 +8,7 @@ export interface Todo {
   created?: boolean;
   updated?: boolean;
   deleted?: boolean;
+  alarmed: boolean;
 }
 
 export interface TodoSuccessResponse {

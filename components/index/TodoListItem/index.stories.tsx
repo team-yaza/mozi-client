@@ -11,6 +11,7 @@ export default {
 const todo: Todo = {
   id: '1',
   title: 'Todo 1',
+  alarmed: false,
 };
 
 const Template: ComponentStory<typeof TodoListItem> = (args) => <TodoListItem {...args} />;
