@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const Container = styled.div`
+export const Container = styled.aside`
   position: relative;
   height: 100vh;
 
@@ -8,7 +9,6 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  padding-top: 3rem;
   padding-left: 3rem;
 
   overflow: hidden;
@@ -33,12 +33,39 @@ export const Container = styled.div`
   /* padding: 1.5rem; */
 `;
 
+export const ControlContainer = styled.div`
+  height: 5.4rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  padding-right: 1.65rem;
+
+  margin-bottom: 0.4rem;
+`;
+
+export const ArrowLeftContainer = styled.div`
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+
+  pointer-events: all;
+  cursor: pointer;
+`;
+
 export const LogoContainer = styled.div`
   position: relative;
   width: 4.4rem;
   height: 4.4rem;
 
   align-self: flex-start;
+
+  :hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
 `;
 
 export const SideBarContents = styled.div`
@@ -53,7 +80,7 @@ export const SideBarContents = styled.div`
 
 export const SideBarMenuContainer = styled.div`
   width: 100%;
-  margin-right: 3rem;
+  margin-right: 2rem;
 `;
 
 export const SideBarResizer = styled.div<{ isVisible: boolean }>`
@@ -80,8 +107,6 @@ export const SideBarResizer = styled.div<{ isVisible: boolean }>`
   /* flex-shrink: 0; */
   /* flex-grow: 0; */
   /* height: 100%; */
-  /* width: 100px; */
-  /* width: 100px; */
   /* width: 5rem;
   border-right: red 1px solid;
   height: 100%; */
