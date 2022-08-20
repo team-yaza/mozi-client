@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 
 import {
   Container,
-  AnimatedContainer,
   ArrowLeftContainer,
   ControlContainer,
   LogoContainer,
@@ -15,7 +14,7 @@ import {
 import { Menu } from '@/shared/types/menu';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
-import { ARROWLEFT, HAMBURGER } from '@/components/common/Figure';
+import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
 
 const menuList = [
@@ -35,6 +34,7 @@ const menuList = [
 
 const SideBar: React.FC = () => {
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
+  const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
   const { isDragging, startDrag } = useDrag((movement) => {
     const nextWidth = width + movement.x;
@@ -43,17 +43,30 @@ const SideBar: React.FC = () => {
     setIsSideBarOpened(true);
 
     if (nextWidth <= width / 3) {
-      closeSideBar();
+      onCloseSideBar();
       return;
     }
 
     setWidth(nextWidth);
   });
 
-  const closeSideBar = useCallback(() => {
+  const onCloseSideBar = useCallback(() => {
     setIsSideBarOpened(false);
     setWidth(0);
   }, []);
+
+  const onOpenSideBar = useCallback(() => {
+    setIsSideBarOpened(true);
+    setWidth(300);
+  }, []);
+
+  const onToggleSideBar = useCallback(() => {
+    if (isSideBarOpened) {
+      onCloseSideBar();
+    } else {
+      onOpenSideBar();
+    }
+  }, [isSideBarOpened]);
 
   return (
     <Container
@@ -71,8 +84,14 @@ const SideBar: React.FC = () => {
       }
     >
       <ControlContainer>
-        <ArrowLeftContainer onClick={closeSideBar} whileHover={{ scale: 1.1 }}>
-          {isSideBarOpened ? <ARROWLEFT /> : <HAMBURGER />}
+        <ArrowLeftContainer
+          onClick={onToggleSideBar}
+          whileHover={{ scale: 1.1 }}
+          isSideBarOpened={isSideBarOpened}
+          onHoverStart={() => setControlIconHovered(true)}
+          onHoverEnd={() => setControlIconHovered(false)}
+        >
+          {isSideBarOpened ? <ARROWLEFT /> : controlIconHovered ? <ARROWRIGHT /> : <HAMBURGER />}
         </ArrowLeftContainer>
       </ControlContainer>
 

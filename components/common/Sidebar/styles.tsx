@@ -12,7 +12,7 @@ export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
 
   padding-left: ${({ isSideBarOpened }) => (isSideBarOpened ? '3rem;' : 0)};
 
-  overflow: hidden;
+  /* overflow: hidden; */
   pointer-events: none;
   user-select: none;
   /* flex-grow: 0;
@@ -39,10 +39,14 @@ export const ControlContainer = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-export const ArrowLeftContainer = styled(motion.div)`
-  position: relative;
+export const ArrowLeftContainer = styled(motion.div)<{ isSideBarOpened?: boolean }>`
+  position: absolute;
+  /* position: ${({ isSideBarOpened }) => (isSideBarOpened ? 'relative' : 'absolute')}; */
   width: 3rem;
   height: 3rem;
+  right: ${({ isSideBarOpened }) => !isSideBarOpened && '-6rem'};
+  z-index: 10;
+  /* right: ${({ isSideBarOpened }) => (isSideBarOpened ? '0' : '-10.65rem')}; */
 
   pointer-events: all;
   cursor: pointer;
