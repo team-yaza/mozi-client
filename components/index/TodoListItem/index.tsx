@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 import MapModal from '@/components/index/MapModal';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { UpdateAlarmProps } from '@/shared/types/alarm';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
 import CALENDAR from '@/components/common/Figure/CALENDAR';
 import DEADLINE from '@/components/common/Figure/DEADLINE';
@@ -30,7 +29,6 @@ interface TodoListItemProps {
   location?: GeoJson | undefined;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
-  onUpdateAlarm: ({ todoId, longitude, latitude, name, visited }: UpdateAlarmProps) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
@@ -40,7 +38,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   location,
   onDeleteTodo,
   onUpdateTodo,
-  onUpdateAlarm,
 }) => {
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
@@ -139,13 +136,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         </>
       )}
       {isModalOpen && (
-        <MapModal
-          id={id}
-          location={location}
-          onUpdateTodo={onUpdateTodo}
-          setIsModalOpen={setIsModalOpen}
-          onUpdateAlarm={onUpdateAlarm}
-        />
+        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
       )}
     </Container>
   );
