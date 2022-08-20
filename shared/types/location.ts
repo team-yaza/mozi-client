@@ -5,5 +5,6 @@ export interface Location {
 
 export interface GeoJson {
   type: string;
+  name: string;
   coordinates: Array<number>;
 }

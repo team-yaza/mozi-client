@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import todoService from '@/services/apis/todo';
+import { useLocationRef } from '@/hooks/location/useLocationRef';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import Title from '@/components/index/Title';
 import TodoList from '@/components/index/TodoList';
@@ -10,6 +11,7 @@ import Header from '@/components/common/Header';
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const { myLocationRef, updateCurrentPosition } = useLocationRef();
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -19,7 +21,23 @@ const Home: NextPage = () => {
 
     fetchTodos();
   }, []);
+  const sendLocation = useCallback(() => {
+    if (!navigator.serviceWorker.controller) return;
+    if (!myLocationRef.current) return;
+    updateCurrentPosition();
+    navigator.serviceWorker.controller.postMessage({
+      type: 'SET_INTERVAL',
+      latitude: myLocationRef.current.latitude,
+      longitude: myLocationRef.current.longitude,
+    });
+  }, [myLocationRef]);
 
+  useEffect(() => {
+    const sendLocationInterval = setInterval(sendLocation, 3000);
+    return () => {
+      clearInterval(sendLocationInterval);
+    };
+  }, [myLocationRef]);
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
 
