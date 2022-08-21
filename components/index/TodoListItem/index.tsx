@@ -20,13 +20,13 @@ import {
   OptionContainer,
   OptionsContainer,
 } from './styles';
+import { GeoJson } from '@/shared/types/location';
 
 interface TodoListItemProps {
   id: string;
   title?: string;
   description?: string;
-  longitude?: number;
-  latitude?: number;
+  location?: GeoJson;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
@@ -35,8 +35,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   id,
   title,
   description,
-  longitude,
-  latitude,
+  location,
   onDeleteTodo,
   onUpdateTodo,
 }) => {
@@ -140,13 +139,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         </>
       )}
       {isModalOpen && (
-        <MapModal
-          id={id}
-          longitude={longitude}
-          latitude={latitude}
-          onUpdateTodo={onUpdateTodo}
-          setIsModalOpen={setIsModalOpen}
-        />
+        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
       )}
     </Container>
   );

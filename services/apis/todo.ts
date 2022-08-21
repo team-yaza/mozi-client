@@ -21,10 +21,16 @@ const todoService = {
 
     // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
     const tempTodoId = new mongoose.Types.ObjectId().toString();
-    const localTodo = { created: true, id: tempTodoId };
+    const localTodo = { created: true, id: tempTodoId, alarmed: false };
 
     try {
-      await todoStore.setItem(tempTodoId, { id: tempTodoId, title: '', description: '', created: true });
+      await todoStore.setItem(tempTodoId, {
+        id: tempTodoId,
+        title: '',
+        description: '',
+        alarmed: false,
+        created: true,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +45,7 @@ const todoService = {
 
       if (todos) {
         await todos.map(async (todo: Todo) => {
-          await todoStore.setItem(todo.id, todo);
+          await todoStore.setItem(todo.id, { ...todo });
         });
       }
     } catch (error) {

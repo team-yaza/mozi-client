@@ -4,7 +4,6 @@ import { useMap } from '@/hooks/useMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { GeoJson } from '@/shared/types/location';
 import { Container, Map, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
-
 interface MapModalProps {
   id: string;
   location?: GeoJson;

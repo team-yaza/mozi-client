@@ -1,6 +1,7 @@
 import { Container } from './styles';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import TodoListItem from '@/components/index/TodoListItem';
+import { serializeGeoJson } from '@/shared/utils/serialize';
 
 interface TodoListProps {
   todos: Todo[];
@@ -17,8 +18,11 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }
           id={todo.id}
           title={todo.title}
           description={todo.description}
-          longitude={todo.location?.coordinates[0]}
-          latitude={todo.location?.coordinates[1]}
+          location={
+            todo.location?.name
+              ? serializeGeoJson(todo.location.coordinates[0], todo.location.coordinates[1], todo.location.name)
+              : undefined
+          }
           onDeleteTodo={onDeleteTodo}
           onUpdateTodo={onUpdateTodo}
         />
