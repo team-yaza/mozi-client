@@ -42,6 +42,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 }) => {
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
+  const [focused, setFocused] = useState(false);
   const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,9 +76,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     onUpdateTodo({ id, description: e.target.innerText });
   }, []);
 
-  const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') onClickOutsideHandler();
-    else if (e.key === 'Escape') onClickOutsideHandler();
+  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      e.preventDefault();
+      e.target.blur();
+      onClickOutsideHandler();
+    }
   }, []);
 
   const onCheckHandler = useCallback(() => {
@@ -98,8 +102,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           contentEditable
           suppressContentEditableWarning
           onInput={onInputTitle}
-          onKeyUp={onKeyUp}
-          onDoubleClick={onDoubleClickHandler}
+          onKeyDown={onKeyDown}
           spellCheck={false}
         />
         <DeleteButton onClick={() => onDeleteTodo(id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
@@ -113,7 +116,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               contentEditable
               suppressContentEditableWarning
               onInput={onInputDescription}
-              onKeyUp={onKeyUp}
+              onKeyUp={onKeyDown}
               spellCheck={false}
             />
           </DescriptionContainer>
