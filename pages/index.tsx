@@ -70,10 +70,6 @@ const Home: NextPage = () => {
     await todoService.deleteTodo(id);
   }, []);
 
-  const onSideBarClose = useCallback(() => {
-    // console.log('SideBar가 닫힙니다.');
-  }, []);
-
   return (
     <Container>
       <Header />

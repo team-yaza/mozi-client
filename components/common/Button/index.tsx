@@ -9,7 +9,7 @@ export interface ButtonProps
 
 // ! 기본 세팅 -> 추후 props 추가시 세팅 추가
 
-const Button: React.FC<ButtonProps> = ({ children, size = 'medium', hasBorderRadius = true, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({ children }) => {
   return <Container>{children}</Container>;
 };
 
