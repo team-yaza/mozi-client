@@ -19,6 +19,13 @@ clientsClaim();
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
+const ALARM_DISTANCE_STANDARD = 1000; //10 km
+const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
+
+const PRODUCT_SERVER = 'https://mozi-server.com/api/v1';
+// const PRODUCT_SERVER = 'http://localhost:3001/api/v1';
+const DEVELOP_SERVER = 'http://localhost:3001/api/v1';
+
 self.addEventListener('install', (event) => {
   console.log('service worker installed');
   event.waitUntil(self.skipWaiting()); // Activate worker immediately
@@ -162,7 +169,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
         localTodos.map(async (todo: Todo) => {
           // console.log(todo, key, iterationNumber);
           if (todo.created) {
-            await fetch('https://mozi-server.com/api/v1/todos', {
+            await fetch(`${PRODUCT_SERVER}/todos`, {
               method: 'POST',
               body: JSON.stringify({
                 _id: todo.id,
@@ -170,7 +177,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
               }),
             });
           } else if (todo.updated) {
-            await fetch(`https://mozi-server.com/api/v1/todos/${todo.id}`, {
+            await fetch(`${PRODUCT_SERVER}/todos/${todo.id}`, {
               method: 'PATCH',
               body: JSON.stringify({
                 title: todo.title,
@@ -181,7 +188,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
               },
             });
           } else if (todo.deleted) {
-            await fetch(`https://mozi-server.com/api/v1/todos/${todo.id}`, {
+            await fetch(`${PRODUCT_SERVER}/todos/${todo.id}`, {
               method: 'DELETE',
             });
           }
@@ -215,9 +222,6 @@ self.addEventListener('fetch', (event) => {
   // console.log(event.request.url);
 });
 
-const ALARM_DISTANCE_STANDARD = 1000; //10 km
-const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
-
 let sub: PushSubscription | null = null;
 
 (async () => {
@@ -228,37 +232,43 @@ let sub: PushSubscription | null = null;
 })();
 
 self.addEventListener('message', (event) => {
+  const checkTodoHandler = async () => {
+    const localAlarm: Todo[] = [];
+    await todoStore.iterate((todo: Todo) => {
+      localAlarm.push(todo);
+    });
+
+    localAlarm.map(async (todo: Todo) => {
+      if (!todo.location || !todo.location.name) return;
+      const distance = getDistance(
+        todo.location.coordinates[1],
+        todo.location.coordinates[0],
+        event.data.latitude,
+        event.data.longitude
+      );
+      console.log(todo.title, distance);
+
+      if (distance < ALARM_DISTANCE_STANDARD && !todo.alarmed) {
+        await fetch(`${PRODUCT_SERVER}/webpush/${todo.id}`, {
+          method: 'POST',
+          body: JSON.stringify({
+            subscription: JSON.stringify(sub),
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        await todoStore.setItem(todo.id, { ...todo, alarmed: true });
+      } else if (distance > ALARM_DISTANCE_STANDARD && todo.alarmed) {
+        await fetch(`${PRODUCT_SERVER}/webpush/${todo.id}`, {
+          method: 'PATCH',
+        });
+        await todoStore.setItem(todo.id, { ...todo, alarmed: false });
+      }
+    });
+  };
   if (event.data && event.data.type === 'SET_INTERVAL') {
     console.log('get message !');
-    event.waitUntil(
-      todoStore.iterate((todo: Todo, todoId) => {
-        if (!todo.location || !todo.location.name) return;
-        const distance = getDistance(
-          todo.location.coordinates[1],
-          todo.location.coordinates[0],
-          event.data.latitude,
-          event.data.longitude
-        );
-        console.log(todo.title, distance);
-
-        if (distance < ALARM_DISTANCE_STANDARD && !todo.alarmed) {
-          fetch(`http://localhost:3001/api/v1/webpush/${todoId}`, {
-            method: 'POST',
-            body: JSON.stringify({
-              subscription: JSON.stringify(sub),
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          todoStore.setItem(todoId, { ...todo, alarmed: true });
-        } else if (distance > ALARM_DISTANCE_STANDARD && todo.alarmed) {
-          fetch(`http://localhost:3001/api/v1/webpush/${todoId}`, {
-            method: 'PATCH',
-          });
-          todoStore.setItem(todoId, { ...todo, alarmed: false });
-        }
-      })
-    );
+    event.waitUntil(checkTodoHandler());
   }
 });

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { useMap } from '@/hooks/useMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';

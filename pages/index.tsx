@@ -8,6 +8,7 @@ import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import Title from '@/components/index/Title';
 import TodoList from '@/components/index/TodoList';
 import Header from '@/components/common/Header';
+import { serializeGeoJson } from '@/shared/utils/serialize';
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -46,7 +47,18 @@ const Home: NextPage = () => {
 
   const onUpdateTodo = useCallback(async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
     setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, title, longitude, latitude, description } : todo))
+      prev.map((todo) => {
+        const location = longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location;
+        return todo.id === id
+          ? {
+              ...todo,
+              title,
+              location,
+              description,
+              alarmed: false,
+            }
+          : todo;
+      })
     );
 
     await todoService.updateTodo({ id, title, longitude, latitude, description });

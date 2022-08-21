@@ -26,7 +26,7 @@ interface TodoListItemProps {
   id: string;
   title?: string;
   description?: string;
-  location?: GeoJson | undefined;
+  location?: GeoJson;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
