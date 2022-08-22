@@ -1,8 +1,5 @@
-import { useSetRecoilState } from 'recoil';
-
 import { Container } from './styles';
 import Sidebar from '@/components/common/Sidebar';
-import { sideBarStateAtom } from '@/store/sidebar/atom';
 
 interface AppLayoutProps {
   children: React.ReactNode;
