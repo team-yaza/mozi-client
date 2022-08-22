@@ -27,6 +27,19 @@ export const GlobalStyle = createGlobalStyle`
     letter-spacing: -0.01rem;
   }
 
+  /* 스크롤바의 색깔을 컨트롤 */
+  /* body::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  body::-webkit-scrollbar-track {
+    background-color: #1e1e24;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: #6649b8;
+  } */
+
   #__next {
     width: 100vw;
     height: 100vh;
