@@ -5,6 +5,7 @@ export interface Todo {
   title?: string;
   location?: GeoJson;
   description?: string;
+  done: boolean;
   created?: boolean;
   updated?: boolean;
   deleted?: boolean;
@@ -17,11 +18,13 @@ export interface TodoSuccessResponse {
   description?: string;
   created?: boolean;
   tempTodoId?: string;
+  done: boolean;
 }
 
 export interface TodoUpdateRequest {
   id: string;
   title?: string;
+  done?: boolean;
   longitude?: number;
   latitude?: number;
   description?: string;

@@ -21,13 +21,14 @@ const todoService = {
 
     // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
     const tempTodoId = new mongoose.Types.ObjectId().toString();
-    const localTodo = { created: true, id: tempTodoId, alarmed: false };
+    const localTodo = { created: true, id: tempTodoId, alarmed: false, done: false };
 
     try {
       await todoStore.setItem(tempTodoId, {
         id: tempTodoId,
         title: '',
         description: '',
+        done: false,
         alarmed: false,
         created: true,
       });
@@ -63,9 +64,9 @@ const todoService = {
 
     return localTodos;
   },
-  updateTodo: async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
+  updateTodo: async ({ id, title, longitude, latitude, description, done }: TodoUpdateRequest) => {
     try {
-      const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description });
+      const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description, done });
       await todoStore.setItem(id, updatedTodo);
 
       return updatedTodo;
@@ -75,7 +76,7 @@ const todoService = {
       await syncTodos();
     }
     // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
-    await todoStore.setItem(id, { id, title, longitude, latitude, description, updated: true });
+    await todoStore.setItem(id, { id, title, longitude, latitude, description, done, updated: true });
     return;
   },
   deleteTodo: async (id: string) => {
