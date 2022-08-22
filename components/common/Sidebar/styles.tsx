@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { media } from '@/styles/media';
 
 export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   position: relative;
@@ -11,8 +12,6 @@ export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   align-items: center;
 
   padding-left: ${({ isSideBarOpened }) => (isSideBarOpened ? '3rem;' : 0)};
-
-  /* overflow: hidden; */
   pointer-events: none;
   user-select: none;
   /* flex-grow: 0;
@@ -23,6 +22,12 @@ export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   // ! 최대 너비를 제한하는 코드
   /* max-width: 48rem; */
   /* min-width: 19rem; */
+
+  ${media.phone} {
+    position: absolute;
+    z-index: ${({ isSideBarOpened }) => isSideBarOpened && '1'};
+    position: ${({ isSideBarOpened }) => isSideBarOpened && 'absolute'}
+
 `;
 
 export const AnimatedContainer = () => <Container animate={{ scale: 2 }} />;
