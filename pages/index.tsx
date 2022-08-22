@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
 
     fetchTodos();
   }, []);
+
   const sendLocation = useCallback(() => {
     if (!navigator.serviceWorker.controller) return;
     if (!myLocationRef.current) return;
@@ -39,29 +40,31 @@ const Home: NextPage = () => {
       clearInterval(sendLocationInterval);
     };
   }, [myLocationRef]);
+
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
 
     setTodos((prev) => [...prev, createdTodo]);
   }, []);
 
-  const onUpdateTodo = useCallback(async ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => {
-    setTodos((prev) =>
-      prev.map((todo) => {
-        const location = longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location;
-        return todo.id === id
-          ? {
-              ...todo,
-              title,
-              location,
-              description,
-              alarmed: false,
-            }
-          : todo;
-      })
+  const onUpdateTodo = useCallback(async ({ id, title, longitude, latitude, description, done }: TodoUpdateRequest) => {
+    setTodos(
+      (prev) =>
+        prev.map((todo) => {
+          const location = longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location;
+          return todo.id === id
+            ? {
+                ...todo,
+                title,
+                location,
+                description,
+                done,
+                alarmed: false,
+              }
+            : todo;
+        }) as Todo[]
     );
-
-    await todoService.updateTodo({ id, title, longitude, latitude, description });
+    await todoService.updateTodo({ id, title, longitude, latitude, description, done });
   }, []);
 
   const onDeleteTodo = useCallback(async (id: string) => {

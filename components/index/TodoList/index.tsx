@@ -17,6 +17,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }
           key={todo.id}
           id={todo.id}
           title={todo.title}
+          done={todo.done}
           description={todo.description}
           location={
             todo.location?.name

@@ -7,6 +7,8 @@ import TodoListItem from '.';
 const todo: Todo = {
   id: '1',
   title: 'Todo',
+  done: false,
+  alarmed: false,
 };
 
 describe('<TodoListItem />', () => {
@@ -15,14 +17,16 @@ describe('<TodoListItem />', () => {
 
   it('렌더링', async () => {
     const { container } = render(
-      <TodoListItem id={todo.id} title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />
+      <TodoListItem id={todo.id} title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} done={false} />
     );
 
     expect(container).toBeInTheDocument();
   });
 
   it('Delete Todo', () => {
-    render(<TodoListItem id={todo.id} title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />);
+    render(
+      <TodoListItem id={todo.id} title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} done={false} />
+    );
 
     const button = screen.getByText('삭제');
     expect(onDelete).toHaveBeenCalledTimes(0);
@@ -33,7 +37,7 @@ describe('<TodoListItem />', () => {
   it.skip('Update Title', async () => {
     // Arrange
     const { container } = render(
-      <TodoListItem id={todo.id} title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} />
+      <TodoListItem id={todo.id} title={todo.title} onDeleteTodo={onDelete} onUpdateTodo={onUpdate} done={false} />
     );
     // const $div = screen.getByText('Todo');
     // Act

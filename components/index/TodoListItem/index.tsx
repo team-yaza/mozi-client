@@ -25,16 +25,18 @@ import { GeoJson } from '@/shared/types/location';
 interface TodoListItemProps {
   id: string;
   title?: string;
+  done: boolean;
   description?: string;
   location?: GeoJson;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, longitude, latitude, description }: TodoUpdateRequest) => void;
+  onUpdateTodo: ({ id, title, done, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
   id,
   title,
   description,
+  done,
   location,
   onDeleteTodo,
   onUpdateTodo,
@@ -42,7 +44,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -83,8 +85,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
   }, []);
 
-  const onCheckHandler = useCallback(() => {
-    setChecked((prevCheckedState) => !prevCheckedState);
+  const onCheckHandler = useCallback((done: boolean) => {
+    onUpdateTodo({ id, done: !done });
   }, []);
 
   const onDoubleClickHandler = useCallback(() => {
@@ -94,7 +96,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   return (
     <Container isDoubleClicked={isDoubleClicked} onDoubleClick={onDoubleClickHandler} ref={containerRef}>
       <TitleContainer>
-        <CheckBox onClick={onCheckHandler}>{checked && <Image src="/assets/svgs/check.svg" layout="fill" />}</CheckBox>
+        <CheckBox onClick={() => onCheckHandler(done)}>
+          {done && <Image src="/assets/svgs/check.svg" layout="fill" />}
+        </CheckBox>
         <Title
           ref={titleRef}
           placeholder="New Todo"
