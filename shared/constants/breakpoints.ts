@@ -1,5 +1,5 @@
 const breakPoints = {
-  phone: 480,
+  phone: 750,
 };
 
 export default breakPoints;
