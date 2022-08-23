@@ -18,13 +18,17 @@ export const SideBarMenuList = styled.ul`
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_line};
 `;
 
-export const SideBarMenuItem = styled.li`
+export const SideBarMenuItem = styled.li<{ focused?: boolean }>`
   height: 4.2rem;
   width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  pointer-events: all;
+  outline: none;
+  cursor: pointer;
 `;
 
 export const IconContainer = styled.div`
@@ -38,9 +42,9 @@ export const IconContainer = styled.div`
 `;
 
 export const MenuName = styled.div`
-  /* font-size: 1.4rem; */
   width: 100%;
-  min-width: 10rem;
+  min-width: 8rem;
+  /* flex: 1; */
 `;
 
 export const Count = styled.div``;

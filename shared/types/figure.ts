@@ -3,4 +3,5 @@ export interface FigureProps {
   fill?: string;
   width?: string;
   height?: string;
+  focused?: boolean;
 }
