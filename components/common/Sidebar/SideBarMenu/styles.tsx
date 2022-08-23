@@ -26,6 +26,10 @@ export const SideBarMenuItem = styled.li<{ focused?: boolean }>`
   align-items: center;
   justify-content: space-between;
 
+  color: ${({ theme }) => theme.color.sidebar_text};
+  /* background-color: ${({ focused }) => focused && '#735AFF'}
+  background-color: black; */
+
   pointer-events: all;
   outline: none;
   cursor: pointer;
