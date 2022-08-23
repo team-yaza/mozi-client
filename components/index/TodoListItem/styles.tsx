@@ -11,6 +11,7 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
   border-radius: 1rem;
 
   background-color: #ffff;
+  outline: none;
 
   box-shadow: ${({ isDoubleClicked }) => (isDoubleClicked ? '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd' : 'none')};
 `;
