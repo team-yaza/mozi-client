@@ -26,8 +26,8 @@ export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   ${media.phone} {
     position: absolute;
     z-index: ${({ isSideBarOpened }) => isSideBarOpened && '1'};
-    position: ${({ isSideBarOpened }) => isSideBarOpened && 'absolute'}
-
+    position: ${({ isSideBarOpened }) => isSideBarOpened && 'absolute'};
+  }
 `;
 
 export const AnimatedContainer = () => <Container animate={{ scale: 2 }} />;
