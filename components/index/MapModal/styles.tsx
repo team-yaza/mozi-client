@@ -16,22 +16,27 @@ export const Map = styled.div`
   height: 100%;
 `;
 
-export const SizeBtn = styled.button`
+export const ConfirmDiv = styled.div`
   position: absolute;
 
-  width: 1.5rem;
-  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  width: 5rem;
+  height: 2rem;
+
+  font-size: 1.5rem;
+  color: #7d7d7d;
+
+  background-color: #ffffff;
+  border-radius: 2rem;
+
+  bottom: 0.5rem;
+  right: 0.5rem;
   z-index: 100;
 `;
 
-export const ConfirmBtn = styled.button`
-  position: absolute;
-
-  width: 1.5rem;
-  height: 1.5rem;
-
-  bottom: 0rem;
-  right: 0rem;
-  z-index: 100;
+export const ConfirmSpan = styled.span`
+  cursor: pointer;
 `;

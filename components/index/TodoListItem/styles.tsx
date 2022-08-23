@@ -8,7 +8,7 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
   margin: 1rem 3rem;
   border: ${({ isDoubleClicked, focused }) =>
     focused && !isDoubleClicked ? '0.2rem #735AFF solid' : '0.2rem #FFFFFF solid'};
-  border-radius: 2rem;
+  border-radius: 1rem;
 
   background-color: #ffff;
 
