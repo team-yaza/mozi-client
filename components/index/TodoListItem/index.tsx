@@ -11,7 +11,6 @@ import TAG from '@/components/common/Figure/TAG';
 import {
   CheckBox,
   Container,
-  DeleteButton,
   TitleContainer,
   Title,
   DescriptionContainer,
@@ -32,18 +31,10 @@ interface TodoListItemProps {
   onUpdateTodo: ({ id, title, done, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({
-  id,
-  title,
-  description,
-  done,
-  location,
-  onDeleteTodo,
-  onUpdateTodo,
-}) => {
+const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, done, location, onUpdateTodo }) => {
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
-  // const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(false);
   // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,6 +53,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
     setIsModalOpen(false);
+    setFocused(false);
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
@@ -93,8 +85,18 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     setIsDoubleClicked(true);
   }, []);
 
+  const onClickHander = useCallback(() => {
+    setFocused(true);
+  }, []);
+
   return (
-    <Container isDoubleClicked={isDoubleClicked} onDoubleClick={onDoubleClickHandler} ref={containerRef}>
+    <Container
+      isDoubleClicked={isDoubleClicked}
+      focused={focused}
+      onDoubleClick={onDoubleClickHandler}
+      onClick={onClickHander}
+      ref={containerRef}
+    >
       <TitleContainer>
         <CheckBox onClick={() => onCheckHandler(done)}>
           {done && <Image src="/assets/svgs/check.svg" layout="fill" />}
@@ -102,13 +104,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         <Title
           ref={titleRef}
           placeholder="New Todo"
-          contentEditable
+          contentEditable={isDoubleClicked}
           suppressContentEditableWarning
           onInput={onInputTitle}
           onKeyDown={onKeyDown}
           spellCheck={false}
         />
-        <DeleteButton onClick={() => onDeleteTodo(id)}>삭제</DeleteButton> {/* ! 나중에 삭제 */}
       </TitleContainer>
       {isDoubleClicked && (
         <>

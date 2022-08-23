@@ -1,13 +1,18 @@
 import styled from 'styled-components';
 import { flexCenter } from '@/styles/utils';
 
-export const Container = styled.div<{ isDoubleClicked: boolean }>`
+export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean }>`
   position: relative;
 
   padding: 1rem;
-  margin: ${({ isDoubleClicked }) => (isDoubleClicked ? '1rem 3rem' : '0rem 3rem')};
-  border: ${({ isDoubleClicked }) => (isDoubleClicked ? '0.2rem black solid' : 'none')};
-  border-radius: 1rem;
+  margin: 1rem 3rem;
+  border: ${({ isDoubleClicked, focused }) =>
+    focused && !isDoubleClicked ? '0.2rem #735AFF solid' : '0.2rem #FFFFFF solid'};
+  border-radius: 2rem;
+
+  background-color: #ffff;
+
+  box-shadow: ${({ isDoubleClicked }) => (isDoubleClicked ? '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd' : 'none')};
 `;
 
 export const CheckBox = styled.div`
@@ -20,7 +25,7 @@ export const CheckBox = styled.div`
   height: 1.6rem;
 
   border: 1px solid #c3c6c9;
-  border-radius: 0.25rem;
+  border-radius: 3rem;
 
   cursor: pointer;
 `;
@@ -28,7 +33,6 @@ export const CheckBox = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   font-size: 1.6rem;
   line-height: 1.92rem;
@@ -38,18 +42,19 @@ export const TitleContainer = styled.div`
   /* color: #555555; */
 `;
 
-export const DeleteButton = styled.button`
-  font-size: 1.6rem;
-`;
-
 export const Title = styled.div`
   width: 90%;
   border: none;
+
+  font-size: 1.5rem;
 
   &:empty:before {
     content: attr(placeholder);
     color: grey;
     display: inline-block;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -63,15 +68,18 @@ export const DescriptionContainer = styled.div`
 export const Description = styled.div`
   width: 100%;
 
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 1.6rem 2.4rem;
-  border: 0.1rem solid #d6d6d6;
-  border-radius: 0.4rem;
+
+  font-size: 1.4rem;
 
   &:empty:before {
     content: attr(placeholder);
     color: grey;
     display: inline-block;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
