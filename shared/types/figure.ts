@@ -1,5 +1,5 @@
 export interface FigureProps {
-  stroke: string;
+  stroke?: string;
   fill?: string;
   width?: string;
   height?: string;

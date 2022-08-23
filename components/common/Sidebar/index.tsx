@@ -7,30 +7,15 @@ import {
   ArrowLeftContainer,
   ControlContainer,
   LogoContainer,
-  SideBarContents,
-  SideBarMenuContainer,
+  // SideBarContents,
+  // SideBarMenuContainer,
   SideBarResizer,
 } from './styles';
-import { Menu } from '@/shared/types/menu';
+// import { Menu } from '@/shared/types/menu';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
-
-const menuList = [
-  {
-    title: 'Inbox',
-    link: '/',
-  },
-  {
-    title: 'Today',
-    link: '/today',
-  },
-  {
-    title: 'Map',
-    link: '/map',
-  },
-];
 
 const SideBar: React.FC = () => {
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
@@ -83,6 +68,7 @@ const SideBar: React.FC = () => {
         }
       }
     >
+      {/* 최상단 사이드바 제어하는 부분 */}
       <ControlContainer>
         <ArrowLeftContainer
           onClick={onToggleSideBar}
@@ -94,19 +80,15 @@ const SideBar: React.FC = () => {
           {isSideBarOpened ? <ARROWLEFT /> : controlIconHovered ? <ARROWRIGHT /> : <HAMBURGER />}
         </ArrowLeftContainer>
       </ControlContainer>
-
+      {/* MOZI 로고 (임시) 부분 */}
       <LogoContainer>
         <Image src="/assets/svgs/mozi.svg" layout="fill" />
       </LogoContainer>
 
-      <SideBarContents>
-        <SideBarMenuContainer>
-          {menuList.map((menu: Menu) => (
-            <SideBarMenu key={menu.title} title={menu.title} link={menu.link} />
-          ))}
-        </SideBarMenuContainer>
-      </SideBarContents>
+      {/* 사이드바 내용이 들어가는 부분 */}
+      <SideBarMenu />
 
+      {/* 사이드바 크기 조절하는 부분 */}
       <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />
     </Container>
   );

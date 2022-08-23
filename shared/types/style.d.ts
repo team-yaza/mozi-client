@@ -7,9 +7,12 @@ declare module 'styled-components' {
       light_black: string;
       white: string;
       sidebar: string;
+      sidebar_text: string;
+      sidebar_line: string;
       background: string;
       purple: string;
       header: string;
+      grey: string;
     };
   }
 }
