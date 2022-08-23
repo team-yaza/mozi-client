@@ -18,7 +18,7 @@ import { INBOX, TODAY, MAP, UPCOMING, TRASH } from '@/components/common/Figure';
 const SideBarMenu: React.FC = () => {
   const router = useRouter();
 
-  router.pathname;
+  console.log(router.pathname);
 
   const renderMenuItem = useCallback(() => {
     return (
@@ -80,7 +80,7 @@ const SideBarMenu: React.FC = () => {
         </Link>
       </>
     );
-  }, [router]);
+  }, [router.pathname]);
 
   return (
     <Container>

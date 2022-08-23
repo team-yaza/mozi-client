@@ -16,6 +16,8 @@ export const SideBarMenuList = styled.ul`
   flex-direction: column;
 
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_line};
+
+  pointer-events: all;
 `;
 
 export const SideBarMenuItem = styled.li<{ focused?: boolean }>`
@@ -26,11 +28,13 @@ export const SideBarMenuItem = styled.li<{ focused?: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  color: ${({ theme }) => theme.color.sidebar_text};
-  /* background-color: ${({ focused }) => focused && '#735AFF'}
-  background-color: black; */
+  padding-left: 1.7rem;
+  padding-right: 1.7rem;
 
-  pointer-events: all;
+  color: ${({ theme, focused }) => (focused ? theme.color.sidebar_text_focused : theme.color.sidebar_text)};
+  background-color: ${({ focused }) => focused && '#F4F2FF'};
+  border-radius: 1.3rem;
+
   outline: none;
   cursor: pointer;
 `;
@@ -62,7 +66,7 @@ export const Count = styled.div``;
 
 //   font-size: 2rem;
 //   margin: 1rem 0rem;
-//   padding-left: 1.7rem;
+
 //   border-radius: 1.3rem;
 
 //   color: ${({ theme, focused }) => {

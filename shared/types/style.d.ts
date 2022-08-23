@@ -6,8 +6,10 @@ declare module 'styled-components' {
       black: string;
       light_black: string;
       white: string;
+      text: string;
       sidebar: string;
       sidebar_text: string;
+      sidebar_text_focused: string;
       sidebar_line: string;
       background: string;
       purple: string;
