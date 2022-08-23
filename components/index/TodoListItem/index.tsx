@@ -31,7 +31,15 @@ interface TodoListItemProps {
   onUpdateTodo: ({ id, title, done, longitude, latitude, description }: TodoUpdateRequest) => void;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, done, location, onUpdateTodo }) => {
+const TodoListItem: React.FC<TodoListItemProps> = ({
+  id,
+  title,
+  description,
+  done,
+  location,
+  onUpdateTodo,
+  onDeleteTodo,
+}) => {
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
@@ -69,7 +77,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, don
     onUpdateTodo({ id, description: e.target.innerText });
   }, []);
 
-  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onEnterKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === 'Escape') {
       e.preventDefault();
       e.target.blur();
@@ -77,11 +85,22 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, don
     }
   }, []);
 
+  const onDeleteKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        e.preventDefault();
+        if (focused && !isDoubleClicked) onDeleteTodo(id);
+      }
+    },
+    [focused, isDoubleClicked]
+  );
+
   const onCheckHandler = useCallback((done: boolean) => {
     onUpdateTodo({ id, done: !done });
   }, []);
 
   const onDoubleClickHandler = useCallback(() => {
+    setFocused(false);
     setIsDoubleClicked(true);
   }, []);
 
@@ -91,10 +110,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, don
 
   return (
     <Container
+      tabIndex={0}
       isDoubleClicked={isDoubleClicked}
       focused={focused}
       onDoubleClick={onDoubleClickHandler}
       onClick={onClickHander}
+      onKeyDown={onDeleteKeyDown}
       ref={containerRef}
     >
       <TitleContainer>
@@ -107,7 +128,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, don
           contentEditable={isDoubleClicked}
           suppressContentEditableWarning
           onInput={onInputTitle}
-          onKeyDown={onKeyDown}
+          onKeyDown={onEnterKeyDown}
           spellCheck={false}
         />
       </TitleContainer>
@@ -120,7 +141,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id, title, description, don
               contentEditable
               suppressContentEditableWarning
               onInput={onInputDescription}
-              onKeyUp={onKeyDown}
+              onKeyUp={onEnterKeyDown}
               spellCheck={false}
             />
           </DescriptionContainer>
