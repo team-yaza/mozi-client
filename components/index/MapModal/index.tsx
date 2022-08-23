@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useMap } from '@/hooks/useMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { GeoJson } from '@/shared/types/location';
-import { Container, Map, SizeBtn, ConfirmBtn } from '@/components/index/MapModal/styles';
+import { Container, Map, ConfirmDiv, ConfirmSpan } from '@/components/index/MapModal/styles';
 interface MapModalProps {
   id: string;
   location?: GeoJson;
@@ -24,9 +24,10 @@ const MapModal: React.FC<MapModalProps> = ({ id, onUpdateTodo, setIsModalOpen, l
 
   return (
     <Container>
-      <SizeBtn>+</SizeBtn>
       <Map id="map" ref={mapRef} />
-      <ConfirmBtn onClick={updateLocationHandler}>V</ConfirmBtn>
+      <ConfirmDiv onClick={updateLocationHandler}>
+        <ConfirmSpan>확인</ConfirmSpan>
+      </ConfirmDiv>
     </Container>
   );
 };
