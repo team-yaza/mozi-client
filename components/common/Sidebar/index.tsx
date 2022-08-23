@@ -2,16 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilState } from 'recoil';
 
-import {
-  Container,
-  ArrowLeftContainer,
-  ControlContainer,
-  LogoContainer,
-  // SideBarContents,
-  // SideBarMenuContainer,
-  SideBarResizer,
-} from './styles';
-// import { Menu } from '@/shared/types/menu';
+import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
@@ -82,7 +73,9 @@ const SideBar: React.FC = () => {
       </ControlContainer>
       {/* MOZI 로고 (임시) 부분 */}
       <LogoContainer>
-        <Image src="/assets/svgs/mozi.svg" layout="fill" />
+        <Logo>
+          <Image src="/assets/svgs/mozi.svg" layout="fill" />
+        </Logo>
       </LogoContainer>
 
       {/* 사이드바 내용이 들어가는 부분 */}

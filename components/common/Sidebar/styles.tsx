@@ -17,10 +17,6 @@ export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
   transition: 0.3s background-color;
   background-color: ${({ theme }) => theme.color.sidebar};
 
-  // ! 최대 너비를 제한하는 코드
-  /* max-width: 48rem; */
-  /* min-width: 19rem; */
-
   ${media.phone} {
     position: absolute;
     z-index: 1;
@@ -53,13 +49,19 @@ export const ArrowLeftContainer = styled(motion.div)<{ isSideBarOpened?: boolean
 
 export const LogoContainer = styled.div`
   position: relative;
-  width: 4.4rem;
-  height: 4.4rem;
+  width: 100%;
 
   margin-left: 3rem; // 로고와 왼쪽 벽과의 간격
   margin-bottom: 3.1rem; // 모지 로고와 아래 사이드바 메뉴와의 간격
 
   align-self: flex-start;
+  overflow: hidden;
+`;
+
+export const Logo = styled.div`
+  position: relative;
+  width: 4.4rem;
+  height: 4.4rem;
 `;
 
 export const SideBarMenuContainer = styled.div`
@@ -82,17 +84,4 @@ export const SideBarResizer = styled.div<{ isVisible: boolean }>`
     width: 3px;
     background-color: #c1c3c5b4;
   }
-
-  // ! css 추후 사용
-  /* background-color: ${({ isVisible }) => (isVisible ? '#c1c3c5b4' : 'transparent')}; */
-  /* background-color: red; */
-
-  /* flex-basis: 1.2rem; */
-  /* flex-shrink: 0; */
-  /* flex-grow: 0; */
-  /* height: 100%; */
-  /* width: 5rem;
-  justify-self: flex-end;
-  resize: horizontal;
-  border-right: 5px solid black; */
 `;
