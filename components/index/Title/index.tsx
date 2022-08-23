@@ -1,17 +1,23 @@
 import React from 'react';
-import { Container, AddTodoButton } from './styles';
+import { INBOX } from '@/components/common/Figure';
+import { Container, AddTodoButton, Header, LogoContainer } from './styles';
 
-interface HeaderProps {
+interface TitleProps {
   onCreate: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCreate }) => {
+const Title: React.FC<TitleProps> = ({ onCreate }) => {
   return (
     <Container>
-      Inbox
-      <AddTodoButton onClick={onCreate}>메모 추가</AddTodoButton>
+      <Header>
+        <LogoContainer>
+          <INBOX focused />
+        </LogoContainer>
+        <span>Inbox</span>
+      </Header>
+      <AddTodoButton onClick={onCreate}>할 일 추가</AddTodoButton>
     </Container>
   );
 };
 
-export default React.memo(Header);
+export default React.memo(Title);
