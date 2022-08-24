@@ -1,4 +1,4 @@
-import { BOXPLUS, CALENDAR, SEARCH } from '../Figure';
+import { BOXPLUS, FOOTERCALENDAR, SEARCH } from '../Figure';
 import BOXARROWRIGHT from '../Figure/BOXARROWRIGHT';
 import { Container, IconContainer, OptionsContainer } from './styles';
 
@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
           <BOXPLUS />
         </IconContainer>
         <IconContainer>
-          <CALENDAR />
+          <FOOTERCALENDAR />
         </IconContainer>
         <IconContainer>
           <BOXARROWRIGHT />
