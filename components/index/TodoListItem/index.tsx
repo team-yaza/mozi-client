@@ -4,10 +4,7 @@ import Image from 'next/image';
 import MapModal from '@/components/index/MapModal';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import CALENDAR from '@/components/common/Figure/CALENDAR';
-import DEADLINE from '@/components/common/Figure/DEADLINE';
-import PLACE from '@/components/common/Figure/PLACE';
-import TAG from '@/components/common/Figure/TAG';
+import { CALENDAR, DEADLINE, PLACE, TAG } from '@/components/common/Figure';
 import {
   CheckBox,
   Container,
