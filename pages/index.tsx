@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import todoService from '@/services/apis/todo';
 import { useLocationRef } from '@/hooks/location/useLocationRef';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import { serializeGeoJson } from '@/shared/utils/serialize';
+import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
 import TodoList from '@/components/index/TodoList';
-import Header from '@/components/common/Header';
-import { serializeGeoJson } from '@/shared/utils/serialize';
+import Footer from '@/components/common/Footer';
 
 const Home: NextPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -78,6 +79,7 @@ const Home: NextPage = () => {
       <Header />
       <Title onCreate={onCreateTodo} />
       <TodoList todos={todos || []} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
+      <Footer />
     </Container>
   );
 };
