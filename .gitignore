@@ -69,7 +69,6 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -102,3 +101,26 @@ dist
 
 # TernJS port file
 .tern-port
+
+.env.local
+.env.dev
+.env.prod
+
+# service worker
+
+**/public/workbox-*.js
+**/public/workbox-*.js.map
+**/public/sw.js
+**/public/sw.js.map
+**/public/worker-*.js
+
+# next build files
+build/
+fallback-*.js
+
+# lighthouse
+.lighthouseci
+lhci_reports
+
+# worker files
+worker-*
