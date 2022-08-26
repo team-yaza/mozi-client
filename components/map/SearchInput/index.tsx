@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Input } from './styles';
+import { Container, Input, SideBarToggleButton } from './styles';
 
 const SearchInput: React.FC = () => {
   const [keyword, setKeyword] = useState('');
+  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     e.stopPropagation();
@@ -63,6 +64,10 @@ const SearchInput: React.FC = () => {
       <form onSubmit={onSubmit}>
         <Input value={keyword} onChange={onChange} onKeyDown={onKeyDown} />
       </form>
+
+      <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}>
+        {isSearchBarOpen ? '닫기' : '열기'}
+      </SideBarToggleButton>
     </Container>
   );
 };

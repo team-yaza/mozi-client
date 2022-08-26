@@ -17,15 +17,13 @@ const Map: NextPage = () => {
 
 const Container = styled.div`
   position: relative;
+  height: 100vh;
   width: 100%;
-  height: 100%;
-
-  display: flex;
 `;
 
 const MapLayout = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
 `;
 
 export default Map;
