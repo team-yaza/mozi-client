@@ -1,5 +1,6 @@
+import SIDEBARARROWLEFT from '@/components/common/Figure/SIDEBARARROWLEFT';
 import React, { useState } from 'react';
-import { Container, Input, SideBarToggleButton } from './styles';
+import { Container, SearchContainer, Input, SideBarToggleButton, IconContainer } from './styles';
 
 const SearchInput: React.FC = () => {
   const [keyword, setKeyword] = useState('');
@@ -61,12 +62,17 @@ const SearchInput: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={onSubmit}>
-        <Input value={keyword} onChange={onChange} onKeyDown={onKeyDown} />
-      </form>
+      <SearchContainer>
+        <form onSubmit={onSubmit}>
+          <Input value={keyword} onChange={onChange} onKeyDown={onKeyDown} placeholder="검색어를 입력하세요." />
+        </form>
+      </SearchContainer>
 
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}>
         {isSearchBarOpen ? '닫기' : '열기'}
+        <IconContainer>
+          <SIDEBARARROWLEFT />
+        </IconContainer>
       </SideBarToggleButton>
     </Container>
   );
