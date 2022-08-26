@@ -9,6 +9,7 @@ export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
 
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
 
   pointer-events: none;

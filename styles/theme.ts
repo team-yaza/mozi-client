@@ -5,6 +5,8 @@ export const theme = {
     white: '#ffffff',
     purple: '#735AFF',
     black: '#000000',
+    grey: '#E9E9E9',
+    lightGrey: '#FEFEFE',
   },
 };
 
@@ -23,6 +25,7 @@ export const lightTheme: DefaultTheme = {
     purple: '#735AFF',
     header: '#ffffff',
     grey: '#eeeeee',
+    light_grey: '#fefefe',
   },
 };
 
@@ -40,5 +43,6 @@ export const darkTheme: DefaultTheme = {
     purple: '#735AFF',
     header: '#2C2B30',
     grey: '#eeeeee',
+    light_grey: '#fefefe',
   },
 };
