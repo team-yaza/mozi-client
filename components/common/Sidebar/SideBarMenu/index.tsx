@@ -5,7 +5,11 @@ import { useCallback } from 'react';
 import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenuList } from './styles';
 import { INBOX, TODAY, MAP, UPCOMING, TRASH } from '@/components/common/Figure';
 
-const SideBarMenu: React.FC = () => {
+interface SideBarMenuProps {
+  todosCount?: number;
+}
+
+const SideBarMenu: React.FC<SideBarMenuProps> = ({ todosCount }) => {
   const router = useRouter();
 
   const renderMenuItem = useCallback(() => {
@@ -18,7 +22,7 @@ const SideBarMenu: React.FC = () => {
                 <INBOX focused={router.pathname === '/'} />
               </IconContainer>
               <MenuName>Inbox</MenuName>
-              <Count>2</Count>
+              <Count>{todosCount}</Count>
             </SideBarMenuItem>
           </a>
         </Link>

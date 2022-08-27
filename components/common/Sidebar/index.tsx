@@ -1,15 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import Image from 'next/image';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
-import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
-import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
+import { todosCountState } from '@/store/todo/atom';
+import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
+import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 
 const SideBar: React.FC = () => {
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
+  const todosCount = useRecoilValue(todosCountState);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
   const { isDragging, startDrag } = useDrag((movement) => {
@@ -79,7 +81,7 @@ const SideBar: React.FC = () => {
       </LogoContainer>
 
       {/* 사이드바 내용이 들어가는 부분 */}
-      <SideBarMenu />
+      <SideBarMenu todosCount={todosCount} />
 
       {/* 사이드바 크기 조절하는 부분 */}
       <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />
