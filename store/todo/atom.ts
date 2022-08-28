@@ -9,8 +9,6 @@ export const todosState = atom<Todo[]>({
 export const todosCountState = selector({
   key: 'todosCountState',
   get: ({ get }) => {
-    console.log(get(todosState).length);
-
     return get(todosState).length;
   },
 });
