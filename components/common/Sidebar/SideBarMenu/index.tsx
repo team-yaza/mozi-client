@@ -4,12 +4,12 @@ import { useCallback } from 'react';
 
 import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenuList } from './styles';
 import { INBOX, TODAY, MAP, UPCOMING, TRASH } from '@/components/common/Figure';
+import { useRecoilValue } from 'recoil';
+import { todosCountState } from '@/store/todo/atom';
 
-interface SideBarMenuProps {
-  todosCount?: number;
-}
+const SideBarMenu: React.FC = () => {
+  const todosCount = useRecoilValue(todosCountState);
 
-const SideBarMenu: React.FC<SideBarMenuProps> = ({ todosCount }) => {
   const router = useRouter();
 
   const renderMenuItem = useCallback(() => {
@@ -72,7 +72,7 @@ const SideBarMenu: React.FC<SideBarMenuProps> = ({ todosCount }) => {
         </Link>
       </>
     );
-  }, [router.pathname]);
+  }, [router.pathname, todosCount]);
 
   return (
     <Container>

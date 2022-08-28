@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { media } from '@/styles/media';
 
-export const Container = styled(motion.aside)<{ isSideBarOpened?: boolean }>`
+export const Container = styled(motion.aside)`
   position: relative;
   height: 100vh;
   width: 100%;
