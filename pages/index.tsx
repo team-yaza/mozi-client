@@ -1,18 +1,20 @@
 import type { NextPage } from 'next';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import todoService from '@/services/apis/todo';
 import { useLocationRef } from '@/hooks/location/useLocationRef';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import { serializeGeoJson } from '@/shared/utils/serialize';
+import { todosState } from '@/store/todo/atom';
 import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
 import TodoList from '@/components/index/TodoList';
 import Footer from '@/components/common/Footer';
 
 const Home: NextPage = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useRecoilState(todosState);
   const { myLocationRef, updateCurrentPosition } = useLocationRef();
 
   useEffect(() => {
@@ -24,6 +26,13 @@ const Home: NextPage = () => {
     fetchTodos();
   }, []);
 
+  useEffect(() => {
+    const sendLocationInterval = setInterval(sendLocation, 3000);
+    return () => {
+      clearInterval(sendLocationInterval);
+    };
+  }, [myLocationRef]);
+
   const sendLocation = useCallback(() => {
     if (!navigator.serviceWorker.controller) return;
     if (!myLocationRef.current) return;
@@ -33,13 +42,6 @@ const Home: NextPage = () => {
       latitude: myLocationRef.current.latitude,
       longitude: myLocationRef.current.longitude,
     });
-  }, [myLocationRef]);
-
-  useEffect(() => {
-    const sendLocationInterval = setInterval(sendLocation, 3000);
-    return () => {
-      clearInterval(sendLocationInterval);
-    };
   }, [myLocationRef]);
 
   const onCreateTodo = useCallback(async () => {
