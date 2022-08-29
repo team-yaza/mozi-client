@@ -2,7 +2,7 @@ import { flexCenter } from '@/styles/utils';
 import styled from 'styled-components';
 import { theme } from '@/styles/theme';
 
-export const Container = styled.div`
+export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
   position: absolute;
   left: 0;
 
@@ -10,6 +10,9 @@ export const Container = styled.div`
   height: 100vh;
   background-color: white;
   z-index: 1;
+
+  transform: ${({ isSearchBarOpen }) => (isSearchBarOpen ? 'translateX(0)' : 'translateX(-36rem)')};
+  transition: transform 250ms ease-in-out;
 `;
 
 export const SearchContainer = styled.div`
@@ -59,14 +62,20 @@ export const SideBarToggleButton = styled.button`
 
   outline: none;
   border: none;
+  cursor: pointer;
   border-top-right-radius: 0.7rem;
   border-bottom-right-radius: 0.7rem;
 
   background-color: white;
 `;
 
-export const IconContainer = styled.div`
+export const IconContainer = styled.div<{ isSearchBarOpen?: boolean }>`
   position: relative;
   width: 0.7rem;
   height: 1rem;
+
+  svg {
+    transform: rotateY(${({ isSearchBarOpen }) => !isSearchBarOpen && '180deg'});
+    transition: all 0.3s;
+  }
 `;
