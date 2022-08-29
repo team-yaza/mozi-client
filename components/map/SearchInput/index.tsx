@@ -61,7 +61,7 @@ const SearchInput: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container isSearchBarOpen={isSearchBarOpen}>
       <SearchContainer>
         <form onSubmit={onSubmit}>
           <Input value={keyword} onChange={onChange} onKeyDown={onKeyDown} placeholder="검색어를 입력하세요." />
@@ -70,7 +70,7 @@ const SearchInput: React.FC = () => {
 
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}>
         {isSearchBarOpen ? '닫기' : '열기'}
-        <IconContainer>
+        <IconContainer isSearchBarOpen={isSearchBarOpen}>
           <SIDEBARARROWLEFT />
         </IconContainer>
       </SideBarToggleButton>
