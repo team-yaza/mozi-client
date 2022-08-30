@@ -9,11 +9,11 @@ export default {
   component: Chip,
 } as ComponentMeta<typeof Chip>;
 
-const Template1: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
-const Template2: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
+const TagTemplate: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
+const LocationTemplate2: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
 
-export const TagChip = Template1.bind({});
-export const LocationChip = Template2.bind({});
+export const TagChip = TagTemplate.bind({});
+export const LocationChip = LocationTemplate2.bind({});
 
 TagChip.args = {
   fontColor: '#585858',

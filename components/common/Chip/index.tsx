@@ -14,12 +14,10 @@ const Chip: React.FC<ChipProps> = ({ backgroundColor, fontColor, children, conte
     <Container backgroundColor={backgroundColor}>
       <Icon>{children}</Icon>
       <Content fontColor={fontColor}>{content}</Content>
-      {onFocused ? (
+      {onFocused && (
         <DeleteBtn>
           <DELETE />
         </DeleteBtn>
-      ) : (
-        <></>
       )}
     </Container>
   );
