@@ -18,7 +18,6 @@ export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
 export const SearchContainer = styled.div`
   position: relative;
   width: 100%;
-  /* height: 3.6rem; */
 
   display: flex;
   align-items: center;
@@ -46,6 +45,8 @@ export const Input = styled.input`
     color: #aeaeae;
   }
 `;
+
+export const RecentSearchContainer = styled.div``;
 
 export const SideBarToggleButton = styled.button`
   position: absolute;

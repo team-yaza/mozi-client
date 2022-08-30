@@ -1,8 +1,9 @@
 import SIDEBARARROWLEFT from '@/components/common/Figure/SIDEBARARROWLEFT';
 import React, { useState } from 'react';
+import RecentSearch from '../RecentSearch';
 import { Container, SearchContainer, Input, SideBarToggleButton, IconContainer } from './styles';
 
-const SearchInput: React.FC = () => {
+const SearchSideBar: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
 
@@ -68,6 +69,8 @@ const SearchInput: React.FC = () => {
         </form>
       </SearchContainer>
 
+      <RecentSearch />
+
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}>
         {isSearchBarOpen ? '닫기' : '열기'}
         <IconContainer isSearchBarOpen={isSearchBarOpen}>
@@ -78,4 +81,4 @@ const SearchInput: React.FC = () => {
   );
 };
 
-export default SearchInput;
+export default SearchSideBar;

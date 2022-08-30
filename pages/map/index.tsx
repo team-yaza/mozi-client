@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 
-import SearchInput from '@/components/map/SearchInput';
+import SearchSideBar from '@/components/map/SearchSideBar';
 import { useMap } from '@/hooks/useMap';
 
 const Map: NextPage = () => {
@@ -9,7 +9,7 @@ const Map: NextPage = () => {
 
   return (
     <Container>
-      <SearchInput />
+      <SearchSideBar />
       <MapLayout id="map" ref={mapRef} />
     </Container>
   );
