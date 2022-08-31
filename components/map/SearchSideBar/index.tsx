@@ -1,11 +1,13 @@
 import SIDEBARARROWLEFT from '@/components/common/Figure/SIDEBARARROWLEFT';
+import { sideBarStateAtom } from '@/store/sidebar/atom';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import RecentSearch from '../RecentSearch';
 import { Container, SearchContainer, Input, SideBarToggleButton, IconContainer } from './styles';
 
 const SearchSideBar: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
+  const [isSearchBarOpen, setIsSearchBarOpen] = useRecoilState(sideBarStateAtom);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     e.stopPropagation();

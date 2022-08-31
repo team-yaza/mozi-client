@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilState } from 'recoil';
 
@@ -7,9 +7,12 @@ import { useDrag } from '@/hooks/useDrag';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
+import { useRouter } from 'next/router';
 
 const SideBar: React.FC = () => {
+  const router = useRouter();
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
+  const [isSideBarHidden, setIsSideBarHidden] = useState(router.pathname === '/login' ? true : false);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
   const { isDragging, startDrag } = useDrag((movement) => {
@@ -22,11 +25,17 @@ const SideBar: React.FC = () => {
 
     if (nextWidth <= width / 3) {
       onCloseSideBar();
+      setWidth(0);
       return;
     }
 
     setWidth(nextWidth);
   });
+
+  useEffect(() => {
+    console.log(router.pathname);
+    if (router.pathname === '/login') setIsSideBarHidden(true);
+  }, [router.pathname]);
 
   const onCloseSideBar = useCallback(() => {
     setIsSideBarOpened(false);
@@ -48,6 +57,7 @@ const SideBar: React.FC = () => {
 
   return (
     <Container
+      isSideBarHidden={isSideBarHidden}
       tabIndex={0}
       style={{ width }}
       initial={{ width }}
