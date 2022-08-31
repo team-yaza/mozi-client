@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilState } from 'recoil';
 
@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 const SideBar: React.FC = () => {
   const router = useRouter();
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
-  const [isSideBarHidden, setIsSideBarHidden] = useState(router.pathname === '/login' ? true : false);
+  const [isSideBarHidden] = useState(router.pathname === '/login' ? true : false);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
   const { isDragging, startDrag } = useDrag((movement) => {
@@ -31,11 +31,6 @@ const SideBar: React.FC = () => {
 
     setWidth(nextWidth);
   });
-
-  useEffect(() => {
-    console.log(router.pathname);
-    if (router.pathname === '/login') setIsSideBarHidden(true);
-  }, [router.pathname]);
 
   const onCloseSideBar = useCallback(() => {
     setIsSideBarOpened(false);

@@ -53,6 +53,8 @@ const KakaoLogin = styled.div`
 
   background-color: ${theme.colors.kakao};
 
+  cursor: pointer;
+
   span {
     margin-left: 1rem;
     font-size: 1.3rem;
