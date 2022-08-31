@@ -6,11 +6,15 @@ export const Container = styled.div<{ backgroundColor: string }>`
   border-radius: 2.4rem;
 
   background-color: ${({ backgroundColor }) => backgroundColor};
-  display: inline-flex;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
 
   padding: 0 0.7rem;
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
 `;
 
 export const Content = styled.div<{ fontColor: string }>`

@@ -10,15 +10,15 @@ export default {
 } as ComponentMeta<typeof Chip>;
 
 const TagTemplate: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
-const LocationTemplate2: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
+const LocationTemplate: ComponentStory<typeof Chip> = (args) => <Chip {...args} />;
 
 export const TagChip = TagTemplate.bind({});
-export const LocationChip = LocationTemplate2.bind({});
+export const LocationChip = LocationTemplate.bind({});
 
 TagChip.args = {
   fontColor: '#585858',
   backgroundColor: '#F5F5F5',
-  children: <TAG />,
+  children: <TAG stroke="#92909F" fill="#92909F" />,
   content: '테스트 태그',
   onFocused: true,
 };
@@ -26,7 +26,7 @@ TagChip.args = {
 LocationChip.args = {
   fontColor: '#585858',
   backgroundColor: '#F5F5F5',
-  children: <PLACE />,
+  children: <PLACE fill="#92909F" />,
   content: '충남대학교',
   onFocused: true,
 };
