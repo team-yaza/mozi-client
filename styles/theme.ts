@@ -4,10 +4,12 @@ export const theme = {
   colors: {
     white: '#ffffff',
     purple: '#735AFF',
+    main: '#775EFF',
     black: '#000000',
     grey: '#E9E9E9',
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
+    kakao: '#FEE502',
   },
 };
 
