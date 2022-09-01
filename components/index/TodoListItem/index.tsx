@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import MapModal from '@/components/index/MapModal';
+import MapModal from '@/components/index/TodoMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
 import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
@@ -42,7 +42,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const [focused, setFocused] = useState(false);
   // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
-    setIsModalOpen(false);
+    setIsTodoMapOpen(false);
     setFocused(false);
   }, []);
 
@@ -129,7 +129,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           spellCheck={false}
         />
       </TitleContainer>
-      {isDoubleClicked && (
+      {!isDoubleClicked ? (
+        <div>{'optionChips'}</div>
+      ) : (
         <>
           <DescriptionContainer>
             <Description
@@ -146,7 +148,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           <SubTaskContainer></SubTaskContainer>
 
           <OptionsContainer>
-            <OptionContainer onClick={() => setIsModalOpen(!isModalOpen)}>
+            <OptionContainer onClick={() => setIsTodoMapOpen(!isTodoMapOpen)}>
               <PLACE stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 1}>
@@ -161,8 +163,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           </OptionsContainer>
         </>
       )}
-      {isModalOpen && (
-        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
+      {isTodoMapOpen && (
+        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsTodoMapOpen={setIsTodoMapOpen} />
       )}
     </Container>
   );
