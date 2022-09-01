@@ -9,8 +9,9 @@ interface ChipListProps {
 const ChipList: React.FC<ChipListProps> = ({ ChipChildren, align }) => {
   return (
     <Container align={align}>
-      {ChipChildren.map(({ backgroundColor, fontColor, children, content, onFocused }) => (
+      {ChipChildren.map(({ type, backgroundColor, fontColor, children, content, onFocused }) => (
         <Chip
+          type={type}
           backgroundColor={backgroundColor}
           fontColor={fontColor}
           children={children}

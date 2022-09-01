@@ -2,6 +2,7 @@ import { Container, Content, Icon, DeleteBtn, Wrapper } from './styles';
 import DELETE from '@/components/common/Figure/DELETE';
 
 export interface ChipProps {
+  type: 'location' | 'date' | 'deadline' | 'tag';
   backgroundColor: string;
   fontColor: string;
   children: React.ReactNode;

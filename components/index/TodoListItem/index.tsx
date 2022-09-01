@@ -63,6 +63,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     if (!location || !location.name) return;
     setChipChildren([
       {
+        type: 'location',
         fontColor: '#585858',
         backgroundColor: '#F5F5F5',
         children: <PLACE fill="#92909F" />,
