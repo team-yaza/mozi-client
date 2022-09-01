@@ -4,7 +4,7 @@ import Image from 'next/image';
 import MapModal from '@/components/index/MapModal';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { CALENDAR, DEADLINE, PLACE, TAG } from '@/components/common/Figure';
+import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
 import {
   CheckBox,
   Container,
@@ -153,7 +153,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               <CALENDAR stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 2}>
-              <TAG stroke="#585858" />
+              <TODOTAG stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 3}>
               <DEADLINE stroke="#585858" />
