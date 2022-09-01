@@ -12,3 +12,10 @@ export const todosCountState = selector({
     return get(todosState).length;
   },
 });
+
+export const todosLocationState = selector({
+  key: 'todosLocationState',
+  get: ({ get }) => {
+    return get(todosState).map((todo) => todo.location);
+  },
+});

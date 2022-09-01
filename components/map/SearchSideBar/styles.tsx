@@ -1,5 +1,6 @@
-import { flexCenter } from '@/styles/utils';
 import styled from 'styled-components';
+
+import { flexCenter } from '@/styles/utils';
 import { theme } from '@/styles/theme';
 
 export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
@@ -26,7 +27,7 @@ export const SearchContainer = styled.div`
   margin-top: 5rem;
 `;
 
-export const Input = styled.input`
+export const SearchInput = styled.input`
   width: 30rem;
   height: 3.6rem;
 
