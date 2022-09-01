@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { media } from '@/styles/media';
 
-export const Container = styled(motion.aside)`
+export const Container = styled(motion.aside)<{ isSideBarHidden?: boolean }>`
   position: relative;
   height: 100vh;
   width: 100%;
 
-  display: flex;
+  display: ${({ isSideBarHidden }) => (isSideBarHidden ? 'none' : 'flex')};
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
