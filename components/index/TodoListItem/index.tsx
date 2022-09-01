@@ -15,7 +15,10 @@ import {
   SubTaskContainer,
   OptionContainer,
   OptionsContainer,
+  ChipListContainer,
 } from './styles';
+import ChipList from '@/components/common/ChipList';
+import { ChipProps } from '@/components/common/ChipList/Chip';
 import { GeoJson } from '@/shared/types/location';
 
 interface TodoListItemProps {
@@ -44,6 +47,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
 
   useEffect(() => {
     if (titleRef && titleRef.current && title) {
@@ -54,6 +58,19 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       descriptionRef.current.innerText = description;
     }
   }, []);
+
+  useEffect(() => {
+    if (!location || !location.name) return;
+    setChipChildren([
+      {
+        fontColor: '#585858',
+        backgroundColor: '#F5F5F5',
+        children: <PLACE fill="#92909F" />,
+        content: location.name,
+        onFocused: false,
+      },
+    ]);
+  }, [location]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -130,7 +147,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         />
       </TitleContainer>
       {!isDoubleClicked ? (
-        <div>{'optionChips'}</div>
+        <ChipListContainer>
+          <ChipList align="row" ChipChildren={chipChildren} />
+        </ChipListContainer>
       ) : (
         <>
           <DescriptionContainer>

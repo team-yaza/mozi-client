@@ -104,3 +104,9 @@ export const OptionContainer = styled.div`
   width: 2.5rem;
   height: 2.5rem;
 `;
+
+export const ChipListContainer = styled.div`
+  width: 100%;
+  margin-left: 4rem;
+  margin-top: 0.5rem;
+`;
