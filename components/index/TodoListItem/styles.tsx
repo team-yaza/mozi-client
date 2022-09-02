@@ -91,8 +91,6 @@ export const OptionsContainer = styled.div`
   width: 100%;
   height: 2.5rem;
 
-  margin-top: 2rem;
-
   display: flex;
   flex-direction: row;
   justify-content: end;
