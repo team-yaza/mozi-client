@@ -12,11 +12,11 @@ export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
   background-color: white;
   z-index: 1;
 
-  transform: ${({ isSearchBarOpen }) => (isSearchBarOpen ? 'translateX(0)' : 'translateX(-36rem)')};
+  transform: ${({ isSearchBarOpen }) => !isSearchBarOpen && 'translateX(-36rem)'};
   transition: transform 250ms ease-in-out;
 `;
 
-export const SearchContainer = styled.div`
+export const SearchContainer = styled.div<{ isSeraching?: boolean }>`
   position: relative;
   width: 100%;
 
@@ -25,6 +25,12 @@ export const SearchContainer = styled.div`
   justify-content: center;
 
   margin-top: 5rem;
+
+  input {
+    border-bottom: ${({ isSeraching }) => isSeraching && 'none'};
+    border-bottom-right-radius: ${({ isSeraching }) => isSeraching && '0'};
+    border-bottom-left-radius: ${({ isSeraching }) => isSeraching && '0'};
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -33,7 +39,7 @@ export const SearchInput = styled.input`
 
   padding-left: 3.5rem;
 
-  border: 0.2rem solid ${theme.colors.grey};
+  border: 0.1rem solid ${theme.colors.grey};
   border-radius: 0.8rem;
 
   background-image: url('/assets/svgs/search.svg');
@@ -46,6 +52,40 @@ export const SearchInput = styled.input`
     color: #aeaeae;
   }
 `;
+
+export const SearchResultContainer = styled.div<{ isSeraching?: boolean }>`
+  position: absolute;
+  width: 30rem;
+  top: 3.6rem;
+
+  display: ${({ isSeraching }) => (isSeraching ? 'block' : 'none')};
+
+  padding-inline: 1.6rem;
+  padding-bottom: 1.6rem;
+
+  border: 0.1rem solid ${theme.colors.grey};
+  border-bottom-right-radius: 0.7rem;
+  border-bottom-left-radius: 0.7rem;
+  background: white;
+
+  &:first-child {
+    border-bottom: ${({ isSeraching }) => isSeraching && 'none'};
+  }
+`;
+
+export const SearchResultHeading = styled.h3`
+  margin-top: 2.1rem;
+  margin-bottom: 1.1rem;
+
+  color: ${theme.colors.darkGrey};
+`;
+
+export const SearchResultList = styled.ul`
+  margin: 0;
+  padding: 0;
+`;
+
+export const SearchResultItem = styled.li``;
 
 export const RecentSearchContainer = styled.div``;
 

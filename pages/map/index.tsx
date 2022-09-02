@@ -11,7 +11,6 @@ import SearchSideBar from '@/components/map/SearchSideBar';
 const Map: NextPage = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const todosLocation = useRecoilValue(todosLocationState);
-
   const { naverMap, createMarker, createPosition } = useNaverMap();
 
   useEffect(() => {
@@ -19,7 +18,6 @@ const Map: NextPage = () => {
       todosLocation.map((location) => {
         if (location?.coordinates) {
           const [lat, lng] = location.coordinates;
-          console.log(lat, lng, '왜?');
           createMarker({
             map: naverMap,
             position: createPosition(lng, lat),
