@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import MapModal from '@/components/index/MapModal';
+import MapModal from '@/components/index/TodoMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
-import { CALENDAR, DEADLINE, PLACE, TAG } from '@/components/common/Figure';
+import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
 import {
   CheckBox,
   Container,
@@ -15,7 +15,10 @@ import {
   SubTaskContainer,
   OptionContainer,
   OptionsContainer,
+  ChipListContainer,
 } from './styles';
+import ChipList from '@/components/common/ChipList';
+import { ChipProps } from '@/components/common/ChipList/Chip';
 import { GeoJson } from '@/shared/types/location';
 
 interface TodoListItemProps {
@@ -42,7 +45,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const [focused, setFocused] = useState(false);
   // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
+  const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,9 +59,25 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (!location || !location.name) {
+      return;
+    }
+    setChipChildren([
+      {
+        type: 'location',
+        fontColor: '#585858',
+        backgroundColor: '#F5F5F5',
+        children: <PLACE fill="#92909F" />,
+        content: location.name,
+        onClickHandler: () => setIsTodoMapOpen((oldState) => !oldState),
+      },
+    ]);
+  }, [location]);
+
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
-    setIsModalOpen(false);
+    setIsTodoMapOpen(false);
     setFocused(false);
   }, []);
 
@@ -129,7 +149,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           spellCheck={false}
         />
       </TitleContainer>
-      {isDoubleClicked && (
+      {!isDoubleClicked ? (
+        <ChipListContainer>
+          <ChipList align="row" ChipChildren={chipChildren} />
+        </ChipListContainer>
+      ) : (
         <>
           <DescriptionContainer>
             <Description
@@ -144,16 +168,19 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           </DescriptionContainer>
 
           <SubTaskContainer></SubTaskContainer>
+          <ChipList align="column" ChipChildren={chipChildren} />
 
           <OptionsContainer>
-            <OptionContainer onClick={() => setIsModalOpen(!isModalOpen)}>
-              <PLACE stroke="#585858" />
-            </OptionContainer>
+            {!location?.name && (
+              <OptionContainer onClick={() => setIsTodoMapOpen(!isTodoMapOpen)}>
+                <PLACE stroke="#585858" />
+              </OptionContainer>
+            )}
             <OptionContainer onClick={() => 1}>
               <CALENDAR stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 2}>
-              <TAG stroke="#585858" />
+              <TODOTAG stroke="#585858" />
             </OptionContainer>
             <OptionContainer onClick={() => 3}>
               <DEADLINE stroke="#585858" />
@@ -161,8 +188,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           </OptionsContainer>
         </>
       )}
-      {isModalOpen && (
-        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsModalOpen={setIsModalOpen} />
+      {isTodoMapOpen && (
+        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsTodoMapOpen={setIsTodoMapOpen} />
       )}
     </Container>
   );

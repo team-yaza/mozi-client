@@ -10,7 +10,7 @@ export const Container = styled.div<{ backgroundColor: string }>`
   justify-content: flex-start;
   align-items: center;
 
-  padding: 0 0.7rem;
+  padding-inline: 1rem;
 `;
 
 export const Wrapper = styled.div`

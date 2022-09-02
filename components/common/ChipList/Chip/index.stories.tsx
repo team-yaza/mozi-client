@@ -20,7 +20,6 @@ TagChip.args = {
   backgroundColor: '#F5F5F5',
   children: <TAG stroke="#92909F" fill="#92909F" />,
   content: '테스트 태그',
-  onFocused: true,
 };
 
 LocationChip.args = {
@@ -28,5 +27,4 @@ LocationChip.args = {
   backgroundColor: '#F5F5F5',
   children: <PLACE fill="#92909F" />,
   content: '충남대학교',
-  onFocused: true,
 };
