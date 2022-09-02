@@ -15,6 +15,7 @@ const SideBar: React.FC = () => {
   const [isSideBarHidden] = useState(router.pathname === '/login' ? true : false);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
+
   const { isDragging, startDrag } = useDrag((movement) => {
     const nextWidth = width + movement.x;
 
@@ -25,7 +26,6 @@ const SideBar: React.FC = () => {
 
     if (nextWidth <= width / 3) {
       onCloseSideBar();
-      setWidth(0);
       return;
     }
 
