@@ -22,7 +22,6 @@ const chipPropsList: ChipProps[] = [
     backgroundColor: '#F5F5F5',
     children: <TAG fill="#92909F" />,
     content: '테스트 태그',
-    onFocused: true,
   },
   {
     type: 'location',
@@ -30,7 +29,6 @@ const chipPropsList: ChipProps[] = [
     backgroundColor: '#F5F5F5',
     children: <PLACE fill="#92909F" />,
     content: '충남대학교',
-    onFocused: true,
   },
   {
     type: 'deadline',
@@ -38,7 +36,6 @@ const chipPropsList: ChipProps[] = [
     backgroundColor: '#FFF2F2',
     children: <DEADLINE stroke="#FF6161" fill="#FF6161" />,
     content: '8월 24일',
-    onFocused: true,
   },
 ];
 
