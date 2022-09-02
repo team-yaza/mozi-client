@@ -70,7 +70,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         backgroundColor: '#F5F5F5',
         children: <PLACE fill="#92909F" />,
         content: location.name,
-        onFocused: false,
+        onClickHandler: () => setIsTodoMapOpen((oldState) => !oldState),
       },
     ]);
   }, [location]);
@@ -168,9 +168,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           </DescriptionContainer>
 
           <SubTaskContainer></SubTaskContainer>
-          <ChipListContainer>
-            <ChipList align="column" ChipChildren={chipChildren} />
-          </ChipListContainer>
+          <ChipList align="column" ChipChildren={chipChildren} />
 
           <OptionsContainer>
             {!location?.name && (
