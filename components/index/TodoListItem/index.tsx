@@ -46,8 +46,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (titleRef && titleRef.current && title) {
@@ -60,7 +60,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!location || !location.name) return;
+    if (!location || !location.name) {
+      return;
+    }
     setChipChildren([
       {
         type: 'location',
@@ -166,11 +168,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           </DescriptionContainer>
 
           <SubTaskContainer></SubTaskContainer>
+          <ChipListContainer>
+            <ChipList align="column" ChipChildren={chipChildren} />
+          </ChipListContainer>
 
           <OptionsContainer>
-            <OptionContainer onClick={() => setIsTodoMapOpen(!isTodoMapOpen)}>
-              <PLACE stroke="#585858" />
-            </OptionContainer>
+            {!location?.name && (
+              <OptionContainer onClick={() => setIsTodoMapOpen(!isTodoMapOpen)}>
+                <PLACE stroke="#585858" />
+              </OptionContainer>
+            )}
             <OptionContainer onClick={() => 1}>
               <CALENDAR stroke="#585858" />
             </OptionContainer>
