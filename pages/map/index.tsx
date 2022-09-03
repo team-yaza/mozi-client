@@ -32,6 +32,21 @@ const Map: NextPageWithLayout = () => {
     }
   }, [todosLocation, naverMap]);
 
+  useEffect(() => {
+    if (naverMap) {
+      naver.maps.Event.addListener(naverMap, 'click', function (e) {
+        createMarker({
+          map: naverMap,
+          position: createPosition(e.coord.y, e.coord.x),
+          icon: {
+            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+            anchor: new naver.maps.Point(11, 11),
+          },
+        });
+      });
+    }
+  }, [naverMap]);
+
   return (
     <>
       <Head>
