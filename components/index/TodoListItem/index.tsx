@@ -66,28 +66,33 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!location || !location.name) {
-      setChipChildren((old) => old.filter((chip) => chip.type !== 'location'));
-      return;
-    }
-    setChipChildren([
-      ...chipChildren,
+    setChipChildren((oldChildren) => oldChildren.filter((chip) => chip.type !== 'location'));
+
+    if (!location || !location.name) return;
+
+    const onChipClickedHander = () => {
+      if (!isDoubleClicked) return;
+      setIsTodoMapOpen((oldState) => !oldState);
+    };
+
+    setChipChildren((oldChildren) => [
+      ...oldChildren,
       {
         type: 'location',
         fontColor: '#585858',
         backgroundColor: '#F5F5F5',
         children: <PLACE fill="#92909F" />,
         content: location.name,
-        onClickHandler: () => setIsTodoMapOpen((oldState) => !oldState),
+        onClickHandler: onChipClickedHander,
       },
     ]);
-  }, [location]);
+  }, [location, isDoubleClicked]);
 
   useEffect(() => {
-    if (typeof date === 'undefined') {
-      setChipChildren((old) => old.filter((chip) => chip.type !== 'date'));
-      return;
-    }
+    setChipChildren(chipChildren.filter((chip) => chip.type !== 'date'));
+
+    if (typeof date === 'undefined') return;
+
     setChipChildren([
       ...chipChildren,
       {
@@ -127,16 +132,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
   }, []);
 
-  const onDeleteKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === 'Backspace' || e.key === 'Delete') {
-        e.preventDefault();
-        if (focused && !isDoubleClicked) onDeleteTodo(id);
-      }
-    },
-    [focused, isDoubleClicked]
-  );
-
   const onCheckHandler = useCallback((done: boolean) => {
     onUpdateTodo({ id, done: !done });
   }, []);
@@ -155,6 +150,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     console.log(now);
     onUpdateTodo({ id, date: now });
   }, []);
+
+  const onDeleteKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        e.preventDefault();
+        if (focused && !isDoubleClicked) onDeleteTodo(id);
+      }
+    },
+    [focused, isDoubleClicked]
+  );
 
   return (
     <Container
@@ -211,7 +216,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
                 </OptionContainer>
               )}
               {!date && (
-                <OptionContainer onClick={() => onCalendarClickHandler()}>
+                <OptionContainer onClick={onCalendarClickHandler}>
                   <CALENDAR stroke="#585858" />
                   {false && <TodoCalendar></TodoCalendar>}
                 </OptionContainer>
