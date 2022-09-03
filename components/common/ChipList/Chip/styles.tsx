@@ -11,6 +11,8 @@ export const Container = styled.div<{ backgroundColor: string }>`
   align-items: center;
 
   padding-inline: 1rem;
+
+  margin: 0.5rem;
 `;
 
 export const Wrapper = styled.div`
