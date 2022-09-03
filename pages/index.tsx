@@ -1,8 +1,8 @@
-import type { NextPage } from 'next';
-import { useCallback, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
+import { NextPageWithLayout } from './_app';
 import todoService from '@/services/apis/todo';
 import { useLocationRef } from '@/hooks/location/useLocationRef';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
@@ -12,8 +12,9 @@ import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
 import TodoList from '@/components/index/TodoList';
 import Footer from '@/components/common/Footer';
+import AppLayout from '@/components/common/AppLayout';
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   const [todos, setTodos] = useRecoilState(todosState);
   const { myLocationRef, updateCurrentPosition } = useLocationRef();
 
@@ -84,6 +85,10 @@ const Home: NextPage = () => {
       <Footer />
     </Container>
   );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <AppLayout>{page}</AppLayout>;
 };
 
 const Container = styled.div`

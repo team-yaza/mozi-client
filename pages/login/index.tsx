@@ -1,15 +1,16 @@
-import { sideBarStateAtom } from '@/store/sidebar/atom';
-import { theme } from '@/styles/theme';
-import { flexCenter } from '@/styles/utils';
-import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-// import {signOut} from 'next-auth/react'
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-const Login: NextPage = () => {
+import { NextPageWithLayout } from '../_app';
+import { sideBarStateAtom } from '@/store/sidebar/atom';
+import { theme } from '@/styles/theme';
+import { flexCenter } from '@/styles/utils';
+// import {signOut} from 'next-auth/react'
+
+const Login: NextPageWithLayout = () => {
   const setIsSideBarOpen = useSetRecoilState(sideBarStateAtom);
 
   useEffect(() => {
@@ -34,6 +35,20 @@ const Login: NextPage = () => {
     </Container>
   );
 };
+
+Login.getLayout = function getLayout(page: ReactElement) {
+  return <LoginLayout>{page}</LoginLayout>;
+};
+
+const LoginLayout = styled.div`
+  position: relative;
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+`;
 
 const Container = styled.div`
   width: 100%;

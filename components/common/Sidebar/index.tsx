@@ -7,12 +7,9 @@ import { useDrag } from '@/hooks/useDrag';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
-import { useRouter } from 'next/router';
 
 const SideBar: React.FC = () => {
-  const router = useRouter();
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
-  const [isSideBarHidden] = useState(router.pathname === '/login' ? true : false);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
 
@@ -52,7 +49,6 @@ const SideBar: React.FC = () => {
 
   return (
     <Container
-      isSideBarHidden={isSideBarHidden}
       tabIndex={0}
       style={{ width }}
       initial={{ width }}
