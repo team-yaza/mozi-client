@@ -52,6 +52,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -76,7 +77,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     };
 
     setChipChildren((oldChildren) => [
-      ...oldChildren,
       {
         type: 'location',
         fontColor: '#585858',
@@ -85,29 +85,31 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         content: location.name,
         onClickHandler: onChipClickedHander,
       },
+      ...oldChildren,
     ]);
   }, [location, isDoubleClicked]);
 
   useEffect(() => {
-    setChipChildren(chipChildren.filter((chip) => chip.type !== 'date'));
+    setChipChildren((oldChildren) => oldChildren.filter((chip) => chip.type !== 'date'));
 
     if (typeof date === 'undefined') return;
 
-    setChipChildren([
-      ...chipChildren,
+    setChipChildren((oldChildren) => [
       {
         type: 'date',
-        fontColor: '#FF6161',
-        backgroundColor: '#FFF2F2',
-        children: <DEADLINE stroke="#FF6161" fill="#FF6161" />,
+        fontColor: '#585858',
+        backgroundColor: '#F5F5F5',
+        children: <CALENDAR stroke="#92909F" />,
         content: dateToString(date),
       },
+      ...oldChildren,
     ]);
   }, [date]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
     setIsTodoMapOpen(false);
+    setIsCalendarOpen(false);
     setFocused(false);
   }, []);
 
@@ -146,9 +148,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   const onCalendarClickHandler = useCallback(() => {
-    const now = new Date();
-    console.log(now);
-    onUpdateTodo({ id, date: now });
+    // const now = new Date();
+    // onUpdateTodo({ id, date: now });
+    setIsCalendarOpen((oldState) => !oldState);
   }, []);
 
   const onDeleteKeyDown = useCallback(
@@ -218,7 +220,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               {!date && (
                 <OptionContainer onClick={onCalendarClickHandler}>
                   <CALENDAR stroke="#585858" />
-                  {false && <TodoCalendar></TodoCalendar>}
+                  {isCalendarOpen && <TodoCalendar></TodoCalendar>}
                 </OptionContainer>
               )}
               <OptionContainer onClick={() => 2}>
