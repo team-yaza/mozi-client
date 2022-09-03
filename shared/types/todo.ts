@@ -6,6 +6,7 @@ export interface Todo {
   location?: GeoJson;
   description?: string;
   done: boolean;
+  date?: Date;
   created?: boolean;
   updated?: boolean;
   deleted?: boolean;
@@ -27,5 +28,6 @@ export interface TodoUpdateRequest {
   done?: boolean;
   longitude?: number;
   latitude?: number;
+  date?: Date;
   description?: string;
 }

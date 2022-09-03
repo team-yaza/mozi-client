@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import MapModal from '@/components/index/TodoMap';
+import TodoMap from '@/components/index/TodoMap';
+import TodoCalendar from '@/components/index/todoCalendar';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
 import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
@@ -16,10 +17,13 @@ import {
   OptionContainer,
   OptionsContainer,
   ChipListContainer,
+  OptionWrapper,
+  ChipContainer,
 } from './styles';
 import ChipList from '@/components/common/ChipList';
 import { ChipProps } from '@/components/common/ChipList/Chip';
 import { GeoJson } from '@/shared/types/location';
+import dateToString from '@/shared/utils/dateToString';
 
 interface TodoListItemProps {
   id: string;
@@ -27,8 +31,9 @@ interface TodoListItemProps {
   done: boolean;
   description?: string;
   location?: GeoJson;
+  date?: Date | string;
   onDeleteTodo: (id: string) => void;
-  onUpdateTodo: ({ id, title, done, longitude, latitude, description }: TodoUpdateRequest) => void;
+  onUpdateTodo: ({ id, title, done, longitude, latitude, description, date }: TodoUpdateRequest) => void;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
@@ -37,6 +42,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   description,
   done,
   location,
+  date,
   onUpdateTodo,
   onDeleteTodo,
 }) => {
@@ -61,9 +67,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   useEffect(() => {
     if (!location || !location.name) {
+      setChipChildren((old) => old.filter((chip) => chip.type !== 'location'));
       return;
     }
     setChipChildren([
+      ...chipChildren,
       {
         type: 'location',
         fontColor: '#585858',
@@ -74,6 +82,23 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       },
     ]);
   }, [location]);
+
+  useEffect(() => {
+    if (typeof date === 'undefined') {
+      setChipChildren((old) => old.filter((chip) => chip.type !== 'date'));
+      return;
+    }
+    setChipChildren([
+      ...chipChildren,
+      {
+        type: 'date',
+        fontColor: '#FF6161',
+        backgroundColor: '#FFF2F2',
+        children: <DEADLINE stroke="#FF6161" fill="#FF6161" />,
+        content: dateToString(date),
+      },
+    ]);
+  }, [date]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -125,6 +150,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     setFocused(true);
   }, []);
 
+  const onCalendarClickHandler = useCallback(() => {
+    const now = new Date();
+    console.log(now);
+    onUpdateTodo({ id, date: now });
+  }, []);
+
   return (
     <Container
       tabIndex={0}
@@ -168,28 +199,35 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           </DescriptionContainer>
 
           <SubTaskContainer></SubTaskContainer>
-          <ChipList align="column" ChipChildren={chipChildren} />
+          <OptionWrapper>
+            <ChipContainer>
+              <ChipList align="column" ChipChildren={chipChildren} />
+            </ChipContainer>
 
-          <OptionsContainer>
-            {!location?.name && (
-              <OptionContainer onClick={() => setIsTodoMapOpen(!isTodoMapOpen)}>
-                <PLACE stroke="#585858" />
+            <OptionsContainer>
+              {!location?.name && (
+                <OptionContainer onClick={() => setIsTodoMapOpen(!isTodoMapOpen)}>
+                  <PLACE stroke="#585858" />
+                </OptionContainer>
+              )}
+              {!date && (
+                <OptionContainer onClick={() => onCalendarClickHandler()}>
+                  <CALENDAR stroke="#585858" />
+                  {false && <TodoCalendar></TodoCalendar>}
+                </OptionContainer>
+              )}
+              <OptionContainer onClick={() => 2}>
+                <TODOTAG stroke="#585858" />
               </OptionContainer>
-            )}
-            <OptionContainer onClick={() => 1}>
-              <CALENDAR stroke="#585858" />
-            </OptionContainer>
-            <OptionContainer onClick={() => 2}>
-              <TODOTAG stroke="#585858" />
-            </OptionContainer>
-            <OptionContainer onClick={() => 3}>
-              <DEADLINE stroke="#585858" />
-            </OptionContainer>
-          </OptionsContainer>
+              <OptionContainer onClick={() => 3}>
+                <DEADLINE stroke="#585858" />
+              </OptionContainer>
+            </OptionsContainer>
+          </OptionWrapper>
         </>
       )}
       {isTodoMapOpen && (
-        <MapModal id={id} location={location} onUpdateTodo={onUpdateTodo} setIsTodoMapOpen={setIsTodoMapOpen} />
+        <TodoMap id={id} location={location} onUpdateTodo={onUpdateTodo} setIsTodoMapOpen={setIsTodoMapOpen} />
       )}
     </Container>
   );

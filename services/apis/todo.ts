@@ -64,9 +64,16 @@ const todoService = {
 
     return localTodos;
   },
-  updateTodo: async ({ id, title, longitude, latitude, description, done }: TodoUpdateRequest) => {
+  updateTodo: async ({ id, title, longitude, latitude, description, done, date }: TodoUpdateRequest) => {
     try {
-      const updatedTodo = await fetcher('patch', `/todos/${id}`, { title, longitude, latitude, description, done });
+      const updatedTodo = await fetcher('patch', `/todos/${id}`, {
+        title,
+        longitude,
+        latitude,
+        description,
+        done,
+        date,
+      });
       await todoStore.setItem(id, updatedTodo);
 
       return updatedTodo;
@@ -76,7 +83,7 @@ const todoService = {
       await syncTodos();
     }
     // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
-    await todoStore.setItem(id, { id, title, longitude, latitude, description, done, updated: true });
+    await todoStore.setItem(id, { id, title, longitude, latitude, description, done, updated: true, date });
     return;
   },
   deleteTodo: async (id: string) => {
