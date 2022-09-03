@@ -6,7 +6,7 @@ export const Container = styled.div`
 
   position: relative;
 
-  z-index: 10;
+  margin-top: 1rem;
 
   background-color: gray;
 `;
