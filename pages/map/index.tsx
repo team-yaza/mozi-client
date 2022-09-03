@@ -1,14 +1,15 @@
-import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
+import { NextPageWithLayout } from '../_app';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { todosLocationState } from '@/store/todo/atom';
 import SearchSideBar from '@/components/map/SearchSideBar';
+import AppLayout from '@/components/common/AppLayout';
 
-const Map: NextPage = () => {
+const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const todosLocation = useRecoilValue(todosLocationState);
   const { naverMap, createMarker, createPosition } = useNaverMap();
@@ -38,6 +39,10 @@ const Map: NextPage = () => {
       </Container>
     </>
   );
+};
+
+Map.getLayout = function getLayout(page: ReactElement) {
+  return <AppLayout>{page}</AppLayout>;
 };
 
 const Container = styled.div`
