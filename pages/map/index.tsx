@@ -22,6 +22,10 @@ const Map: NextPageWithLayout = () => {
           createMarker({
             map: naverMap,
             position: createPosition(lng, lat),
+            icon: {
+              content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+              anchor: new naver.maps.Point(11, 11),
+            },
           });
         }
       });
