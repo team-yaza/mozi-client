@@ -9,6 +9,7 @@ export { default as FOOTERCALENDAR } from './FOOTERCALENDAR';
 export { default as HAMBURGER } from './HAMBURGER';
 export { default as INBOX } from './INBOX';
 export { default as MAP } from './MAP';
+export { default as MARKER } from './MARKER';
 export { default as PLACE } from './PLACE';
 export { default as SEARCH } from './SEARCH';
 export { default as SIDEBARARROWLEFT } from './SIDEBARARROWLEFT';
