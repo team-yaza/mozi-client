@@ -1,7 +1,14 @@
-import type { NextPage } from 'next';
+import { ReactElement } from 'react';
 
-const Upcoming: NextPage = () => {
+import { NextPageWithLayout } from '@/pages/_app';
+import AppLayout from '@/components/common/AppLayout';
+
+const Upcoming: NextPageWithLayout = () => {
   return <div>upcoming</div>;
+};
+
+Upcoming.getLayout = function getLayout(page: ReactElement) {
+  return <AppLayout>{page}</AppLayout>;
 };
 
 export default Upcoming;
