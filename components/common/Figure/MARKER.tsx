@@ -23,7 +23,7 @@ const MARKER: React.FC<FigureProps> = () => {
             width="40"
             height="47.5996"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feColorMatrix
