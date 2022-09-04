@@ -1,32 +1,29 @@
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { ReactElement, useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { signIn, useSession } from 'next-auth/react';
+import type { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '../_app';
-import { sideBarStateAtom } from '@/store/sidebar/atom';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
+import { useRouter } from 'next/router';
 // import {signOut} from 'next-auth/react'
 
 const Login: NextPageWithLayout = () => {
-  const setIsSideBarOpen = useSetRecoilState(sideBarStateAtom);
-
-  useEffect(() => {
-    setIsSideBarOpen(false);
-  }, []);
-
+  const router = useRouter();
   const { data: session, status } = useSession();
 
+  console.log(session);
+
   if (status === 'authenticated') {
-    return <p>signed in as {session?.user?.email}</p>;
+    router.push('/');
   }
 
   return (
     <Container>
       <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
-      <KakaoLogin>
+
+      <KakaoLogin onClick={() => signIn('kakao')}>
         <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
         <span>카카오톡으로 로그인</span>
       </KakaoLogin>

@@ -1,8 +1,8 @@
-import { syncTodos } from './../../shared/utils/sync';
-import mongoose from 'mongoose';
+import { ObjectId } from 'bson';
 
 import { Todo } from '@/shared/types/todo';
 import fetcher from '@/shared/utils/fetcher';
+import { syncTodos } from '@/shared/utils/sync';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore } from '@/store/forage';
 
@@ -20,7 +20,7 @@ const todoService = {
     }
 
     // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
-    const tempTodoId = new mongoose.Types.ObjectId().toString();
+    const tempTodoId = new ObjectId().toString();
     const localTodo = { created: true, id: tempTodoId, alarmed: false, done: false };
 
     try {
