@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import type { ReactElement, ReactNode } from 'react';
+import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
+import type { ReactElement, ReactNode } from 'react';
 import { useState, useCallback, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -12,7 +13,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
-import { SessionProvider } from 'next-auth/react';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
