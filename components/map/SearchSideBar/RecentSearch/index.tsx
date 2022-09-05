@@ -1,6 +1,6 @@
 import { Container, RecentSearchHeading, RecentSearchKeyword, RecentSearchList } from './styles';
 
-const RecentSearch = () => {
+const RecentSearch: React.FC = () => {
   return (
     <Container>
       <RecentSearchHeading>최근 검색어</RecentSearchHeading>
