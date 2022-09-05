@@ -16,4 +16,5 @@ export { default as TAG } from './TAG';
 export { default as TODAY } from './TODAY';
 export { default as TRASH } from './TRASH';
 export { default as UPCOMING } from './UPCOMING';
+export { default as DELETE } from './DELETE';
 export { default as TODOTAG } from './TODOTAG';
