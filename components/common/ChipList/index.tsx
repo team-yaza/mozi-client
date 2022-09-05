@@ -9,13 +9,13 @@ interface ChipListProps {
 const ChipList: React.FC<ChipListProps> = ({ ChipChildren, align }) => {
   return (
     <Container align={align}>
-      {ChipChildren.map(({ type, backgroundColor, fontColor, children, content, onClickHandler, onDeleteHander }) => (
+      {ChipChildren.map(({ type, backgroundColor, fontColor, Icon, content, onClickHandler, onDeleteHander }) => (
         <Chip
           key={`${type}${content}`}
           type={type}
           backgroundColor={backgroundColor}
           fontColor={fontColor}
-          children={children}
+          Icon={Icon}
           content={content}
           onClickHandler={onClickHandler}
           onDeleteHander={onDeleteHander}

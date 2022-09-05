@@ -51,25 +51,30 @@ const Home: NextPageWithLayout = () => {
     setTodos((prev) => [...prev, createdTodo]);
   }, []);
 
-  const onUpdateTodo = useCallback(async ({ id, title, longitude, latitude, description, done }: TodoUpdateRequest) => {
-    setTodos(
-      (prev) =>
-        prev.map((todo) => {
-          const location = longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location;
-          return todo.id === id
-            ? {
-                ...todo,
-                title,
-                location,
-                description,
-                done,
-                alarmed: false,
-              }
-            : todo;
-        }) as Todo[]
-    );
-    await todoService.updateTodo({ id, title, longitude, latitude, description, done });
-  }, []);
+  const onUpdateTodo = useCallback(
+    async ({ id, title, longitude, latitude, description, done, date }: TodoUpdateRequest) => {
+      setTodos(
+        (prev) =>
+          prev.map((todo) => {
+            const location =
+              longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location;
+            return todo.id === id
+              ? {
+                  ...todo,
+                  title,
+                  location,
+                  description,
+                  done,
+                  date,
+                  alarmed: false,
+                }
+              : todo;
+          }) as Todo[]
+      );
+      await todoService.updateTodo({ id, title, longitude, latitude, description, done, date });
+    },
+    []
+  );
 
   const onDeleteTodo = useCallback(async (id: string) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
