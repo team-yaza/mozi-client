@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/common/AppLayout';
-import Title from '@/components/Trash/Title';
+import Title from '@/components/trash/Title';
 
 const Trash: NextPageWithLayout = () => {
   return (
