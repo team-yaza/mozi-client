@@ -81,7 +81,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         type: 'location',
         fontColor: '#585858',
         backgroundColor: '#F5F5F5',
-        children: <PLACE fill="#92909F" />,
+        Icon: <PLACE fill="#92909F" />,
         content: location.name,
         onClickHandler: onChipClickedHander,
       },
@@ -99,12 +99,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         type: 'date',
         fontColor: '#585858',
         backgroundColor: '#F5F5F5',
-        children: <CALENDAR stroke="#92909F" />,
+        Icon: <CALENDAR stroke="#92909F" />,
+        Modal: <TodoCalendar />,
+        isModalOpen: isCalendarOpen,
         content: dateToString(date),
       },
       ...oldChildren,
     ]);
-  }, [date]);
+  }, [date, isCalendarOpen]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsDoubleClicked(false);
@@ -148,8 +150,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   const onCalendarClickHandler = useCallback(() => {
-    // const now = new Date();
-    // onUpdateTodo({ id, date: now });
+    const now = new Date();
+    onUpdateTodo({ id, date: now });
     setIsCalendarOpen((oldState) => !oldState);
   }, []);
 
@@ -220,7 +222,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               {!date && (
                 <OptionContainer onClick={onCalendarClickHandler}>
                   <CALENDAR stroke="#585858" />
-                  {isCalendarOpen && <TodoCalendar></TodoCalendar>}
                 </OptionContainer>
               )}
               <OptionContainer onClick={() => 2}>
