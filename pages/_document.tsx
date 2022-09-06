@@ -42,6 +42,7 @@ class MyDocument extends Document {
           <meta property="og:url" content="/" />
           <meta name="description" content="" />
           <meta name="keywords" content="" />
+          <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />
           <Script
             strategy="beforeInteractive"
             src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`}

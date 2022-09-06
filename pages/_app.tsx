@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
-import type { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import { useState, useCallback, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useCookies } from 'react-cookie';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
 import Auth from '@/components/common/Auth';
+import { useRouter } from 'next/router';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,14 +24,23 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
+  const [cookies] = useCookies(['token']);
+  const router = useRouter();
+
   const getLayout = Component.getLayout ?? ((page) => page);
 
   const handleTheme = useCallback(() => {
     if (theme === 'dark') setTheme('light');
     else setTheme('dark');
   }, [theme]);
+
+  useEffect(() => {
+    if (cookies.token) {
+      router.push('/');
+    }
+  }, [cookies]);
 
   return (
     <>
@@ -45,11 +55,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWith
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <SessionProvider session={session}>
-              <Auth>
-                <Suspense fallback={<div>Loading</div>}>{getLayout(<Component {...pageProps} />)}</Suspense>
-              </Auth>
-            </SessionProvider>
+            <Auth>
+              <Suspense fallback={<div>Loading</div>}>{getLayout(<Component {...pageProps} />)}</Suspense>
+            </Auth>
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>
         </RecoilRoot>

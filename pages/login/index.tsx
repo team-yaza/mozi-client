@@ -1,28 +1,24 @@
 import Image from 'next/image';
-import { signIn, useSession } from 'next-auth/react';
 import { ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
-import { useRouter } from 'next/router';
+import { loginWithKakao } from '@/shared/utils/kakao';
 
 const Login: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
-
   useEffect(() => {
-    if (session) {
-      router.push('/');
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(`${process.env.KAKAO_JAVASCRIPT_KEY}`);
     }
-  }, [session]);
+  }, []);
 
   return (
     <Container>
       <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
-      <KakaoLogin onClick={async () => signIn('kakao')}>
+      <KakaoLogin onClick={() => loginWithKakao()}>
         <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
         <span>카카오톡으로 로그인</span>
       </KakaoLogin>
