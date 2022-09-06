@@ -11,3 +11,5 @@
 
 //   const removeCookie = () => {};
 // };
+
+export {};
