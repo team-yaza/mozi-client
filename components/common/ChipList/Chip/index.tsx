@@ -1,12 +1,14 @@
-import { Container, Content, Icon, DeleteBtn, Wrapper } from './styles';
-import DELETE from '@/components/common/Figure/DELETE';
+import { Container, Content, IconContainer, DeleteBtn, Wrapper } from './styles';
+import { DELETE } from '@/components/common/Figure';
 import { useCallback, useState } from 'react';
 
 export interface ChipProps {
   type: 'location' | 'date' | 'deadline' | 'tag';
   backgroundColor: string;
   fontColor: string;
-  children: React.ReactNode;
+  Icon: React.ReactNode;
+  Modal?: React.ReactNode;
+  isModalOpen?: boolean;
   content: string;
   onClickHandler?: () => void;
   onDeleteHander?: () => void;
@@ -15,7 +17,8 @@ export interface ChipProps {
 const Chip: React.FC<ChipProps> = ({
   backgroundColor,
   fontColor,
-  children,
+  Icon,
+  Modal,
   content,
   onClickHandler,
   onDeleteHander,
@@ -30,7 +33,7 @@ const Chip: React.FC<ChipProps> = ({
   return (
     <Wrapper>
       <Container backgroundColor={backgroundColor} onClick={onChipClicked}>
-        <Icon>{children}</Icon>
+        <IconContainer>{Icon}</IconContainer>
         <Content fontColor={fontColor}>{content}</Content>
         {focused && (
           <DeleteBtn onClick={onDeleteHander}>
@@ -38,6 +41,7 @@ const Chip: React.FC<ChipProps> = ({
           </DeleteBtn>
         )}
       </Container>
+      {Modal}
     </Wrapper>
   );
 };

@@ -18,6 +18,7 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
+
 const fetcher = async (method: 'get' | 'post' | 'patch' | 'delete', url: string, ...rest: object[]) => {
   try {
     const { data } = await api[method](url, ...rest);

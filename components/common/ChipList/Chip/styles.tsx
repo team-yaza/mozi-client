@@ -11,6 +11,8 @@ export const Container = styled.div<{ backgroundColor: string }>`
   align-items: center;
 
   padding-inline: 1rem;
+
+  margin: 0.5rem;
 `;
 
 export const Wrapper = styled.div`
@@ -23,7 +25,7 @@ export const Content = styled.div<{ fontColor: string }>`
   color: ${({ fontColor }) => fontColor};
 `;
 
-export const Icon = styled.div`
+export const IconContainer = styled.div`
   position: relative;
 
   width: 1.6rem;

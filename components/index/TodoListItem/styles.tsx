@@ -69,7 +69,7 @@ export const DescriptionContainer = styled.div`
 export const Description = styled.div`
   width: 100%;
 
-  margin-top: 1rem;
+  margin-block: 1rem;
   padding: 1.6rem 2.4rem;
 
   font-size: 1.4rem;
@@ -86,14 +86,24 @@ export const Description = styled.div`
 
 export const SubTaskContainer = styled.div``;
 
+export const OptionWrapper = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+export const ChipContainer = styled.div`
+  flex-grow: 3;
+`;
+
 export const OptionsContainer = styled.div`
   position: relative;
-  width: 100%;
   height: 2.5rem;
 
   display: flex;
   flex-direction: row;
   justify-content: end;
+  flex-grow: 1;
+  align-self: end;
 `;
 
 export const OptionContainer = styled.div`
