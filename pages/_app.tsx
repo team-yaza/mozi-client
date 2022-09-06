@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import type { ReactElement, ReactNode } from 'react';
 import { useState, useCallback, Suspense } from 'react';
@@ -23,7 +22,7 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -45,11 +44,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWith
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <SessionProvider session={session}>
-              <Auth>
-                <Suspense fallback={<div>Loading</div>}>{getLayout(<Component {...pageProps} />)}</Suspense>
-              </Auth>
-            </SessionProvider>
+            <Auth>
+              <Suspense fallback={<div>Loading</div>}>{getLayout(<Component {...pageProps} />)}</Suspense>
+            </Auth>
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>
         </RecoilRoot>
