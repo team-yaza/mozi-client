@@ -13,10 +13,16 @@ import Title from '@/components/index/Title';
 import TodoList from '@/components/index/TodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
+import { useSession } from 'next-auth/react';
 
 const Home: NextPageWithLayout = () => {
   const [todos, setTodos] = useRecoilState(todosState);
   const { myLocationRef, updateCurrentPosition } = useLocationRef();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    console.log(session?.user, '세션 값');
+  }, [session]);
 
   useEffect(() => {
     const fetchTodos = async () => {

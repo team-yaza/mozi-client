@@ -1,29 +1,28 @@
 import Image from 'next/image';
 import { signIn, useSession } from 'next-auth/react';
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '@/pages/_app';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { useRouter } from 'next/router';
-// import {signOut} from 'next-auth/react'
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
-  console.log(session);
-
-  if (status === 'authenticated') {
-    router.push('/');
-  }
+  useEffect(() => {
+    if (session) {
+      router.push('/');
+    }
+  }, [session]);
 
   return (
     <Container>
       <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
-      <KakaoLogin onClick={() => signIn('kakao')}>
+      <KakaoLogin onClick={async () => signIn('kakao')}>
         <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
         <span>카카오톡으로 로그인</span>
       </KakaoLogin>
