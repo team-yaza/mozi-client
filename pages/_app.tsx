@@ -13,6 +13,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
+import Auth from '@/components/common/Auth';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -45,7 +46,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWith
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             <SessionProvider session={session}>
-              <Suspense fallback={<div>Loading</div>}>{getLayout(<Component {...pageProps} />)}</Suspense>
+              <Auth>
+                <Suspense fallback={<div>Loading</div>}>{getLayout(<Component {...pageProps} />)}</Suspense>
+              </Auth>
             </SessionProvider>
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>

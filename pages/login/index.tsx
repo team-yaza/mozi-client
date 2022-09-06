@@ -1,22 +1,22 @@
 import Image from 'next/image';
 import { signIn, useSession } from 'next-auth/react';
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '@/pages/_app';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { useRouter } from 'next/router';
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
-  console.log(session);
-
-  if (status === 'authenticated') {
-    router.push('/');
-  }
+  useEffect(() => {
+    if (session) {
+      router.push('/');
+    }
+  }, [session]);
 
   return (
     <Container>
