@@ -1,24 +1,8 @@
-export const getSearchResult = (address: string): Promise<naver.maps.Service.AddressItemV2[]> => {
-  return new Promise((resolve, reject) => {
-    naver.maps.Service.geocode(
-      {
-        query: address,
-      },
-      (status, response) => {
-        if (status === naver.maps.Service.Status.ERROR) {
-          return reject([]);
-        }
+import locationService, { GetSearchResultParams } from '@/services/apis/location';
 
-        if (response.v2.meta.totalCount === 0) {
-          return reject([]);
-        }
-
-        const results = response.v2.addresses;
-
-        return resolve(results);
-      }
-    );
-  });
+export const getLocationSearchResult = async ({ keyword, latitude, longitude }: GetSearchResultParams) => {
+  const searchResult = await locationService.getsearchResult({ keyword, latitude, longitude });
+  return searchResult;
 };
 
 export const initMap = (search: string, pos?: number[]) => {
