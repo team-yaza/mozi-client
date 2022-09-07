@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
 import RecentSearch from './RecentSearch';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
-import { getSearchResult } from '@/shared/utils/map';
+import { getLocationSearchResult } from '@/shared/utils/map';
+import { getCurrentPosition } from '@/shared/utils/location';
 import { SIDEBARARROWLEFT } from '@/components/common/Figure';
 import {
   Container,
@@ -17,26 +18,40 @@ import {
   SearchResultHeading,
 } from './styles';
 
+interface SearchResult {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
 const SearchSideBar: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [addresses, setAddresses] = useState<naver.maps.Service.AddressItemV2[]>([]);
+  const [searchResult, setSearchResult] = useState<Array<SearchResult>>([]);
   const [isSearchBarOpen, setIsSearchBarOpen] = useRecoilState(sideBarStateAtom);
 
-  const onKeyDown = (e: React.KeyboardEvent) => {
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
     e.stopPropagation();
-  };
+  }, []);
 
-  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
 
-    const result = await getSearchResult(e.target.value);
+    const { coords } = await getCurrentPosition();
+
+    const result = await getLocationSearchResult({
+      keyword: e.target.value,
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+    });
 
     if (result.length > 0) {
       setIsSearching(true);
-      setAddresses(result);
+      setSearchResult(result);
     }
-  };
+  }, []);
 
   return (
     <Container isSearchBarOpen={isSearchBarOpen}>
@@ -45,8 +60,8 @@ const SearchSideBar: React.FC = () => {
         <SearchResultContainer isSeraching={isSearching}>
           <SearchResultHeading>장소</SearchResultHeading>
           <SearchResultList>
-            {addresses.map((address, index) => (
-              <SearchResultItem key={index}>{address.roadAddress}</SearchResultItem>
+            {searchResult.map((result, index) => (
+              <SearchResultItem key={index}>{result.name}</SearchResultItem>
             ))}
           </SearchResultList>
         </SearchResultContainer>
