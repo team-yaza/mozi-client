@@ -63,4 +63,14 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100%;
   }
 
+
+  .marker {
+
+  }
+
+  .marker :hover{ 
+    transform:scale(1.3);
+    transition: transform .5s;
+  }
+
 `;

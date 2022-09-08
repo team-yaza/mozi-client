@@ -24,6 +24,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }
               ? serializeGeoJson(todo.location.coordinates[0], todo.location.coordinates[1], todo.location.name)
               : undefined
           }
+          date={todo.date ? todo.date : undefined}
           onDeleteTodo={onDeleteTodo}
           onUpdateTodo={onUpdateTodo}
         />

@@ -3,6 +3,7 @@ import { SyncManager } from './sync';
 declare global {
   interface Window {
     workbox: any;
+    Kakao: any;
   }
   interface ServiceWorkerRegistration {
     readonly sync: SyncManager;

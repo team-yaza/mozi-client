@@ -3,20 +3,23 @@ import Image from 'next/image';
 import { useRecoilState } from 'recoil';
 
 import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
-import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { useDrag } from '@/hooks/useDrag';
-import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import { sideBarStateAtom } from '@/store/sidebar/atom';
+import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
+import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 
 const SideBar: React.FC = () => {
   const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
+
   const { isDragging, startDrag } = useDrag((movement) => {
     const nextWidth = width + movement.x;
 
     // 드래그 할 수 있다는 것 자체를 사이드바가 열려있다는 것으로 간주
-    setIsSideBarOpened(true);
+    if (isSideBarOpened === false) {
+      setIsSideBarOpened(true);
+    }
 
     if (nextWidth <= width / 3) {
       onCloseSideBar();
@@ -51,7 +54,6 @@ const SideBar: React.FC = () => {
       initial={{ width }}
       animate={{ width }}
       exit={{ width: 0 }}
-      isSideBarOpened={isSideBarOpened}
       transition={
         {
           // type: 'spring'
