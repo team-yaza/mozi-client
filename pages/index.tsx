@@ -48,7 +48,7 @@ const Home: NextPageWithLayout = () => {
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
 
-    setTodos((prev) => [...prev, createdTodo]);
+    setTodos((prev) => [createdTodo, ...prev]);
   }, []);
 
   const onUpdateTodo = useCallback(
