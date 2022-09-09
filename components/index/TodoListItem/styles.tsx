@@ -6,26 +6,26 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
 
   padding: 1rem;
   margin: 1rem 3rem;
-  border: ${({ isDoubleClicked, focused }) =>
-    focused && !isDoubleClicked ? '0.2rem #735AFF solid' : '0.2rem #FFFFFF solid'};
+  border: ${({ isDoubleClicked, focused }) => focused && !isDoubleClicked && '0.2rem #735AFF solid'};
   border-radius: 1rem;
 
-  background-color: #ffff;
+  background-color: ${({ theme }) => theme.color.todo_background};
   outline: none;
 
-  box-shadow: ${({ isDoubleClicked }) => (isDoubleClicked ? '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd' : 'none')};
+  /* box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'}; */
 `;
 
 export const CheckBox = styled.div`
   ${flexCenter}
   position: relative;
+  flex-shrink: 0;
 
   margin-right: 1.5rem; // 오른쪽 인풋과의 거리
 
   width: 1.6rem;
   height: 1.6rem;
 
-  border: 1px solid #c3c6c9;
+  border: 1px solid ${({ theme }) => theme.color.todo_checkbox};
 
   cursor: pointer;
 `;
@@ -33,13 +33,11 @@ export const CheckBox = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 
   font-size: 1.6rem;
   line-height: 1.92rem;
   padding-left: 2rem;
-
-  text-decoration: none solid rgb(85, 85, 85);
-  /* color: #555555; */
 `;
 
 export const Title = styled.div`
@@ -47,6 +45,7 @@ export const Title = styled.div`
   border: none;
 
   font-size: 1.5rem;
+  color: ${({ theme }) => theme.color.text};
 
   &:empty:before {
     content: attr(placeholder);
@@ -62,6 +61,7 @@ export const DescriptionContainer = styled.div`
   display: flex;
   justify-content: center;
 
+  padding-left: 2.7rem;
   width: 100%;
 `;
 
@@ -69,7 +69,8 @@ export const Description = styled.div`
   width: 100%;
 
   margin-block: 1rem;
-  padding: 1.6rem 2.4rem;
+  padding-block: 1.6rem;
+  padding-inline: 2.4rem;
 
   font-size: 1.4rem;
 
