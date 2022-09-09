@@ -20,7 +20,7 @@ describe('<TodoList />', () => {
   const onUpdateTodo = jest.fn();
   const onDeleteTodo = jest.fn();
 
-  it('렌더링시에 todo 목록을 보여줘야한다.', () => {
+  it.skip('렌더링시에 todo 목록을 보여줘야한다.', () => {
     const { container } = render(<TodoList todos={todos} onUpdateTodo={onUpdateTodo} onDeleteTodo={onDeleteTodo} />);
 
     expect(container).toBeInTheDocument();
