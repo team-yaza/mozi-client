@@ -84,8 +84,6 @@ export const Description = styled.div`
   }
 `;
 
-export const SubTaskContainer = styled.div``;
-
 export const OptionWrapper = styled.div`
   width: 100%;
   display: flex;

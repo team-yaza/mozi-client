@@ -13,7 +13,6 @@ import {
   Title,
   DescriptionContainer,
   Description,
-  SubTaskContainer,
   OptionContainer,
   OptionsContainer,
   ChipListContainer,
@@ -207,7 +206,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
             />
           </DescriptionContainer>
 
-          <SubTaskContainer></SubTaskContainer>
           <OptionWrapper>
             <ChipContainer>
               <ChipList align="column" ChipChildren={chipChildren} />
