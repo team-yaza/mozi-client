@@ -16,7 +16,6 @@ export const theme = {
 export const lightTheme: DefaultTheme = {
   color: {
     text: theme.colors.black,
-
     black: '#ffffff',
     light_black: '#ffffff',
     white: '#000000',
@@ -24,6 +23,8 @@ export const lightTheme: DefaultTheme = {
     sidebar_text: '#585858',
     sidebar_text_focused: '#735AFF',
     sidebar_line: '#eeeeee',
+    todo_background: theme.colors.white,
+    todo_checkbox: '#AEAEAE',
     background: '#f9f9f9',
     purple: '#735AFF',
     header: '#ffffff',
@@ -42,6 +43,8 @@ export const darkTheme: DefaultTheme = {
     sidebar_text: '#ffffff',
     sidebar_text_focused: '#735AFF',
     sidebar_line: '#434248',
+    todo_background: '#25232C',
+    todo_checkbox: '#797687',
     background: '#1E1C24',
     purple: '#735AFF',
     header: '#2C2B30',

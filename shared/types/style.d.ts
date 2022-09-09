@@ -11,6 +11,8 @@ declare module 'styled-components' {
       sidebar_text: string;
       sidebar_text_focused: string;
       sidebar_line: string;
+      todo_background: string;
+      todo_checkbox: string;
       background: string;
       purple: string;
       header: string;
