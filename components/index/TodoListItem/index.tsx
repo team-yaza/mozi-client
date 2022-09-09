@@ -48,7 +48,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
-  // const [checked, setChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -175,8 +174,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       ref={containerRef}
     >
       <TitleContainer>
-        <CheckBox onClick={() => onCheckHandler(done)}>
-          {done && <Image src="/assets/svgs/check.svg" layout="fill" />}
+        <CheckBox onClick={() => onCheckHandler(done)} checked={done}>
+          {done && <Image src="/assets/svgs/check.svg" width={15} height={15} />}
         </CheckBox>
         <Title
           ref={titleRef}

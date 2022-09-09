@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { flexCenter } from '@/styles/utils';
+import { theme } from '@/styles/theme';
 
 export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean }>`
   position: relative;
@@ -15,17 +16,20 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
   /* box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'}; */
 `;
 
-export const CheckBox = styled.div`
+export const CheckBox = styled.div<{ checked: boolean }>`
   ${flexCenter}
   position: relative;
   flex-shrink: 0;
 
   margin-right: 1.5rem; // 오른쪽 인풋과의 거리
 
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.8rem;
+  height: 1.8rem;
 
-  border: 1px solid ${({ theme }) => theme.color.todo_checkbox};
+  /* border: 1px solid ${({ theme }) => theme.color.todo_checkbox}; */
+  border: ${({ checked, theme }) => !checked && `1px solid ${theme.color.todo_checkbox}`};
+
+  background-color: ${({ checked }) => checked && theme.colors.purple};
 
   cursor: pointer;
 `;
