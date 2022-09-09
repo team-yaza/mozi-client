@@ -26,7 +26,6 @@ export const CheckBox = styled.div`
   height: 1.6rem;
 
   border: 1px solid #c3c6c9;
-  border-radius: 3rem;
 
   cursor: pointer;
 `;
