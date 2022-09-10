@@ -48,21 +48,19 @@ const Home: NextPageWithLayout = () => {
   const onCreateTodo = useCallback(async () => {
     const createdTodo = await todoService.createTodo();
 
-    setTodos((prev) => [createdTodo, ...prev]);
+    setTodos((todos) => [createdTodo, ...todos]);
   }, []);
 
   const onUpdateTodo = useCallback(
     async ({ id, title, longitude, latitude, description, done, date }: TodoUpdateRequest) => {
       setTodos(
-        (prev) =>
-          prev.map((todo) => {
-            const location =
-              longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location;
+        (todos) =>
+          todos.map((todo) => {
             return todo.id === id
               ? {
                   ...todo,
                   title,
-                  location,
+                  location: longitude && latitude ? serializeGeoJson(longitude, latitude, '충남대학교') : todo.location,
                   description,
                   done,
                   date,
