@@ -13,7 +13,7 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
   background-color: ${({ theme }) => theme.color.todo_background};
   outline: none;
 
-  /* box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'}; */
+  box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
 `;
 
 export const CheckBox = styled.div<{ checked: boolean }>`
