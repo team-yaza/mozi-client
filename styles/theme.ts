@@ -25,7 +25,7 @@ export const lightTheme: DefaultTheme = {
     sidebar_line: '#eeeeee',
     todo_background: theme.colors.white,
     todo_checkbox: '#AEAEAE',
-    background: '#f9f9f9',
+    background: '#ffffff',
     purple: '#735AFF',
     header: '#ffffff',
     grey: '#eeeeee',
