@@ -63,7 +63,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     if (descriptionRef && descriptionRef.current && description) {
       descriptionRef.current.innerText = description;
     }
-  }, []);
+  }, [isDoubleClicked]);
 
   useEffect(() => {
     setChipChildren((oldChildren) => oldChildren.filter((chip) => chip.type !== 'location'));
