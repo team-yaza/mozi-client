@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import TodoMap from '@/components/index/TodoMap';
-import TodoCalendar from '@/components/index/todoCalendar';
+import TodoCalendar from '@/components/index/TodoCalendar';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside/index';
 import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
@@ -47,12 +47,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 }) => {
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const [focused, setFocused] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isTodoMapOpen, setIsTodoMapOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (titleRef && titleRef.current && title) {
