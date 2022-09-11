@@ -1,5 +1,5 @@
 import { TRASH } from '@/components/common/Figure';
-import { Container, Header, LogoContainer } from './styles';
+import { Container, EmptyButton, Header, LogoContainer } from './styles';
 
 const Title: React.FC = () => {
   return (
@@ -8,6 +8,7 @@ const Title: React.FC = () => {
         <TRASH focused />
       </LogoContainer>
       <Header>Trash</Header>
+      <EmptyButton>Empty</EmptyButton>
     </Container>
   );
 };
