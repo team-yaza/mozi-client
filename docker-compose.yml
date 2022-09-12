@@ -1,0 +1,20 @@
+version: '3'
+services:
+  nginx:
+    container_name: 'nginx'
+    build:
+      # nginx directory를 root로 사용
+      context: ./nginx
+      # ./nginx/Dockerfile을 사용해서 build
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+      - mozi-client
+  mozi-client:
+    container_name: 'mozi-client'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
