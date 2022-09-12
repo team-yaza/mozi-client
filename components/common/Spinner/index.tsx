@@ -1,11 +1,11 @@
-import Image from 'next/image';
+import { LOGO } from '@/components/common/Figure';
 import { Container, SpinnerContainer } from './styles';
 
 const Spinner: React.FC = () => {
   return (
     <Container>
       <SpinnerContainer>
-        <Image src="/assets/svgs/logo.svg" layout="fill" />
+        <LOGO />
       </SpinnerContainer>
     </Container>
   );

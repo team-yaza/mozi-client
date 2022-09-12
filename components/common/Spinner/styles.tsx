@@ -12,11 +12,12 @@ export const Container = styled.div`
 
   ${flexCenter};
 `;
+
 export const SpinnerContainer = styled.div`
   position: relative;
 
-  width: 100rem;
-  height: 10rem;
+  width: 6.96rem;
+  height: 6.94rem;
 
   animation: ${spin} 1.1s linear infinite;
   -webkit-animation: ${spin} 1.1s linear infinite;
