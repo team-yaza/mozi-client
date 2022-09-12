@@ -1,16 +1,27 @@
 version: '3'
 services:
   nginx:
-    container_name: 'nginx'
-    build:
-      # nginx directory를 root로 사용
-      context: ./nginx
-      # ./nginx/Dockerfile을 사용해서 build
-      dockerfile: Dockerfile
+    image: nginx:latest
+    restart: unless-stopped
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
-      - '80:80'
+      - 80:80
+      - 443:443
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - mozi-client
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   mozi-client:
     container_name: 'mozi-client'
     build:
@@ -18,3 +29,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
+
