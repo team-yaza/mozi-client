@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
+import Spinner from '@/components/common/Spinner';
 
 const Kakao: NextPage = () => {
   useEffect(() => {
@@ -37,7 +38,11 @@ const Kakao: NextPage = () => {
       }
     })();
   }, []);
-  return <Container>하윙</Container>;
+  return (
+    <Container>
+      <Spinner />
+    </Container>
+  );
 };
 
 const Container = styled.div``;

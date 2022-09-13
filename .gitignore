@@ -127,3 +127,7 @@ worker-*
 
 # certbot
 data/
+
+# storybook build files
+storybook-static
+
