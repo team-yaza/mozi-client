@@ -124,3 +124,6 @@ lhci_reports
 
 # worker files
 worker-*
+
+# certbot
+data/
