@@ -9,17 +9,12 @@ import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery();
-
-  if (todos) {
-    return (
-      <Container>
-        <Title />
-        <TodoList todos={todos} />
-      </Container>
-    );
-  }
-
-  return <div>hi</div>;
+  return (
+    <Container>
+      <Title />
+      <TodoList todos={todos} />
+    </Container>
+  );
 };
 
 Trash.getLayout = function getLayout(page: ReactElement) {

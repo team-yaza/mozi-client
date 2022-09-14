@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import TodoListItem from '@/components/trash/TodoListItem';
 import { Todo } from '@/shared/types/todo';
-import React, { useEffect } from 'react';
 import { Container } from './styles';
 
 interface TodoListProps {
-  todos: Todo[];
+  todos?: Todo[];
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos }) => {
@@ -16,7 +16,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos }) => {
 
   return (
     <Container>
-      {todos.map((todo) => (
+      {todos?.map((todo) => (
         <TodoListItem key={todo.id} title={todo.title} description={todo.description} done={todo.done} />
       ))}
     </Container>
