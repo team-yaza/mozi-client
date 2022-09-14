@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson';
+import { v4 as uuid } from 'uuid';
 
 import { Todo } from '@/shared/types/todo';
 import fetcher from '@/shared/utils/fetcher';
@@ -20,7 +20,7 @@ const todoService = {
     }
 
     // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
-    const tempTodoId = new ObjectId().toString();
+    const tempTodoId = uuid();
     const localTodo = { created: true, id: tempTodoId, alarmed: false, done: false };
 
     try {
