@@ -13,16 +13,6 @@ jobs:
 
     ## node setting
     - uses: actions/checkout@v3
-    - name: Set up Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-
-    ## yarn build
-    - name: Build Mozi
-      run: |
-          yarn install
-          yarn build
 
     ## docker login
     - name: Docker Login
