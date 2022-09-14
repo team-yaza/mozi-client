@@ -14,6 +14,12 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
   outline: none;
 
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
+  transition: 0.3s all;
+`;
+
+export const MainContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const CheckBox = styled.div<{ checked: boolean }>`
@@ -37,15 +43,16 @@ export const CheckBox = styled.div<{ checked: boolean }>`
   cursor: pointer;
 `;
 
-export const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
+// export const TitleContainer = styled.div`
+//   display: flex;
+//   flex: 1;
+//   align-items: center;
+//   flex-shrink: 0;
 
-  font-size: 1.6rem;
-  line-height: 1.92rem;
-  padding-left: 2rem;
-`;
+//   font-size: 1.6rem;
+//   line-height: 1.92rem;
+//   padding-left: 2rem;
+// `;
 
 export const Title = styled.div`
   width: 90%;
@@ -53,6 +60,13 @@ export const Title = styled.div`
 
   font-size: 1.5rem;
   color: ${({ theme }) => theme.color.text};
+
+  /* 고민되는 속성 -> Text가 넘쳤을 때 너무 TodoListItem 칸이 넘침 */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-grow: 1;
+  /* 고민되는 속성 */
 
   &:empty:before {
     content: attr(placeholder);
@@ -68,7 +82,7 @@ export const DescriptionContainer = styled.div`
   display: flex;
   justify-content: center;
 
-  padding-left: 2.7rem;
+  /* padding-left: 2.7rem; */
   width: 100%;
 `;
 

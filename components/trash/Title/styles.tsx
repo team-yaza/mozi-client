@@ -38,6 +38,7 @@ export const EmptyButton = styled.button`
   outline: none;
   border: none;
   border-radius: 1rem;
+  font-weight: bold;
 
   cursor: pointer;
 
