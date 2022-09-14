@@ -26,10 +26,13 @@ export const CheckBox = styled.div<{ checked: boolean }>`
   width: 1.8rem;
   height: 1.8rem;
 
-  /* border: 1px solid ${({ theme }) => theme.color.todo_checkbox}; */
   border: ${({ checked, theme }) => !checked && `1px solid ${theme.color.todo_checkbox}`};
-
+  border-radius: 0.5rem;
   background-color: ${({ checked }) => checked && theme.colors.purple};
+  background-image: url('/assets/svgs/check.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 1.5rem 1.5rem;
 
   cursor: pointer;
 `;

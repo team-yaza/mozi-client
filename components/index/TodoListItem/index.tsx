@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 
 import TodoMap from '@/components/index/TodoMap';
 import TodoCalendar from '@/components/index/TodoCalendar';
@@ -175,9 +174,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       ref={containerRef}
     >
       <TitleContainer>
-        <CheckBox onClick={() => onCheckHandler(done)} checked={done}>
-          {done && <Image src="/assets/svgs/check.svg" width={15} height={15} />}
-        </CheckBox>
+        <CheckBox onClick={() => onCheckHandler(done)} checked={done} />
         <Title
           ref={titleRef}
           placeholder="New Todo"
