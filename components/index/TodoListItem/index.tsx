@@ -8,7 +8,6 @@ import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
 import {
   CheckBox,
   Container,
-  TitleContainer,
   Title,
   DescriptionContainer,
   Description,
@@ -17,6 +16,7 @@ import {
   ChipListContainer,
   OptionWrapper,
   ChipContainer,
+  MainContainer,
 } from './styles';
 import ChipList from '@/components/common/ChipList';
 import { ChipProps } from '@/components/common/ChipList/Chip';
@@ -173,7 +173,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       onKeyDown={onDeleteKeyDown}
       ref={containerRef}
     >
-      <TitleContainer>
+      <MainContainer>
         <CheckBox onClick={() => onCheckHandler(done)} checked={done} />
         <Title
           ref={titleRef}
@@ -184,7 +184,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           onKeyDown={onEnterKeyDown}
           spellCheck={false}
         />
-      </TitleContainer>
+      </MainContainer>
       {!isDoubleClicked ? (
         <ChipListContainer>
           <ChipList align="row" ChipChildren={chipChildren} />
