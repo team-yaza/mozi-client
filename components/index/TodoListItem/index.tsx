@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-
 import TodoMap from '@/components/index/TodoMap';
 import TodoCalendar from '@/components/index/TodoCalendar';
 import { TodoUpdateRequest } from '@/shared/types/todo';
@@ -55,11 +54,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
 
   useEffect(() => {
-    if (titleRef && titleRef.current && title) {
+    if (titleRef.current && title) {
       titleRef.current.innerText = title;
     }
 
-    if (descriptionRef && descriptionRef.current && description) {
+    if (descriptionRef.current && description) {
       descriptionRef.current.innerText = description;
     }
   }, [isDoubleClicked]);

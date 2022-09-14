@@ -8,7 +8,7 @@ export const Container = styled.div`
   align-items: center;
 
   margin-top: 5rem;
-  margin-inline: 2rem;
+  margin-inline: 4rem;
 `;
 
 export const LogoContainer = styled.div`

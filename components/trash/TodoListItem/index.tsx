@@ -1,5 +1,6 @@
+import { useInputRef } from '@/hooks/useInputRef';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   CheckBox,
   Container,
@@ -17,20 +18,11 @@ interface TodoListItemProps {
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ title, description, done }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  // const descriptionRef = useRef<HTMLDivElement>(null);
-
   const [isFocused, setIsFoucsed] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
 
-  useEffect(() => {
-    if (titleRef && titleRef.current && title) {
-      titleRef.current.innerText = title;
-    }
-
-    description;
-  }, []);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { titleRef, descriptionRef } = useInputRef(title, description, [isDoubleClicked]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsFoucsed(false);
@@ -49,18 +41,30 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ title, description, done })
   }, []);
 
   return (
-    <Container ref={containerRef} isFocused={isFocused} onClick={onClickHandler} onDoubleClick={onDoubleClickHandler}>
+    <Container
+      ref={containerRef}
+      isFocused={isFocused}
+      onClick={onClickHandler}
+      isDoubleClicked={isDoubleClicked}
+      onDoubleClick={onDoubleClickHandler}
+    >
       <MainContainer>
         <CheckBox checked={done} />
-        <Title ref={titleRef} contentEditable suppressContentEditableWarning />
+        <Title placeholder="New Todo" ref={titleRef} contentEditable suppressContentEditableWarning />
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
 
       {isDoubleClicked && (
         <DescriptionContainer>
-          <Description />
-          <OptionsContainer>하위</OptionsContainer>
+          <Description
+            placeholder="Notes"
+            ref={descriptionRef}
+            isDoubleClicked={isDoubleClicked}
+            contentEditable
+            suppressContentEditableWarning
+          />
+          <OptionsContainer></OptionsContainer>
         </DescriptionContainer>
       )}
     </Container>
