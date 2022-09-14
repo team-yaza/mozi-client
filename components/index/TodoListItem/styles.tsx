@@ -17,7 +17,7 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
 `;
 
 export const CheckBox = styled.div<{ checked: boolean }>`
-  ${flexCenter}
+  ${flexCenter};
   position: relative;
   flex-shrink: 0;
 
