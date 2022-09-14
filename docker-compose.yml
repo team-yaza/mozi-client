@@ -23,10 +23,7 @@ services:
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   mozi-client:
-    container_name: 'mozi-client'
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: hancihu/mozi-client
     ports:
       - '3000:3000'
 
