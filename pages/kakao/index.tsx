@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -7,6 +8,8 @@ import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
 import Spinner from '@/components/common/Spinner';
 
 const Kakao: NextPage = () => {
+  const router = useRouter();
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
@@ -32,7 +35,8 @@ const Kakao: NextPage = () => {
         });
 
         const jwtToken = await sendAccessTokenToServerAndGetJWT(response.data.access_token);
-        console.log(jwtToken, '?');
+
+        if (jwtToken) router.push('/');
       } catch (e) {
         console.log(e);
       }
