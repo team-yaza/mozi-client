@@ -1,0 +1,44 @@
+name: CD
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  CD:
+    runs-on: ubuntu-latest
+    steps:
+
+    ## node setting
+    - uses: actions/checkout@v3
+
+    ## docker login
+    - name: Docker Login
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    ## docker build & push
+    - name: Docker build & push
+      run: |
+          docker build -f Dockerfile -t hancihu/mozi-client .
+          docker push hancihu/mozi-client
+
+    ## deploy to production
+    - name: Deploy MOZI Production to AWS
+      uses: appleboy/ssh-action@master
+      id: deploy-mozi
+      with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_CERT }}
+          envs: GITHUB_SHA
+          script: |
+              cd /home/ubuntu/mozi-client
+              sudo docker-compose down
+              sudo docker pull hancihu/mozi-client
+              docker-compose up -d
+              docker image prune -f

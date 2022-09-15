@@ -125,5 +125,9 @@ lhci_reports
 # worker files
 worker-*
 
+# certbot
+data/
+
 # storybook build files
 storybook-static
+
