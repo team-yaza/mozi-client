@@ -5,11 +5,10 @@ export const Container = styled.div<{ isFocused: boolean; isDoubleClicked: boole
   position: relative;
 
   width: 100%;
+  height: auto;
 
-  /* max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '300rem' : 0)}; */
-  /* min-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : 'calc("100%")')}; */
-  /* min-height: calc(100%);
-  max-height: 100rem; */
+  max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '10rem')};
+  min-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '0')};
 
   max-width: calc(100% - 6rem);
 
@@ -19,10 +18,10 @@ export const Container = styled.div<{ isFocused: boolean; isDoubleClicked: boole
   border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem #ffffff solid')};
   border-radius: 1rem;
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
+  transition: max-height 0.3s, min-height 0.3s, box-shadow 0.3s;
 
   /* transition: border 1s ease-in-out; */
   /* transition: box-shadow 0.2s ease-in-out; */
-  /* transition: max-height 1s; */
 
   /* transition: max-height 1s; */
   /* transition: height 1s; */
