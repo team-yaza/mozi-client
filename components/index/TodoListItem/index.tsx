@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-
 import TodoMap from '@/components/index/TodoMap';
 import TodoCalendar from '@/components/index/TodoCalendar';
 import { TodoUpdateRequest } from '@/shared/types/todo';
@@ -9,7 +7,6 @@ import { CALENDAR, DEADLINE, PLACE, TODOTAG } from '@/components/common/Figure';
 import {
   CheckBox,
   Container,
-  TitleContainer,
   Title,
   DescriptionContainer,
   Description,
@@ -18,6 +15,7 @@ import {
   ChipListContainer,
   OptionWrapper,
   ChipContainer,
+  MainContainer,
 } from './styles';
 import ChipList from '@/components/common/ChipList';
 import { ChipProps } from '@/components/common/ChipList/Chip';
@@ -56,11 +54,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const [chipChildren, setChipChildren] = useState<ChipProps[]>([]);
 
   useEffect(() => {
-    if (titleRef && titleRef.current && title) {
+    if (titleRef.current && title) {
       titleRef.current.innerText = title;
     }
 
-    if (descriptionRef && descriptionRef.current && description) {
+    if (descriptionRef.current && description) {
       descriptionRef.current.innerText = description;
     }
   }, [isDoubleClicked]);
@@ -174,10 +172,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       onKeyDown={onDeleteKeyDown}
       ref={containerRef}
     >
-      <TitleContainer>
-        <CheckBox onClick={() => onCheckHandler(done)} checked={done}>
-          {done && <Image src="/assets/svgs/check.svg" width={15} height={15} />}
-        </CheckBox>
+      <MainContainer>
+        <CheckBox onClick={() => onCheckHandler(done)} checked={done} />
         <Title
           ref={titleRef}
           placeholder="New Todo"
@@ -187,7 +183,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           onKeyDown={onEnterKeyDown}
           spellCheck={false}
         />
-      </TitleContainer>
+      </MainContainer>
       {!isDoubleClicked ? (
         <ChipListContainer>
           <ChipList align="row" ChipChildren={chipChildren} />
