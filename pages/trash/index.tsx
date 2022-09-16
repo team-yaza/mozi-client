@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import { useDeleteAllTodosMutation } from '@/hooks/apis/todo/useTodoMutation';
 import AppLayout from '@/components/common/AppLayout';
 import Title from '@/components/trash/Title';
 import TodoList from '@/components/trash/TodoList';
@@ -10,10 +11,11 @@ import Spinner from '@/components/common/Spinner';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useTodoListQuery();
+  const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
   return (
     <Container>
-      <Title />
+      <Title onEmptyButtonClick={deleteAllTodos} />
 
       {isLoading && (
         <SpinnerContainer>
