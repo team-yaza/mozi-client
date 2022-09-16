@@ -101,6 +101,16 @@ const todoService = {
       console.log(error);
     }
   },
+  deleteAllTodos: async () => {
+    try {
+      await fetcher('delete', '/todos/all');
+    } catch (error) {
+      console.log(error);
+      await syncTodos();
+    }
+
+    // ! 여기에 네트워크 실패했을 때 일단 다 삭제하는 로직 (로컬에서)
+  },
 };
 
 export default todoService;

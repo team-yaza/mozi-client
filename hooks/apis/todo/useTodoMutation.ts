@@ -32,3 +32,10 @@ export const useDeleteTodoMutation = () =>
       queryClient.invalidateQueries(['todos']);
     },
   });
+
+export const useDeleteAllTodosMutation = () =>
+  useMutation(() => todoService.deleteAllTodos(), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['todos']);
+    },
+  });
