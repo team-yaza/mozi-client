@@ -2,8 +2,8 @@ import { useInputRef } from '@/hooks/useInputRef';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { useCallback, useRef, useState } from 'react';
 import {
-  CheckBox,
   Container,
+  CheckBox,
   Description,
   DescriptionContainer,
   MainContainer,
@@ -15,28 +15,31 @@ interface TodoListItemProps {
   title?: string;
   description?: string;
   done: boolean;
+  isFocused?: boolean;
+  setIsFocused: (index: number) => void;
+  index: number;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ title, description, done }) => {
-  const [isFocused, setIsFoucsed] = useState(false);
+const TodoListItem: React.FC<TodoListItemProps> = ({ title, description, done, isFocused, setIsFocused, index }) => {
+  // const [isFocused, setIsFoucsed] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { titleRef, descriptionRef } = useInputRef(title, description, [isDoubleClicked]);
 
   const onClickOutsideHandler = useCallback(() => {
-    setIsFoucsed(false);
+    // setIsFoucsed(false);
     setIsDoubleClicked(false);
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
   const onClickHandler = useCallback(() => {
-    setIsFoucsed((prev) => !prev);
+    setIsFocused(index); // 이제 인덱스를 todo의 index로 바꾸는 작업 필요
   }, []);
 
   const onDoubleClickHandler = useCallback(() => {
-    setIsFoucsed(false);
+    setIsFocused(-1);
     setIsDoubleClicked((prev) => !prev);
   }, []);
 
