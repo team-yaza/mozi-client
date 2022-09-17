@@ -134,7 +134,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
   }, []);
 
-  const onCheckHandler = useCallback((done: boolean) => {
+  const onCheckHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>, done: boolean) => {
+    e.stopPropagation();
     onUpdateTodo({ id, done: !done });
   }, []);
 
@@ -173,7 +174,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       ref={containerRef}
     >
       <MainContainer>
-        <CheckBox onClick={() => onCheckHandler(done)} checked={done} />
+        <CheckBox onClick={(e) => onCheckHandler(e, done)} checked={done} />
         <Title
           ref={titleRef}
           placeholder="New Todo"
