@@ -2,8 +2,8 @@
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { NetworkOnly, NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
-import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routing';
-import { matchPrecache, precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { cleanupOutdatedCaches } from 'workbox-precaching';
 
 // import fetcher from '../shared/utils/fetcher';
 import { todoStore } from '../store/forage';
@@ -22,9 +22,8 @@ self.__WB_DISABLE_DEV_LOGS = true;
 const ALARM_DISTANCE_STANDARD = 1000; //10 km
 const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
 
-const PRODUCT_SERVER = 'https://mozi-server.com/api/v1';
-// const PRODUCT_SERVER = 'http://localhost:3001/api/v1';
-const DEVELOP_SERVER = 'http://localhost:3001/api/v1';
+const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
+// const DEVELOPMENT_SERVER = 'http://localhost:3001/api/v1';
 
 self.addEventListener('install', (event) => {
   console.log('service worker installed');
@@ -129,6 +128,8 @@ registerRoute(
 //   'GET'
 // );
 
+registerRoute(/^https:\/\/openapi.map.naver.com\/openapi\/v3\/.*/i, new NetworkOnly());
+registerRoute(/^https:\/\/developers.kakao.com\/sdk\/js\/.*/i, new NetworkOnly());
 registerRoute(
   /.*/i,
   new NetworkFirst({
@@ -169,7 +170,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
         localTodos.map(async (todo: Todo) => {
           // console.log(todo, key, iterationNumber);
           if (todo.created) {
-            await fetch(`${PRODUCT_SERVER}/todos`, {
+            await fetch(`${PRODUCTION_SERVER}/todos`, {
               method: 'POST',
               body: JSON.stringify({
                 _id: todo.id,
@@ -177,7 +178,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
               }),
             });
           } else if (todo.updated) {
-            await fetch(`${PRODUCT_SERVER}/todos/${todo.id}`, {
+            await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
               method: 'PATCH',
               body: JSON.stringify({
                 title: todo.title,
@@ -188,7 +189,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
               },
             });
           } else if (todo.deleted) {
-            await fetch(`${PRODUCT_SERVER}/todos/${todo.id}`, {
+            await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
               method: 'DELETE',
             });
           }
@@ -218,9 +219,10 @@ self.addEventListener('sync', async (event: SyncEvent) => {
   }
 });
 
-self.addEventListener('fetch', (event) => {
-  // console.log(event.request.url);
-});
+// self.addEventListener('fetch', (event) => {
+//   // console.log(event.request.url);
+//   event;
+// });
 
 let sub: PushSubscription | null = null;
 
@@ -249,7 +251,7 @@ self.addEventListener('message', (event) => {
       console.log(todo.title, distance);
 
       if (distance < ALARM_DISTANCE_STANDARD && !todo.alarmed) {
-        await fetch(`${PRODUCT_SERVER}/webpush/${todo.id}`, {
+        await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
           method: 'POST',
           body: JSON.stringify({
             subscription: JSON.stringify(sub),
@@ -260,7 +262,7 @@ self.addEventListener('message', (event) => {
         });
         await todoStore.setItem(todo.id, { ...todo, alarmed: true });
       } else if (distance > ALARM_DISTANCE_STANDARD && todo.alarmed) {
-        await fetch(`${PRODUCT_SERVER}/webpush/${todo.id}`, {
+        await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
           method: 'PATCH',
         });
         await todoStore.setItem(todo.id, { ...todo, alarmed: false });
