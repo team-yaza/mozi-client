@@ -35,7 +35,7 @@ const Kakao: NextPage = () => {
         });
 
         const jwtToken = await sendAccessTokenToServerAndGetJWT(response.data.access_token);
-
+        document.cookie = 'token=' + jwtToken;
         if (jwtToken) router.push('/');
       } catch (e) {
         console.log(e);
