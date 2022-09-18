@@ -14,7 +14,7 @@ export const Container = styled.div<{ isDoubleClicked: boolean; focused: boolean
   outline: none;
 
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
-  transition: 0.3s all;
+  /* transition: 0.3s all; */
 `;
 
 export const MainContainer = styled.div`
