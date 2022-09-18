@@ -117,6 +117,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
+    // if (e.key === 'Enter' && !focused) {
+    //   e.preventDefault();
+    //   onClickOutsideHandler();
+    //   return;
+    // }
+
     onUpdateTodo({ id, title: e.target.innerText });
   }, []);
 
@@ -129,7 +135,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const onEnterKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === 'Escape') {
       e.preventDefault();
-      e.target.blur();
+      // e.target.blur();
       onClickOutsideHandler();
     }
   }, []);
@@ -145,7 +151,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   const onClickHander = useCallback(() => {
-    setFocused(true);
+    setFocused((prev) => !prev);
   }, []);
 
   const onCalendarClickHandler = useCallback(() => {
@@ -156,6 +162,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onDeleteKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter' && focused) {
+        e.preventDefault();
+        setIsDoubleClicked(true);
+        return;
+      } else if (e.key === 'Enter' && !focused) {
+        e.preventDefault();
+        onClickOutsideHandler();
+        return;
+      }
       if (e.key === 'Backspace' || e.key === 'Delete') {
         if (focused && !isDoubleClicked) onDeleteTodo(id);
       }
@@ -198,7 +213,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
               contentEditable
               suppressContentEditableWarning
               onInput={onInputDescription}
-              // onKeyUp={onEnterKeyDown}
               spellCheck={false}
             />
           </DescriptionContainer>
