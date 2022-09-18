@@ -112,37 +112,37 @@ yarn start
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/sojjeong" target="_blank">
+      <a href="https://github.com/HanCiHu" target="_blank">
         유찬희<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/limejin">
+      <a href="https://github.com/sion-k" target="_blank">
         김시온<br />
         Backend
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/limejin">
+      <a href="https://github.com/sangsoo" target="_blank">
         남상수 멘토님<br />
       </a>
       <a href="https://www.spotify.com/">Spotify</a>
     </td>
     <td align="center">
-      <a href="https://github.com/dobestan">
+      <a href="https://github.com/dobestan" target="_blank">
         안수찬 멘토님<br />
       </a>
       <a href="https://www.thebold.co.kr/">BOLD</a>
     </td>
     <td align="center">
-      <a href="https://github.com/dobestan">
+      <a href="https://github.com/minjang" target="_blank">
         김민장 멘토님<br />
       </a>
       <a href="https://about.facebook.com/ko/meta/">Facebook</a>
     </td>
     <td align="center">
-      <a href="https://github.com/gv0413">
+      <a href="https://github.com/gv0413" target="_blank">
         목민주 멘토님<br />
       </a>
       <a href="https://kakaoenterprise.com/">Kakao Enterprise</a>
