@@ -85,7 +85,9 @@ export const SearchResultList = styled.ul`
   padding: 0;
 `;
 
-export const SearchResultItem = styled.li``;
+export const SearchResultItem = styled.li`
+  cursor: pointer;
+`;
 
 export const RecentSearchContainer = styled.div``;
 
