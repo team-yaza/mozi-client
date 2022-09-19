@@ -8,11 +8,11 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     ports:
       - 80:80
       - 443:443
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
     depends_on:
       - mozi-client
   certbot:
@@ -24,6 +24,8 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   mozi-client:
     image: hancihu/mozi-client
+    env_file:
+      - .env.local
     ports:
       - '3000:3000'
-
+    command: "echo -e 'NEXT_PUBLIC_NAVER_CLIENT_ID='$NEXT_PUBLIC_NAVER_CLIENT_ID'\nNEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY='$NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY'\nNEXT_PUBLIC_KAKAO_REDIRECT_URI='$NEXT_PUBLIC_KAKAO_REDIRECT_URI'NEXT_PUBLIC_KAKAO_REST_API_KEY='$NEXT_PUBLIC_KAKAO_REST_API_KEY'\nNEXT_PUBLIC_KAKAO_CLIENT_SECRET='$NEXT_PUBLIC_KAKAO_CLIENT_SECRET'\nKAKAO_SECRET='$KAKAO_SECRET'\nAUTH_SECRET='$AUTH_SECRET'\nJWT_SECRET='$JWT_SECRET > .env.local"
