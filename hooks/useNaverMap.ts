@@ -1,5 +1,5 @@
-import { Location } from '@/shared/types/location';
 import { useCallback, useEffect, useState } from 'react';
+import { Location } from '@/shared/types/location';
 
 export const useNaverMap = () => {
   const [naverMap, setNaverMap] = useState<naver.maps.Map>();
@@ -36,6 +36,16 @@ export const useNaverMap = () => {
       // map.panBy(new naver.maps.Point(30, 30));
       setNaverMap(map);
       setNaverMapCenter(center);
+
+      // coords가 바뀌면 마커를 가운데에 생성해준다.
+      createMarker({
+        map,
+        position: createPosition(coords.latitude, coords.longitude),
+        icon: {
+          content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+          anchor: new naver.maps.Point(11, 11),
+        },
+      });
     }
   }, [coords]);
 

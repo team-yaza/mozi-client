@@ -33,8 +33,8 @@ const Map: NextPageWithLayout = () => {
   }, [todosLocation, naverMap]);
 
   useEffect(() => {
-    if (naverMap) {
-      naver.maps.Event.addListener(naverMap, 'click', function (e) {
+    const naverMapOnClickHandler = (e: any) => {
+      if (naverMap) {
         createMarker({
           map: naverMap,
           position: createPosition(e.coord.y, e.coord.x),
@@ -43,7 +43,11 @@ const Map: NextPageWithLayout = () => {
             anchor: new naver.maps.Point(11, 11),
           },
         });
-      });
+      }
+    };
+
+    if (naverMap) {
+      naver.maps.Event.addListener(naverMap, 'click', naverMapOnClickHandler);
     }
   }, [naverMap]);
 
@@ -53,7 +57,12 @@ const Map: NextPageWithLayout = () => {
         <title>MOZI | 지도</title>
       </Head>
       <Container>
-        <SearchSideBar setCoords={setCoords} />
+        <SearchSideBar
+          // naverMap={naverMap}
+          setCoords={setCoords}
+          // createMarker={createMarker}
+          // createPosition={createPosition}
+        />
         <MapLayout id="map" ref={naverMapRef} />
       </Container>
     </>

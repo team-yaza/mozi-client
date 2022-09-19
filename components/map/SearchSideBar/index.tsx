@@ -25,7 +25,10 @@ interface SearchResult {
 }
 
 interface SearchSideBarProps {
+  // naverMap: naver.maps.Map | undefined;
   setCoords: Dispatch<SetStateAction<Location | undefined>>;
+  // createMarker: (options: naver.maps.MarkerOptions) => naver.maps.Marker;
+  // createPosition: (latitude: number, longitude: number) => naver.maps.LatLng;
 }
 
 const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
@@ -57,9 +60,12 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
     }
   }, []);
 
-  const onChangePosition = useCallback(({ latitude, longitude }: { latitude: number; longitude: number }) => {
-    setCoords({ latitude, longitude });
-  }, []);
+  const onChangePosition = useCallback(
+    ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+      setCoords({ latitude, longitude });
+    },
+    [setCoords]
+  );
 
   return (
     <Container isSearchBarOpen={isSearchBarOpen}>
