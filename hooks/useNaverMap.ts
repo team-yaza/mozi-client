@@ -1,9 +1,11 @@
+import { Location } from '@/shared/types/location';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useNaverMap = () => {
   const [naverMap, setNaverMap] = useState<naver.maps.Map>();
   const [naverMapCenter, setNaverMapCenter] = useState<naver.maps.LatLng>();
-  const [coords, setCoords] = useState<GeolocationCoordinates>();
+  const [coords, setCoords] = useState<Location>();
+  // const [coords, setCoords] = useState<GeolocationCoordinates>();
 
   const createMap = useCallback((options: naver.maps.MapOptions | undefined) => new naver.maps.Map('map', options), []);
   const createMarker = useCallback((options: naver.maps.MarkerOptions) => new naver.maps.Marker(options), []);
@@ -15,7 +17,7 @@ export const useNaverMap = () => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        setCoords(coords);
+        setCoords({ latitude: coords.latitude, longitude: coords.longitude });
       },
       (error) => console.error(error),
       { enableHighAccuracy: true }

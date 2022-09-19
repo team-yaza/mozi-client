@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, Dispatch, SetStateAction } from 'react';
 import { useRecoilState } from 'recoil';
 
 import RecentSearch from './RecentSearch';
@@ -17,16 +17,18 @@ import {
   SearchResultItem,
   SearchResultHeading,
 } from './styles';
+import { Location } from '@/shared/types/location';
 
 interface SearchResult {
   name: string;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
+  location: [latitude: number, longitude: number];
 }
 
-const SearchSideBar: React.FC = () => {
+interface SearchSideBarProps {
+  setCoords: Dispatch<SetStateAction<Location | undefined>>;
+}
+
+const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
   const [keyword, setKeyword] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [searchResult, setSearchResult] = useState<Array<SearchResult>>([]);
@@ -50,7 +52,13 @@ const SearchSideBar: React.FC = () => {
     if (result.length > 0) {
       setIsSearching(true);
       setSearchResult(result);
+
+      console.log(result);
     }
+  }, []);
+
+  const onChangePosition = useCallback(({ latitude, longitude }: { latitude: number; longitude: number }) => {
+    setCoords({ latitude, longitude });
   }, []);
 
   return (
@@ -61,7 +69,12 @@ const SearchSideBar: React.FC = () => {
           <SearchResultHeading>장소</SearchResultHeading>
           <SearchResultList>
             {searchResult.map((result, index) => (
-              <SearchResultItem key={index}>{result.name}</SearchResultItem>
+              <SearchResultItem
+                key={index}
+                onClick={() => onChangePosition({ longitude: result.location[0], latitude: result.location[1] })}
+              >
+                {result.name}
+              </SearchResultItem>
             ))}
           </SearchResultList>
         </SearchResultContainer>

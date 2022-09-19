@@ -12,7 +12,7 @@ import AppLayout from '@/components/common/AppLayout';
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const todosLocation = useRecoilValue(todosLocationState);
-  const { naverMap, createMarker, createPosition } = useNaverMap();
+  const { naverMap, createMarker, createPosition, setCoords } = useNaverMap();
 
   useEffect(() => {
     if (naverMap) {
@@ -53,7 +53,7 @@ const Map: NextPageWithLayout = () => {
         <title>MOZI | 지도</title>
       </Head>
       <Container>
-        <SearchSideBar />
+        <SearchSideBar setCoords={setCoords} />
         <MapLayout id="map" ref={naverMapRef} />
       </Container>
     </>
