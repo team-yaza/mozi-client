@@ -24,6 +24,8 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   mozi-client:
     image: hancihu/mozi-client
+    env_file:
+      - .env.local
     ports:
       - '3000:3000'
 
