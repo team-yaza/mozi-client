@@ -1,8 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { UseMutateFunction } from '@tanstack/react-query';
+
+import { TodoUpdateRequest } from '@/shared/types/todo';
 import { Container } from './styles';
 
 interface DescriptionProps {
   description?: string;
+  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
 }
 
 const Description: React.FC<DescriptionProps> = ({ description = '' }) => {

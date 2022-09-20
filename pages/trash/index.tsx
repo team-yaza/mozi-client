@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useDeleteAllTodosMutation } from '@/hooks/apis/todo/useTodoMutation';
+import {
+  useDeleteAllTodosMutation,
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from '@/hooks/apis/todo/useTodoMutation';
 import AppLayout from '@/components/common/AppLayout';
 import Title from '@/components/trash/Title';
 import TodoList from '@/components/trash/TodoList';
@@ -11,6 +15,8 @@ import Spinner from '@/components/common/Spinner';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useTodoListQuery();
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
   return (
@@ -23,7 +29,7 @@ const Trash: NextPageWithLayout = () => {
         </SpinnerContainer>
       )}
 
-      <TodoList todos={todos} />
+      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
     </Container>
   );
 };

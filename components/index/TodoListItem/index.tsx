@@ -142,6 +142,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onCheckHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>, done: boolean) => {
     e.stopPropagation();
+
     onUpdateTodo({ id, done: !done });
   }, []);
 
