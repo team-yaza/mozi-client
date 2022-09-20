@@ -1,0 +1,12 @@
+# git & github
+.git
+.github
+
+# husky
+.husky
+
+#cypress
+cypress
+
+#certbot
+data
