@@ -39,6 +39,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onClickOutsideHandler = useCallback(() => {
     setIsFocused(-1);
+    setIsMapOpened(false);
     setIsDoubleClicked(false);
   }, []);
 
@@ -60,6 +61,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     },
     [done]
   );
+
+  const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setIsMapOpened((prevState) => !prevState);
+  }, []);
 
   return (
     <Container
@@ -84,8 +90,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
             <Description description={description} updateTodo={updateTodo} />
           </DescriptionContainer>
           <OptionsContainer>
-            <OptionContainer onClick={() => setIsMapOpened(!isMapOpened)}>
-              <PLACE />
+            <OptionContainer onClick={onClickMap}>
+              <PLACE focused={!isMapOpened} />
             </OptionContainer>
           </OptionsContainer>
         </>

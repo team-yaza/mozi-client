@@ -10,7 +10,7 @@ const Map = () => {
 
   return (
     <Container>
-      <div id="map" ref={naverMapRef} style={{ width: '500px', height: '300px' }}></div>
+      <div id="map" ref={naverMapRef} style={{ width: '100%', height: '300px' }}></div>
     </Container>
   );
 };
