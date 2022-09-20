@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { theme } from '@/styles/theme';
 
 export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: boolean }>`
@@ -7,8 +7,13 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   width: 100%;
   height: auto;
 
-  max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '10rem')};
-  min-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '0')};
+  // 컴포넌트의 크기가 명확하다면 transition을 적용할 수 있을 것 같다.
+
+  /* max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '4.197rem')}; */
+  /* max-height: ${({ isDoubleClicked }) => !isDoubleClicked && '4.197rem'}; */
+  /* min-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '4.197rem')}; */
+  /* min-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '4.197rem')}; */
+  /* min-height: ${({ isDoubleClicked }) => !isDoubleClicked && '4.197rem'}; */
 
   /* max-width: calc(100% - 6rem); */
 
@@ -18,8 +23,8 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   border-radius: 1rem;
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
 
-  transition: max-height 0.3s, min-height 0.3s, box-shadow 0.3s;
-
+  /* transition: max-height 3s, min-height 3s, box-shadow 0.3s; */
+  /* transition: all 3s; */
   /* transition: max-height 1s; */
   /* transition: height 1s; */
 
@@ -52,37 +57,25 @@ export const CheckBox = styled.div<{ checked: boolean }>`
 
 export const DescriptionContainer = styled.div``;
 
-export const Description = styled.div<{ isDoubleClicked: boolean }>`
-  width: 100%;
-
-  padding-top: 1rem;
-  padding-left: 3.1rem;
-
-  margin-bottom: 10rem;
-
-  font-size: 1.4rem;
-
-  &:empty:before {
-    content: attr(placeholder);
-    color: grey;
-    display: inline-block;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  /* animation: ${({ isDoubleClicked }) => !isDoubleClicked && fadeOut} 2s ease-in-out; */
-  /* height: ${({ isDoubleClicked }) => !isDoubleClicked && 0};
-  transition: height 1s ease-in-out; */
+export const OptionsContainer = styled.div`
+  background-color: red;
+  display: flex;
+  justify-content: flex-end;
 `;
-export const OptionsContainer = styled.div``;
+export const OptionContainer = styled.div`
+  position: relative;
 
-const fadeOut = keyframes`
-0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  width: 2.5rem;
+  height: 2.5rem;
+
+  cursor: pointer;
 `;
+
+// const fadeOut = keyframes`
+// 0% {
+//     opacity: 1;
+//   }
+//   100% {
+//     opacity: 0;
+//   }
+// `;

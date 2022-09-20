@@ -3,9 +3,11 @@ import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
 import Description from './Description';
+import Map from './Map';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { Container, CheckBox, DescriptionContainer, MainContainer, OptionsContainer } from './styles';
+import { Container, CheckBox, DescriptionContainer, MainContainer, OptionsContainer, OptionContainer } from './styles';
+import { PLACE } from '@/components/common/Figure';
 
 interface TodoListItemProps {
   id: string;
@@ -31,6 +33,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   // deleteTodo,
 }) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
+  const [isMapOpened, setIsMapOpened] = useState(false);
+  setIsMapOpened;
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onClickOutsideHandler = useCallback(() => {
@@ -66,18 +70,30 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       onDoubleClick={onDoubleClickHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
+
       <MainContainer>
         <CheckBox checked={done} onClick={onCheckHandler} />
         <Title id={id} title={title} updateTodo={updateTodo} />
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
+
       {isDoubleClicked && (
-        <DescriptionContainer>
-          <Description description={description} updateTodo={updateTodo} />
-          <OptionsContainer></OptionsContainer>
-        </DescriptionContainer>
+        <>
+          <DescriptionContainer>
+            <Description description={description} updateTodo={updateTodo} />
+          </DescriptionContainer>
+          <OptionsContainer>
+            <OptionContainer onClick={() => setIsMapOpened(!isMapOpened)}>
+              <PLACE />
+            </OptionContainer>
+          </OptionsContainer>
+        </>
       )}
+
+      {/* <Map /> */}
+
+      {isMapOpened && <Map />}
     </Container>
   );
 };

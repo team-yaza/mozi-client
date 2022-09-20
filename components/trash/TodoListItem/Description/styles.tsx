@@ -6,7 +6,7 @@ export const Container = styled.div`
   padding-top: 1rem;
   padding-left: 3.1rem;
 
-  margin-bottom: 10rem;
+  margin-bottom: 2rem; // 밑애 option과의 거리
 
   font-size: 1.4rem;
 
