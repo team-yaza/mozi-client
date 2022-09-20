@@ -56,7 +56,10 @@ export const CheckBox = styled.div<{ checked: boolean }>`
   cursor: pointer;
 `;
 
-export const DescriptionContainer = styled.div``;
+export const DescriptionContainer = styled.div`
+  max-height: 5rem;
+  overflow-y: scroll;
+`;
 
 export const OptionsContainer = styled.div`
   display: flex;

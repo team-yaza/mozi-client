@@ -35,6 +35,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
   setIsMapOpened;
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onClickOutsideHandler = useCallback(() => {
@@ -87,7 +88,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description description={description} updateTodo={updateTodo} />
+            <Description id={id} description={description} updateTodo={updateTodo} />
           </DescriptionContainer>
           <OptionsContainer>
             <OptionContainer onClick={onClickMap}>
