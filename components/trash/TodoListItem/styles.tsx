@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '@/styles/theme';
+import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: boolean }>`
   position: relative;
@@ -58,12 +59,18 @@ export const CheckBox = styled.div<{ checked: boolean }>`
 export const DescriptionContainer = styled.div``;
 
 export const OptionsContainer = styled.div`
-  background-color: red;
   display: flex;
   justify-content: flex-end;
+  /* align-items: center; */
 `;
 export const OptionContainer = styled.div`
   position: relative;
+
+  /* display: flex;
+  justify-content: flex-end;
+  align-items: center; */
+
+  ${flexCenter};
 
   width: 2.5rem;
   height: 2.5rem;
