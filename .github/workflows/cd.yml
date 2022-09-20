@@ -28,6 +28,7 @@ jobs:
           NEXT_PUBLIC_KAKAO_REDIRECT_URI: ${{secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI}}
           NEXT_PUBLIC_KAKAO_REST_API_KEY: ${{secrets.NEXT_PUBLIC_KAKAO_REST_API_KEY}}
           NEXT_PUBLIC_KAKAO_CLIENT_SECRET: ${{secrets.NEXT_PUBLIC_KAKAO_CLIENT_SECRET}}
+          NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCT: ${{secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCT}}
           AUTH_SECRET: ${{secrets.AUTH_SECRET}}
           KAKAO_SECRET: ${{secrets.KAKAO_SECRET}}
           JWT_SECRET: ${{secrets.JWT_SECRET}}
@@ -40,6 +41,7 @@ jobs:
           echo "KAKAO_SECRET=$KAKAO_SECRET" >> .env.local
           echo "AUTH_SECRET=$AUTH_SECRET" >> .env.local
           echo "JWT_SECRET=$JWT_SECRET" >> .env.local
+          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCT=$NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCT" >> .env.local
           docker build -f Dockerfile -t hancihu/mozi-client .
           docker push hancihu/mozi-client
 
