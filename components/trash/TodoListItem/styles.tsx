@@ -10,11 +10,10 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '10rem')};
   min-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '0')};
 
-  max-width: calc(100% - 6rem);
+  /* max-width: calc(100% - 6rem); */
 
   padding: 1rem;
-  margin: 1rem 3rem;
-
+  margin-block: 1rem;
   border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem #ffffff solid')};
   border-radius: 1rem;
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
