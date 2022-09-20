@@ -17,12 +17,12 @@ export const useCreateTodoMutation = () =>
 
 export const useUpdateTodoMutation = () =>
   useMutation(
-    ({ id, title, latitude, longitude, description }: TodoUpdateRequest) =>
-      todoService.updateTodo({ id, title, latitude, longitude, description }),
+    ({ id, title, done, latitude, longitude, description }: TodoUpdateRequest) =>
+      todoService.updateTodo({ id, title, done, latitude, longitude, description }),
     {
-      // onSuccess: () => {
-      //   queryClient.invalidateQueries(['todos']);
-      // },
+      onSuccess: () => {
+        queryClient.invalidateQueries(['todos']);
+      },
     }
   );
 

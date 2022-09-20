@@ -1,46 +1,71 @@
-import { useInputRef } from '@/hooks/useInputRef';
-import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { useCallback, useRef, useState } from 'react';
-import {
-  Container,
-  CheckBox,
-  Description,
-  DescriptionContainer,
-  MainContainer,
-  OptionsContainer,
-  Title,
-} from './styles';
+import { UseMutateFunction } from '@tanstack/react-query';
+
+import Title from './Title';
+import Description from './Description';
+import Map from './Map';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { TodoUpdateRequest } from '@/shared/types/todo';
+import { Container, CheckBox, DescriptionContainer, MainContainer, OptionsContainer, OptionContainer } from './styles';
+import { PLACE } from '@/components/common/Figure';
 
 interface TodoListItemProps {
+  id: string;
   title?: string;
   description?: string;
   done: boolean;
+  index: number;
   isFocused?: boolean;
   setIsFocused: (index: number) => void;
-  index: number;
+  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ title, description, done, isFocused, setIsFocused, index }) => {
-  // const [isFocused, setIsFoucsed] = useState(false);
+const TodoListItem: React.FC<TodoListItemProps> = ({
+  id,
+  title,
+  description,
+  done,
+  isFocused,
+  setIsFocused,
+  index,
+  updateTodo,
+  // deleteTodo,
+}) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
+  const [isMapOpened, setIsMapOpened] = useState(false);
+  setIsMapOpened;
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const { titleRef, descriptionRef } = useInputRef(title, description, [isDoubleClicked]);
 
   const onClickOutsideHandler = useCallback(() => {
-    // setIsFoucsed(false);
+    setIsFocused(-1);
+    setIsMapOpened(false);
     setIsDoubleClicked(false);
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
   const onClickHandler = useCallback(() => {
-    setIsFocused(index); // 이제 인덱스를 todo의 index로 바꾸는 작업 필요
+    setIsFocused(index);
   }, []);
 
   const onDoubleClickHandler = useCallback(() => {
     setIsFocused(-1);
-    setIsDoubleClicked((prev) => !prev);
+    setIsDoubleClicked((prevState) => !prevState);
+  }, []);
+
+  const onCheckHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      updateTodo({ id, done: !done });
+    },
+    [done]
+  );
+
+  const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setIsMapOpened((prevState) => !prevState);
   }, []);
 
   return (
@@ -51,25 +76,31 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ title, description, done, i
       isDoubleClicked={isDoubleClicked}
       onDoubleClick={onDoubleClickHandler}
     >
+      {/* 클릭 안해도 보이는 부분 */}
+
       <MainContainer>
-        <CheckBox checked={done} />
-        <Title placeholder="New Todo" ref={titleRef} contentEditable suppressContentEditableWarning />
+        <CheckBox checked={done} onClick={onCheckHandler} />
+        <Title id={id} title={title} updateTodo={updateTodo} />
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
 
       {isDoubleClicked && (
-        <DescriptionContainer>
-          <Description
-            placeholder="Notes"
-            ref={descriptionRef}
-            isDoubleClicked={isDoubleClicked}
-            contentEditable
-            suppressContentEditableWarning
-          />
-          <OptionsContainer></OptionsContainer>
-        </DescriptionContainer>
+        <>
+          <DescriptionContainer>
+            <Description id={id} description={description} updateTodo={updateTodo} />
+          </DescriptionContainer>
+          <OptionsContainer>
+            <OptionContainer onClick={onClickMap}>
+              <PLACE focused={!isMapOpened} />
+            </OptionContainer>
+          </OptionsContainer>
+        </>
       )}
+
+      {/* <Map /> */}
+
+      {isMapOpened && <Map />}
     </Container>
   );
 };
