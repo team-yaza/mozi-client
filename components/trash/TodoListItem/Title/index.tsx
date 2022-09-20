@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import { Container } from './styles';
 
 interface TitleProps {
-  title: string;
+  title?: string;
 }
 
-const Title: React.FC<TitleProps> = ({ title }) => {
+const Title: React.FC<TitleProps> = ({ title = '' }) => {
   const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

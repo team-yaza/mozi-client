@@ -4,7 +4,7 @@ import { Container, CheckBox, Description, DescriptionContainer, MainContainer, 
 import Title from './Title';
 
 interface TodoListItemProps {
-  title: string;
+  title?: string;
   description?: string;
   done: boolean;
   isFocused?: boolean;
