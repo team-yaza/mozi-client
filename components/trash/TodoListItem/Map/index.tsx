@@ -1,16 +1,22 @@
 import { useRef } from 'react';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { Container } from './styles';
+import Spinner from '@/components/common/Spinner';
+import { Container, SpinnerContainer } from './styles';
 
 const Map = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  // const { naverMap } =
-  useNaverMap();
+  const { isMapLoading } = useNaverMap();
 
   return (
     <Container>
-      <div id="map" ref={naverMapRef} style={{ width: '100%', height: '300px' }}></div>
+      {isMapLoading && (
+        <SpinnerContainer>
+          <Spinner />
+        </SpinnerContainer>
+      )}
+
+      <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
     </Container>
   );
 };

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Location } from '@/shared/types/location';
 
 export const useNaverMap = () => {
+  const [isMapLoading, setIsMapLoading] = useState(true);
   const [naverMap, setNaverMap] = useState<naver.maps.Map>();
   const [naverMapCenter, setNaverMapCenter] = useState<naver.maps.LatLng>();
   const [coords, setCoords] = useState<Location>();
@@ -49,9 +50,28 @@ export const useNaverMap = () => {
     }
   }, [coords]);
 
+  useEffect(() => {
+    let listeners: naver.maps.MapEventListener;
+
+    function onMapLoaded() {
+      setIsMapLoading(false);
+    }
+
+    if (naverMap) {
+      listeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
+    }
+
+    return () => {
+      if (naverMap) {
+        naver.maps.Event.removeListener(listeners);
+      }
+    };
+  }, [naverMap]);
+
   return {
     naverMap,
     setNaverMap,
+    isMapLoading,
     naverMapCenter,
     coords,
     setCoords,
