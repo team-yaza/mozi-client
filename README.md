@@ -13,6 +13,7 @@
 2. [**기술스택**](#2)
 3. [**실행 방법**](#3)
 4. [**개발자 및 프로젝트에 도움을 주신 분들**](#4)
+5. [**디자인**](https://www.figma.com/file/eyC5lWrJFnF0q7g3YSstD0/MOZI?node-id=0%3A1)
 
 <div id="1"></div>
 
@@ -149,3 +150,4 @@ yarn start
     </td>
   </tr>
 </table>
+
