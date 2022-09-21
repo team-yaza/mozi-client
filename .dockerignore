@@ -10,3 +10,6 @@ cypress
 
 #certbot
 data
+
+#nginx setting
+nginx

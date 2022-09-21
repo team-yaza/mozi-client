@@ -16,7 +16,9 @@ const Kakao: NextPage = () => {
     const redirect_uri =
       process.env.NODE_ENV === 'development'
         ? process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI
-        : process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCT;
+        : process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCTION;
+
+    console.log('redirect uri: ', redirect_uri);
 
     const data = {
       code,
@@ -25,6 +27,8 @@ const Kakao: NextPage = () => {
       redirect_uri,
       client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
     };
+
+    console.log('data: ', data);
 
     const queryString = Object.entries(data)
       .map(([key, value]) => `${key}=${value}`)
