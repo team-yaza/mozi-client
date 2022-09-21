@@ -1,12 +1,18 @@
+import { LocationSearchResult } from '@/shared/types/location';
 import { Container, RecentSearchHeading, RecentSearchKeyword, RecentSearchList } from './styles';
 
-const RecentSearch: React.FC = () => {
+interface RecentSearchProps {
+  recentSearch: LocationSearchResult[];
+}
+
+const RecentSearch: React.FC<RecentSearchProps> = ({ recentSearch }) => {
   return (
     <Container>
       <RecentSearchHeading>최근 검색어</RecentSearchHeading>
       <RecentSearchList>
-        <RecentSearchKeyword>은행</RecentSearchKeyword>
-        <RecentSearchKeyword>8월 12일</RecentSearchKeyword>
+        {recentSearch.map((recentSearchItem) => (
+          <RecentSearchKeyword>{recentSearchItem.name}</RecentSearchKeyword>
+        ))}
       </RecentSearchList>
     </Container>
   );

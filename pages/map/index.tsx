@@ -3,7 +3,7 @@ import { useEffect, useRef, ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '@/pages/_app';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { todosLocationState } from '@/store/todo/atom';
 import SearchSideBar from '@/components/map/SearchSideBar';
