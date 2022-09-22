@@ -85,8 +85,23 @@ export const SearchResultList = styled.ul`
   padding: 0;
 `;
 
+export const PlaceIcon = styled.div`
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+
+  margin-bottom: 0.3rem;
+`;
+
+export const PlaceName = styled.span`
+  font-size: 1.2rem;
+  align-self: center;
+`;
+
 export const SearchResultItem = styled.li`
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
 `;
 
 export const RecentSearchContainer = styled.div``;

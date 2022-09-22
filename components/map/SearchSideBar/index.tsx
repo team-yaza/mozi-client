@@ -9,6 +9,7 @@ import { SIDEBARARROWLEFT } from '@/components/common/Figure';
 import { Location, LocationSearchResult } from '@/shared/types/location';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { getItem, setItem } from '@/store/localStorage';
+import { SEARCHPLACE } from '@/components/common/Figure';
 import {
   Container,
   SearchContainer,
@@ -18,7 +19,9 @@ import {
   SearchResultContainer,
   SearchResultList,
   SearchResultItem,
+  PlaceIcon,
   SearchResultHeading,
+  PlaceName,
 } from './styles';
 
 interface SearchSideBarProps {
@@ -76,7 +79,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
 
     if (e.target.value.length > 0) {
       setIsSearching(true);
-      setSearchResult(result);
+      setSearchResult(result.slice(0, 5));
     }
   }, []);
 
@@ -112,7 +115,10 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
                     onChangeRecentSearchResult(result);
                   }}
                 >
-                  {result.name}
+                  <PlaceIcon>
+                    <SEARCHPLACE />
+                  </PlaceIcon>
+                  <PlaceName>{result.name}</PlaceName>
                 </SearchResultItem>
               ))}
             </SearchResultList>
