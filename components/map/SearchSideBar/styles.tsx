@@ -53,34 +53,25 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const SearchResultContainer = styled.div<{ isSeraching?: boolean }>`
-  position: absolute;
-  width: 30rem;
-  top: 3.6rem;
-
+export const SearchPlaceResultContainer = styled.div<{ isSeraching?: boolean }>`
   display: ${({ isSeraching }) => (isSeraching ? 'block' : 'none')};
 
-  padding-inline: 1.6rem;
-  padding-bottom: 1.6rem;
+  margin-inline: 2rem;
+  padding-bottom: 1rem;
 
-  border: 0.1rem solid ${theme.colors.grey};
-  border-bottom-right-radius: 0.7rem;
-  border-bottom-left-radius: 0.7rem;
   background: white;
 
-  &:first-child {
-    border-bottom: ${({ isSeraching }) => isSeraching && 'none'};
-  }
+  border-bottom: 0.1rem solid ${theme.colors.grey};
 `;
 
-export const SearchResultHeading = styled.h3`
+export const SearchPlaceResultHeading = styled.h3`
   margin-top: 2.1rem;
   margin-bottom: 1.1rem;
 
   color: ${theme.colors.darkGrey};
 `;
 
-export const SearchResultList = styled.ul`
+export const SearchPlaceResultList = styled.ul`
   margin: 0;
   padding: 0;
 `;
@@ -98,7 +89,7 @@ export const PlaceName = styled.span`
   align-self: center;
 `;
 
-export const SearchResultItem = styled.li`
+export const SearchPlaceResultItem = styled.li`
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -137,4 +128,26 @@ export const IconContainer = styled.div<{ isSearchBarOpen?: boolean }>`
     transform: rotateY(${({ isSearchBarOpen }) => !isSearchBarOpen && '180deg'});
     transition: all 0.3s;
   }
+`;
+
+export const SearchResultContainer = styled.div`
+  position: absolute;
+  width: 30rem;
+  top: 3.6rem;
+
+  border: 0.1rem solid ${theme.colors.grey};
+  border-bottom-right-radius: 0.7rem;
+  border-bottom-left-radius: 0.7rem;
+  background: white;
+`;
+
+export const SearchTodoContainer = styled.div`
+  padding-inline: 1.6rem;
+  padding-bottom: 1.6rem;
+  background: white;
+
+  border-bottom-right-radius: 0.7rem;
+  border-bottom-left-radius: 0.7rem;
+
+  height: 30px;
 `;

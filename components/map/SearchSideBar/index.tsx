@@ -16,12 +16,14 @@ import {
   SearchInput,
   SideBarToggleButton,
   IconContainer,
-  SearchResultContainer,
-  SearchResultList,
-  SearchResultItem,
+  SearchPlaceResultContainer,
+  SearchPlaceResultList,
+  SearchPlaceResultItem,
   PlaceIcon,
-  SearchResultHeading,
+  SearchPlaceResultHeading,
+  SearchResultContainer,
   PlaceName,
+  SearchTodoContainer,
 } from './styles';
 
 interface SearchSideBarProps {
@@ -104,24 +106,27 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
       <SearchContainer isSeraching={isSearching}>
         <SearchInput value={keyword} onChange={onChange} onKeyDown={onKeyDown} placeholder="검색어를 입력하세요." />
         {isSearching && (
-          <SearchResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
-            <SearchResultHeading>장소</SearchResultHeading>
-            <SearchResultList>
-              {searchResult.map((result, index) => (
-                <SearchResultItem
-                  key={index}
-                  onClick={() => {
-                    onChangePosition({ longitude: result.location[0], latitude: result.location[1] });
-                    onChangeRecentSearchResult(result);
-                  }}
-                >
-                  <PlaceIcon>
-                    <SEARCHPLACE />
-                  </PlaceIcon>
-                  <PlaceName>{result.name}</PlaceName>
-                </SearchResultItem>
-              ))}
-            </SearchResultList>
+          <SearchResultContainer>
+            <SearchPlaceResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
+              <SearchPlaceResultHeading>장소</SearchPlaceResultHeading>
+              <SearchPlaceResultList>
+                {searchResult.map((result, index) => (
+                  <SearchPlaceResultItem
+                    key={index}
+                    onClick={() => {
+                      onChangePosition({ longitude: result.location[0], latitude: result.location[1] });
+                      onChangeRecentSearchResult(result);
+                    }}
+                  >
+                    <PlaceIcon>
+                      <SEARCHPLACE />
+                    </PlaceIcon>
+                    <PlaceName>{result.name}</PlaceName>
+                  </SearchPlaceResultItem>
+                ))}
+              </SearchPlaceResultList>
+            </SearchPlaceResultContainer>
+            <SearchTodoContainer />
           </SearchResultContainer>
         )}
       </SearchContainer>
