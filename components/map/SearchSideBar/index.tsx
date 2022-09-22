@@ -9,16 +9,21 @@ import { SIDEBARARROWLEFT } from '@/components/common/Figure';
 import { Location, LocationSearchResult } from '@/shared/types/location';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { getItem, setItem } from '@/store/localStorage';
+import { SEARCHPLACE } from '@/components/common/Figure';
 import {
   Container,
   SearchContainer,
   SearchInput,
   SideBarToggleButton,
   IconContainer,
+  SearchPlaceResultContainer,
+  SearchPlaceResultList,
+  SearchPlaceResultItem,
+  PlaceIcon,
+  SearchPlaceResultHeading,
   SearchResultContainer,
-  SearchResultList,
-  SearchResultItem,
-  SearchResultHeading,
+  PlaceName,
+  SearchTodoContainer,
 } from './styles';
 
 interface SearchSideBarProps {
@@ -76,7 +81,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
 
     if (e.target.value.length > 0) {
       setIsSearching(true);
-      setSearchResult(result);
+      setSearchResult(result.slice(0, 5));
     }
   }, []);
 
@@ -101,21 +106,27 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
       <SearchContainer isSeraching={isSearching}>
         <SearchInput value={keyword} onChange={onChange} onKeyDown={onKeyDown} placeholder="검색어를 입력하세요." />
         {isSearching && (
-          <SearchResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
-            <SearchResultHeading>장소</SearchResultHeading>
-            <SearchResultList>
-              {searchResult.map((result, index) => (
-                <SearchResultItem
-                  key={index}
-                  onClick={() => {
-                    onChangePosition({ longitude: result.location[0], latitude: result.location[1] });
-                    onChangeRecentSearchResult(result);
-                  }}
-                >
-                  {result.name}
-                </SearchResultItem>
-              ))}
-            </SearchResultList>
+          <SearchResultContainer>
+            <SearchPlaceResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
+              <SearchPlaceResultHeading>장소</SearchPlaceResultHeading>
+              <SearchPlaceResultList>
+                {searchResult.map((result, index) => (
+                  <SearchPlaceResultItem
+                    key={index}
+                    onClick={() => {
+                      onChangePosition({ longitude: result.location[0], latitude: result.location[1] });
+                      onChangeRecentSearchResult(result);
+                    }}
+                  >
+                    <PlaceIcon>
+                      <SEARCHPLACE />
+                    </PlaceIcon>
+                    <PlaceName>{result.name}</PlaceName>
+                  </SearchPlaceResultItem>
+                ))}
+              </SearchPlaceResultList>
+            </SearchPlaceResultContainer>
+            <SearchTodoContainer />
           </SearchResultContainer>
         )}
       </SearchContainer>
