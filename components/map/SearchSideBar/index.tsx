@@ -120,7 +120,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
         )}
       </SearchContainer>
 
-      <RecentSearch recentSearch={recentSearch} />
+      <RecentSearch recentSearch={recentSearch} setCoords={setCoords} />
 
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}>
         {isSearchBarOpen ? '닫기' : '열기'}
