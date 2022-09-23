@@ -13,18 +13,12 @@ const Kakao: NextPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-    const redirect_uri =
-      process.env.NODE_ENV === 'development'
-        ? process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI
-        : process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI_PRODUCTION;
-
-    console.log('redirect uri: ', redirect_uri);
 
     const data = {
       code,
       grant_type: 'authorization_code',
       client_id: process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY,
-      redirect_uri,
+      redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
       client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
     };
 
