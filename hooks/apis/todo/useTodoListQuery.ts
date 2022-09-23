@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
@@ -7,4 +8,10 @@ import { ServerResponse } from '@/shared/types/common';
 
 export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos);
+};
+
+export const useSoftDeletedTodoList = () => {
+  return useQuery(['todos'], todoService.getTodos, {
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt), []),
+  });
 };
