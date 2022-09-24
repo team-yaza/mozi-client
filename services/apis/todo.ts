@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 
 import { Todo } from '@/shared/types/todo';
 import fetcher from '@/shared/utils/fetcher';
@@ -7,36 +7,9 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore } from '@/store/forage';
 
 const todoService = {
-  createTodo: async (): Promise<Todo> => {
-    try {
-      const createdTodo = await fetcher('post', '/todos');
-      await todoStore.setItem(createdTodo.id, createdTodo);
-
-      return createdTodo;
-    } catch (error) {
-      console.log(error); // network error
-
-      await syncTodos();
-    }
-
-    // 네트워크 에러가 나면 일단 넘어가고 Todo를 임의로 만든다.
-    const tempTodoId = uuid();
-    const localTodo = { created: true, id: tempTodoId, alarmed: false, done: false };
-
-    try {
-      await todoStore.setItem(tempTodoId, {
-        id: tempTodoId,
-        title: '',
-        description: '',
-        done: false,
-        alarmed: false,
-        created: true,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-
-    return localTodo;
+  createTodo: async () => {
+    const createdTodo = await fetcher('post', '/todos');
+    return createdTodo;
   },
   getTodos: async (): Promise<Todo[]> => {
     try {

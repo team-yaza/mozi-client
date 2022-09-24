@@ -8,6 +8,10 @@ export const useNaverMap = () => {
   const [coords, setCoords] = useState<Location>();
   // const [coords, setCoords] = useState<GeolocationCoordinates>();
 
+  // naver.maps.onJSContentLoaded = function (a) {
+  //   console.log('우왕');
+  // };
+
   const createMap = useCallback((options: naver.maps.MapOptions | undefined) => new naver.maps.Map('map', options), []);
   const createMarker = useCallback((options: naver.maps.MarkerOptions) => new naver.maps.Marker(options), []);
   const createPosition = useCallback(
