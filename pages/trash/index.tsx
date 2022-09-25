@@ -10,7 +10,7 @@ import {
 } from '@/hooks/apis/todo/useTodoMutation';
 import AppLayout from '@/components/common/AppLayout';
 import Title from '@/components/trash/Title';
-import TodoList from '@/components/trash/TodoList';
+import TodoList from '@/components/common/TodoList';
 import Spinner from '@/components/common/Spinner';
 
 const Trash: NextPageWithLayout = () => {
