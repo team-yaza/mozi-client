@@ -34,7 +34,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 }) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
-  setIsMapOpened;
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -52,6 +51,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onDoubleClickHandler = useCallback(() => {
     setIsFocused(-1);
+    setIsMapOpened(false);
     setIsDoubleClicked((prevState) => !prevState);
   }, []);
 

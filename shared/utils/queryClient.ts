@@ -5,7 +5,14 @@ export const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      suspense: false,
+      refetchOnReconnect: false,
+      refetchIntervalInBackground: false,
+      retry: 0,
+      networkMode: 'always',
+    },
+    mutations: {
+      retry: 0,
+      networkMode: 'always',
     },
   },
 });
