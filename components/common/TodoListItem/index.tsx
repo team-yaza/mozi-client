@@ -64,14 +64,17 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   );
 
   const onDeleteHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    console.log('hi2');
     if (e.key === 'Backspace' || e.key === 'Delete') {
       if (isFocused && !isDoubleClicked) deleteTodo(id);
+      console.log('hi');
     }
   };
 
   const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setIsMapOpened((prevState) => !prevState);
+    console.log('himpa');
   }, []);
 
   return (
@@ -112,4 +115,4 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   );
 };
 
-export default TodoListItem;
+export default React.memo(TodoListItem);
