@@ -26,11 +26,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   title,
   description,
   done,
+  index,
   isFocused,
   setIsFocused,
-  index,
   updateTodo,
-  // deleteTodo,
+  deleteTodo,
 }) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
@@ -63,6 +63,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     [done]
   );
 
+  const onDeleteHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      if (isFocused && !isDoubleClicked) deleteTodo(id);
+    }
+  };
+
   const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setIsMapOpened((prevState) => !prevState);
@@ -75,12 +81,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       onClick={onClickHandler}
       isDoubleClicked={isDoubleClicked}
       onDoubleClick={onDoubleClickHandler}
+      onKeyDown={onDeleteHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
 
       <MainContainer>
         <CheckBox checked={done} onClick={onCheckHandler} />
-        <Title id={id} title={title} updateTodo={updateTodo} />
+        <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}

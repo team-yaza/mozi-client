@@ -14,9 +14,6 @@ interface TodoListProps {
 const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo }) => {
   const [isFocused, setIsFocused] = useState(-1);
 
-  updateTodo;
-  deleteTodo;
-
   useEffect(() => {
     const handleArrowKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
@@ -45,7 +42,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
 
   return (
     <Container>
-      {todos?.map((todo, index) => (
+      {todos.map((todo, index) => (
         <TodoListItem
           key={todo.id}
           id={todo.id}
