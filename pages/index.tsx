@@ -6,7 +6,7 @@ import { useLocationRef } from '@/hooks/location/useLocationRef';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
-import TodoList from '@/components/index/TodoList';
+import TodoList from '@/components/common/TodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -41,7 +41,7 @@ const Home: NextPageWithLayout = () => {
     <Container>
       <Header />
       <Title onCreate={createTodo} />
-      <TodoList todos={todos || []} onDeleteTodo={deleteTodo} onUpdateTodo={updateTodo} />
+      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
       <Footer />
     </Container>
   );
