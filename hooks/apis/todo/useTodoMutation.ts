@@ -68,6 +68,9 @@ export const useDeleteTodoMutation = () =>
     onSuccess: () => {
       queryClient.invalidateQueries(['todos']);
     },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
 export const useDeleteAllTodosMutation = () =>

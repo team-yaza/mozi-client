@@ -51,13 +51,12 @@ const todoService = {
 
       return updatedTodo;
     } catch (error) {
-      console.error(error); // network error
+      console.error(error);
 
       await syncTodos();
     }
     // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
     await todoStore.setItem(id, { id, title, longitude, latitude, description, done, updated: true, date });
-    return;
   },
   deleteTodo: async (id: string) => {
     try {

@@ -7,11 +7,11 @@ import { Container } from './styles';
 interface TitleProps {
   id: string;
   title?: string;
+  isDoubleClicked: boolean;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
-  // deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
 }
 
-const Title: React.FC<TitleProps> = ({ id, title = '', updateTodo }) => {
+const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, updateTodo }) => {
   const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,14 +20,12 @@ const Title: React.FC<TitleProps> = ({ id, title = '', updateTodo }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (titleRef.current) titleRef.current.focus();
+  }, [isDoubleClicked]);
+
   const onInputTitle = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
-
-    // if (e.key === 'Enter' && !focused) {
-    //   e.preventDefault();
-    //   onClickOutsideHandler();
-    //   return;
-    // }
 
     updateTodo({ id, title: e.target.innerText });
   }, []);
@@ -37,9 +35,9 @@ const Title: React.FC<TitleProps> = ({ id, title = '', updateTodo }) => {
       placeholder="New Todo"
       ref={titleRef}
       onInput={onInputTitle}
-      contentEditable
+      contentEditable={isDoubleClicked}
       suppressContentEditableWarning
-    ></Container>
+    />
   );
 };
 

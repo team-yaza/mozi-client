@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -6,8 +6,8 @@ import Description from './Description';
 import Map from './Map';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { Container, CheckBox, DescriptionContainer, MainContainer, OptionsContainer, OptionContainer } from './styles';
 import { PLACE } from '@/components/common/Figure';
+import { CheckBox, Container, DescriptionContainer, MainContainer, OptionContainer, OptionsContainer } from './styles';
 
 interface TodoListItemProps {
   id: string;
@@ -26,11 +26,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   title,
   description,
   done,
+  index,
   isFocused,
   setIsFocused,
-  index,
   updateTodo,
-  // deleteTodo,
+  deleteTodo,
 }) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
@@ -63,6 +63,17 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     [done]
   );
 
+  const onDeleteHandler = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        if (isFocused && !isDoubleClicked) {
+          deleteTodo(id);
+        }
+      }
+    },
+    [isFocused]
+  );
+
   const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setIsMapOpened((prevState) => !prevState);
@@ -71,16 +82,18 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   return (
     <Container
       ref={containerRef}
+      tabIndex={0}
       isFocused={isFocused}
       onClick={onClickHandler}
       isDoubleClicked={isDoubleClicked}
       onDoubleClick={onDoubleClickHandler}
+      onKeyDown={onDeleteHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
 
       <MainContainer>
         <CheckBox checked={done} onClick={onCheckHandler} />
-        <Title id={id} title={title} updateTodo={updateTodo} />
+        <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
@@ -105,4 +118,4 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   );
 };
 
-export default TodoListItem;
+export default React.memo(TodoListItem);

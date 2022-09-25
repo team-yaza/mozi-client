@@ -29,7 +29,6 @@ const Description: React.FC<DescriptionProps> = ({ id, description = '', updateT
     <Container
       placeholder="Notes"
       ref={descriptionRef}
-      // isDoubleClicked={isDoubleClicked}
       onInput={onInputDescription}
       contentEditable
       suppressContentEditableWarning

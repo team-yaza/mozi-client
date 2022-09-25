@@ -29,9 +29,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   useEffect(() => {
     const token = getCookie('token');
 
-    if (!token) {
-      router.push('/login');
-    }
+    if (!token) router.push('/login');
   }, []);
 
   const getLayout = Component.getLayout ?? ((page) => page);

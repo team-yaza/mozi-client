@@ -2,7 +2,7 @@ import type { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { useSoftDeletedTodoList, useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import {
   useDeleteAllTodosMutation,
   useDeleteTodoMutation,
@@ -10,18 +10,14 @@ import {
 } from '@/hooks/apis/todo/useTodoMutation';
 import AppLayout from '@/components/common/AppLayout';
 import Title from '@/components/trash/Title';
-import TodoList from '@/components/trash/TodoList';
+import TodoList from '@/components/common/TodoList';
 import Spinner from '@/components/common/Spinner';
 
 const Trash: NextPageWithLayout = () => {
-  const { data: todos, isLoading } = useTodoListQuery();
-  // 테스트중
-  const { data: softDeletedTodos } = useSoftDeletedTodoList();
+  const { data: todos, isLoading } = useSoftDeletedTodoList();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
-
-  console.log(softDeletedTodos, 'softDeletedTodos');
 
   return (
     <Container>

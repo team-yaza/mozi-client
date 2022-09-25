@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import TodoListItem from '@/components/trash/TodoListItem';
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import TodoListItem from '@/components/common/TodoListItem';
 import { Container } from './styles';
 
 interface TodoListProps {
@@ -42,7 +42,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
 
   return (
     <Container>
-      {todos?.map((todo, index) => (
+      {todos.map((todo, index) => (
         <TodoListItem
           key={todo.id}
           id={todo.id}
