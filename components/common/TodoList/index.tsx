@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import TodoListItem from '@/components/common/TodoListItem';
 import { Container } from './styles';
-import { useEffect, useState } from 'react';
 
 interface TodoListProps {
   todos?: Todo[];
@@ -42,7 +43,24 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
     };
   }, [isFocused]);
 
-  return <Container>TodoList</Container>;
+  return (
+    <Container>
+      {todos?.map((todo, index) => (
+        <TodoListItem
+          key={todo.id}
+          id={todo.id}
+          title={todo.title}
+          description={todo.description}
+          done={todo.done}
+          index={index}
+          isFocused={isFocused === index}
+          setIsFocused={setIsFocused}
+          updateTodo={updateTodo}
+          deleteTodo={deleteTodo}
+        />
+      ))}
+    </Container>
+  );
 };
 
 export default TodoList;
