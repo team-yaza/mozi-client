@@ -24,6 +24,7 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   border-radius: 1rem;
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
 
+  outline: none;
   /* transition: max-height 3s, min-height 3s, box-shadow 0.3s; */
   /* transition: all 3s; */
   /* transition: max-height 1s; */

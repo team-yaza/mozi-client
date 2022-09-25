@@ -63,23 +63,26 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     [done]
   );
 
-  const onDeleteHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    console.log('hi2');
-    if (e.key === 'Backspace' || e.key === 'Delete') {
-      if (isFocused && !isDoubleClicked) deleteTodo(id);
-      console.log('hi');
-    }
-  };
+  const onDeleteHandler = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        if (isFocused && !isDoubleClicked) {
+          deleteTodo(id);
+        }
+      }
+    },
+    [isFocused]
+  );
 
   const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setIsMapOpened((prevState) => !prevState);
-    console.log('himpa');
   }, []);
 
   return (
     <Container
       ref={containerRef}
+      tabIndex={0}
       isFocused={isFocused}
       onClick={onClickHandler}
       isDoubleClicked={isDoubleClicked}

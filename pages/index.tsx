@@ -21,6 +21,7 @@ const Home: NextPageWithLayout = () => {
 
   useEffect(() => {
     const sendLocationInterval = setInterval(sendLocation, 3000);
+
     return () => {
       clearInterval(sendLocationInterval);
     };

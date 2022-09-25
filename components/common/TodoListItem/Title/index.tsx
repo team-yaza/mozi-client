@@ -9,7 +9,6 @@ interface TitleProps {
   title?: string;
   isDoubleClicked: boolean;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
-  // deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
 }
 
 const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, updateTodo }) => {
