@@ -11,6 +11,7 @@ export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResp
   return useQuery(['todos'], todoService.getTodos, {
     select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
     onSuccess: async (data: any) => {
+      console.log(data);
       // 전체를 초기화 시켜줄 필요가 있는지는 생각해볼 필요가 있음
       await todoStore.clear();
       await data.forEach(async (todo: Todo) => {
@@ -23,5 +24,14 @@ export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResp
 export const useSoftDeletedTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
     select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt), []),
+  });
+};
+
+export const useLogbookTodoList = () => {
+  return useQuery(['todos'], todoService.getTodos, {
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.done), []),
+    onSuccess: (data: any) => {
+      console.log(data, ' 먼데');
+    },
   });
 };

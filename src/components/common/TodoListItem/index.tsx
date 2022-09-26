@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -46,6 +46,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
+
+  useEffect(() => {
+    if (done) setIsChecked(true);
+  }, []);
 
   const onClickHandler = useCallback(() => {
     setIsFocused(index);
