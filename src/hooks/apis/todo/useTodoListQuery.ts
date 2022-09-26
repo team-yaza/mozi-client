@@ -9,7 +9,7 @@ import { todoStore } from '@/store/forage';
 
 export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt), []),
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
     onSuccess: async (data: any) => {
       // 전체를 초기화 시켜줄 필요가 있는지는 생각해볼 필요가 있음
       await todoStore.clear();
