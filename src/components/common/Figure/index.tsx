@@ -8,6 +8,7 @@ export { default as DEADLINE } from './DEADLINE';
 export { default as FOOTERCALENDAR } from './FOOTERCALENDAR';
 export { default as HAMBURGER } from './HAMBURGER';
 export { default as INBOX } from './INBOX';
+export { default as LOGBOOK } from './LOGBOOK';
 export { default as LOGO } from './LOGO';
 export { default as MAP } from './MAP';
 export { default as MARKER } from './MARKER';

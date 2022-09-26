@@ -6,6 +6,7 @@ import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenu
 import { INBOX, TODAY, MAP, UPCOMING, TRASH } from '@/components/common/Figure';
 import { useRecoilValue } from 'recoil';
 import { todosCountState } from '@/store/todo/atom';
+import LOGBOOK from '../../Figure/LOGBOOK';
 
 const SideBarMenu: React.FC = () => {
   const todosCount = useRecoilValue(todosCountState);
@@ -56,6 +57,17 @@ const SideBarMenu: React.FC = () => {
               </IconContainer>
               <MenuName>Upcoming</MenuName>
               <Count>12</Count>
+            </SideBarMenuItem>
+          </a>
+        </Link>
+        <Link href="/logbook">
+          <a>
+            <SideBarMenuItem focused={router.pathname === '/logbook'}>
+              <IconContainer>
+                <LOGBOOK focused={router.pathname === '/logbook'} />
+              </IconContainer>
+              <MenuName>Logbook</MenuName>
+              <Count>32</Count>
             </SideBarMenuItem>
           </a>
         </Link>
