@@ -4,6 +4,7 @@ declare global {
   interface Window {
     workbox: any;
     Kakao: any;
+    toggleDevtools: () => void;
   }
   interface ServiceWorkerRegistration {
     readonly sync: SyncManager;
