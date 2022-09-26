@@ -8,6 +8,7 @@ import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { PLACE } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, OptionContainer, OptionsContainer } from './styles';
+import { debounce } from '@/shared/utils/debounce';
 
 interface TodoListItemProps {
   id: string;
@@ -60,7 +61,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       setIsChecked((prevState) => !prevState);
-      updateTodo({ id, done: !done });
+      debounce(() => updateTodo({ id, done: !done }), 500)();
     },
     [done]
   );
