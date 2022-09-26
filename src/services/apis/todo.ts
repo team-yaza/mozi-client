@@ -11,32 +11,7 @@ const todoService = {
     const createdTodo = await fetcher('post', '/todos');
     return createdTodo;
   },
-  getTodos: async (): Promise<Todo[]> => {
-    try {
-      const todos = await fetcher('get', '/todos');
-
-      await todoStore.clear();
-
-      if (todos) {
-        await todos.map(async (todo: Todo) => {
-          await todoStore.setItem(todo.id, { ...todo });
-        });
-      }
-    } catch (error) {
-      console.log(error); // network error
-
-      // sync 이벤트
-      await syncTodos();
-    }
-
-    const localTodos: Todo[] = [];
-
-    await todoStore.iterate((value: Todo) => {
-      localTodos.push(value);
-    });
-
-    return localTodos;
-  },
+  getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
   updateTodo: async ({ id, title, longitude, latitude, description, done, date }: TodoUpdateRequest) => {
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, {

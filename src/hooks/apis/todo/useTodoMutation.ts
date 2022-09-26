@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
-import { useMutation } from '@tanstack/react-query';
 import { v4 as uuid } from 'uuid';
+import { useMutation } from '@tanstack/react-query';
 
 import { Todo, TodoSuccessResponse, TodoUpdateRequest } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
@@ -19,7 +19,6 @@ export const useCreateTodoMutation = () =>
     onError: async (error) => {
       // 네트워크 에러 부분
       console.log(error);
-
       console.log('오프라인 투두생성');
 
       const tempTodoId = uuid();
