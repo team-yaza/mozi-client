@@ -43,6 +43,7 @@ export const useNaverMap = (location?: Location) => {
       // map.panBy(new naver.maps.Point(30, 30));
       setNaverMap(map);
       setNaverMapCenter(center);
+      setMarkderCoords(coords);
 
       // coords가 바뀌면 마커를 가운데에 생성해준다.
       const marker = createMarker({
@@ -56,7 +57,7 @@ export const useNaverMap = (location?: Location) => {
 
       listeners = naver.maps.Event.addListener(map, 'click', function (e) {
         marker.setPosition(e.coord);
-        setMarkderCoords(e.coord);
+        setMarkderCoords({ longitude: e.coord.x, latitude: e.coord.y });
       });
     }
 
