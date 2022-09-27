@@ -14,6 +14,9 @@ interface TodoListItemProps {
   id: string;
   title?: string;
   description?: string;
+  longitude?: number;
+  latitude?: number;
+  locationName?: string;
   done: boolean;
   index: number;
   isFocused?: boolean;
@@ -26,6 +29,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   id,
   title,
   description,
+  longitude,
+  latitude,
   done,
   index,
   isFocused,
@@ -120,7 +125,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
       {/* <Map /> */}
 
-      {isMapOpened && <Map />}
+      {isMapOpened && (
+        <Map id={id} onClickMap={onClickMap} updateTodo={updateTodo} longitude={longitude} latitude={latitude} />
+      )}
     </Container>
   );
 };
