@@ -98,12 +98,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       isFocused={isFocused}
       onClick={onClickHandler}
       isDoubleClicked={isDoubleClicked}
-      onDoubleClick={onDoubleClickHandler}
       onKeyDown={onDeleteHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
 
-      <MainContainer>
+      <MainContainer onDoubleClick={onDoubleClickHandler}>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
       </MainContainer>

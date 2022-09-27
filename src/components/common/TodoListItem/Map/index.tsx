@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { Container, SpinnerContainer, ConfirmDiv, ConfirmSpan } from './styles';
@@ -23,11 +23,14 @@ const Map = ({ id, longitude, latitude, onClickMap, updateTodo }: MapProps) => {
   const { isMapLoading, markerCoords } = useNaverMap(location);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const updateLocationHandler = useCallback(() => {
-    setIsModalOpen((old) => !old);
-    updateTodo({ id, longitude: markerCoords?.longitude, latitude: markerCoords?.latitude });
-    onClickMap(e);
-  }, [markerCoords]);
+  const updateLocationHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      setIsModalOpen((old) => !old);
+      updateTodo({ id, longitude: markerCoords?.longitude, latitude: markerCoords?.latitude });
+      onClickMap(e);
+    },
+    [markerCoords]
+  );
 
   return (
     <Container>
@@ -36,16 +39,16 @@ const Map = ({ id, longitude, latitude, onClickMap, updateTodo }: MapProps) => {
           <Spinner />
         </SpinnerContainer>
       )}
-      <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
-      <ConfirmDiv>
-        <ConfirmSpan onClick={updateLocationHandler}>확인</ConfirmSpan>
-      </ConfirmDiv>
       {isModalOpen && (
         <Portal>
           <SetLocationModal />
           <ModalBackground />
         </Portal>
       )}
+      <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
+      <ConfirmDiv>
+        <ConfirmSpan onClick={updateLocationHandler}>확인</ConfirmSpan>
+      </ConfirmDiv>
     </Container>
   );
 };

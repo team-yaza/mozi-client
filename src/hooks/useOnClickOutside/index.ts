@@ -6,6 +6,7 @@ export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(ref: RefO
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       if (!ref.current || ref.current.contains(event.target as HTMLElement)) return;
+      if (!ref.current || !(event.target as HTMLElement).contains(ref.current)) return;
 
       handler(event);
     };
