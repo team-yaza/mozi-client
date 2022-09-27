@@ -2,10 +2,10 @@ import { useCallback } from 'react';
 import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { Todo } from '@/shared/types/todo';
-import todoService from '@/services/apis/todo';
-import { ServerResponse } from '@/shared/types/common';
 import { todoStore } from '@/store/forage';
+import { Todo } from '@/shared/types/todo';
+import { ServerResponse } from '@/shared/types/common';
+import todoService from '@/services/apis/todo';
 
 export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos, {
@@ -33,5 +33,11 @@ export const useLogbookTodoList = () => {
     onSuccess: (data: any) => {
       console.log(data, ' 먼데');
     },
+  });
+};
+
+export const useMapTodoList = () => {
+  return useQuery(['todos'], todoService.getTodos, {
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude), []),
   });
 };

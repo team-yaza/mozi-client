@@ -1,36 +1,34 @@
 import Head from 'next/head';
 import { useEffect, useRef, ReactElement } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { todosLocationState } from '@/store/todo/atom';
 import SearchSideBar from '@/components/map/SearchSideBar';
 import AppLayout from '@/components/common/AppLayout';
+import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { Todo } from '@/shared/types/todo';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  const todosLocation = useRecoilValue(todosLocationState);
+
+  const { data: todos } = useMapTodoList();
   const { naverMap, createMarker, createPosition, setCoords } = useNaverMap();
 
   useEffect(() => {
-    if (naverMap) {
-      todosLocation.map((location) => {
-        if (location?.coordinates) {
-          const [lat, lng] = location.coordinates;
-          createMarker({
-            map: naverMap,
-            position: createPosition(lng, lat),
-            icon: {
-              content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-              anchor: new naver.maps.Point(11, 11),
-            },
-          });
-        }
+    if (naverMap && todos) {
+      todos.forEach((todo: Todo) => {
+        createMarker({
+          map: naverMap,
+          position: createPosition(todo.latitude as number, todo.longitude as number),
+          icon: {
+            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+            anchor: new naver.maps.Point(11, 11),
+          },
+        });
       });
     }
-  }, [todosLocation, naverMap]);
+  }, [todos, naverMap]);
 
   useEffect(() => {
     const naverMapOnClickHandler = (e: any) => {
