@@ -1,15 +1,13 @@
 import { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
 
 import RecentSearch from './RecentSearch';
-import { searchSideBarAtom } from '@/store/sidebar/atom';
 import { getLocationSearchResult } from '@/shared/utils/map';
 import { getCurrentPosition } from '@/shared/utils/location';
-import { SIDEBARARROWLEFT } from '@/components/common/Figure';
 import { Location, LocationSearchResult } from '@/shared/types/location';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { getItem, setItem } from '@/store/localStorage';
 import { SEARCHPLACE } from '@/components/common/Figure';
+import { SIDEBARARROWLEFT } from '@/components/common/Figure';
 import {
   Container,
   SearchContainer,
@@ -25,6 +23,7 @@ import {
   PlaceName,
   SearchTodoContainer,
 } from './styles';
+import { getSearchSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 
 interface SearchSideBarProps {
   // naverMap: naver.maps.Map | undefined;
@@ -36,7 +35,7 @@ interface SearchSideBarProps {
 const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
   const [keyword, setKeyword] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [isSearchBarOpen, setIsSearchBarOpen] = useRecoilState(searchSideBarAtom);
+  const [isSearchBarOpen, setIsSearchBarOpen] = useState(true);
   const [searchResult, setSearchResult] = useState<LocationSearchResult[]>([]);
   const [recentSearch, setRecentSearch] = useState<LocationSearchResult[]>([]);
 
@@ -52,6 +51,10 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
     if (recentSearchFromLocalStorage) {
       setRecentSearch(JSON.parse(recentSearchFromLocalStorage));
     }
+  }, []);
+
+  useEffect(() => {
+    setIsSearchBarOpen(getSearchSideBarStateFromLocalStorage());
   }, []);
 
   const clearSearch = useCallback(() => {
@@ -133,7 +136,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
 
       <RecentSearch recentSearch={recentSearch} setCoords={setCoords} />
 
-      <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}>
+      <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen((prev) => !prev)}>
         {isSearchBarOpen ? '닫기' : '열기'}
         <IconContainer isSearchBarOpen={isSearchBarOpen}>
           <SIDEBARARROWLEFT />
