@@ -6,7 +6,7 @@ const SetLocationModal: React.FC = () => {
     <Container>
       <Wrapper>
         <Header>
-          <Image src="/assets/svgs/flying_mozi.svg" width={30} height={40} />
+          <Image src="/assets/svgs/mozi_string.svg" width={30} height={40} />
         </Header>
         <LocationNameInput placeholder="장소 이름을 적어주세요"></LocationNameInput>
         <ConfirmButtonnDiv>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   position: absolute;
   width: 20rem;
-  height: 13rem;
+  height: 10rem;
   background-color: #ffffff;
   box-shadow: 0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd;
 
@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
 
 export const Header = styled.div`
   width: 100%;
-  height: 40%;
+  height: 30%;
   background-color: #775eff;
 
   display: flex;
