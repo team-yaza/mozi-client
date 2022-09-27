@@ -4,6 +4,8 @@ export interface Todo {
   id: string;
   title?: string;
   location?: GeoJson;
+  latitude?: number;
+  longitude?: number;
   description?: string;
   done: boolean;
   date?: Date;
