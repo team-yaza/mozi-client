@@ -38,6 +38,7 @@ export interface TodoUpdateRequest {
   done?: boolean;
   longitude?: number;
   latitude?: number;
+  locationName?: string;
   date?: Date;
   description?: string;
 }

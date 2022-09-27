@@ -12,12 +12,13 @@ const todoService = {
     return createdTodo;
   },
   getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
-  updateTodo: async ({ id, title, longitude, latitude, description, done, date }: TodoUpdateRequest) => {
+  updateTodo: async ({ id, title, longitude, latitude, description, done, date, locationName }: TodoUpdateRequest) => {
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, {
         title,
         longitude,
         latitude,
+        locationName,
         description,
         done,
         date,
@@ -31,7 +32,17 @@ const todoService = {
       await syncTodos();
     }
     // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
-    await todoStore.setItem(id, { id, title, longitude, latitude, description, done, updated: true, date });
+    await todoStore.setItem(id, {
+      id,
+      title,
+      longitude,
+      latitude,
+      locationName,
+      description,
+      done,
+      updated: true,
+      date,
+    });
   },
   deleteTodo: async (id: string) => {
     try {

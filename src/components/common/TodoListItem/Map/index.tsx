@@ -13,24 +13,18 @@ interface MapProps {
   id: string;
   longitude?: number;
   latitude?: number;
-  onClickMap: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
 }
 
-const Map = ({ id, longitude, latitude, onClickMap, updateTodo }: MapProps) => {
+const Map = ({ id, longitude, latitude, updateTodo }: MapProps) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const location = longitude && latitude ? { longitude, latitude } : undefined;
   const { isMapLoading, markerCoords } = useNaverMap(location);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const updateLocationHandler = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      setIsModalOpen((old) => !old);
-      updateTodo({ id, longitude: markerCoords?.longitude, latitude: markerCoords?.latitude });
-      onClickMap(e);
-    },
-    [markerCoords]
-  );
+  const updateLocationHandler = useCallback(() => {
+    setIsModalOpen((old) => !old);
+  }, [markerCoords]);
 
   return (
     <Container>
@@ -41,7 +35,13 @@ const Map = ({ id, longitude, latitude, onClickMap, updateTodo }: MapProps) => {
       )}
       {isModalOpen && (
         <Portal>
-          <SetLocationModal />
+          <SetLocationModal
+            id={id}
+            updateTodo={updateTodo}
+            setIsModalOpen={setIsModalOpen}
+            longitude={markerCoords?.longitude}
+            latitude={markerCoords?.latitude}
+          />
           <ModalBackground />
         </Portal>
       )}

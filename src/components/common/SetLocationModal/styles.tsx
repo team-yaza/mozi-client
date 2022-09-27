@@ -49,7 +49,7 @@ export const LocationNameInput = styled.input`
   }
 `;
 
-export const ConfirmButtonnDiv = styled.div`
+export const ButtonnDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -58,7 +58,7 @@ export const ConfirmButtonnDiv = styled.div`
   padding-right: 1rem;
 `;
 
-export const ConfirmButton = styled.button`
+export const Button = styled.button`
   background-color: #ffffff;
   border: none;
 
