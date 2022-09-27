@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -8,6 +8,7 @@ import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { PLACE } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, OptionContainer, OptionsContainer } from './styles';
+import { debounce } from '@/shared/utils/debounce';
 
 interface TodoListItemProps {
   id: string;
@@ -37,6 +38,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   updateTodo,
   deleteTodo,
 }) => {
+  const [isChecked, setIsChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
 
@@ -49,6 +51,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
+
+  useEffect(() => {
+    if (done) setIsChecked(true);
+  }, []);
 
   const onClickHandler = useCallback(() => {
     setIsFocused(index);
@@ -63,7 +69,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   const onCheckHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
-      updateTodo({ id, done: !done });
+      setIsChecked((prevState) => !prevState);
+      debounce(() => updateTodo({ id, done: !done }), 500)();
     },
     [done]
   );
@@ -97,7 +104,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {/* 클릭 안해도 보이는 부분 */}
 
       <MainContainer>
-        <CheckBox checked={done} onClick={onCheckHandler} />
+        <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
       </MainContainer>
 
