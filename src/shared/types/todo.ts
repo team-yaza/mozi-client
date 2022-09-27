@@ -1,3 +1,5 @@
+import { GeoJson } from './location';
+
 export interface Todo {
   id: string;
   title?: string;
@@ -15,6 +17,10 @@ export interface Todo {
   created?: boolean;
   updated?: boolean;
   deleted?: boolean;
+
+  // legacy
+  location?: GeoJson;
+  date?: Date;
 }
 
 export interface TodoSuccessResponse {
