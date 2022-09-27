@@ -71,6 +71,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recoil": "^0.7.4",
+    "recoil-persist": "^4.2.0",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
     "uuid": "^9.0.0"

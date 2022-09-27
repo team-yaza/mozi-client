@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRecoilState } from 'recoil';
 
-import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
 import { useDrag } from '@/hooks/useDrag';
-import { sideBarStateAtom } from '@/store/sidebar/atom';
-import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
+import { useSideBar } from '@/hooks/useSideBar';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
+import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
+import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
+import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 
 const SideBar: React.FC = () => {
-  const [isSideBarOpened, setIsSideBarOpened] = useRecoilState(sideBarStateAtom);
+  const [isSideBarOpened, setIsSideBarOpened] = useSideBar();
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
 
@@ -28,6 +28,10 @@ const SideBar: React.FC = () => {
 
     setWidth(nextWidth);
   });
+
+  useEffect(() => {
+    setIsSideBarOpened(getSideBarStateFromLocalStorage());
+  }, []);
 
   const onCloseSideBar = useCallback(() => {
     setIsSideBarOpened(false);
@@ -50,16 +54,10 @@ const SideBar: React.FC = () => {
   return (
     <Container
       tabIndex={0}
-      style={{ width }}
-      initial={{ width }}
-      animate={{ width }}
-      exit={{ width: 0 }}
-      transition={
-        {
-          // type: 'spring'
-          // duration: 0,
-        }
-      }
+      style={{ width: isSideBarOpened ? width : 0 }}
+      initial={{ width: isSideBarOpened ? width : 0 }}
+      animate={{ width: isSideBarOpened ? width : 0 }}
+      // exit={{ width: isSideBarOpened ? width : 0 }}
     >
       {/* 최상단 사이드바 제어하는 부분 */}
       <ControlContainer>
