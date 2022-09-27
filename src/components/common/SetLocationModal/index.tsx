@@ -30,13 +30,23 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ id, longitude, lati
     setIsModalOpen(false);
   }, []);
 
+  const onEnterKeyPressHandler = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      onConfirmCliCkHandler();
+    }
+  }, []);
+
   return (
     <Container>
       <Wrapper>
         <Header>
           <Image src="/assets/svgs/mozi_string.svg" width={30} height={40} />
         </Header>
-        <LocationNameInput placeholder="장소 이름을 적어주세요" ref={locationNameRef} />
+        <LocationNameInput
+          placeholder="장소 이름을 적어주세요"
+          ref={locationNameRef}
+          onKeyDown={onEnterKeyPressHandler}
+        />
         <ButtonnDiv>
           <Button onClick={onCancelClickHandler}>취소</Button>
           <Button onClick={onConfirmCliCkHandler}>확인</Button>
