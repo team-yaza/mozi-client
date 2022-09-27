@@ -9,6 +9,12 @@ export const Container = styled.div`
 
   border-radius: 2rem;
   overflow: hidden;
+
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+
+  z-index: 105;
 `;
 
 export const Wrapper = styled.div`
@@ -49,6 +55,7 @@ export const ConfirmButtonnDiv = styled.div`
   justify-content: flex-end;
 
   margin: 1rem;
+  padding-right: 1rem;
 `;
 
 export const ConfirmButton = styled.button`
