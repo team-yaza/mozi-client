@@ -42,7 +42,7 @@ const Map = ({ id, longitude, latitude, updateTodo }: MapProps) => {
             longitude={markerCoords?.longitude}
             latitude={markerCoords?.latitude}
           />
-          <ModalBackground />
+          <ModalBackground setIsModalOpen={setIsModalOpen} />
         </Portal>
       )}
       <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
