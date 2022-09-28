@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { useDrag } from '@/hooks/useDrag';
@@ -29,7 +29,7 @@ const SideBar: React.FC = () => {
     setWidth(nextWidth);
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsSideBarOpened(getSideBarStateFromLocalStorage());
   }, []);
 

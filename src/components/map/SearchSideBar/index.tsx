@@ -1,4 +1,4 @@
-import { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect } from 'react';
+import { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect, useLayoutEffect } from 'react';
 
 import RecentSearch from './RecentSearch';
 import { getLocationSearchResult } from '@/shared/utils/map';
@@ -53,7 +53,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
     }
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsSearchBarOpen(getSearchSideBarStateFromLocalStorage());
   }, []);
 
