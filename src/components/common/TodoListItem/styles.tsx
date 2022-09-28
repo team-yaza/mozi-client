@@ -67,6 +67,7 @@ export const OptionsContainer = styled.div`
   justify-content: flex-end;
   /* align-items: center; */
 `;
+
 export const OptionContainer = styled.div`
   position: relative;
 
@@ -74,7 +75,7 @@ export const OptionContainer = styled.div`
   justify-content: flex-end;
   align-items: center; */
 
-  ${flexCenter};
+  ${flexCenter}
 
   width: 2.5rem;
   height: 2.5rem;
@@ -82,11 +83,8 @@ export const OptionContainer = styled.div`
   cursor: pointer;
 `;
 
-// const fadeOut = keyframes`
-// 0% {
-//     opacity: 1;
-//   }
-//   100% {
-//     opacity: 0;
-//   }
-// `;
+export const IconContainer = styled.div`
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+`;

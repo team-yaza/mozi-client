@@ -7,7 +7,15 @@ import Map from './Map';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { PLACE } from '@/components/common/Figure';
-import { CheckBox, Container, DescriptionContainer, MainContainer, OptionContainer, OptionsContainer } from './styles';
+import {
+  CheckBox,
+  Container,
+  DescriptionContainer,
+  MainContainer,
+  OptionContainer,
+  OptionsContainer,
+  IconContainer,
+} from './styles';
 import { debounce } from '@/shared/utils/debounce';
 
 interface TodoListItemProps {
@@ -105,6 +113,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       <MainContainer onDoubleClick={onDoubleClickHandler}>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
+        {!isDoubleClicked && (
+          <IconContainer>
+            <PLACE focused={true} />
+          </IconContainer>
+        )}
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
