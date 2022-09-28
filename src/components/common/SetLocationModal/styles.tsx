@@ -9,6 +9,12 @@ export const Container = styled.div`
 
   border-radius: 2rem;
   overflow: hidden;
+
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+
+  z-index: 105;
 `;
 
 export const Wrapper = styled.div`
@@ -43,15 +49,16 @@ export const LocationNameInput = styled.input`
   }
 `;
 
-export const ConfirmButtonnDiv = styled.div`
+export const ButtonnDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 
   margin: 1rem;
+  padding-right: 1rem;
 `;
 
-export const ConfirmButton = styled.button`
+export const Button = styled.button`
   background-color: #ffffff;
   border: none;
 

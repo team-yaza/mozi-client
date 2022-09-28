@@ -45,8 +45,8 @@ export const useCreateTodoMutation = () =>
 
 export const useUpdateTodoMutation = () =>
   useMutation(
-    ({ id, title, done, latitude, longitude, description }: TodoUpdateRequest) =>
-      todoService.updateTodo({ id, title, done, latitude, longitude, description }),
+    ({ id, title, done, latitude, longitude, description, locationName }: TodoUpdateRequest) =>
+      todoService.updateTodo({ id, title, done, latitude, longitude, description, locationName }),
     {
       onSuccess: (_, variables) => {
         queryClient.setQueriesData(['todos'], (data: any) => {

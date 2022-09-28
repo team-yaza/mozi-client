@@ -98,12 +98,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       isFocused={isFocused}
       onClick={onClickHandler}
       isDoubleClicked={isDoubleClicked}
-      onDoubleClick={onDoubleClickHandler}
       onKeyDown={onDeleteHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
 
-      <MainContainer>
+      <MainContainer onDoubleClick={onDoubleClickHandler}>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
       </MainContainer>
@@ -125,9 +124,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
       {/* <Map /> */}
 
-      {isMapOpened && (
-        <Map id={id} onClickMap={onClickMap} updateTodo={updateTodo} longitude={longitude} latitude={latitude} />
-      )}
+      {isMapOpened && <Map id={id} updateTodo={updateTodo} longitude={longitude} latitude={latitude} />}
     </Container>
   );
 };
