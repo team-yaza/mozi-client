@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import ChipList from '.';
 import { DEADLINE, PLACE, TAG } from '@/components/common/Figure';
-import { ChipProps } from './Chip';
+import { ChipProps } from '@/components/common/Chip';
 
 export default {
   title: 'Common/ChipList',

@@ -18,7 +18,7 @@ import {
   MainContainer,
 } from './styles';
 import ChipList from '@/components/common/ChipList';
-import { ChipProps } from '@/components/common/ChipList/Chip';
+import { ChipProps } from '@/components/common/Chip';
 import { GeoJson } from '@/shared/types/location';
 import dateToString from '@/shared/utils/dateToString';
 

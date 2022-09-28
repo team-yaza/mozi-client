@@ -13,6 +13,8 @@ export const Container = styled.div<{ backgroundColor: string }>`
   padding-inline: 1rem;
 
   margin: 0.5rem;
+
+  cursor: default;
 `;
 
 export const Wrapper = styled.div`

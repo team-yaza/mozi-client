@@ -37,6 +37,13 @@ export const useNaverMap = (location?: Location) => {
       const map = createMap({
         center,
         zoom: 17,
+        scaleControl: false,
+        mapDataControl: false,
+        mapTypeControl: false,
+        zoomControl: false,
+        logoControlOptions: {
+          position: 10, // BOTTOM_LEFT = 10 (NaverMap 정의)
+        },
       });
 
       map.setMapTypeId(naver.maps.MapTypeId.NORMAL);

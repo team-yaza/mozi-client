@@ -4,10 +4,11 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import Title from './Title';
 import Description from './Description';
 import Map from './Map';
+import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { PLACE } from '@/components/common/Figure';
-import { CheckBox, Container, DescriptionContainer, MainContainer, OptionContainer, OptionsContainer } from './styles';
+import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
 import { debounce } from '@/shared/utils/debounce';
 
 interface TodoListItemProps {
@@ -34,6 +35,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   done,
   index,
   isFocused,
+  locationName,
   setIsFocused,
   updateTodo,
   deleteTodo,
@@ -86,11 +88,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     [isFocused]
   );
 
-  const onClickMap = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    setIsMapOpened((prevState) => !prevState);
-  }, []);
-
   return (
     <Container
       ref={containerRef}
@@ -105,6 +102,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       <MainContainer onDoubleClick={onDoubleClickHandler}>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
+        {!isDoubleClicked && locationName && (
+          <IconContainer>
+            <PLACE focused={true} />
+          </IconContainer>
+        )}
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
@@ -114,11 +116,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           <DescriptionContainer>
             <Description id={id} description={description} updateTodo={updateTodo} />
           </DescriptionContainer>
-          <OptionsContainer>
-            <OptionContainer onClick={onClickMap}>
-              <PLACE focused={!isMapOpened} />
-            </OptionContainer>
-          </OptionsContainer>
+          <Options locationName={locationName} setIsMapOpened={setIsMapOpened} />
         </>
       )}
 

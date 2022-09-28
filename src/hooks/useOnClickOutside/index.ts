@@ -5,13 +5,9 @@ type Handler = (event: MouseEvent | TouchEvent) => void;
 export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(ref: RefObject<T>, handler: Handler) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
-      if (
-        !ref.current ||
-        ref.current.contains(event.target as HTMLElement) ||
-        !(event.target as HTMLElement).contains(ref.current)
-      )
-        return;
-
+      if (!ref.current || ref.current.contains(event.target as HTMLElement)) return;
+      const portal = document.getElementById('portal');
+      if (portal && portal.contains(event.target as HTMLElement)) return;
       handler(event);
     };
 

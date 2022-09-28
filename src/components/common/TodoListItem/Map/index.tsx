@@ -1,9 +1,10 @@
 import React, { useRef, useCallback, useState } from 'react';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { Container, SpinnerContainer, ConfirmDiv, ConfirmSpan } from './styles';
+import { Container, SpinnerContainer, ConfirmDiv } from './styles';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
 import Portal from '@/components/common/Portal';
 import ModalBackground from '@/components/common/ModalBackground/index';
@@ -46,8 +47,8 @@ const Map = ({ id, longitude, latitude, updateTodo }: MapProps) => {
         </Portal>
       )}
       <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
-      <ConfirmDiv>
-        <ConfirmSpan onClick={updateLocationHandler}>확인</ConfirmSpan>
+      <ConfirmDiv onClick={updateLocationHandler}>
+        <CONFIRMBUTTON />
       </ConfirmDiv>
     </Container>
   );
