@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
-import Chip from '@/components/common/ChipList/Chip';
+import Chip from '@/components/common/Chip';
 import { PLACE } from '@/components/common/Figure';
 
 interface OptionsProps {

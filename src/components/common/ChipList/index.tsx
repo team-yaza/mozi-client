@@ -1,5 +1,5 @@
 import { Container } from './styles';
-import Chip, { ChipProps } from './Chip';
+import Chip, { ChipProps } from '@/components/common/Chip';
 
 interface ChipListProps {
   ChipChildren: Array<ChipProps>;
