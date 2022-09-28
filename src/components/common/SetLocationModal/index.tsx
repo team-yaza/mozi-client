@@ -9,7 +9,7 @@ interface SetLocationModalProps {
   longitude?: number;
   latitude?: number;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
 }
 
 const SetLocationModal: React.FC<SetLocationModalProps> = ({ id, longitude, latitude, updateTodo, setIsModalOpen }) => {
