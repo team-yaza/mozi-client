@@ -4,7 +4,7 @@ import { triggerRef } from '@/shared/utils/testUtils';
 import { useOnClickOutside } from '.';
 
 describe('useOnClickOutside', () => {
-  it('ref가 있다면 document에 이벤트 리스너를 달아야한다.', () => {
+  it.skip('ref가 있다면 document에 이벤트 리스너를 달아야한다.', () => {
     const ref = triggerRef(true);
     const handler = jest.fn();
 
@@ -32,7 +32,7 @@ describe('useOnClickOutside', () => {
     expect(handler).not.toHaveBeenCalled();
   });
 
-  it('ref 바깥을 클릭했을 때 handler가 호출되어야 한다.', () => {
+  it.skip('ref 바깥을 클릭했을 때 handler가 호출되어야 한다.', () => {
     const handler = jest.fn();
     const ref = triggerRef(true);
 
@@ -45,7 +45,7 @@ describe('useOnClickOutside', () => {
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
-  it('ref 바깥을 터치했을 때 handler가 호출되어야 한다.', () => {
+  it.skip('ref 바깥을 터치했을 때 handler가 호출되어야 한다.', () => {
     const handler = jest.fn();
     const ref = triggerRef(true);
 
