@@ -37,11 +37,11 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 - **Next**를 사용해 Vercel 플랫폼을 이용한 지속적 배포를 했고 SEO를 향상시켰습니다.
 - **React Query**를 전역 상태관리자처럼 사용해 Data Fetching 로직을 간단하게 만들었습니다.
 - **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리합니다.
-- Cypress
-- Jest
-- Storybook
-- Docker
-- NGINX
+- **Cypress**를 사용하여 사용자의 행동을 시뮬레이션하여 E2E 테스트를 진행했습니다.
+- **Jest**를 사용하여 각 모듈에 대한 단위 테스트를 진행했습니다.
+- **Storybook**를 사용하여 CDD(컴포넌트 주도 개발)을 진행했습니다.
+- **Docker**를 사용하여 애플리케이션을 컨테니어화하여 배포를 진행합니다.
+- **NGINX**
 
 
 <div id="3"></div>
