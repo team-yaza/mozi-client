@@ -8,12 +8,13 @@ import SearchSideBar from '@/components/map/SearchSideBar';
 import AppLayout from '@/components/common/AppLayout';
 import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { Todo } from '@/shared/types/todo';
+import Image from 'next/image';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
 
   const { data: todos } = useMapTodoList();
-  const { naverMap, createMarker, createPosition, setCoords } = useNaverMap();
+  const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
   useEffect(() => {
     if (naverMap && todos) {
@@ -61,6 +62,8 @@ const Map: NextPageWithLayout = () => {
           // createMarker={createMarker}
           // createPosition={createPosition}
         />
+        {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
+
         <MapLayout id="map" ref={naverMapRef} />
       </Container>
     </>
