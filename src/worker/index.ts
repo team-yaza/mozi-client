@@ -127,13 +127,8 @@ self.addEventListener('message', (event) => {
     });
 
     localAlarm.map(async (todo: Todo) => {
-      if (!todo.location || !todo.location.name) return;
-      const distance = getDistance(
-        todo.location.coordinates[1],
-        todo.location.coordinates[0],
-        event.data.latitude,
-        event.data.longitude
-      );
+      if (!todo.locationName || !todo.latitude || !todo.longitude) return;
+      const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
       console.log(todo.title, distance);
 
       if (distance < ALARM_DISTANCE_STANDARD && !todo.alarmed) {

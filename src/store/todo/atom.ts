@@ -16,6 +16,10 @@ export const todosCountState = selector({
 export const todosLocationState = selector({
   key: 'todosLocationState',
   get: ({ get }) => {
-    return get(todosState).map((todo) => todo.location);
+    return get(todosState).map((todo) => ({
+      locationName: todo.locationName,
+      longitude: todo.longitude,
+      latitude: todo.latitude,
+    }));
   },
 });
