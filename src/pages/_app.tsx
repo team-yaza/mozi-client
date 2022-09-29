@@ -13,6 +13,7 @@ import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import { getCookie } from '@/shared/utils/cookie';
+import { useLocationRef } from '@/hooks/location/useLocationRef';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -32,6 +33,27 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
   const router = useRouter();
+
+  const { myLocationRef, updateCurrentPosition } = useLocationRef();
+
+  useEffect(() => {
+    const sendLocationInterval = setInterval(sendLocation, 3000);
+
+    return () => {
+      clearInterval(sendLocationInterval);
+    };
+  }, [myLocationRef]);
+
+  const sendLocation = useCallback(() => {
+    if (!navigator.serviceWorker.controller) return;
+    if (!myLocationRef.current) return;
+    updateCurrentPosition();
+    navigator.serviceWorker.controller.postMessage({
+      type: 'SET_INTERVAL',
+      latitude: myLocationRef.current.latitude,
+      longitude: myLocationRef.current.longitude,
+    });
+  }, [myLocationRef]);
 
   useEffect(() => {
     const token = getCookie('token');

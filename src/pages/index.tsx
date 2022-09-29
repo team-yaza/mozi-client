@@ -1,8 +1,7 @@
-import { ReactElement, useCallback, useEffect } from 'react';
+import { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { useLocationRef } from '@/hooks/location/useLocationRef';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
@@ -16,27 +15,6 @@ const Home: NextPageWithLayout = () => {
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
-
-  const { myLocationRef, updateCurrentPosition } = useLocationRef();
-
-  useEffect(() => {
-    const sendLocationInterval = setInterval(sendLocation, 3000);
-
-    return () => {
-      clearInterval(sendLocationInterval);
-    };
-  }, [myLocationRef]);
-
-  const sendLocation = useCallback(() => {
-    if (!navigator.serviceWorker.controller) return;
-    if (!myLocationRef.current) return;
-    updateCurrentPosition();
-    navigator.serviceWorker.controller.postMessage({
-      type: 'SET_INTERVAL',
-      latitude: myLocationRef.current.latitude,
-      longitude: myLocationRef.current.longitude,
-    });
-  }, [myLocationRef]);
 
   return (
     <Container>
