@@ -14,6 +14,7 @@
 3. [**실행 방법**](#3)
 4. [**개발자 및 프로젝트에 도움을 주신 분들**](#4)
 5. [**디자인**](https://www.figma.com/file/eyC5lWrJFnF0q7g3YSstD0/MOZI?node-id=0%3A1)
+6. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs)
 
 <div id="1"></div>
 
@@ -30,17 +31,17 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 
 ## 기술 스택
 
-- PWA
-- TypeScript
-- React 
-- Next
-- React Query
-- styled-components
-- Cypress
-- Jest
-- Storybook
-- Docker
-- NGINX
+- **PWA**로 오프라인 환경에서도 접근 가능하고, 앱 형태로 다운로드 가능하게 구현하였습니다.
+- **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
+- **React**를 사용하여 컴포넌트를 재사용하고 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
+- **Next**를 사용해 Vercel 플랫폼을 이용한 지속적 배포를 했고 SEO를 향상시켰습니다.
+- **React Query**를 전역 상태관리자처럼 사용해 Data Fetching 로직을 간단하게 만들었습니다.
+- **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리합니다.
+- **Cypress**를 사용하여 사용자의 행동을 시뮬레이션하여 E2E 테스트를 진행했습니다.
+- **Jest**를 사용하여 각 모듈에 대한 단위 테스트를 진행했습니다.
+- **Storybook**를 사용하여 CDD(컴포넌트 주도 개발)을 진행했습니다.
+- **Docker**를 사용하여 애플리케이션을 컨테니어화하여 배포를 진행합니다.
+- **NGINX**
 
 
 <div id="3"></div>
