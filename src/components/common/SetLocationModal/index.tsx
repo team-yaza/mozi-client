@@ -9,10 +9,18 @@ interface SetLocationModalProps {
   longitude?: number;
   latitude?: number;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
 }
 
-const SetLocationModal: React.FC<SetLocationModalProps> = ({ id, longitude, latitude, updateTodo, setIsModalOpen }) => {
+const SetLocationModal: React.FC<SetLocationModalProps> = ({
+  id,
+  longitude,
+  latitude,
+  updateTodo,
+  setIsModalOpen,
+  setIsMapOpened,
+}) => {
   const locationNameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -24,6 +32,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ id, longitude, lati
     if (!locationNameRef.current || locationNameRef.current.value == '') return;
     updateTodo({ id, longitude, latitude, locationName: locationNameRef.current.value });
     setIsModalOpen(false);
+    setIsMapOpened(false);
   }, []);
 
   const onCancelClickHandler = useCallback(() => {

@@ -1,6 +1,6 @@
 import { Container, Content, IconContainer, DeleteBtn, Wrapper } from './styles';
 import { DELETE } from '@/components/common/Figure';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 export interface ChipProps {
   type: 'location' | 'date' | 'deadline' | 'tag';
@@ -11,7 +11,7 @@ export interface ChipProps {
   isModalOpen?: boolean;
   content: string;
   onClickHandler?: () => void;
-  onDeleteHander?: () => void;
+  onDeleteHander?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const Chip: React.FC<ChipProps> = ({
