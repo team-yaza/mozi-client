@@ -23,7 +23,8 @@ const todoService = {
         done,
         date,
       });
-      await todoStore.setItem(id, updatedTodo);
+      if (locationName && longitude && latitude) await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
+      else await todoStore.setItem(id, updatedTodo);
 
       return updatedTodo;
     } catch (error) {

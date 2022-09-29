@@ -20,12 +20,10 @@ cleanupOutdatedCaches();
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
-const ALARM_DISTANCE_STANDARD = 1000; //10 km
+const ALARM_DISTANCE_STANDARD = 1000; //1 km
 const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
-const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
-
-// const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
-// const DEVELOPMENT_SERVER = 'http://localhost:3001/api/v1';
+// const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
+const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
 let token = '';
 
@@ -34,7 +32,7 @@ self.addEventListener('push', (event) => {
   const data = event.data.json();
   self.registration.showNotification(data.title, {
     body: data.body,
-    icon: 'https://tistory2.daumcdn.net/tistory/2794117/attach/aa31f12030a2404cafc028e2c8e2b1af',
+    icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
   });
 });
 
@@ -127,13 +125,8 @@ self.addEventListener('message', (event) => {
     });
 
     localAlarm.map(async (todo: Todo) => {
-      if (!todo.location || !todo.location.name) return;
-      const distance = getDistance(
-        todo.location.coordinates[1],
-        todo.location.coordinates[0],
-        event.data.latitude,
-        event.data.longitude
-      );
+      if (!todo.locationName || !todo.latitude || !todo.longitude) return;
+      const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
       console.log(todo.title, distance);
 
       if (distance < ALARM_DISTANCE_STANDARD && !todo.alarmed) {
@@ -147,11 +140,6 @@ self.addEventListener('message', (event) => {
           },
         });
         await todoStore.setItem(todo.id, { ...todo, alarmed: true });
-      } else if (distance > ALARM_DISTANCE_STANDARD && todo.alarmed) {
-        await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
-          method: 'PATCH',
-        });
-        await todoStore.setItem(todo.id, { ...todo, alarmed: false });
       }
     });
   };
