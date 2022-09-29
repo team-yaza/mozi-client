@@ -35,7 +35,7 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
 - **React**를 사용하여 컴포넌트를 재사용하고 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
 - **Next**를 사용해 Vercel 플랫폼을 이용한 지속적 배포를 했고 SEO를 향상시켰습니다.
-- React Query
+- **React Query**를 전역 상태관리자처럼 사용해 Data Fetching 로직을 간단하게 만들었습니다.
 - styled-components
 - Cypress
 - Jest
