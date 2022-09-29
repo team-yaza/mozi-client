@@ -36,9 +36,9 @@ export interface TodoUpdateRequest {
   id: string;
   title?: string;
   done?: boolean;
-  longitude?: number;
-  latitude?: number;
-  locationName?: string;
-  date?: Date;
+  longitude?: number | null;
+  latitude?: number | null;
+  locationName?: string | null;
+  date?: Date | null;
   description?: string;
 }

@@ -116,7 +116,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           <DescriptionContainer>
             <Description id={id} description={description} updateTodo={updateTodo} />
           </DescriptionContainer>
-          <Options locationName={locationName} setIsMapOpened={setIsMapOpened} />
+          <Options id={id} locationName={locationName} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
         </>
       )}
 
