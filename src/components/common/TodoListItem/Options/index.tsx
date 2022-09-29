@@ -22,7 +22,8 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, setIsMapOpened, upd
     setIsMapOpened((prevState) => !prevState);
   }, []);
 
-  const onDeleteHandler = useCallback(() => {
+  const onDeleteHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
     setIsModalOpen((old) => !old);
   }, []);
 
