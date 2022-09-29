@@ -15,9 +15,10 @@ interface MapProps {
   longitude?: number;
   latitude?: number;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map = ({ id, longitude, latitude, updateTodo }: MapProps) => {
+const Map = ({ id, longitude, latitude, updateTodo, setIsMapOpened }: MapProps) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const location = longitude && latitude ? { longitude, latitude } : undefined;
   const { isMapLoading, markerCoords } = useNaverMap(location);
@@ -39,6 +40,7 @@ const Map = ({ id, longitude, latitude, updateTodo }: MapProps) => {
           <SetLocationModal
             id={id}
             updateTodo={updateTodo}
+            setIsMapOpened={setIsMapOpened}
             setIsModalOpen={setIsModalOpen}
             longitude={markerCoords?.longitude}
             latitude={markerCoords?.latitude}

@@ -122,7 +122,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
       {/* <Map /> */}
 
-      {isMapOpened && <Map id={id} updateTodo={updateTodo} longitude={longitude} latitude={latitude} />}
+      {isMapOpened && (
+        <Map
+          id={id}
+          updateTodo={updateTodo}
+          setIsMapOpened={setIsMapOpened}
+          longitude={longitude}
+          latitude={latitude}
+        />
+      )}
     </Container>
   );
 };
