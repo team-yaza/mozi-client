@@ -29,6 +29,8 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
   }))
 );
 
+const INTERVALTIME = 5000;
+
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
@@ -37,7 +39,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const { myLocationRef, updateCurrentPosition } = useLocationRef();
 
   useEffect(() => {
-    const sendLocationInterval = setInterval(sendLocation, 3000);
+    const sendLocationInterval = setInterval(sendLocation, INTERVALTIME);
 
     return () => {
       clearInterval(sendLocationInterval);
