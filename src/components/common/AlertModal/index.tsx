@@ -33,13 +33,13 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ id, updateTodo, set
           <Image src="/assets/svgs/mozi_string.svg" width={40} height={60} />
         </Header>
         <Content>
-          {'확인 버튼을 누르면'}
+          {'삭제 버튼을 누르면'}
           <br />
           {'등록된 장소가 삭제됩니다.'}
         </Content>
         <ButtonnDiv>
           <CancelButton onClick={onCancelClickHandler}>취소</CancelButton>
-          <ConfirmButton onClick={onConfirmCliCkHandler}>확인</ConfirmButton>
+          <ConfirmButton onClick={onConfirmCliCkHandler}>삭제</ConfirmButton>
         </ButtonnDiv>
       </Wrapper>
     </Container>
