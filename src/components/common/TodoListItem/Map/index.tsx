@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
@@ -6,7 +6,7 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
 import Portal from '@/components/common/Portal';
-import ModalBackground from '@/components/common/ModalBackground/index';
+import ModalBackground from '@/components/common/ModalBackground';
 import SetLocationModal from '@/components/common/SetLocationModal';
 import { Container, SpinnerContainer, ConfirmContainer } from './styles';
 
@@ -20,14 +20,17 @@ interface MapProps {
 
 const Map = ({ id, longitude, latitude, updateTodo, setIsMapOpened }: MapProps) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-
-  // 이부분 수정 무조건
-  const location = longitude && latitude ? { longitude, latitude } : undefined;
-  const { isMapLoading, markerCoords } = useNaverMap(location);
+  const { isMapLoading, markerCoords, setCoords } = useNaverMap();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (longitude && latitude) {
+      setCoords({ longitude, latitude });
+    }
+  }, [longitude, latitude]);
+
   const updateLocationHandler = useCallback(() => {
-    setIsModalOpen((old) => !old);
+    setIsModalOpen((prev) => !prev);
   }, [markerCoords]);
 
   return (
