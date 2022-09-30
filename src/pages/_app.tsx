@@ -90,6 +90,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
             <ModeButton onClick={handleTheme} />
           </ThemeProvider>
         </RecoilRoot>
+
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         {showDevtools && (
           <Suspense fallback={null}>

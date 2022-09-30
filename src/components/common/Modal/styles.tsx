@@ -1,4 +1,6 @@
 import { fadeIn, fadeOut } from '@/styles/animation';
+import { theme } from '@/styles/theme';
+import { flexCenter } from '@/styles/utils';
 import styled from 'styled-components';
 
 export const Container = styled.div<{ isOpened: boolean }>`
@@ -20,4 +22,39 @@ export const Dimmed = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
+`;
+
+export const ModalInner = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: 1.4rem;
+  background-color: ${theme.colors.grey};
+  z-index: 999999;
+`;
+
+export const ModalContent = styled.div`
+  width: 31.3rem;
+`;
+
+export const ModalActionContainer = styled.div`
+  display: flex;
+  border-top: 0.1rem solid ${theme.colors.grey6};
+  ${theme.fonts.h4};
+`;
+
+export const CancelButton = styled.div`
+  ${flexCenter};
+  width: 50%;
+  height: 5.92rem;
+
+  border-right: 0.1rem solid ${theme.colors.grey6};
+`;
+
+export const ConfirmButton = styled.div`
+  ${flexCenter};
+  width: 50%;
+  height: 5.92rem;
 `;

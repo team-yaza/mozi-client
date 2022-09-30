@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Location } from '@/shared/types/location';
 
-export const useNaverMap = (location?: Location) => {
+export const useNaverMap = () => {
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [naverMap, setNaverMap] = useState<naver.maps.Map>();
   const [naverMapCenter, setNaverMapCenter] = useState<naver.maps.LatLng>();
   const [coords, setCoords] = useState<Location>();
-  const [markerCoords, setMarkderCoords] = useState<Location>();
+  const [markerCoords, setMarkerCoords] = useState<Location>();
+
+  // marker가 여러개라면?
+  // const [marker, setMarker] = useState<naver.maps.Marker>();
+  // const [markers, setMarkers] = useState<naver.maps.Marker[]>([]);
 
   const createMap = useCallback((options: naver.maps.MapOptions | undefined) => new naver.maps.Map('map', options), []);
   const createMarker = useCallback((options: naver.maps.MarkerOptions) => new naver.maps.Marker(options), []);
@@ -16,10 +20,6 @@ export const useNaverMap = (location?: Location) => {
   );
 
   useEffect(() => {
-    if (location?.latitude && location?.longitude) {
-      setCoords(location);
-      return;
-    }
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         setCoords({ latitude: coords.latitude, longitude: coords.longitude });
@@ -42,7 +42,7 @@ export const useNaverMap = (location?: Location) => {
         mapTypeControl: false,
         zoomControl: false,
         logoControlOptions: {
-          position: 10, // BOTTOM_LEFT = 10 (NaverMap 정의)
+          position: 10, // BOTTOM_LEFT = 10
         },
       });
 
@@ -50,7 +50,7 @@ export const useNaverMap = (location?: Location) => {
       // map.panBy(new naver.maps.Point(30, 30));
       setNaverMap(map);
       setNaverMapCenter(center);
-      setMarkderCoords(coords);
+      setMarkerCoords(coords);
 
       // coords가 바뀌면 마커를 가운데에 생성해준다.
       // const marker = createMarker({
@@ -61,11 +61,18 @@ export const useNaverMap = (location?: Location) => {
       //     anchor: new naver.maps.Point(11, 11),
       //   },
       // });
+      const marker = createMarker({
+        map,
+        position: createPosition(coords.latitude, coords.longitude),
+        icon: {
+          content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+          anchor: new naver.maps.Point(11, 11),
+        },
+      });
 
       mapEventListeners = naver.maps.Event.addListener(map, 'click', (e) => {
-        e;
-        // marker.setPosition(e.coord);
-        // setMarkderCoords({ longitude: e.coord.x, latitude: e.coord.y });
+        marker?.setPosition(e.coord);
+        // setMarkerCoords({ longitude: e.coord.x, latitude: e.coord.y });
       });
     }
 
@@ -77,9 +84,9 @@ export const useNaverMap = (location?: Location) => {
   useEffect(() => {
     let listeners: naver.maps.MapEventListener;
 
-    function onMapLoaded() {
+    const onMapLoaded = () => {
       setIsMapLoading(false);
-    }
+    };
 
     if (naverMap) {
       listeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);

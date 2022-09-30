@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
-import Modal from '@/components/common/Modal';
 import SetLocationModal from '@/components/map/SetLocationModal';
 import { Container, SpinnerContainer, ConfirmContainer } from './styles';
 
@@ -17,7 +16,7 @@ interface MapProps {
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map = ({ longitude, latitude }: MapProps) => {
+const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const { isMapLoading, setCoords } = useNaverMap();
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -25,6 +24,10 @@ const Map = ({ longitude, latitude }: MapProps) => {
   useEffect(() => {
     if (longitude && latitude) setCoords({ longitude, latitude });
   }, [longitude, latitude]);
+
+  const updateLocationName = useCallback((locationName: string) => {
+    updateTodo({ id, locationName });
+  }, []);
 
   return (
     <>
@@ -45,18 +48,13 @@ const Map = ({ longitude, latitude }: MapProps) => {
           </ConfirmContainer>
         )}
 
-        {/* 모달  */}
-        <Modal
+        {/* 장소 이름을 입력하는 모달  */}
+        <SetLocationModal
+          id={id}
           isOpened={isModalOpened}
-          onConfirm={function (): void {
-            throw new Error('Function not implemented.');
-          }}
           onClose={() => setIsModalOpened(false)}
-        >
-          ddd
-        </Modal>
-
-        <SetLocationModal />
+          updateLocationName={updateLocationName}
+        />
       </Container>
     </>
   );

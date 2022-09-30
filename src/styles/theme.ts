@@ -73,7 +73,7 @@ export const theme = {
   },
 };
 
-export const lightTheme: Omit<DefaultTheme, 'fonts'> = {
+export const lightTheme: DefaultTheme = {
   color: {
     text: theme.colors.black,
     black: '#ffffff',
@@ -93,7 +93,7 @@ export const lightTheme: Omit<DefaultTheme, 'fonts'> = {
   },
 };
 
-export const darkTheme: Omit<DefaultTheme, 'fonts'> = {
+export const darkTheme: DefaultTheme = {
   color: {
     text: theme.colors.white,
     black: '#000000',
