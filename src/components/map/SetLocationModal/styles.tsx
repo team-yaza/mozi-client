@@ -8,7 +8,7 @@ export const ContentContainer = styled.div`
   padding: 2.4rem 1.6rem 1.6rem;
 `;
 
-export const Title = styled.p`
+export const Title = styled.label`
   ${theme.fonts.h4};
   margin-bottom: 2rem;
 `;
@@ -24,4 +24,10 @@ export const LocationInput = styled.input`
   ${theme.fonts.body};
   caret-color: ${theme.colors.purple};
   outline: none;
+
+  border: 0.1rem solid ${theme.colors.grey6};
+
+  :focus {
+    border: 0.1rem solid ${theme.colors.purple};
+  }
 `;

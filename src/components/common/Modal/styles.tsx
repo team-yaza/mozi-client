@@ -1,7 +1,8 @@
+import styled from 'styled-components';
+
 import { fadeIn, fadeOut } from '@/styles/animation';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
-import styled from 'styled-components';
 
 export const Container = styled.div<{ isOpened: boolean }>`
   position: fixed;
@@ -31,7 +32,7 @@ export const ModalInner = styled.div`
   transform: translate(-50%, -50%);
 
   border-radius: 1.4rem;
-  background-color: ${theme.colors.grey};
+  background-color: ${theme.colors.white};
   z-index: 999999;
 `;
 

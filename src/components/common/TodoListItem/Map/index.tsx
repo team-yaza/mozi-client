@@ -50,7 +50,6 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
 
         {/* 장소 이름을 입력하는 모달  */}
         <SetLocationModal
-          id={id}
           isOpened={isModalOpened}
           onClose={() => setIsModalOpened(false)}
           updateLocationName={updateLocationName}
