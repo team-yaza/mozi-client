@@ -26,10 +26,7 @@ import {
 import { getSearchSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 
 interface SearchSideBarProps {
-  // naverMap: naver.maps.Map | undefined;
   setCoords: Dispatch<SetStateAction<Location | undefined>>;
-  // createMarker: (options: naver.maps.MarkerOptions) => naver.maps.Marker;
-  // createPosition: (latitude: number, longitude: number) => naver.maps.LatLng;
 }
 
 const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
@@ -134,7 +131,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
         )}
       </SearchContainer>
 
-      <RecentSearch recentSearch={recentSearch} setCoords={setCoords} />
+      <RecentSearch recentSearch={recentSearch} setRecentSearch={setRecentSearch} setCoords={setCoords} />
 
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen((prev) => !prev)}>
         {isSearchBarOpen ? '닫기' : '열기'}

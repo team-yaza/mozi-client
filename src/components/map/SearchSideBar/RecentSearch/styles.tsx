@@ -37,7 +37,6 @@ export const RecentSearchKeyword = styled.div`
   align-items: center;
 
   padding-left: 2rem;
-  margin-bottom: 0.3rem;
 
   font-size: 1.2rem;
   background-image: url('/assets/svgs/search.svg');
@@ -52,4 +51,6 @@ export const DeleteContainer = styled.div`
   position: relative;
   width: 3rem;
   height: 3rem;
+
+  cursor: pointer;
 `;

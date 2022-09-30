@@ -31,6 +31,8 @@ export const SearchContainer = styled.div<{ isSeraching?: boolean }>`
     border-bottom-right-radius: ${({ isSeraching }) => isSeraching && '0'};
     border-bottom-left-radius: ${({ isSeraching }) => isSeraching && '0'};
   }
+
+  z-index: 99999;
 `;
 
 export const SearchInput = styled.input`
