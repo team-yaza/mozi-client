@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import Modal from '@/components/common/Modal';
+import { TRANSITION_DELAY } from '@/shared/constants/delay';
 import { ContentContainer, LocationInput, Title } from './styles';
 
 interface SetLocationModalProps {
@@ -19,7 +20,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
     if (isOpened) {
       timer = setTimeout(() => {
         locationNameInputRef.current?.focus();
-      }, 300);
+      }, TRANSITION_DELAY);
     }
 
     return () => {
@@ -40,7 +41,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
           id="locationName"
           ref={locationNameInputRef}
           spellCheck={false}
-          placeholder="스타벅스"
+          placeholder="장소 이름 입력"
           onChange={(e) => setLocationName(e.target.value)}
         />
       </ContentContainer>

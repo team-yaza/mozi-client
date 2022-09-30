@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { createPortal } from 'react-dom';
+
 import {
   CancelButton,
   ConfirmButton,
@@ -22,11 +23,11 @@ const Modal: React.FC<ModalProps> = ({ type = 'modal', isOpened, onClose, onConf
   const modalRef = typeof window !== 'undefined' && document.getElementById('modal-root');
   if (!modalRef) return null;
 
-  const renderModalConfirmText = () => {
+  const renderModalConfirmText = useCallback(() => {
     // if (confirmText) return confirmText;
     if (type === 'modal') return '확인';
     if (type === 'alert') return '삭제';
-  };
+  }, []);
 
   // renderModalActionText;
 
