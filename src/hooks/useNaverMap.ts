@@ -16,7 +16,7 @@ export const useNaverMap = (location?: Location) => {
   );
 
   useEffect(() => {
-    if (location && location.latitude && location.longitude) {
+    if (location?.latitude && location?.longitude) {
       setCoords(location);
       return;
     }
@@ -30,7 +30,7 @@ export const useNaverMap = (location?: Location) => {
   }, []);
 
   useEffect(() => {
-    let listeners: naver.maps.MapEventListener;
+    let mapEventListeners: naver.maps.MapEventListener;
 
     if (coords) {
       const center = createPosition(coords.latitude, coords.longitude);
@@ -53,23 +53,24 @@ export const useNaverMap = (location?: Location) => {
       setMarkderCoords(coords);
 
       // coords가 바뀌면 마커를 가운데에 생성해준다.
-      const marker = createMarker({
-        map,
-        position: createPosition(coords.latitude, coords.longitude),
-        icon: {
-          content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-          anchor: new naver.maps.Point(11, 11),
-        },
-      });
+      // const marker = createMarker({
+      //   map,
+      //   position: createPosition(coords.latitude, coords.longitude),
+      //   icon: {
+      //     content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+      //     anchor: new naver.maps.Point(11, 11),
+      //   },
+      // });
 
-      listeners = naver.maps.Event.addListener(map, 'click', function (e) {
-        marker.setPosition(e.coord);
-        setMarkderCoords({ longitude: e.coord.x, latitude: e.coord.y });
+      mapEventListeners = naver.maps.Event.addListener(map, 'click', (e) => {
+        e;
+        // marker.setPosition(e.coord);
+        // setMarkderCoords({ longitude: e.coord.x, latitude: e.coord.y });
       });
     }
 
     return () => {
-      naver.maps.Event.removeListener(listeners);
+      naver.maps.Event.removeListener(mapEventListeners);
     };
   }, [coords]);
 

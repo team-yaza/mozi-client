@@ -28,7 +28,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({
     locationNameRef.current.focus();
   }, []);
 
-  const onConfirmCliCkHandler = useCallback(() => {
+  const onConfirmClickHandler = useCallback(() => {
     if (!locationNameRef.current || locationNameRef.current.value == '') return;
     updateTodo({ id, longitude, latitude, locationName: locationNameRef.current.value });
     setIsModalOpen(false);
@@ -41,7 +41,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({
 
   const onEnterKeyPressHandler = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
-      onConfirmCliCkHandler();
+      onConfirmClickHandler();
     }
   }, []);
 
@@ -58,7 +58,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({
         />
         <ButtonnDiv>
           <Button onClick={onCancelClickHandler}>취소</Button>
-          <Button onClick={onConfirmCliCkHandler}>확인</Button>
+          <Button onClick={onConfirmClickHandler}>확인</Button>
         </ButtonnDiv>
       </Wrapper>
     </Container>
