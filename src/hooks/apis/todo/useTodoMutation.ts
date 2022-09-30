@@ -12,13 +12,17 @@ export const useCreateTodoMutation = () =>
   useMutation<TodoSuccessResponse, AxiosError>(() => todoService.createTodo(), {
     onSuccess: async (data: any) => {
       queryClient.setQueriesData(['todos'], (oldData: any) => {
-        return [data, ...oldData];
+        if (oldData) {
+          return [data, ...oldData];
+        }
+
+        return [data];
       });
       await todoStore.setItem(data.id, data);
     },
     onError: async (error) => {
       // 네트워크 에러 부분
-      console.log(error);
+      console.log(error.message, '에러메시지');
       console.log('오프라인 투두생성');
 
       const tempTodoId = uuid();
