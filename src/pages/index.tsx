@@ -2,12 +2,12 @@ import { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
 import TodoList from '@/components/common/TodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 
 const Home: NextPageWithLayout = () => {

@@ -25,12 +25,12 @@ export const useCreateTodoMutation = () =>
       console.log(error.message, '에러메시지');
       console.log('오프라인 투두생성');
 
-      const tempTodoId = uuid();
-      const localTodo = { created: true, id: tempTodoId, alarmed: false, done: false };
-      console.log(localTodo, '?');
+      const localTodoId = uuid();
+      const localTodo = { created: true, id: localTodoId, alarmed: false, done: false };
+
       try {
-        await todoStore.setItem(tempTodoId, {
-          id: tempTodoId,
+        await todoStore.setItem(localTodoId, {
+          id: localTodoId,
           title: '',
           description: '',
           done: false,
