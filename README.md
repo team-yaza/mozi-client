@@ -13,6 +13,7 @@
 2. [**기술스택**](#2)
 3. [**실행 방법**](#3)
 4. [**개발자 및 프로젝트에 도움을 주신 분들**](#4)
+5. [**WIKI**](https://github.com/team-yaza/mozi-client/wiki) -> MOZI DOCS로 대체 예정
 5. [**디자인**](https://www.figma.com/file/eyC5lWrJFnF0q7g3YSstD0/MOZI?node-id=0%3A1)
 6. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs)
 
@@ -41,7 +42,7 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 - **Jest**를 사용하여 각 모듈에 대한 단위 테스트를 진행했습니다.
 - **Storybook**를 사용하여 CDD(컴포넌트 주도 개발)을 진행했습니다.
 - **Docker**를 사용하여 애플리케이션을 컨테니어화하여 배포를 진행합니다.
-- **NGINX**
+- **NGINX**를 사용하여 웹서버를 구성했습니다.
 
 
 <div id="3"></div>
