@@ -1,28 +1,30 @@
 import React, { useRef, useCallback, useState } from 'react';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { Container, SpinnerContainer, ConfirmDiv } from './styles';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { UseMutateFunction } from '@tanstack/react-query';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
 import Portal from '@/components/common/Portal';
 import ModalBackground from '@/components/common/ModalBackground/index';
 import SetLocationModal from '@/components/common/SetLocationModal';
+import { Container, SpinnerContainer, ConfirmContainer } from './styles';
 
 interface MapProps {
   id: string;
   longitude?: number;
   latitude?: number;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Map = ({ id, longitude, latitude, updateTodo, setIsMapOpened }: MapProps) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
+
+  // 이부분 수정 무조건
   const location = longitude && latitude ? { longitude, latitude } : undefined;
   const { isMapLoading, markerCoords } = useNaverMap(location);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const updateLocationHandler = useCallback(() => {
     setIsModalOpen((old) => !old);
@@ -48,10 +50,14 @@ const Map = ({ id, longitude, latitude, updateTodo, setIsMapOpened }: MapProps) 
           <ModalBackground setIsModalOpen={setIsModalOpen} />
         </Portal>
       )}
+
+      {/* 네이버 지도 */}
       <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
-      <ConfirmDiv onClick={updateLocationHandler}>
+
+      {/* 위치 선택 확인 버튼 */}
+      <ConfirmContainer onClick={updateLocationHandler}>
         <CONFIRMBUTTON />
-      </ConfirmDiv>
+      </ConfirmContainer>
     </Container>
   );
 };
