@@ -1,6 +1,15 @@
 import { Dispatch, SetStateAction } from 'react';
+
 import { Location, LocationSearchResult } from '@/shared/types/location';
-import { Container, RecentSearchHeading, RecentSearchKeyword, RecentSearchList } from './styles';
+import { CANCEL } from '@/components/common/Figure';
+import {
+  Container,
+  DeleteContainer,
+  RecentSearchHeading,
+  RecentSearchItem,
+  RecentSearchKeyword,
+  RecentSearchList,
+} from './styles';
 
 interface RecentSearchProps {
   recentSearch: LocationSearchResult[];
@@ -13,16 +22,21 @@ const RecentSearch: React.FC<RecentSearchProps> = ({ recentSearch, setCoords }) 
       <RecentSearchHeading>최근 검색어</RecentSearchHeading>
       <RecentSearchList>
         {recentSearch.map((recentSearchItem) => (
-          <RecentSearchKeyword
-            onClick={() =>
-              setCoords({
-                longitude: recentSearchItem.location[0],
-                latitude: recentSearchItem.location[1],
-              })
-            }
-          >
-            {recentSearchItem.name}
-          </RecentSearchKeyword>
+          <RecentSearchItem>
+            <RecentSearchKeyword
+              onClick={() =>
+                setCoords({
+                  longitude: recentSearchItem.location[0],
+                  latitude: recentSearchItem.location[1],
+                })
+              }
+            >
+              {recentSearchItem.name}
+            </RecentSearchKeyword>
+            <DeleteContainer>
+              <CANCEL />
+            </DeleteContainer>
+          </RecentSearchItem>
         ))}
       </RecentSearchList>
     </Container>

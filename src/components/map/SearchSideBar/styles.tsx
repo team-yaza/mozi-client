@@ -10,7 +10,7 @@ export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
   width: 36rem;
   height: 100vh;
   background-color: white;
-  z-index: 1;
+  z-index: 99999;
 
   transform: ${({ isSearchBarOpen }) => !isSearchBarOpen && 'translateX(-36rem)'};
   transition: transform 250ms ease-in-out;
