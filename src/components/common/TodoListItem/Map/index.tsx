@@ -55,9 +55,11 @@ const Map = ({ id, longitude, latitude, updateTodo, setIsMapOpened }: MapProps) 
       <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
 
       {/* 위치 선택 확인 버튼 */}
-      <ConfirmContainer onClick={updateLocationHandler}>
-        <CONFIRMBUTTON />
-      </ConfirmContainer>
+      {!isMapLoading && (
+        <ConfirmContainer onClick={updateLocationHandler}>
+          <CONFIRMBUTTON />
+        </ConfirmContainer>
+      )}
     </Container>
   );
 };
