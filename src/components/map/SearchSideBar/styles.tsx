@@ -10,7 +10,7 @@ export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
   width: 36rem;
   height: 100vh;
   background-color: white;
-  z-index: 1;
+  z-index: 99999;
 
   transform: ${({ isSearchBarOpen }) => !isSearchBarOpen && 'translateX(-36rem)'};
   transition: transform 250ms ease-in-out;
@@ -31,6 +31,8 @@ export const SearchContainer = styled.div<{ isSeraching?: boolean }>`
     border-bottom-right-radius: ${({ isSeraching }) => isSeraching && '0'};
     border-bottom-left-radius: ${({ isSeraching }) => isSeraching && '0'};
   }
+
+  z-index: 99999;
 `;
 
 export const SearchInput = styled.input`
