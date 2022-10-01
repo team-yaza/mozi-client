@@ -1,59 +1,62 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { Container, SpinnerContainer, ConfirmDiv } from './styles';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { UseMutateFunction } from '@tanstack/react-query';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
-import Portal from '@/components/common/Portal';
-import ModalBackground from '@/components/common/ModalBackground/index';
-import SetLocationModal from '@/components/common/SetLocationModal';
+import SetLocationModal from '@/components/map/SetLocationModal';
+import { Container, SpinnerContainer, ConfirmContainer } from './styles';
 
 interface MapProps {
   id: string;
   longitude?: number;
   latitude?: number;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map = ({ id, longitude, latitude, updateTodo, setIsMapOpened }: MapProps) => {
+const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  const location = longitude && latitude ? { longitude, latitude } : undefined;
-  const { isMapLoading, markerCoords } = useNaverMap(location);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { isMapLoading, setCoords } = useNaverMap();
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const updateLocationHandler = useCallback(() => {
-    setIsModalOpen((old) => !old);
-  }, [markerCoords]);
+  useEffect(() => {
+    if (longitude && latitude) setCoords({ longitude, latitude });
+  }, [longitude, latitude]);
+
+  const updateLocationName = useCallback((locationName: string) => {
+    updateTodo({ id, locationName });
+  }, []);
 
   return (
-    <Container>
-      {isMapLoading && (
-        <SpinnerContainer>
-          <Spinner />
-        </SpinnerContainer>
-      )}
-      {isModalOpen && (
-        <Portal>
-          <SetLocationModal
-            id={id}
-            updateTodo={updateTodo}
-            setIsMapOpened={setIsMapOpened}
-            setIsModalOpen={setIsModalOpen}
-            longitude={markerCoords?.longitude}
-            latitude={markerCoords?.latitude}
-          />
-          <ModalBackground setIsModalOpen={setIsModalOpen} />
-        </Portal>
-      )}
-      <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
-      <ConfirmDiv onClick={updateLocationHandler}>
-        <CONFIRMBUTTON />
-      </ConfirmDiv>
-    </Container>
+    <>
+      <Container>
+        {isMapLoading && (
+          <SpinnerContainer>
+            <Spinner />
+          </SpinnerContainer>
+        )}
+
+        {/* 네이버 지도 */}
+        <div id="map" ref={naverMapRef} style={{ width: '100%', height: '30rem' }}></div>
+
+        {/* 위치 선택 확인 버튼 */}
+        {!isMapLoading && (
+          <ConfirmContainer onClick={() => setIsModalOpened(true)}>
+            <CONFIRMBUTTON />
+          </ConfirmContainer>
+        )}
+
+        {/* 장소 이름을 입력하는 모달  */}
+        <SetLocationModal
+          isOpened={isModalOpened}
+          onClose={() => setIsModalOpened(false)}
+          updateLocationName={updateLocationName}
+        />
+      </Container>
+    </>
   );
 };
 
-export default Map;
+export default React.memo(Map);

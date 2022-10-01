@@ -1,14 +1,14 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { useEffect, useRef, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { useNaverMap } from '@/hooks/useNaverMap';
 import SearchSideBar from '@/components/map/SearchSideBar';
 import AppLayout from '@/components/common/AppLayout';
-import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { Todo } from '@/shared/types/todo';
-import Image from 'next/image';
+import { useNaverMap } from '@/hooks/useNaverMap';
+import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
@@ -32,6 +32,8 @@ const Map: NextPageWithLayout = () => {
   }, [todos, naverMap]);
 
   useEffect(() => {
+    let eventListeners: naver.maps.MapEventListener;
+
     const naverMapOnClickHandler = (e: any) => {
       if (naverMap) {
         createMarker({
@@ -46,24 +48,25 @@ const Map: NextPageWithLayout = () => {
     };
 
     if (naverMap) {
-      naver.maps.Event.addListener(naverMap, 'click', naverMapOnClickHandler);
+      eventListeners = naver.maps.Event.addListener(naverMap, 'click', naverMapOnClickHandler);
     }
+
+    return () => {
+      naver.maps.Event.removeListener(eventListeners);
+    };
   }, [naverMap]);
 
   return (
     <>
       <Head>
-        <title>MOZI | 지도</title>
+        <title>MOZI | Map</title>
       </Head>
       <Container>
-        <SearchSideBar
-          // naverMap={naverMap}
-          setCoords={setCoords}
-          // createMarker={createMarker}
-          // createPosition={createPosition}
-        />
-        {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
+        {/* 검색 사이드바 */}
+        <SearchSideBar setCoords={setCoords} />
 
+        {/* Map 영역 */}
+        {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
         <MapLayout id="map" ref={naverMapRef} />
       </Container>
     </>

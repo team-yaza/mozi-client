@@ -19,5 +19,19 @@ declare module 'styled-components' {
       grey: string;
       light_grey: string;
     };
+    fonts?: {
+      h1: string;
+      h2: string;
+      h3: string;
+      h4: string;
+      h5: string;
+      h6: string;
+      body: string;
+      subtitle1: string;
+      caption1: string;
+      caption2: string;
+      btn1: string;
+      btn2: string;
+    };
   }
 }

@@ -12,11 +12,11 @@ export const Container = styled.div`
 `;
 
 export const SpinnerContainer = styled.div`
-  ${flexCenter}
+  ${flexCenter};
   height: 100%;
 `;
 
-export const ConfirmDiv = styled.div`
+export const ConfirmContainer = styled.div`
   position: absolute;
 
   width: 5rem;
@@ -25,4 +25,6 @@ export const ConfirmDiv = styled.div`
   bottom: 0rem;
   right: 0rem;
   z-index: 100;
+
+  cursor: pointer;
 `;

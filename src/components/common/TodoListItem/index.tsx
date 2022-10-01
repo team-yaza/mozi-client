@@ -62,7 +62,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     setIsFocused(index);
   }, []);
 
-  const onDoubleClickHandler = useCallback(() => {
+  const onDoubleClickHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
+
     setIsFocused(-1);
     setIsMapOpened(false);
     setIsDoubleClicked((prevState) => !prevState);
@@ -93,13 +95,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       ref={containerRef}
       tabIndex={0}
       isFocused={isFocused}
-      onClick={onClickHandler}
       isDoubleClicked={isDoubleClicked}
+      onClick={onClickHandler}
+      onDoubleClick={onDoubleClickHandler}
       onKeyDown={onDeleteHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
 
-      <MainContainer onDoubleClick={onDoubleClickHandler}>
+      <MainContainer>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
         {!isDoubleClicked && locationName && (

@@ -21,11 +21,10 @@ export interface Todo {
 }
 
 export interface TodoSuccessResponse {
-  id?: string;
+  id: string;
   title?: string;
   description?: string;
   created?: boolean;
-  tempTodoId?: string;
   done: boolean;
 }
 

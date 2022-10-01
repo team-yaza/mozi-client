@@ -2,31 +2,36 @@ import { AxiosError } from 'axios';
 import { v4 as uuid } from 'uuid';
 import { useMutation } from '@tanstack/react-query';
 
-import { Todo, TodoSuccessResponse, TodoUpdateRequest } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
-import { queryClient } from '@/shared/utils/queryClient';
-import { syncTodos } from '@/shared/utils/sync';
 import { todoStore } from '@/store/forage';
+import { syncTodos } from '@/shared/utils/sync';
+
+import { queryClient } from '@/shared/utils/queryClient';
+import { Todo, TodoSuccessResponse, TodoUpdateRequest } from '@/shared/types/todo';
 
 export const useCreateTodoMutation = () =>
   useMutation<TodoSuccessResponse, AxiosError>(() => todoService.createTodo(), {
-    onSuccess: async (data: any) => {
+    onSuccess: async (data) => {
       queryClient.setQueriesData(['todos'], (oldData: any) => {
-        return [data, ...oldData];
+        if (oldData) {
+          return [data, ...oldData];
+        }
+
+        return [data];
       });
       await todoStore.setItem(data.id, data);
     },
     onError: async (error) => {
       // 네트워크 에러 부분
-      console.log(error);
-      console.log('오프라인 투두생성');
+      console.log(error.message, '에러메시지');
+      console.log('오프라인에서 투두생성');
 
-      const tempTodoId = uuid();
-      const localTodo = { created: true, id: tempTodoId, alarmed: false, done: false };
-      console.log(localTodo, '?');
+      const offlineTodoId = uuid();
+      const localTodo = { created: true, id: offlineTodoId, alarmed: false, done: false };
+
       try {
-        await todoStore.setItem(tempTodoId, {
-          id: tempTodoId,
+        await todoStore.setItem(offlineTodoId, {
+          id: offlineTodoId,
           title: '',
           description: '',
           done: false,
