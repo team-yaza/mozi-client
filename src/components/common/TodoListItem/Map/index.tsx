@@ -54,7 +54,7 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
         latitude: markerCoords.latitude,
       });
     }
-  }, [markerCoords]);
+  }, [id, markerCoords, updateTodo]);
 
   useEffect(() => {
     let mapEventListeners: naver.maps.MapEventListener;
