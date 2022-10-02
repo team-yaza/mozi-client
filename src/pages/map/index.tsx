@@ -17,6 +17,16 @@ const Map: NextPageWithLayout = () => {
   const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setCoords({ latitude: coords.latitude, longitude: coords.longitude });
+      },
+      (error) => console.error(error),
+      { enableHighAccuracy: true }
+    );
+  }, [setCoords]);
+
+  useEffect(() => {
     if (naverMap && todos) {
       todos.forEach((todo: Todo) => {
         createMarker({
