@@ -24,9 +24,11 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
 
   useEffect(() => {
     if (markerCoords) {
-      setMarkerCoords({ longitude: markerCoords.longitude, latitude: markerCoords.latitude });
-    } else if (longitude && latitude) setCoords({ longitude, latitude });
-  }, [longitude, latitude]);
+      setCoords({ longitude: markerCoords.longitude, latitude: markerCoords.latitude });
+    } else if (longitude && latitude) {
+      setCoords({ longitude, latitude });
+    }
+  }, [longitude, latitude, markerCoords]);
 
   useEffect(() => {
     if (latitude && longitude) {
