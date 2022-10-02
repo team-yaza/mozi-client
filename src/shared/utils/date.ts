@@ -2,10 +2,13 @@ import dayjs from 'dayjs';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const DATESLENGTH = 42;
+const SLICEMONTHLENGTH = -2;
 
 export const dateToString = (date: Date) => DAYS[date.getDay()] + ', ' + MONTHS[date.getMonth()] + ' ' + date.getDate();
 
-export const getYearMonth = (date: Date) => date.getFullYear() + '.' + ('0' + (date.getMonth() + 1)).slice(-2);
+export const getYearMonth = (date: Date) =>
+  date.getFullYear() + '.' + ('0' + (date.getMonth() + 1)).slice(SLICEMONTHLENGTH);
 
 export const getCalendarDates = (date: Date) => {
   const newDate = dayjs(`${date.getFullYear()}-${date.getMonth() + 1}-1`);
@@ -17,7 +20,7 @@ export const getCalendarDates = (date: Date) => {
     dates.unshift({ year: tempDate.get('y'), month: tempDate.get('M'), date: tempDate.get('D') });
   }
 
-  let i = 6 * 7 - dates.length;
+  let i = DATESLENGTH - dates.length;
   tempDate = newDate;
   while (i--) {
     dates.push({ year: tempDate.get('y'), month: tempDate.get('M'), date: tempDate.get('D') });

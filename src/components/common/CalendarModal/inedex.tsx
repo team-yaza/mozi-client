@@ -1,12 +1,15 @@
 import { useCallback, useState } from 'react';
 import { Container, Header, DatesContainer, ArrowContainer, DaysContainer, Day, DateDiv } from './styles';
-import { getYearMonth } from '@/shared/utils/date';
-import { getCalendarDates } from '@/shared/utils/date';
+import { getYearMonth, getCalendarDates } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW } from '@/components/common/Figure';
 
 interface CalendarModalProps {
   date: Date;
 }
+
+const DAYS = 7;
+const SUN = 0;
+const SAT = 6;
 
 const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
   const [selectedDate, setSelectedDate] = useState(date);
@@ -58,13 +61,13 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
                 {value.date}
               </DateDiv>
             );
-          else if (index % 7 == 0)
+          else if (index % DAYS == SUN)
             return (
               <DateDiv key={index} selected={selected} color="#FF6161" onClick={onClickHandler}>
                 {value.date}
               </DateDiv>
             );
-          else if (index % 7 == 6)
+          else if (index % DAYS == SAT)
             return (
               <DateDiv key={index} selected={selected} color="#7380F6" onClick={onClickHandler}>
                 {value.date}
