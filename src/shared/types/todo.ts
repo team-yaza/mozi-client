@@ -6,6 +6,7 @@ export interface Todo {
   latitude?: number;
   locationName?: string;
   done: boolean;
+  date?: Date;
   alarmed: boolean;
   deletedAt?: Date;
   createdAt?: Date;
@@ -15,9 +16,6 @@ export interface Todo {
   created?: boolean;
   updated?: boolean;
   deleted?: boolean;
-
-  // legacy
-  date?: Date;
 }
 
 export interface TodoSuccessResponse {

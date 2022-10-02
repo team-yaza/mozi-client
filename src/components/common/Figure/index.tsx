@@ -24,3 +24,5 @@ export { default as DELETE } from './DELETE';
 export { default as TODOTAG } from './TODOTAG';
 export { default as SEARCHPLACE } from './SEARCHPLACE';
 export { default as CONFIRMBUTTON } from './CONFIRMBUTTON';
+export { default as NEXTARROW } from './NEXTARROW';
+export { default as PREVARROW } from './PREVARROW';
