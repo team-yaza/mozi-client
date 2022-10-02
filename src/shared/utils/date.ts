@@ -14,13 +14,13 @@ export const getCalendarDates = (date: Date) => {
   let tempDate = newDate;
   for (let i = 0; i < newDate.get('d'); i++) {
     tempDate = tempDate.set('D', tempDate.get('D') - 1);
-    dates.unshift([tempDate.get('M'), tempDate.get('D')]);
+    dates.unshift({ year: tempDate.get('y'), month: tempDate.get('M'), date: tempDate.get('D') });
   }
 
   let i = 6 * 7 - dates.length;
   tempDate = newDate;
   while (i--) {
-    dates.push([tempDate.get('M'), tempDate.get('D')]);
+    dates.push({ year: tempDate.get('y'), month: tempDate.get('M'), date: tempDate.get('D') });
     tempDate = tempDate.set('D', tempDate.get('D') + 1);
   }
 

@@ -23,11 +23,15 @@ export const Header = styled.div`
   font-weight: bold;
 
   margin-block: 2rem;
+
+  cursor: default;
 `;
 
 export const ArrowContainer = styled.div`
   position: relative;
   width: 2rem;
+
+  cursor: pointer;
 `;
 
 export const DaysContainer = styled.div`
@@ -39,6 +43,8 @@ export const DaysContainer = styled.div`
   border-bottom: 0.1rem solid #eeeeee;
   padding-bottom: 1rem;
   margin-inline: 1rem;
+
+  cursor: default;
 `;
 
 export const Day = styled.div<{ color?: string }>`
@@ -50,24 +56,26 @@ export const Day = styled.div<{ color?: string }>`
 
 export const DatesContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  width: 30rem;
+  flex-direction: row;
   justify-content: space-between;
-  margin: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
 `;
 
-export const WeekContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const DateDiv = styled.div<{ color?: string }>`
+export const DateDiv = styled.div<{ color?: string; selected: boolean }>`
   width: 4rem;
   height: 2rem;
 
   font-size: 1rem;
-  text-align: center;
-  color: ${({ color }) => (color ? color : '000000')};
+  color: ${({ color }) => (color ? color : '#000000')};
 
-  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 3rem;
+  background-color: ${({ selected }) => (selected ? '#EAE6FF' : '#FFFFFF')};
+
+  cursor: default;
 `;

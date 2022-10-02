@@ -10,3 +10,7 @@ export default {
 const Template: ComponentStory<typeof CalendarModal> = (args) => <CalendarModal {...args} />;
 
 export const Default = Template.bind({});
+
+Default.args = {
+  date: new Date(),
+};

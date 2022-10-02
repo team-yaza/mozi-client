@@ -1,32 +1,39 @@
-import {
-  Container,
-  Header,
-  DatesContainer,
-  ArrowContainer,
-  DaysContainer,
-  Day,
-  WeekContainer,
-  DateDiv,
-} from './styles';
+import { useCallback, useState } from 'react';
+import { Container, Header, DatesContainer, ArrowContainer, DaysContainer, Day, DateDiv } from './styles';
 import { getYearMonth } from '@/shared/utils/date';
 import { getCalendarDates } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW } from '@/components/common/Figure';
 
 interface CalendarModalProps {
-  date?: Date;
+  date: Date;
 }
 
 const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
-  const a = getCalendarDates(date ? date : new Date());
-  console.log(a);
+  const [selectedDate, setSelectedDate] = useState(date);
+
+  const onDateClickHandler = useCallback(
+    (year: number, month: number, dateTime: number) => {
+      setSelectedDate(new Date(year, month, dateTime));
+    },
+    [selectedDate]
+  );
+
+  const onPrevArrowClickHandler = useCallback(() => {
+    setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1, selectedDate.getDate()));
+  }, [selectedDate]);
+
+  const onNextArrowClickHandler = useCallback(() => {
+    setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, selectedDate.getDate()));
+  }, [selectedDate]);
+
   return (
     <Container>
       <Header>
-        <ArrowContainer>
+        <ArrowContainer onClick={onPrevArrowClickHandler}>
           <PREVARROW />
         </ArrowContainer>
-        {date ? getYearMonth(date) : getYearMonth(new Date())}
-        <ArrowContainer>
+        {getYearMonth(selectedDate)}
+        <ArrowContainer onClick={onNextArrowClickHandler}>
           <NEXTARROW />
         </ArrowContainer>
       </Header>
@@ -40,60 +47,36 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
         <Day color="#7380F6">Sat</Day>
       </DaysContainer>
       <DatesContainer>
-        <WeekContainer>
-          <DateDiv>1</DateDiv>
-          <DateDiv>2</DateDiv>
-          <DateDiv>3</DateDiv>
-          <DateDiv>4</DateDiv>
-          <DateDiv>5</DateDiv>
-          <DateDiv>6</DateDiv>
-          <DateDiv>7</DateDiv>
-        </WeekContainer>
-        <WeekContainer>
-          <DateDiv>1</DateDiv>
-          <DateDiv>2</DateDiv>
-          <DateDiv>3</DateDiv>
-          <DateDiv>4</DateDiv>
-          <DateDiv>5</DateDiv>
-          <DateDiv>6</DateDiv>
-          <DateDiv>7</DateDiv>
-        </WeekContainer>
-        <WeekContainer>
-          <DateDiv>1</DateDiv>
-          <DateDiv>2</DateDiv>
-          <DateDiv>3</DateDiv>
-          <DateDiv>4</DateDiv>
-          <DateDiv>5</DateDiv>
-          <DateDiv>6</DateDiv>
-          <DateDiv>7</DateDiv>
-        </WeekContainer>
-        <WeekContainer>
-          <DateDiv>1</DateDiv>
-          <DateDiv>2</DateDiv>
-          <DateDiv>3</DateDiv>
-          <DateDiv>4</DateDiv>
-          <DateDiv>5</DateDiv>
-          <DateDiv>6</DateDiv>
-          <DateDiv>7</DateDiv>
-        </WeekContainer>
-        <WeekContainer>
-          <DateDiv>1</DateDiv>
-          <DateDiv>2</DateDiv>
-          <DateDiv>3</DateDiv>
-          <DateDiv>4</DateDiv>
-          <DateDiv>5</DateDiv>
-          <DateDiv>6</DateDiv>
-          <DateDiv>7</DateDiv>
-        </WeekContainer>
-        <WeekContainer>
-          <DateDiv>1</DateDiv>
-          <DateDiv>2</DateDiv>
-          <DateDiv>3</DateDiv>
-          <DateDiv>4</DateDiv>
-          <DateDiv>5</DateDiv>
-          <DateDiv>6</DateDiv>
-          <DateDiv>7</DateDiv>
-        </WeekContainer>
+        {getCalendarDates(selectedDate).map((value, index) => {
+          const selected = selectedDate.getMonth() === value.month && selectedDate.getDate() === value.date;
+          const onClickHandler = () => {
+            onDateClickHandler(value.year, value.month, value.date);
+          };
+          if (value.month != selectedDate.getMonth())
+            return (
+              <DateDiv key={index} selected={selected} color="#c2c2c2" onClick={onClickHandler}>
+                {value.date}
+              </DateDiv>
+            );
+          else if (index % 7 == 0)
+            return (
+              <DateDiv key={index} selected={selected} color="#FF6161" onClick={onClickHandler}>
+                {value.date}
+              </DateDiv>
+            );
+          else if (index % 7 == 6)
+            return (
+              <DateDiv key={index} selected={selected} color="#7380F6" onClick={onClickHandler}>
+                {value.date}
+              </DateDiv>
+            );
+          else
+            return (
+              <DateDiv key={index} selected={selected} onClick={onClickHandler}>
+                {value.date}
+              </DateDiv>
+            );
+        })}
       </DatesContainer>
     </Container>
   );
