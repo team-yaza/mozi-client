@@ -18,12 +18,78 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  const { isMapLoading, setCoords } = useNaverMap();
+  const { naverMap, coords, isMapLoading, markerCoords, setCoords, setMarkerCoords, createMarker, createPosition } =
+    useNaverMap();
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   useEffect(() => {
+    if (markerCoords) {
+      setMarkerCoords({ longitude: markerCoords.longitude, latitude: markerCoords.latitude });
+      return;
+    }
+
     if (longitude && latitude) setCoords({ longitude, latitude });
   }, [longitude, latitude]);
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      setCoords({ longitude, latitude });
+      return;
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          setCoords({ latitude: coords.latitude, longitude: coords.longitude });
+        },
+        (error) => console.error(error),
+        { enableHighAccuracy: true }
+      );
+    }
+  }, [latitude, longitude, setCoords]);
+
+  useEffect(() => {
+    if (markerCoords) {
+      updateTodo({
+        id,
+        longitude: markerCoords.longitude,
+        latitude: markerCoords.latitude,
+      });
+    }
+  }, [id, markerCoords, updateTodo]);
+
+  useEffect(() => {
+    let mapEventListeners: naver.maps.MapEventListener;
+    let marker: naver.maps.Marker;
+
+    if (naverMap) {
+      if (latitude && longitude) {
+        marker = createMarker({
+          map: naverMap,
+          position: createPosition(latitude, longitude),
+          icon: {
+            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+            anchor: new naver.maps.Point(11, 11),
+          },
+        });
+      } else if (coords) {
+        marker = createMarker({
+          map: naverMap,
+          position: createPosition(coords.latitude, coords.longitude),
+          icon: {
+            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+            anchor: new naver.maps.Point(11, 11),
+          },
+        });
+      }
+      mapEventListeners = naver.maps.Event.addListener(naverMap, 'click', (e) => {
+        marker?.setPosition(e.coord);
+        setMarkerCoords({ longitude: e.coord.x, latitude: e.coord.y });
+      });
+    }
+
+    return () => {
+      naver.maps.Event.removeListener(mapEventListeners);
+    };
+  }, [naverMap, coords, latitude, longitude, createMarker, createPosition, setMarkerCoords]);
 
   const updateLocationName = useCallback((locationName: string) => {
     updateTodo({ id, locationName });
