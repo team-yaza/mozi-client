@@ -38,6 +38,9 @@ export const useLogbookTodoList = () => {
 
 export const useMapTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude), []),
+    select: useCallback(
+      (todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude && !todo.deletedAt),
+      []
+    ),
   });
 };
