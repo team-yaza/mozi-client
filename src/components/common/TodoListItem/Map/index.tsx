@@ -89,7 +89,7 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
     return () => {
       naver.maps.Event.removeListener(mapEventListeners);
     };
-  }, [naverMap, coords]);
+  }, [naverMap, coords, latitude, longitude, createMarker, createPosition, setMarkerCoords]);
 
   const updateLocationName = useCallback((locationName: string) => {
     updateTodo({ id, locationName });
