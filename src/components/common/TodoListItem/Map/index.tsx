@@ -58,7 +58,7 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
     (locationName: string) => {
       updateTodo({ id, locationName, latitude: markerCoords?.latitude, longitude: markerCoords?.longitude });
     },
-    [latitude, longitude, markerCoords]
+    [id, markerCoords, updateTodo]
   );
 
   return (
