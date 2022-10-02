@@ -6,6 +6,7 @@ import { getCurrentPosition } from '@/shared/utils/location';
 import { Location, LocationSearchResult } from '@/shared/types/location';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { getItem, setItem } from '@/store/localStorage';
+import { getSearchSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 import { SEARCHPLACE } from '@/components/common/Figure';
 import { SIDEBARARROWLEFT } from '@/components/common/Figure';
 import {
@@ -23,7 +24,6 @@ import {
   PlaceName,
   SearchTodoContainer,
 } from './styles';
-import { getSearchSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 
 interface SearchSideBarProps {
   setCoords: Dispatch<SetStateAction<Location | undefined>>;

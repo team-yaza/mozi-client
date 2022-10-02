@@ -7,9 +7,9 @@ import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
+import { debounce } from '@/shared/utils/debounce';
 import { PLACE } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
-import { debounce } from '@/shared/utils/debounce';
 
 interface TodoListItemProps {
   id: string;
@@ -22,7 +22,7 @@ interface TodoListItemProps {
   index: number;
   isFocused?: boolean;
   setIsFocused: (index: number) => void;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
   deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
 }
 

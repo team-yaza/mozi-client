@@ -25,16 +25,12 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
   useEffect(() => {
     if (markerCoords) {
       setMarkerCoords({ longitude: markerCoords.longitude, latitude: markerCoords.latitude });
-      return;
-    }
-
-    if (longitude && latitude) setCoords({ longitude, latitude });
+    } else if (longitude && latitude) setCoords({ longitude, latitude });
   }, [longitude, latitude]);
 
   useEffect(() => {
     if (latitude && longitude) {
       setCoords({ longitude, latitude });
-      return;
     } else {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
@@ -82,7 +78,6 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
       }
       mapEventListeners = naver.maps.Event.addListener(naverMap, 'click', (e) => {
         marker?.setPosition(e.coord);
-        setMarkerCoords({ longitude: e.coord.x, latitude: e.coord.y });
       });
     }
 

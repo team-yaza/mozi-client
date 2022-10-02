@@ -20,8 +20,23 @@ export const useNaverMap = () => {
   );
 
   useEffect(() => {
-    let mapEventListeners: naver.maps.MapEventListener;
+    let listeners: naver.maps.MapEventListener;
 
+    const onMapLoaded = () => {
+      console.log('map loaded event');
+      setIsMapLoading(false);
+    };
+
+    if (naverMap) {
+      listeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
+    }
+
+    return () => {
+      naver.maps.Event.removeListener(listeners);
+    };
+  }, [naverMap]);
+
+  useEffect(() => {
     if (coords) {
       const center = createPosition(coords.latitude, coords.longitude);
       const map = createMap({
@@ -41,53 +56,8 @@ export const useNaverMap = () => {
       setNaverMap(map);
       setNaverMapCenter(center);
       // setMarkerCoords(coords);
-
-      // coords가 바뀌면 마커를 가운데에 생성해준다.
-      // const marker = createMarker({
-      //   map,
-      //   position: createPosition(coords.latitude, coords.longitude),
-      //   icon: {
-      //     content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-      //     anchor: new naver.maps.Point(11, 11),
-      //   },
-      // });
-      // const marker = createMarker({
-      //   map,
-      //   position: createPosition(coords.latitude, coords.longitude),
-      //   icon: {
-      //     content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-      //     anchor: new naver.maps.Point(11, 11),
-      //   },
-      // });
-
-      // mapEventListeners = naver.maps.Event.addListener(map, 'click', (e) => {
-      //   marker?.setPosition(e.coord);
-      //   // setMarkerCoords({ longitude: e.coord.x, latitude: e.coord.y });
-      // });
     }
-
-    return () => {
-      naver.maps.Event.removeListener(mapEventListeners);
-    };
   }, [coords]);
-
-  useEffect(() => {
-    let listeners: naver.maps.MapEventListener;
-
-    const onMapLoaded = () => {
-      setIsMapLoading(false);
-    };
-
-    if (naverMap) {
-      listeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
-    }
-
-    return () => {
-      if (naverMap) {
-        naver.maps.Event.removeListener(listeners);
-      }
-    };
-  }, [naverMap]);
 
   return {
     naverMap,

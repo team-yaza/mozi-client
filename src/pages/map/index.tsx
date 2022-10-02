@@ -16,6 +16,8 @@ const Map: NextPageWithLayout = () => {
   const { data: todos } = useMapTodoList();
   const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
+  console.log(naverMap, isMapLoading);
+
   useEffect(() => {
     if (naverMap && todos) {
       todos.forEach((todo: Todo) => {
