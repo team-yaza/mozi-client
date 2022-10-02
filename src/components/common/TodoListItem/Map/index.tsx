@@ -44,7 +44,7 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
         { enableHighAccuracy: true }
       );
     }
-  }, []);
+  }, [latitude, longitude, setCoords]);
 
   useEffect(() => {
     if (markerCoords) {
