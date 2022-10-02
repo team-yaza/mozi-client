@@ -5,9 +5,7 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import Chip from '@/components/common/Chip';
 import { PLACE } from '@/components/common/Figure';
-import Portal from '@/components/common//Portal';
-import AlertModal from '@/components/common/AlertModal';
-import ModalBackground from '@/components/common/ModalBackground/index';
+import Modal from '@/components/common/Modal';
 
 interface OptionsProps {
   id: string;
@@ -51,12 +49,17 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, setIsMapOpened, upd
           </UndefinedOption>
         )}
       </UndefinedContainer>
-      {isModalOpen && (
-        <Portal>
-          <AlertModal id={id} updateTodo={updateTodo} setIsModalOpen={setIsModalOpen} />
-          <ModalBackground setIsModalOpen={setIsModalOpen} />
-        </Portal>
-      )}
+
+      <Modal
+        isOpened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => {
+          setIsModalOpen(false);
+          updateTodo({ id, locationName: null, latitude: null, longitude: null });
+        }}
+      >
+        확인 버튼을 누르면 등록된 장소가 삭제됩니다.
+      </Modal>
     </Container>
   );
 };

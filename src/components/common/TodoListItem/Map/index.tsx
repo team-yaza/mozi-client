@@ -18,24 +18,14 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  const { naverMap, coords, isMapLoading, markerCoords, setCoords, setMarkerCoords, createMarker, createPosition } =
+  const { naverMap, isMapLoading, coords, markerCoords, setMarkerCoords, setCoords, createMarker, createPosition } =
     useNaverMap();
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   useEffect(() => {
-    if (markerCoords) {
-      setMarkerCoords({ longitude: markerCoords.longitude, latitude: markerCoords.latitude });
-      return;
-    }
-
-    if (longitude && latitude) setCoords({ longitude, latitude });
-  }, [longitude, latitude]);
-
-  useEffect(() => {
-    if (latitude && longitude) {
-      setCoords({ longitude, latitude });
-      return;
-    } else {
+    if (longitude && latitude) setCoords({ longitude, latitude }); // 좌표가 존재하면 거기를 가운데로
+    else {
+      // 존재하지 않으면 현재위치를 지도의 가운데로
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           setCoords({ latitude: coords.latitude, longitude: coords.longitude });
@@ -44,56 +34,32 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
         { enableHighAccuracy: true }
       );
     }
-  }, [latitude, longitude, setCoords]);
+  }, [longitude, latitude, setCoords]);
 
   useEffect(() => {
-    if (markerCoords) {
-      updateTodo({
-        id,
-        longitude: markerCoords.longitude,
-        latitude: markerCoords.latitude,
+    if (naverMap && coords) {
+      const marker = createMarker({
+        map: naverMap,
+        position: createPosition(coords.latitude, coords.longitude),
+        icon: {
+          content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+          anchor: new naver.maps.Point(11, 11),
+        },
       });
-    }
-  }, [id, markerCoords, updateTodo]);
 
-  useEffect(() => {
-    let mapEventListeners: naver.maps.MapEventListener;
-    let marker: naver.maps.Marker;
-
-    if (naverMap) {
-      if (latitude && longitude) {
-        marker = createMarker({
-          map: naverMap,
-          position: createPosition(latitude, longitude),
-          icon: {
-            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-            anchor: new naver.maps.Point(11, 11),
-          },
-        });
-      } else if (coords) {
-        marker = createMarker({
-          map: naverMap,
-          position: createPosition(coords.latitude, coords.longitude),
-          icon: {
-            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-            anchor: new naver.maps.Point(11, 11),
-          },
-        });
-      }
-      mapEventListeners = naver.maps.Event.addListener(naverMap, 'click', (e) => {
+      naver.maps.Event.addListener(naverMap, 'click', (e: any) => {
         marker?.setPosition(e.coord);
         setMarkerCoords({ longitude: e.coord.x, latitude: e.coord.y });
       });
     }
+  }, [naverMap, coords, createMarker, createPosition, setMarkerCoords]);
 
-    return () => {
-      naver.maps.Event.removeListener(mapEventListeners);
-    };
-  }, [naverMap, coords, latitude, longitude, createMarker, createPosition, setMarkerCoords]);
-
-  const updateLocationName = useCallback((locationName: string) => {
-    updateTodo({ id, locationName });
-  }, []);
+  const updateLocationName = useCallback(
+    (locationName: string) => {
+      updateTodo({ id, locationName, latitude: markerCoords?.latitude, longitude: markerCoords?.longitude });
+    },
+    [id, markerCoords, updateTodo]
+  );
 
   return (
     <>
