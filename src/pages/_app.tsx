@@ -47,9 +47,10 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   }, [myLocationRef]);
 
   const sendLocation = useCallback(() => {
-    if (!navigator.serviceWorker.controller) return;
-    if (!myLocationRef.current) return;
+    if (!navigator.serviceWorker.controller || !myLocationRef.current) return;
+
     updateCurrentPosition();
+
     navigator.serviceWorker.controller.postMessage({
       type: 'SET_INTERVAL',
       latitude: myLocationRef.current.latitude,

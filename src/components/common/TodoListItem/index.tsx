@@ -60,7 +60,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
   const onClickHandler = useCallback(() => {
     setIsFocused(index);
-  }, []);
+  }, [index, setIsFocused]);
 
   const onDoubleClickHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
