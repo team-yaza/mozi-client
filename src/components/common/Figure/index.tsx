@@ -26,3 +26,4 @@ export { default as SEARCHPLACE } from './SEARCHPLACE';
 export { default as CONFIRMBUTTON } from './CONFIRMBUTTON';
 export { default as NEXTARROW } from './NEXTARROW';
 export { default as PREVARROW } from './PREVARROW';
+export { default as STOPWATCH } from './STOPWATCH';

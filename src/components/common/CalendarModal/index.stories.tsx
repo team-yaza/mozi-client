@@ -1,5 +1,5 @@
 import React from 'react';
-import CalendarModal from './inedex';
+import CalendarModal from '.';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 export default {

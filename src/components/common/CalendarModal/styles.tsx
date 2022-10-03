@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   position: absolute;
   width: 30rem;
-  height: 22rem;
+  height: 26rem;
   background-color: #ffffff;
   box-shadow: 0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd;
   border-radius: 2rem;
@@ -56,11 +56,15 @@ export const Day = styled.div<{ color?: string }>`
 
 export const DatesContainer = styled.div`
   display: flex;
-  width: 30rem;
+  width: 28rem;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 1rem;
+
+  padding-block: 1rem;
+  margin-inline: 1rem;
+
+  border-bottom: 0.1rem solid #eeeeee;
 `;
 
 export const DateDiv = styled.div<{ color?: string; selected: boolean }>`
@@ -78,4 +82,60 @@ export const DateDiv = styled.div<{ color?: string; selected: boolean }>`
   background-color: ${({ selected }) => (selected ? '#EAE6FF' : '#FFFFFF')};
 
   cursor: default;
+`;
+
+export const Footer = styled.div`
+  width: 100%;
+  height: 3rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  margin-block: 0.5rem;
+`;
+
+export const StopWatchContainer = styled.div`
+  position: relative;
+
+  width: 1.5rem;
+  height: 3rem;
+`;
+
+export const TimeContainer = styled.div`
+  margin-left: 1rem;
+  font-size: 1rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const MeridiemContainer = styled.div`
+  cursor: pointer;
+  margin-right: 0.2rem;
+`;
+
+export const HourInput = styled.input`
+  margin-inline: 0.2rem;
+  width: 1.4rem;
+
+  border: none;
+  outline: none;
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
+export const MinuteInput = styled.input`
+  margin-inline: 0.2rem;
+  width: 1.4rem;
+
+  border: none;
+  outline: none;
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
