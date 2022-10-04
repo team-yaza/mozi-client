@@ -1,6 +1,9 @@
 {
   "name": "mozi-client",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "description": "mozi client ",
   "main": "index.js",
   "repository": "https://github.com/team-yaza/mozi-client",
