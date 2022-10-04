@@ -9,7 +9,7 @@ export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
-  ({ value = '', height, onFocus, onBlur, borderRadius, supportsMaxLength, maxLength, ...restTextInputProps }, ref) => {
+  ({ value, height, onFocus, onBlur, borderRadius, supportsMaxLength, maxLength, ...restTextInputProps }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
@@ -28,7 +28,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         >
           <Input ref={ref} value={value} maxLength={maxLength} borderRadius={borderRadius} {...restTextInputProps} />
         </Container>
-        {supportsMaxLength && isFocused && (
+        {supportsMaxLength && isFocused && value.length > 0 && (
           <Caption>
             {value.length}/{maxLength}
           </Caption>
