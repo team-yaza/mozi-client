@@ -19,6 +19,7 @@ import { NEXTARROW, PREVARROW, STOPWATCH } from '@/components/common/Figure';
 
 interface CalendarModalProps {
   date: Date;
+  type: 'alarm' | 'deadline';
 }
 const HOURS = 12;
 const DAYHOURS = 24;
@@ -26,7 +27,7 @@ const DAYS = 7;
 const SUN = 0;
 const SAT = 6;
 
-const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
+const CalendarModal: React.FC<CalendarModalProps> = ({ date, type }) => {
   const [nowDate, setNowDate] = useState(date);
 
   const onMeridiemToggle = useCallback(() => {
@@ -86,7 +87,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
         <Day>Fri</Day>
         <Day color="#7380F6">Sat</Day>
       </DaysContainer>
-      <DatesContainer>
+      <DatesContainer type={type}>
         {getCalendarDates(nowDate).map((value, index) => {
           const selected = nowDate.getMonth() === value.month && nowDate.getDate() === value.date;
           const onClickHandler = () => {
@@ -118,19 +119,21 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ date }) => {
             );
         })}
       </DatesContainer>
-      <Footer>
-        <StopWatchContainer>
-          <STOPWATCH />
-        </StopWatchContainer>
-        <TimeContainer>
-          <MeridiemContainer onClick={onMeridiemToggle}>
-            {nowDate.getHours() < HOURS ? '오전' : '오후'}
-          </MeridiemContainer>
-          <HourInput type="number" defaultValue={(nowDate.getHours() + DAYHOURS) % HOURS || HOURS} />
-          {':'}
-          <MinuteInput type="number" defaultValue={nowDate.getMinutes()} />
-        </TimeContainer>
-      </Footer>
+      {type === 'alarm' && (
+        <Footer>
+          <StopWatchContainer>
+            <STOPWATCH />
+          </StopWatchContainer>
+          <TimeContainer>
+            <MeridiemContainer onClick={onMeridiemToggle}>
+              {nowDate.getHours() < HOURS ? '오전' : '오후'}
+            </MeridiemContainer>
+            <HourInput type="number" defaultValue={(nowDate.getHours() + DAYHOURS) % HOURS || HOURS} />
+            {':'}
+            <MinuteInput type="number" defaultValue={nowDate.getMinutes()} />
+          </TimeContainer>
+        </Footer>
+      )}
     </Container>
   );
 };

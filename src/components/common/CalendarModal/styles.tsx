@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
   position: relative;
   width: 31.3rem;
-  height: 27rem;
   background-color: #ffffff;
 
   display: flex;
@@ -52,7 +51,7 @@ export const Day = styled.div<{ color?: string }>`
   color: ${({ color }) => (color ? color : '#484551')};
 `;
 
-export const DatesContainer = styled.div`
+export const DatesContainer = styled.div<{ type?: string }>`
   display: flex;
   width: 29.3rem;
   flex-direction: row;
@@ -62,7 +61,7 @@ export const DatesContainer = styled.div`
   padding-block: 1rem;
   margin-inline: 1rem;
 
-  border-bottom: 0.1rem solid #eeeeee;
+  border-bottom: ${({ type }) => (type === 'alarm' ? '0.1rem solid #eeeeee' : 'none')};
 `;
 
 export const DateDiv = styled.div<{ color?: string; selected: boolean }>`
