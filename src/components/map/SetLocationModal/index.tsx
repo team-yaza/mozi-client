@@ -3,6 +3,7 @@ import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { TRANSITION_DELAY } from '@/shared/constants/delay';
 import Modal from '@/components/common/Modal';
 import CommonTextInput from '@/components/common/TextInput/index';
+import { LOCATION_INPUT_LENGTH } from '@/shared/constants/input';
 import { ContentContainer, Title } from './styles';
 
 interface SetLocationModalProps {
@@ -47,7 +48,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
           value={locationName}
           onChange={(e) => setLocationName(e.target.value)}
           supportsMaxLength
-          maxLength={20}
+          maxLength={LOCATION_INPUT_LENGTH}
         />
       </ContentContainer>
     </Modal>
