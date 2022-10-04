@@ -6,6 +6,7 @@ import { Container, DefinedContainer, DefinedOption, UndefinedContainer, Undefin
 import Chip from '@/components/common/Chip';
 import { PLACE } from '@/components/common/Figure';
 import Modal from '@/components/common/Modal';
+import LocationDeleteDialog from '@/components/common/LocationDeleteDialog';
 
 interface OptionsProps {
   id: string;
@@ -51,6 +52,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, setIsMapOpened, upd
       </UndefinedContainer>
 
       <Modal
+        type="alert"
         isOpened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={() => {
@@ -58,7 +60,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, setIsMapOpened, upd
           updateTodo({ id, locationName: null, latitude: null, longitude: null });
         }}
       >
-        확인 버튼을 누르면 등록된 장소가 삭제됩니다.
+        <LocationDeleteDialog />
       </Modal>
     </Container>
   );

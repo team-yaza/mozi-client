@@ -34,6 +34,7 @@ export const ModalInner = styled.div`
   border-radius: 1.4rem;
   background-color: ${theme.colors.white};
   z-index: 999999;
+  overflow: hidden;
 `;
 
 export const ModalContent = styled.div`
