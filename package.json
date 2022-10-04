@@ -1,6 +1,9 @@
 {
   "name": "mozi-client",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "description": "mozi client ",
   "main": "index.js",
   "repository": "https://github.com/team-yaza/mozi-client",
@@ -32,7 +35,7 @@
     "@testing-library/dom": "^8.16.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.4.2",
+    "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^28.1.6",
     "@types/navermaps": "^3.0.16",
     "@types/node": "^18.0.4",
