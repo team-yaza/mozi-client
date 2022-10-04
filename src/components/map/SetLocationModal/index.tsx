@@ -1,8 +1,9 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
 
-import Modal from '@/components/common/Modal';
 import { TRANSITION_DELAY } from '@/shared/constants/delay';
-import { ContentContainer, LocationInput, Title } from './styles';
+import Modal from '@/components/common/Modal';
+import CommonTextInput from '@/components/common/TextInput/index';
+import { ContentContainer, Title } from './styles';
 
 interface SetLocationModalProps {
   isOpened: boolean;
@@ -13,6 +14,7 @@ interface SetLocationModalProps {
 const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, updateLocationName }) => {
   const [locationName, setLocationName] = useState('');
   const locationNameInputRef = useRef<HTMLInputElement>(null);
+  const locationInputId = useId();
 
   useLayoutEffect(() => {
     let timer: NodeJS.Timeout;
@@ -36,13 +38,16 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
   return (
     <Modal isOpened={isOpened} onClose={onClose} onConfirm={onConfirm}>
       <ContentContainer>
-        <Title htmlFor="locationName">🚩 장소의 이름을 입력해주세요.</Title>
-        <LocationInput
-          id="locationName"
+        <Title htmlFor={locationInputId}>🚩 장소의 이름을 입력해주세요.</Title>
+        <CommonTextInput
+          id={locationInputId}
           ref={locationNameInputRef}
-          spellCheck={false}
           placeholder="장소 이름 입력"
+          spellCheck={false}
+          value={locationName}
           onChange={(e) => setLocationName(e.target.value)}
+          supportsMaxLength
+          maxLength={20}
         />
       </ContentContainer>
     </Modal>
