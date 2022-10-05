@@ -63,12 +63,11 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           <DefinedOption>
             <Chip
               type="location"
-              Icon={<PLACE focused={false} />}
+              Icon={<CALENDAR />}
               content={dateToString(getDate(alarmDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('alarm')}
-              onDeleteHander={onDeleteHandler}
             />
           </DefinedOption>
         )}
@@ -76,12 +75,11 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           <DefinedOption>
             <Chip
               type="deadline"
-              Icon={<PLACE focused={false} />}
+              Icon={<DEADLINE />}
               content={dateToString(getDate(dueDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('deadline')}
-              onDeleteHander={onDeleteHandler}
             />
           </DefinedOption>
         )}
