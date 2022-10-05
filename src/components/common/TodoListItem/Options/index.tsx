@@ -113,16 +113,14 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, date, deadline, set
       >
         <LocationDeleteDialog />
       </Modal>
-      <Modal
-        isOpened={isCalendarModalOpen}
-        onClose={() => setIsCalendarModalOpen(false)}
-        onConfirm={() => {
-          setIsCalendarModalOpen(false);
-          updateTodo({ id, locationName: null, latitude: null, longitude: null });
-        }}
-      >
-        <CalendarModal type={calendarState} date={date ? date : new Date()} />
-      </Modal>
+      <CalendarModal
+        id={id}
+        isCalendarModalOpen={isCalendarModalOpen}
+        updateTodo={updateTodo}
+        setIsCalendarModalOpen={setIsCalendarModalOpen}
+        type={calendarState}
+        date={date ? date : new Date()}
+      />
     </Container>
   );
 };
