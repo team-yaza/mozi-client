@@ -37,8 +37,8 @@ const SAT = 6;
 
 const CalendarModal: React.FC<CalendarModalProps> = ({
   id,
-  date,
   type,
+  date,
   isCalendarModalOpen,
   setIsCalendarModalOpen,
   updateTodo,
@@ -150,9 +150,9 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
               <MeridiemContainer onClick={onMeridiemToggle}>
                 {nowDate.getHours() < HOURS ? '오전' : '오후'}
               </MeridiemContainer>
-              <HourInput type="number" defaultValue={getDateToHour(date)} />
+              <HourInput type="number" defaultValue={getDateToHour(nowDate)} />
               {':'}
-              <MinuteInput type="number" defaultValue={getDateToMin(date)} />
+              <MinuteInput type="number" defaultValue={getDateToMin(nowDate)} />
             </TimeContainer>
           </Footer>
         )}

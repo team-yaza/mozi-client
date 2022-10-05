@@ -5,8 +5,8 @@ export interface Todo {
   longitude?: number;
   latitude?: number;
   locationName?: string;
-  alarmDate?: Date | null;
-  dueDate?: Date | null;
+  alarmDate?: string;
+  dueDate?: string;
 
   done: boolean;
   alarmed: boolean;

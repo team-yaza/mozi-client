@@ -51,6 +51,8 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
           longitude={todo.longitude}
           latitude={todo.latitude}
           locationName={todo.locationName}
+          alarmDate={todo.alarmDate}
+          dueDate={todo.dueDate}
           done={todo.done}
           index={index}
           isFocused={isFocused === index}

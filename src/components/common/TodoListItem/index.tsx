@@ -18,6 +18,8 @@ interface TodoListItemProps {
   longitude?: number;
   latitude?: number;
   locationName?: string;
+  alarmDate?: string;
+  dueDate?: string;
   done: boolean;
   index: number;
   isFocused?: boolean;
@@ -34,6 +36,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   latitude,
   done,
   index,
+  alarmDate,
+  dueDate,
   isFocused,
   locationName,
   setIsFocused,
@@ -119,7 +123,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           <DescriptionContainer>
             <Description id={id} description={description} updateTodo={updateTodo} />
           </DescriptionContainer>
-          <Options id={id} locationName={locationName} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
+          <Options
+            id={id}
+            locationName={locationName}
+            alarmDate={alarmDate}
+            dueDate={dueDate}
+            setIsMapOpened={setIsMapOpened}
+            updateTodo={updateTodo}
+          />
         </>
       )}
 
