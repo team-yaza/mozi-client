@@ -7,7 +7,7 @@ import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { PLACE } from '@/components/common/Figure';
+import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
 import { debounce } from '@/shared/utils/debounce';
 
@@ -18,6 +18,8 @@ interface TodoListItemProps {
   longitude?: number;
   latitude?: number;
   locationName?: string;
+  alarmDate?: string;
+  dueDate?: string;
   done: boolean;
   index: number;
   isFocused?: boolean;
@@ -34,6 +36,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   latitude,
   done,
   index,
+  alarmDate,
+  dueDate,
   isFocused,
   locationName,
   setIsFocused,
@@ -110,6 +114,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
             <PLACE focused={true} />
           </IconContainer>
         )}
+        {!isDoubleClicked && alarmDate && (
+          <IconContainer>
+            <CALENDAR focused={true} />
+          </IconContainer>
+        )}
+        {!isDoubleClicked && dueDate && (
+          <IconContainer>
+            <DEADLINE focused={true} />
+          </IconContainer>
+        )}
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
@@ -119,7 +133,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           <DescriptionContainer>
             <Description id={id} description={description} updateTodo={updateTodo} />
           </DescriptionContainer>
-          <Options id={id} locationName={locationName} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
+          <Options
+            id={id}
+            locationName={locationName}
+            alarmDate={alarmDate}
+            dueDate={dueDate}
+            setIsMapOpened={setIsMapOpened}
+            updateTodo={updateTodo}
+          />
         </>
       )}
 

@@ -13,13 +13,13 @@ import CalendarModal from '@/components/common/CalendarModal';
 interface OptionsProps {
   id: string;
   locationName?: string;
-  date?: Date;
-  deadline?: Date;
+  alarmDate?: string;
+  dueDate?: string;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
 }
 
-const Options: React.FC<OptionsProps> = ({ id, locationName, date, deadline, setIsMapOpened, updateTodo }) => {
+const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate, setIsMapOpened, updateTodo }) => {
   const [isMapModalOpen, setIsMapModalOpen] = useState<boolean>(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState<boolean>(false);
   const [calendarState, setCalendarState] = useState<'alarm' | 'deadline'>('alarm');
@@ -35,6 +35,8 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, date, deadline, set
     },
     [calendarState]
   );
+
+  const getDate = useCallback((date: undefined | string) => (date ? new Date(date) : new Date()), []);
 
   const onDeleteHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -57,29 +59,27 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, date, deadline, set
             />
           </DefinedOption>
         )}
-        {date && (
+        {alarmDate && (
           <DefinedOption>
             <Chip
               type="location"
-              Icon={<PLACE focused={false} />}
-              content={dateToString(date)}
+              Icon={<CALENDAR />}
+              content={dateToString(getDate(alarmDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('alarm')}
-              onDeleteHander={onDeleteHandler}
             />
           </DefinedOption>
         )}
-        {date && (
+        {dueDate && (
           <DefinedOption>
             <Chip
               type="deadline"
-              Icon={<PLACE focused={false} />}
-              content={dateToString(date)}
+              Icon={<DEADLINE />}
+              content={dateToString(getDate(dueDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('deadline')}
-              onDeleteHander={onDeleteHandler}
             />
           </DefinedOption>
         )}
@@ -90,12 +90,12 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, date, deadline, set
             <PLACE focused={true} />
           </UndefinedOption>
         )}
-        {!date && (
+        {!alarmDate && (
           <UndefinedOption onClick={() => onClickCalendar('alarm')}>
             <CALENDAR />
           </UndefinedOption>
         )}
-        {!deadline && (
+        {!dueDate && (
           <UndefinedOption onClick={() => onClickCalendar('deadline')}>
             <DEADLINE />
           </UndefinedOption>
@@ -113,16 +113,14 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, date, deadline, set
       >
         <LocationDeleteDialog />
       </Modal>
-      <Modal
-        isOpened={isCalendarModalOpen}
-        onClose={() => setIsCalendarModalOpen(false)}
-        onConfirm={() => {
-          setIsCalendarModalOpen(false);
-          updateTodo({ id, locationName: null, latitude: null, longitude: null });
-        }}
-      >
-        <CalendarModal type={calendarState} date={date ? date : new Date()} />
-      </Modal>
+      <CalendarModal
+        id={id}
+        isCalendarModalOpen={isCalendarModalOpen}
+        updateTodo={updateTodo}
+        setIsCalendarModalOpen={setIsCalendarModalOpen}
+        type={calendarState}
+        date={calendarState === 'alarm' ? getDate(alarmDate) : getDate(dueDate)}
+      />
     </Container>
   );
 };

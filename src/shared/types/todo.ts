@@ -5,9 +5,12 @@ export interface Todo {
   longitude?: number;
   latitude?: number;
   locationName?: string;
+  alarmDate?: string;
+  dueDate?: string;
+
   done: boolean;
-  date?: Date;
   alarmed: boolean;
+
   deletedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
@@ -33,7 +36,8 @@ export interface TodoUpdateRequest {
   longitude?: number | null;
   latitude?: number | null;
   locationName?: string | null;
-  date?: Date | null;
+  alarmDate?: Date | null;
+  dueDate?: Date | null;
   description?: string;
 }
 

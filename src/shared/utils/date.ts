@@ -2,8 +2,11 @@ import dayjs from 'dayjs';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 const DATESLENGTH = 42;
 const SLICEMONTHLENGTH = -2;
+const HOURS = 12;
+const DAYHOURS = 24;
 
 export const dateToString = (date: Date) => DAYS[date.getDay()] + ', ' + MONTHS[date.getMonth()] + ' ' + date.getDate();
 
@@ -29,3 +32,8 @@ export const getCalendarDates = (date: Date) => {
 
   return dates;
 };
+
+export const getDateToHour = (date: Date) =>
+  ('0' + ((date.getHours() + DAYHOURS) % HOURS || HOURS)).slice(SLICEMONTHLENGTH);
+
+export const getDateToMin = (date: Date) => ('0' + date.getMinutes()).slice(SLICEMONTHLENGTH);
