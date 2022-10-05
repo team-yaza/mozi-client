@@ -14,15 +14,15 @@ import {
   HourInput,
   MinuteInput,
 } from './styles';
-import { getYearMonth, getCalendarDates } from '@/shared/utils/date';
+import { getYearMonth, getCalendarDates, getDateToHour, getDateToMin } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW, STOPWATCH } from '@/components/common/Figure';
 
 interface CalendarModalProps {
   date: Date;
   type: 'alarm' | 'deadline';
 }
+
 const HOURS = 12;
-const DAYHOURS = 24;
 const DAYS = 7;
 const SUN = 0;
 const SAT = 6;
@@ -128,9 +128,9 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ date, type }) => {
             <MeridiemContainer onClick={onMeridiemToggle}>
               {nowDate.getHours() < HOURS ? '오전' : '오후'}
             </MeridiemContainer>
-            <HourInput type="number" defaultValue={(nowDate.getHours() + DAYHOURS) % HOURS || HOURS} />
+            <HourInput type="number" defaultValue={getDateToHour(date)} />
             {':'}
-            <MinuteInput type="number" defaultValue={nowDate.getMinutes()} />
+            <MinuteInput type="number" defaultValue={getDateToMin(date)} />
           </TimeContainer>
         </Footer>
       )}
