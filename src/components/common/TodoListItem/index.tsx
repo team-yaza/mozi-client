@@ -7,7 +7,7 @@ import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { PLACE } from '@/components/common/Figure';
+import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
 import { debounce } from '@/shared/utils/debounce';
 
@@ -112,6 +112,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
         {!isDoubleClicked && locationName && (
           <IconContainer>
             <PLACE focused={true} />
+          </IconContainer>
+        )}
+        {!isDoubleClicked && alarmDate && (
+          <IconContainer>
+            <CALENDAR focused={true} />
+          </IconContainer>
+        )}
+        {!isDoubleClicked && dueDate && (
+          <IconContainer>
+            <DEADLINE focused={true} />
           </IconContainer>
         )}
       </MainContainer>
