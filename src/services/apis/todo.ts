@@ -12,7 +12,17 @@ const todoService = {
     return createdTodo;
   },
   getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
-  updateTodo: async ({ id, title, longitude, latitude, description, done, date, locationName }: TodoUpdateRequest) => {
+  updateTodo: async ({
+    id,
+    title,
+    longitude,
+    latitude,
+    description,
+    done,
+    alarmDate,
+    dueDate,
+    locationName,
+  }: TodoUpdateRequest) => {
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, {
         title,
@@ -21,7 +31,8 @@ const todoService = {
         locationName,
         description,
         done,
-        date,
+        alarmDate,
+        dueDate,
       });
       if (locationName && longitude && latitude) await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
       else await todoStore.setItem(id, updatedTodo);
@@ -42,7 +53,8 @@ const todoService = {
       description,
       done,
       updated: true,
-      date,
+      alarmDate,
+      dueDate,
     });
   },
   deleteTodo: async (id: string) => {
