@@ -36,3 +36,10 @@ export interface TodoUpdateRequest {
   date?: Date | null;
   description?: string;
 }
+
+export interface TodoStatistics {
+  inbox: number;
+  map: number;
+  logbook: number;
+  trash: number;
+}
