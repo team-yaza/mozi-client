@@ -2,15 +2,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
+import { TodoStatistics } from '@/shared/types/todo';
+import { INBOX, TODAY, MAP, UPCOMING, TRASH, LOGBOOK } from '@/components/common/Figure';
 import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenuList } from './styles';
-import { INBOX, TODAY, MAP, UPCOMING, TRASH } from '@/components/common/Figure';
-import { useRecoilValue } from 'recoil';
-import { todosCountState } from '@/store/todo/atom';
-import LOGBOOK from '../../Figure/LOGBOOK';
 
-const SideBarMenu: React.FC = () => {
-  const todosCount = useRecoilValue(todosCountState);
+interface SideBarMenuProps {
+  statistics: TodoStatistics;
+}
 
+const SideBarMenu: React.FC<SideBarMenuProps> = ({ statistics }) => {
   const router = useRouter();
 
   const renderMenuItem = useCallback(() => {
@@ -23,7 +23,7 @@ const SideBarMenu: React.FC = () => {
                 <INBOX focused={router.pathname === '/'} />
               </IconContainer>
               <MenuName>Inbox</MenuName>
-              <Count>{todosCount}</Count>
+              <Count>{statistics.inbox}</Count>
             </SideBarMenuItem>
           </a>
         </Link>
@@ -45,7 +45,7 @@ const SideBarMenu: React.FC = () => {
                 <MAP focused={router.pathname === '/map'} />
               </IconContainer>
               <MenuName>Map</MenuName>
-              <Count>5</Count>
+              <Count>{statistics.map}</Count>
             </SideBarMenuItem>
           </a>
         </Link>
@@ -67,7 +67,7 @@ const SideBarMenu: React.FC = () => {
                 <LOGBOOK focused={router.pathname === '/logbook'} />
               </IconContainer>
               <MenuName>Logbook</MenuName>
-              <Count>32</Count>
+              <Count>{statistics.logbook}</Count>
             </SideBarMenuItem>
           </a>
         </Link>
@@ -78,13 +78,13 @@ const SideBarMenu: React.FC = () => {
                 <TRASH focused={router.pathname === '/trash'} />
               </IconContainer>
               <MenuName>Trash</MenuName>
-              <Count>32</Count>
+              <Count>{statistics.trash}</Count>
             </SideBarMenuItem>
           </a>
         </Link>
       </>
     );
-  }, [router.pathname, todosCount]);
+  }, [router.pathname, statistics]);
 
   return (
     <Container>

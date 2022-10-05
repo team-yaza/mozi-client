@@ -13,12 +13,16 @@ export const useCreateTodoMutation = () =>
   useMutation<TodoSuccessResponse, AxiosError>(() => todoService.createTodo(), {
     onSuccess: async (data) => {
       queryClient.setQueriesData(['todos'], (oldData: any) => {
+        console.log(oldData, '낡ㅇ ㅡㄴㅁ');
+        console.log('?여기');
         if (oldData) {
           return [data, ...oldData];
         }
 
         return [data];
       });
+      queryClient.invalidateQueries(['statistics']);
+
       await todoStore.setItem(data.id, data);
     },
     onError: async (error) => {
@@ -63,6 +67,8 @@ export const useUpdateTodoMutation = () =>
             return todo;
           });
         });
+
+        queryClient.invalidateQueries(['statistics']);
       },
     }
   );
@@ -71,6 +77,7 @@ export const useDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.deleteTodo(id), {
     onSuccess: () => {
       queryClient.invalidateQueries(['todos']);
+      queryClient.invalidateQueries(['statistics']);
     },
     onError: (error) => {
       console.log(error);
