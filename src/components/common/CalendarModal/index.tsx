@@ -62,7 +62,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
     setIsCalendarModalOpen(false);
     if (type === 'alarm') updateTodo({ id, alarmDate: nowDate });
     else updateTodo({ id, dueDate: nowDate });
-  }, [nowDate]);
+  }, [nowDate, type]);
 
   const onPrevArrowClickHandler = useCallback(() => {
     setNowDate(
