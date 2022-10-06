@@ -4,14 +4,14 @@ import { Container, Header, Content } from './styles';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 
-interface LocationDeleteModalProps {
+interface DeleteLocationModalProps {
   id: string;
   isOpened: boolean;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
 }
 
-const LocationDeleteModal: React.FC<LocationDeleteModalProps> = ({ id, isOpened, setIsOpened, updateTodo }) => {
+const DeleteLocationModal: React.FC<DeleteLocationModalProps> = ({ id, isOpened, setIsOpened, updateTodo }) => {
   return (
     <Modal
       type="alert"
@@ -36,4 +36,4 @@ const LocationDeleteModal: React.FC<LocationDeleteModalProps> = ({ id, isOpened,
   );
 };
 
-export default LocationDeleteModal;
+export default DeleteLocationModal;
