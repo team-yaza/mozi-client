@@ -24,7 +24,7 @@ import { TodoUpdateRequest } from '@/shared/types/todo';
 interface CalendarModalProps {
   id: string;
   date: Date;
-  type: 'alarm' | 'deadline';
+  type: 'alarm' | 'due';
   isCalendarModalOpen: boolean;
   setIsCalendarModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
