@@ -72,6 +72,13 @@ const todoService = {
       console.log(error);
     }
   },
+  forceDeleteTodo: async (id: string) => {
+    try {
+      await fetcher('delete', `/todos/force/${id}`);
+    } catch (error) {
+      console.error(error); // network error
+    }
+  },
   deleteAllTodos: async () => {
     try {
       await fetcher('delete', '/todos/all');
