@@ -6,8 +6,7 @@ import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import Chip from '@/components/common/Chip';
 import { PLACE, CALENDAR, DEADLINE } from '@/components/common/Figure';
-import Modal from '@/components/common/Modal';
-import LocationDeleteDialog from '@/components/common/LocationDeleteDialog';
+import LocationDeleteModal from '@/components/common/LocationDeleteModal';
 import CalendarModal from '@/components/common/CalendarModal';
 
 interface OptionsProps {
@@ -102,17 +101,8 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
         )}
       </UndefinedContainer>
 
-      <Modal
-        type="alert"
-        isOpened={isMapModalOpen}
-        onClose={() => setIsMapModalOpen(false)}
-        onConfirm={() => {
-          setIsMapModalOpen(false);
-          updateTodo({ id, locationName: null, latitude: null, longitude: null });
-        }}
-      >
-        <LocationDeleteDialog />
-      </Modal>
+      <LocationDeleteModal id={id} isOpened={isMapModalOpen} updateTodo={updateTodo} setIsOpened={setIsMapModalOpen} />
+
       <CalendarModal
         id={id}
         isCalendarModalOpen={isCalendarModalOpen}
