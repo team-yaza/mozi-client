@@ -6,8 +6,7 @@ import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import Chip from '@/components/common/Chip';
 import { PLACE, CALENDAR, DEADLINE } from '@/components/common/Figure';
-import Modal from '@/components/common/Modal';
-import LocationDeleteDialog from '@/components/common/LocationDeleteDialog';
+import DeleteModal from '@/components/common/DeleteModal';
 import CalendarModal from '@/components/common/CalendarModal';
 
 interface OptionsProps {
@@ -20,27 +19,38 @@ interface OptionsProps {
 }
 
 const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate, setIsMapOpened, updateTodo }) => {
-  const [isMapModalOpen, setIsMapModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState<boolean>(false);
-  const [calendarState, setCalendarState] = useState<'alarm' | 'deadline'>('alarm');
+  const [CalendarModalState, setCalendarModalState] = useState<'alarm' | 'due'>('alarm');
+  const [deleteModalState, setDeleteModalState] = useState<'location' | 'alarm' | 'due'>('location');
 
   const onClickMap = useCallback(() => {
     setIsMapOpened((prevState) => !prevState);
   }, []);
 
-  const onClickCalendar = useCallback(
-    (type: 'alarm' | 'deadline') => {
-      setCalendarState(type);
-      setIsCalendarModalOpen((prevState) => !prevState);
-    },
-    [calendarState]
-  );
+  const onClickCalendar = useCallback((type: 'alarm' | 'due') => {
+    setCalendarModalState(type);
+    setIsCalendarModalOpen((prevState) => !prevState);
+  }, []);
 
   const getDate = useCallback((date: undefined | string) => (date ? new Date(date) : new Date()), []);
 
-  const onDeleteHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onDeleteLocationHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    setIsMapModalOpen((old) => !old);
+    setDeleteModalState('location');
+    setIsDeleteModalOpen((old) => !old);
+  }, []);
+
+  const onDeleteAlarmDateHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalState('alarm');
+    setIsDeleteModalOpen((old) => !old);
+  }, []);
+
+  const onDeleteDueDateHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalState('due');
+    setIsDeleteModalOpen((old) => !old);
   }, []);
 
   return (
@@ -55,19 +65,20 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={onClickMap}
-              onDeleteHander={onDeleteHandler}
+              onDeleteHander={onDeleteLocationHandler}
             />
           </DefinedOption>
         )}
         {alarmDate && (
           <DefinedOption>
             <Chip
-              type="location"
+              type="date"
               Icon={<CALENDAR />}
               content={dateToString(getDate(alarmDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('alarm')}
+              onDeleteHander={onDeleteAlarmDateHandler}
             />
           </DefinedOption>
         )}
@@ -79,7 +90,8 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
               content={dateToString(getDate(dueDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
-              onClickHandler={() => onClickCalendar('deadline')}
+              onClickHandler={() => onClickCalendar('due')}
+              onDeleteHander={onDeleteDueDateHandler}
             />
           </DefinedOption>
         )}
@@ -96,30 +108,27 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           </UndefinedOption>
         )}
         {!dueDate && (
-          <UndefinedOption onClick={() => onClickCalendar('deadline')}>
+          <UndefinedOption onClick={() => onClickCalendar('due')}>
             <DEADLINE />
           </UndefinedOption>
         )}
       </UndefinedContainer>
 
-      <Modal
-        type="alert"
-        isOpened={isMapModalOpen}
-        onClose={() => setIsMapModalOpen(false)}
-        onConfirm={() => {
-          setIsMapModalOpen(false);
-          updateTodo({ id, locationName: null, latitude: null, longitude: null });
-        }}
-      >
-        <LocationDeleteDialog />
-      </Modal>
+      <DeleteModal
+        type={deleteModalState}
+        id={id}
+        isOpened={isDeleteModalOpen}
+        updateTodo={updateTodo}
+        setIsOpened={setIsDeleteModalOpen}
+      />
+
       <CalendarModal
         id={id}
         isCalendarModalOpen={isCalendarModalOpen}
         updateTodo={updateTodo}
         setIsCalendarModalOpen={setIsCalendarModalOpen}
-        type={calendarState}
-        date={calendarState === 'alarm' ? getDate(alarmDate) : getDate(dueDate)}
+        type={CalendarModalState}
+        date={CalendarModalState === 'alarm' ? getDate(alarmDate) : getDate(dueDate)}
       />
     </Container>
   );
