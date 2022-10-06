@@ -6,9 +6,8 @@ import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import Chip from '@/components/common/Chip';
 import { PLACE, CALENDAR, DEADLINE } from '@/components/common/Figure';
-import DeleteLocationModal from '@/components/common/DeleteLocationModal';
+import DeleteModal from '@/components/common/DeleteModal';
 import CalendarModal from '@/components/common/CalendarModal';
-import DeleteCalendarModal from '@/components/common/DeleteCalendarModal';
 
 interface OptionsProps {
   id: string;
@@ -20,37 +19,39 @@ interface OptionsProps {
 }
 
 const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate, setIsMapOpened, updateTodo }) => {
-  const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] = useState<boolean>(false);
-  const [isCalendarDeleteModalOpen, setIsDeleteCalendarModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState<boolean>(false);
-  const [calendarState, setCalendarState] = useState<'alarm' | 'due'>('alarm');
+  const [CalendarModalState, setCalendarModalState] = useState<'alarm' | 'due'>('alarm');
+  const [deleteModalState, setDeleteModalState] = useState<'location' | 'alarm' | 'due'>('location');
 
   const onClickMap = useCallback(() => {
     setIsMapOpened((prevState) => !prevState);
   }, []);
 
-  const onClickCalendar = useCallback(
-    (type: 'alarm' | 'due') => {
-      setCalendarState(type);
-      setIsCalendarModalOpen((prevState) => !prevState);
-    },
-    [calendarState]
-  );
+  const onClickCalendar = useCallback((type: 'alarm' | 'due') => {
+    setCalendarModalState(type);
+    setIsCalendarModalOpen((prevState) => !prevState);
+  }, []);
 
   const getDate = useCallback((date: undefined | string) => (date ? new Date(date) : new Date()), []);
 
   const onDeleteLocationHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    setIsDeleteLocationModalOpen((old) => !old);
+    setDeleteModalState('location');
+    setIsDeleteModalOpen((old) => !old);
   }, []);
 
-  const onDeleteCalendarHandler = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.stopPropagation();
-      setIsDeleteCalendarModalOpen((prevState) => !prevState);
-    },
-    [calendarState]
-  );
+  const onDeleteAlarmDateHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalState('alarm');
+    setIsDeleteModalOpen((old) => !old);
+  }, []);
+
+  const onDeleteDueDateHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalState('due');
+    setIsDeleteModalOpen((old) => !old);
+  }, []);
 
   return (
     <Container>
@@ -77,7 +78,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('alarm')}
-              onDeleteHander={onDeleteCalendarHandler}
+              onDeleteHander={onDeleteAlarmDateHandler}
             />
           </DefinedOption>
         )}
@@ -90,7 +91,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
               backgroundColor="#F5F5F5"
               fontColor="#585858"
               onClickHandler={() => onClickCalendar('due')}
-              onDeleteHander={onDeleteCalendarHandler}
+              onDeleteHander={onDeleteDueDateHandler}
             />
           </DefinedOption>
         )}
@@ -113,19 +114,12 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
         )}
       </UndefinedContainer>
 
-      <DeleteLocationModal
+      <DeleteModal
+        type={deleteModalState}
         id={id}
-        isOpened={isDeleteLocationModalOpen}
+        isOpened={isDeleteModalOpen}
         updateTodo={updateTodo}
-        setIsOpened={setIsDeleteLocationModalOpen}
-      />
-
-      <DeleteCalendarModal
-        type={calendarState}
-        id={id}
-        isOpened={isCalendarDeleteModalOpen}
-        updateTodo={updateTodo}
-        setIsOpened={setIsDeleteCalendarModalOpen}
+        setIsOpened={setIsDeleteModalOpen}
       />
 
       <CalendarModal
@@ -133,8 +127,8 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
         isCalendarModalOpen={isCalendarModalOpen}
         updateTodo={updateTodo}
         setIsCalendarModalOpen={setIsCalendarModalOpen}
-        type={calendarState}
-        date={calendarState === 'alarm' ? getDate(alarmDate) : getDate(dueDate)}
+        type={CalendarModalState}
+        date={CalendarModalState === 'alarm' ? getDate(alarmDate) : getDate(dueDate)}
       />
     </Container>
   );
