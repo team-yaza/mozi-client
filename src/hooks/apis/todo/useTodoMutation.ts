@@ -84,6 +84,17 @@ export const useDeleteTodoMutation = () =>
     },
   });
 
+export const useForceDeleteTodoMutation = () =>
+  useMutation((id: string) => todoService.forceDeleteTodo(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['todos']);
+      queryClient.invalidateQueries(['statistics']);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
 export const useDeleteAllTodosMutation = () =>
   useMutation(() => todoService.deleteAllTodos(), {
     onSuccess: () => {

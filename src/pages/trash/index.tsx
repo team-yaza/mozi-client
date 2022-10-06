@@ -5,7 +5,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import {
   useDeleteAllTodosMutation,
-  useDeleteTodoMutation,
+  useForceDeleteTodoMutation,
   useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import AppLayout from '@/components/common/AppLayout';
@@ -15,7 +15,7 @@ import Spinner from '@/components/common/Spinner';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useSoftDeletedTodoList();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
@@ -29,7 +29,7 @@ const Trash: NextPageWithLayout = () => {
         </SpinnerContainer>
       )}
 
-      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
     </Container>
   );
 };
