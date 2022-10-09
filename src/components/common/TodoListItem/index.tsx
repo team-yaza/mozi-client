@@ -62,6 +62,18 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     if (done) setIsChecked(true);
   }, []);
 
+  useEffect(() => {
+    const deleteTodoHandler = () => {
+      deleteTodo(id);
+    };
+
+    if (isFocused) {
+      document.addEventListener('keydown', deleteTodoHandler);
+    }
+
+    return () => document.removeEventListener('keydown', deleteTodoHandler);
+  }, [id, deleteTodo, isFocused]);
+
   const onClickHandler = useCallback(() => {
     setIsFocused(index);
   }, [index, setIsFocused]);
@@ -83,17 +95,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     [done]
   );
 
-  const onDeleteHandler = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === 'Backspace' || e.key === 'Delete') {
-        if (isFocused && !isDoubleClicked) {
-          deleteTodo(id);
-        }
-      }
-    },
-    [isFocused]
-  );
-
   return (
     <Container
       ref={containerRef}
@@ -102,7 +103,6 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       isDoubleClicked={isDoubleClicked}
       onClick={onClickHandler}
       onDoubleClick={onDoubleClickHandler}
-      onKeyDown={onDeleteHandler}
     >
       {/* 클릭 안해도 보이는 부분 */}
 

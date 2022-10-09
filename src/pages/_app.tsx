@@ -6,7 +6,7 @@ import React, { ReactElement, ReactNode, useEffect, useState, useCallback, Suspe
 import { RecoilRoot } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
@@ -32,7 +32,7 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 const INTERVALTIME = 5000;
 
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
-  const [theme, setTheme] = useState('light');
+  const [theme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
   const router = useRouter();
 
@@ -69,10 +69,10 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const handleTheme = useCallback(() => {
-    if (theme === 'dark') setTheme('light');
-    else setTheme('dark');
-  }, [theme]);
+  // const handleTheme = useCallback(() => {
+  //   if (theme === 'dark') setTheme('light');
+  //   else setTheme('dark');
+  // }, [theme]);
 
   return (
     <>
@@ -88,7 +88,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             {getLayout(<Component {...pageProps} />)}
-            <ModeButton onClick={handleTheme} />
           </ThemeProvider>
         </RecoilRoot>
 
@@ -102,19 +101,5 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
     </>
   );
 }
-
-const ModeButton = styled.div`
-  position: absolute;
-  width: 5rem;
-  height: 5rem;
-
-  bottom: 2rem;
-  left: 2rem;
-
-  background-color: blue;
-  border-radius: 50%;
-
-  cursor: pointer;
-`;
 
 export default MyApp;

@@ -1,14 +1,16 @@
 import { ReactElement } from 'react';
 import styled from 'styled-components';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import Header from '@/components/common/Header';
 import Title from '@/components/index/Title';
-import TodoList from '@/components/common/TodoList';
+import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import { queryClient } from '@/shared/utils/queryClient';
 
 const Home: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery();
@@ -16,11 +18,31 @@ const Home: NextPageWithLayout = () => {
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
+  const onDragEnd = (result: DropResult) => {
+    if (todos && result.destination) {
+      const items = Array.from(todos);
+      const [reorderedItem] = items.splice(result.source.index, 1);
+
+      items.splice(result.destination.index, 0, reorderedItem);
+
+      queryClient.setQueriesData(['todos'], items);
+    }
+  };
+
   return (
     <Container>
       <Header />
       <Title onCreate={createTodo} />
-      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="todos">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <Footer />
     </Container>
   );
