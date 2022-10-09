@@ -63,8 +63,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, []);
 
   useEffect(() => {
-    const deleteTodoHandler = () => {
-      deleteTodo(id);
+    const deleteTodoHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        deleteTodo(id);
+      }
     };
 
     if (isFocused) {
