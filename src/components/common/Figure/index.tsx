@@ -15,6 +15,7 @@ export { default as MAP } from './MAP';
 export { default as MARKER } from './MARKER';
 export { default as PLACE } from './PLACE';
 export { default as SEARCH } from './SEARCH';
+export { default as SETTING } from './SETTING';
 export { default as SIDEBARARROWLEFT } from './SIDEBARARROWLEFT';
 export { default as TAG } from './TAG';
 export { default as TODAY } from './TODAY';
