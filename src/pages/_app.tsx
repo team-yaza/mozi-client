@@ -32,8 +32,9 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 const INTERVALTIME = 5000;
 
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
-  const [theme] = useState('light');
+  const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
+
   const router = useRouter();
 
   const { myLocationRef, updateCurrentPosition } = useLocationRef();
@@ -69,11 +70,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  // const handleTheme = useCallback(() => {
-  //   if (theme === 'dark') setTheme('light');
-  //   else setTheme('dark');
-  // }, [theme]);
-
   return (
     <>
       <Head>
@@ -87,7 +83,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            {getLayout(<Component {...pageProps} />)}
+            {getLayout(<Component {...pageProps} setTheme={setTheme} />)}
           </ThemeProvider>
         </RecoilRoot>
 

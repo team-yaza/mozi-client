@@ -1,19 +1,16 @@
 import { ReactElement } from 'react';
+import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/common/AppLayout';
-import styled, { useTheme } from 'styled-components';
 import Title from '@/components/setting/Title';
 import Theme from '@/components/setting/Theme';
 
-const Setting: NextPageWithLayout = () => {
-  const theme = useTheme();
-  console.log(theme);
-
+const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => {
   return (
     <Container>
       <Title />
-      <Theme />
+      <Theme setTheme={setTheme} />
     </Container>
   );
 };

@@ -1,13 +1,17 @@
 import Color from '../Color/index';
 import { ColorContainer, Container, ThemeHeader } from './styles';
 
-const Theme: React.FC = () => {
+interface ThemeProps {
+  setTheme: () => void;
+}
+
+const Theme: React.FC<ThemeProps> = ({ setTheme }) => {
   return (
     <Container>
       <ThemeHeader>테마 변경</ThemeHeader>
       <ColorContainer>
-        <Color color="#ffffff" colorName="White" />
-        <Color color="#000000" colorName="Black" />
+        <Color color="#ffffff" colorName="White" setTheme={setTheme} />
+        <Color color="#000000" colorName="Black" setTheme={setTheme} />
       </ColorContainer>
     </Container>
   );
