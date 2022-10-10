@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   return (
     <Container>
       <SettingContainer onClick={onClickSettingHandler}>
-        <SETTING />
+        <SETTING width="20" height="20" />
       </SettingContainer>
     </Container>
   );
