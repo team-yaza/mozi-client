@@ -7,9 +7,9 @@ import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
+import { debounce } from '@/shared/utils/debounce';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
-import { debounce } from '@/shared/utils/debounce';
 
 interface TodoListItemProps {
   id: string;
