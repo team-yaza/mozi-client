@@ -133,5 +133,3 @@ storybook-static
 
 # Sentry
 .sentryclirc
-sentry.properties
-
