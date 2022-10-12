@@ -131,3 +131,7 @@ data/
 # storybook build files
 storybook-static
 
+# Sentry
+.sentryclirc
+sentry.properties
+
