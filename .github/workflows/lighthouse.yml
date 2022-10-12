@@ -4,6 +4,9 @@ on:
   push:
     branches: [develop]
 
+env:
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
 jobs:
   lighthouseci:
     runs-on: ubuntu-latest
