@@ -1,11 +1,11 @@
-import { TRASH } from '@/components/common/Figure';
+import { UPCOMING } from '@/components/common/Figure';
 import { Container, Header, LogoContainer } from './styles';
 
 const Title: React.FC = () => {
   return (
     <Container>
       <LogoContainer>
-        <TRASH focused />
+        <UPCOMING focused />
       </LogoContainer>
       <Header>Upcoming</Header>
     </Container>
