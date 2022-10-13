@@ -13,8 +13,6 @@ export const useCreateTodoMutation = () =>
   useMutation<TodoSuccessResponse, AxiosError>(() => todoService.createTodo(), {
     onSuccess: async (data) => {
       queryClient.setQueriesData(['todos'], (oldData: any) => {
-        console.log(oldData, '낡ㅇ ㅡㄴㅁ');
-        console.log('?여기');
         if (oldData) {
           return [data, ...oldData];
         }
