@@ -22,8 +22,6 @@ const Kakao: NextPage = () => {
       client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
     };
 
-    console.log('data: ', data);
-
     const queryString = Object.entries(data)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
@@ -52,6 +50,9 @@ const Kakao: NextPage = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default Kakao;
