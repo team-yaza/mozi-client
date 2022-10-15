@@ -55,6 +55,11 @@ const buttonColorStyle = (color: string) => {
         color: ${theme.colors.purple};
         background-color: white;
       `;
+    case 'alert':
+      return css`
+        color: white;
+        background-color: #ff7b93;
+      `;
   }
 };
 

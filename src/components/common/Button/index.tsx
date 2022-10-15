@@ -4,7 +4,7 @@ import { Container } from './styles';
 export type Size = 'small' | 'medium' | 'large';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: Size;
-  color: 'primary' | 'secondary';
+  color: 'primary' | 'secondary' | 'alert';
   hasBorderRadius?: boolean;
   hasShadow?: boolean;
   isFullWidth?: boolean;
