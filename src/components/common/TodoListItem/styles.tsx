@@ -19,7 +19,7 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
 
   padding: 1rem;
   margin-block: 1rem;
-  border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem #ffffff solid')};
+  border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem transparent solid')};
   border-radius: 1rem;
   box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
 
@@ -44,7 +44,7 @@ export const CheckBox = styled.div<{ checked: boolean }>`
 
   flex-shrink: 0;
 
-  border: ${({ checked, theme }) => !checked && `1px solid ${theme.color.todo_checkbox}`};
+  border: ${({ checked, theme }) => !checked && `0.1rem solid ${theme.color.todo_checkbox}`};
   border-radius: 0.5rem;
 
   background-image: ${({ checked }) => checked && 'url("/assets/svgs/check.svg")'};
