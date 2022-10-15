@@ -54,13 +54,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     setIsFocused(-1);
     setIsMapOpened(false);
     setIsDoubleClicked(false);
-  }, []);
+  }, [setIsFocused, setIsMapOpened, setIsDoubleClicked]);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
   useEffect(() => {
     if (done) setIsChecked(true);
-  }, []);
+  }, [setIsChecked]);
 
   useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
