@@ -1,16 +1,28 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import { Container } from './styles';
 
-export interface ButtonProps
-  extends Omit<DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'type'> {
-  size?: 'small' | 'medium' | 'large';
-  hasBorderRadius: boolean;
+export type Size = 'small' | 'medium' | 'large';
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  size: Size;
+  color: 'primary' | 'secondary';
+  hasBorderRadius?: boolean;
+  hasShadow?: boolean;
+  isFullWidth?: boolean;
 }
 
-// ! 기본 세팅 -> 추후 props 추가시 세팅 추가
-
-const Button: React.FC<ButtonProps> = ({ children }) => {
-  return <Container>{children}</Container>;
+const Button: React.FC<ButtonProps> = ({
+  children,
+  size = 'medium',
+  color,
+  hasShadow = false,
+  hasBorderRadius = true,
+  ...rest
+}) => {
+  return (
+    <Container size={size} color={color} hasShadow={hasShadow} hasBorderRadius={hasBorderRadius} {...rest}>
+      {children}
+    </Container>
+  );
 };
 
 export default Button;
