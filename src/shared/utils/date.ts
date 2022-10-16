@@ -44,3 +44,18 @@ export const getDateToHour = (date: Date) =>
   ('0' + ((date.getHours() + DAYHOURS) % HOURS || HOURS)).slice(SLICEMONTHLENGTH);
 
 export const getDateToMin = (date: Date) => ('0' + date.getMinutes()).slice(SLICEMONTHLENGTH);
+
+export const dateDiff = (date1?: Date | string, date2?: Date | string) => {
+  if (!date1 || !date2) return false;
+  date1 = new Date(date1);
+  date2 = new Date(date2);
+
+  if (
+    date1.getFullYear() !== date1.getFullYear() ||
+    date1.getMonth() !== date2.getMonth() ||
+    date1.getDate() !== date2.getDate()
+  )
+    return false;
+
+  return true;
+};
