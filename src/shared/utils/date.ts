@@ -10,6 +10,13 @@ const DAYHOURS = 24;
 
 export const dateToString = (date: Date) => DAYS[date.getDay()] + ', ' + MONTHS[date.getMonth()] + ' ' + date.getDate();
 
+export const dateToFormatString = (date: Date) =>
+  date.getFullYear() +
+  '.' +
+  ('0' + (date.getMonth() + 1)).slice(SLICEMONTHLENGTH) +
+  '.' +
+  ('0' + date.getDate()).slice(SLICEMONTHLENGTH);
+
 export const getYearMonth = (date: Date) =>
   date.getFullYear() + '.' + ('0' + (date.getMonth() + 1)).slice(SLICEMONTHLENGTH);
 
