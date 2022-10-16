@@ -33,8 +33,19 @@ export const Drop = styled.div<{
   }
 `;
 
-export const ActionDialog = styled.div``;
+export const ActionDialog = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-export const ActionIconContainer = styled.div``;
+export const ActionIconContainer = styled.div`
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+`;
 
-export const ActionText = styled.span``;
+export const ActionText = styled.span`
+  /* font-weight: 600; */
+  font-size: 1.6rem;
+`;

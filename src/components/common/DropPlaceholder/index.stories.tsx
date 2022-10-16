@@ -1,8 +1,8 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
+import { INBOX } from '@/components/common/Figure';
 import DropPlaceholder, { DropPlaceholderProps } from '.';
-import styled from 'styled-components';
 
 export default {
   component: DropPlaceholder,
@@ -10,7 +10,6 @@ export default {
 } as Meta;
 
 const Template: Story<DropPlaceholderProps> = (args) => <DropPlaceholder {...args} />;
-const Action = styled.div``;
 
 export const Default = Template.bind({});
 
@@ -20,5 +19,7 @@ Default.args = {
   backgroundColor: '#DEEBFF',
   borderColor: '#4C99FF',
   hoverColor: '#0552CC',
-  children: <Action />,
+  children: <></>,
+  icon: <INBOX />,
+  text: 'Drop here',
 };

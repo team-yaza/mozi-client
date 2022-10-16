@@ -8,6 +8,7 @@ export interface DropPlaceholderProps {
   backgroundColor: string;
   hoverColor: string;
   text: string;
+  icon: React.ReactNode;
 }
 
 const DropPlaceholder: React.FC<DropPlaceholderProps> = ({
@@ -18,6 +19,7 @@ const DropPlaceholder: React.FC<DropPlaceholderProps> = ({
   backgroundColor,
   hoverColor,
   text,
+  icon,
 }) => {
   return (
     <Container>
@@ -29,7 +31,7 @@ const DropPlaceholder: React.FC<DropPlaceholderProps> = ({
         hoverColor={hoverColor}
       >
         <ActionDialog>
-          <ActionIconContainer></ActionIconContainer>
+          <ActionIconContainer>{icon}</ActionIconContainer>
           <ActionText>{text}</ActionText>
         </ActionDialog>
       </Drop>
