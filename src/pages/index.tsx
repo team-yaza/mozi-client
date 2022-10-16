@@ -70,7 +70,7 @@ const Home: NextPageWithLayout = () => {
               >
                 삭제
               </Trash>
-              {provided.placeholder}
+              <DNDPlaceHolderContainer>{provided.placeholder}</DNDPlaceHolderContainer>
             </TrashContainer>
           )}
         </Droppable>
@@ -124,6 +124,13 @@ const Trash = styled.div<{ active: boolean; isDragging: boolean }>`
   border: ${({ isDragging }) => isDragging && '0.1rem solid red'};
   border-style: dashed;
   background-color: ${({ active }) => active && 'red'};
+`;
+
+const DNDPlaceHolderContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  ${flexCenter};
 `;
 
 export default Home;
