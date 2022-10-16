@@ -78,6 +78,9 @@ export const useTodoListStatistics = () => {
 
 export const useUpcommingTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.dueDate || todo.alarmDate), []),
+    select: useCallback(
+      (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
+      []
+    ),
   });
 };
