@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Chip from './index';
+import Chip from '.';
 import TAG from '@/components/common/Figure/TAG';
 import PLACE from '@/components/common/Figure/PLACE';
 
