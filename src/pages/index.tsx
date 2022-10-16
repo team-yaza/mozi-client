@@ -51,33 +51,28 @@ const Home: NextPageWithLayout = () => {
       {/* DND features */}
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Droppable droppableId="todos">
-          {(provided) => {
-            return (
-              <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-                <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
-                {provided.placeholder}
-              </TodoListContainer>
-            );
-          }}
+          {(provided) => (
+            <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
+              <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+              {provided.placeholder}
+            </TodoListContainer>
+          )}
         </Droppable>
 
         <Droppable droppableId="trash">
-          {(provided, snapshot) => {
-            console.log(snapshot.isDraggingOver);
-            return (
-              <TrashContainer isDragging={isDragging}>
-                <Trash
-                  isDragging={isDragging}
-                  active={snapshot.isDraggingOver}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  삭제
-                </Trash>
-                <DNDPlaceHolderContainer>{provided.placeholder}</DNDPlaceHolderContainer>
-              </TrashContainer>
-            );
-          }}
+          {(provided, snapshot) => (
+            <TrashContainer isDragging={isDragging}>
+              <Trash
+                isDragging={isDragging}
+                active={snapshot.isDraggingOver}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                삭제
+              </Trash>
+              <DNDPlaceHolderContainer>{provided.placeholder}</DNDPlaceHolderContainer>
+            </TrashContainer>
+          )}
         </Droppable>
       </DragDropContext>
 
