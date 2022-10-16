@@ -67,7 +67,7 @@ export const DatesContainer = styled.div`
   padding: 2rem;
 `;
 
-export const DateDiv = styled.div<{ color?: string; selected: boolean }>`
+export const DateDiv = styled.div<{ color?: string }>`
   width: 13%;
   aspect-ratio: 1/0.9;
 
@@ -80,15 +80,30 @@ export const DateDiv = styled.div<{ color?: string; selected: boolean }>`
   border-bottom: 0.1rem solid #e8e8e8;
   margin-bottom: 1rem;
 
-  span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  overflow: hidden;
+`;
 
-    border-radius: 2rem;
+export const DateSpan = styled.span<{ selected: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 2rem;
-    height: 2rem;
-    background-color: ${({ selected }) => (selected ? '#ECECEC' : '#FFFFFF')};
-  }
+  border-radius: 2rem;
+
+  width: 2rem;
+  height: 2rem;
+  background-color: ${({ selected }) => (selected ? '#ECECEC' : '#FFFFFF')};
+`;
+
+export const TodosContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+`;
+
+export const TodoSpan = styled.span`
+  color: #735aff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
