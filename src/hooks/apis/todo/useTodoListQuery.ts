@@ -75,3 +75,12 @@ export const useTodoListStatistics = () => {
     initialData: { logbook: 0, trash: 0, inbox: 0, map: 0 },
   });
 };
+
+export const useUpcommingTodoList = () => {
+  return useQuery(['todos'], todoService.getTodos, {
+    select: useCallback(
+      (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
+      []
+    ),
+  });
+};

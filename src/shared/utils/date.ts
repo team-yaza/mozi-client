@@ -10,6 +10,13 @@ const DAYHOURS = 24;
 
 export const dateToString = (date: Date) => DAYS[date.getDay()] + ', ' + MONTHS[date.getMonth()] + ' ' + date.getDate();
 
+export const dateToFormatString = (date: Date) =>
+  date.getFullYear() +
+  '.' +
+  ('0' + (date.getMonth() + 1)).slice(SLICEMONTHLENGTH) +
+  '.' +
+  ('0' + date.getDate()).slice(SLICEMONTHLENGTH);
+
 export const getYearMonth = (date: Date) =>
   date.getFullYear() + '.' + ('0' + (date.getMonth() + 1)).slice(SLICEMONTHLENGTH);
 
@@ -37,3 +44,18 @@ export const getDateToHour = (date: Date) =>
   ('0' + ((date.getHours() + DAYHOURS) % HOURS || HOURS)).slice(SLICEMONTHLENGTH);
 
 export const getDateToMin = (date: Date) => ('0' + date.getMinutes()).slice(SLICEMONTHLENGTH);
+
+export const dateDiff = (date1?: Date | string, date2?: Date | string) => {
+  if (!date1 || !date2) return false;
+  const newDate1 = new Date(date1);
+  const newDate2 = new Date(date2);
+
+  if (
+    newDate1.getFullYear() !== newDate2.getFullYear() ||
+    newDate1.getMonth() !== newDate2.getMonth() ||
+    newDate1.getDate() !== newDate2.getDate()
+  )
+    return false;
+
+  return true;
+};
