@@ -61,7 +61,7 @@ const Home: NextPageWithLayout = () => {
 
         <Droppable droppableId="trash">
           {(provided, snapshot) => (
-            <TrashContainer isDragging={isDragging}>
+            <TrashContainer>
               <Trash
                 isDragging={isDragging}
                 active={snapshot.isDraggingOver}
@@ -70,7 +70,7 @@ const Home: NextPageWithLayout = () => {
               >
                 삭제
               </Trash>
-              <DNDPlaceHolderContainer>{provided.placeholder}</DNDPlaceHolderContainer>
+              {provided.placeholder}
             </TrashContainer>
           )}
         </Droppable>
@@ -105,7 +105,7 @@ const TodoListContainer = styled.div`
   flex: 1;
 `;
 
-const TrashContainer = styled.div<{ isDragging: boolean }>`
+const TrashContainer = styled.div`
   position: relative;
   ${flexCenter}
   width: 100%;
@@ -114,13 +114,6 @@ const TrashContainer = styled.div<{ isDragging: boolean }>`
   padding: 0.5rem;
 
   background-color: white;
-`;
-
-const DNDPlaceHolderContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  ${flexCenter};
 `;
 
 const Trash = styled.div<{ active: boolean; isDragging: boolean }>`
