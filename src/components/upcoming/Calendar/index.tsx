@@ -1,16 +1,21 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { Container, Header, DatesContainer, ArrowContainer, DaysContainer, Day, DateDiv } from './styles';
 import { getYearMonth, getCalendarDates } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW } from '@/components/common/Figure';
+import { Todo } from '@/shared/types/todo';
 
 const DAYS = 7;
 const SUN = 0;
 const SAT = 6;
 
-const Calendar: React.FC = () => {
-  const [nowDate, setNowDate] = useState(new Date());
+interface CalendarProps {
+  todos: Todo[];
+  nowDate: Date;
+  setNowDate: React.Dispatch<React.SetStateAction<Date>>;
+}
 
+const Calendar: React.FC<CalendarProps> = ({ nowDate, setNowDate }) => {
   const onDateClickHandler = useCallback(
     (year: number, month: number, dateTime: number) => {
       setNowDate(new Date(year, month, dateTime, nowDate.getHours(), nowDate.getMinutes()));
