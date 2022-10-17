@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
 import { TodoStatistics } from '@/shared/types/todo';
-import { INBOX, TODAY, MAP, UPCOMING, TRASH, LOGBOOK } from '@/components/common/Figure';
+import { INBOX, MAP, UPCOMING, TRASH, LOGBOOK } from '@/components/common/Figure';
 import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenuList } from './styles';
 
 interface SideBarMenuProps {
@@ -24,17 +24,6 @@ const SideBarMenu: React.FC<SideBarMenuProps> = ({ statistics }) => {
               </IconContainer>
               <MenuName>Inbox</MenuName>
               <Count>{statistics.inbox}</Count>
-            </SideBarMenuItem>
-          </a>
-        </Link>
-        <Link href="/today">
-          <a>
-            <SideBarMenuItem focused={router.pathname === '/today'}>
-              <IconContainer>
-                <TODAY focused={router.pathname === '/today'} />
-              </IconContainer>
-              <MenuName>Today</MenuName>
-              <Count>1</Count>
             </SideBarMenuItem>
           </a>
         </Link>
