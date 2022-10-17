@@ -3,12 +3,13 @@ import { ReactElement } from 'react';
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/common/AppLayout';
 import styled from 'styled-components';
-import Title from '@/components/today/Title';
+import Title from '@/components/common/Title';
+import TODAY from '@/components/common/Figure/TODAY';
 
 const Today: NextPageWithLayout = () => {
   return (
     <Container>
-      <Title />
+      <Title icon={<TODAY focused />} title="Today" />
     </Container>
   );
 };

@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import Header from '@/components/common/Header';
-import Title from '@/components/index/Title';
+import Title from '@/components/common/Title';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
@@ -12,7 +11,7 @@ import DropPlaceholder from '@/components/common/DropPlaceholder';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
-import { TRASH } from '@/components/common/Figure';
+import { INBOX, TRASH } from '@/components/common/Figure';
 import { theme } from '@/styles/theme';
 
 const Home: NextPageWithLayout = () => {
@@ -47,8 +46,8 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <Container>
-      <Header />
-      <Title onCreate={createTodo} />
+      {/* <Header /> */}
+      <Title onClick={createTodo} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
       {/* DND features */}
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>

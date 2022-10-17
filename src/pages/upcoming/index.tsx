@@ -20,14 +20,14 @@ const Upcoming: NextPageWithLayout = () => {
     <Container>
       <Title />
       <Calendar todos={todos ? todos : []} nowDate={nowDate} setNowDate={setNowDate} />
-      <TodoWrapper>
+      <TodoContainer>
         <span>{dateToFormatString(nowDate)}</span>
         <TodoList
           todos={todos?.filter((todo) => dateDiff(todo.dueDate, nowDate) || dateDiff(todo.alarmDate, nowDate))}
           updateTodo={updateTodo}
           deleteTodo={deleteTodo}
         />
-      </TodoWrapper>
+      </TodoContainer>
     </Container>
   );
 };
@@ -44,7 +44,7 @@ const Container = styled.div`
   overflow: scroll;
 `;
 
-const TodoWrapper = styled.div`
+const TodoContainer = styled.div`
   height: auto;
 
   span {
