@@ -8,10 +8,12 @@ import Title from '@/components/index/Title';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
+import DropPlaceholder from '@/components/common/DropPlaceholder';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
-import { flexCenter } from '@/styles/utils';
+import { TRASH } from '@/components/common/Figure';
+import { theme } from '@/styles/theme';
 
 const Home: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -61,17 +63,19 @@ const Home: NextPageWithLayout = () => {
 
         <Droppable droppableId="trash">
           {(provided, snapshot) => (
-            <TrashContainer>
-              <Trash
-                isDragging={isDragging}
-                active={snapshot.isDraggingOver}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                삭제
-              </Trash>
+            <DropPlaceholder
+              ref={provided.innerRef}
+              isDragging={isDragging}
+              active={snapshot.isDraggingOver}
+              borderColor={theme.colors.purple}
+              backgroundColor="#f3d9fa"
+              hoverColor="#cc5de8"
+              text="삭제"
+              icon={<TRASH />}
+              {...provided.droppableProps}
+            >
               {provided.placeholder}
-            </TrashContainer>
+            </DropPlaceholder>
           )}
         </Droppable>
       </DragDropContext>
@@ -103,27 +107,6 @@ const Container = styled.div`
 const TodoListContainer = styled.div`
   overflow-y: scroll;
   flex: 1;
-`;
-
-const TrashContainer = styled.div`
-  position: relative;
-  ${flexCenter}
-  width: 100%;
-  height: 6.8rem;
-
-  padding: 0.5rem;
-
-  background-color: white;
-`;
-
-const Trash = styled.div<{ active: boolean; isDragging: boolean }>`
-  ${flexCenter};
-  width: 100%;
-
-  height: 100%;
-  border: ${({ isDragging }) => isDragging && '0.1rem solid red'};
-  border-style: dashed;
-  background-color: ${({ active }) => active && 'red'};
 `;
 
 export default Home;
