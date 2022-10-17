@@ -1,6 +1,7 @@
-import { theme } from '@/styles/theme';
 import styled from 'styled-components';
-import Button from '../Button/index';
+
+import { theme } from '@/styles/theme';
+import Button from '@/components/common/Button';
 
 export const Container = styled.div`
   position: relative;

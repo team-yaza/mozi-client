@@ -7,10 +7,12 @@ import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
 import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
 import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
-import { useTodoListStatistics } from '@/hooks/apis/todo/useTodoListQuery';
 
-const SideBar: React.FC = () => {
-  const { data: statistics } = useTodoListStatistics();
+interface SideBarProps {
+  statistics: any;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
   const [isSideBarOpened, setIsSideBarOpened] = useSideBar();
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
