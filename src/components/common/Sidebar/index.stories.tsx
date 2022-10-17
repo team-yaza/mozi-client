@@ -12,6 +12,7 @@ const Template: Story<SideBarProps> = (args) => (
     <SideBar {...args} />
   </div>
 );
+
 export const Primary = Template.bind({});
 
 Primary.args = {
