@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/common/AppLayout/index';
-import Title from '@/components/logbook/Title';
+// import Title from '@/components/common/Title';
 import TodoList from '@/components/common/TodoList/index';
 import { useLogbookTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -15,7 +15,7 @@ const Logbook: NextPageWithLayout = () => {
 
   return (
     <Container>
-      <Title />
+      {/* <Title icon={<Logbook />} title="Logbook" /> */}
 
       <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
     </Container>
