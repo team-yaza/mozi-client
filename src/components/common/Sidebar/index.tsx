@@ -45,7 +45,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics, isSideBarOpened, setIsSid
   const onOpenSideBar = useCallback(() => {
     setIsSideBarOpened(true);
     setWidth(300);
-  }, []);
+  }, [setIsSideBarOpened, setWidth]);
 
   const onToggleSideBar = useCallback(() => {
     if (isSideBarOpened) {
