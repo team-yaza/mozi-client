@@ -23,14 +23,18 @@ export const Drop = styled.div<{
   width: 100%;
 
   height: 100%;
-  border: ${({ isDragging, borderColor }) => isDragging && `0.1rem solid ${borderColor}`};
+  border: ${({ borderColor }) => `0.3rem solid ${borderColor}`};
   border-radius: 1rem;
   border-style: dashed;
-  background-color: ${({ active, backgroundColor }) => active && `${backgroundColor}`};
+  background-color: ${({ backgroundColor }) => `${backgroundColor}`};
 
   &:hover {
     background-color: ${({ hoverColor }) => hoverColor};
   }
+
+  z-index: 1;
+  visibility: ${({ isDragging }) => (isDragging ? 'visible' : 'hidden')};
+  /* background-color: transparent; */
 `;
 
 export const ActionDialog = styled.div`
@@ -46,6 +50,12 @@ export const ActionIconContainer = styled.div`
 `;
 
 export const ActionText = styled.span`
-  /* font-weight: 600; */
   font-size: 1.6rem;
+`;
+
+export const DNDPlaceHolderContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  ${flexCenter};
 `;
