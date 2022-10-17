@@ -2,18 +2,17 @@ import React, { useCallback, useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { useDrag } from '@/hooks/useDrag';
-import { useSideBar } from '@/hooks/useSideBar';
 import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
-import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
 import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
+import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
 
-interface SideBarProps {
+export interface SideBarProps {
   statistics: any;
 }
 
 const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
-  const [isSideBarOpened, setIsSideBarOpened] = useSideBar();
+  const [isSideBarOpened, setIsSideBarOpened] = useState(true);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
 
@@ -45,7 +44,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
   const onOpenSideBar = useCallback(() => {
     setIsSideBarOpened(true);
     setWidth(300);
-  }, []);
+  }, [setIsSideBarOpened, setWidth]);
 
   const onToggleSideBar = useCallback(() => {
     if (isSideBarOpened) {
@@ -61,7 +60,6 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
       style={{ width: isSideBarOpened ? width : 0 }}
       initial={{ width: isSideBarOpened ? width : 0 }}
       animate={{ width: isSideBarOpened ? width : 0 }}
-      // exit={{ width: isSideBarOpened ? width : 0 }}
     >
       {/* 최상단 사이드바 제어하는 부분 */}
       <ControlContainer>

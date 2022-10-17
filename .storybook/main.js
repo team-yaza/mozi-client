@@ -5,7 +5,13 @@ const toPath = (_path) => path.join(process.cwd(), _path);
 
 module.exports = {
   stories: ['../**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    'storybook-addon-next-router',
+    'storybook-dark-mode',
+  ],
   framework: '@storybook/react',
   core: {
     builder: '@storybook/builder-webpack5',
