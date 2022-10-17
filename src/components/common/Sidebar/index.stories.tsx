@@ -7,6 +7,16 @@ export default {
   title: 'Common/SideBar',
 } as Meta;
 
-const Template: Story<SideBarProps> = (args) => <SideBar {...args} />;
-
+const Template: Story<SideBarProps> = (args) => (
+  <div style={{ position: 'relative' }}>
+    <SideBar {...args} />
+  </div>
+);
 export const Primary = Template.bind({});
+
+Primary.args = {
+  statistics: {
+    inbox: 0,
+    today: 0,
+  },
+};

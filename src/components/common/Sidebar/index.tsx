@@ -9,11 +9,10 @@ import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, S
 
 export interface SideBarProps {
   statistics: any;
-  isSideBarOpened: boolean;
-  setIsSideBarOpened: (state: boolean) => void;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ statistics, isSideBarOpened, setIsSideBarOpened }) => {
+const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
+  const [isSideBarOpened, setIsSideBarOpened] = useState(true);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
 
