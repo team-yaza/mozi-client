@@ -16,7 +16,7 @@ const Logbook: NextPageWithLayout = () => {
 
   return (
     <Container>
-      <Title icon={<LOGBOOK focused />} title="Logbook" />
+      <Title icon={<LOGBOOK focused />} title="Logbook" actionText="hi" />
       <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
     </Container>
   );
