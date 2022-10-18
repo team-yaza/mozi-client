@@ -34,7 +34,8 @@ const todoService = {
         alarmDate,
         dueDate,
       });
-      if (locationName && longitude && latitude) await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
+      if ((locationName && longitude && latitude) || alarmDate)
+        await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
       else await todoStore.setItem(id, updatedTodo);
 
       return updatedTodo;
