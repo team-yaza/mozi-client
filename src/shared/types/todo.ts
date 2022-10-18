@@ -41,6 +41,13 @@ export interface TodoUpdateRequest {
   description?: string;
 }
 
+export interface TodoCreateRequest {
+  locationName?: string;
+  longitude?: number;
+  latitude?: number;
+  dueDate?: Date;
+}
+
 export interface TodoStatistics {
   inbox: number;
   map: number;
