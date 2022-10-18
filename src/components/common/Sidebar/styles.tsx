@@ -65,9 +65,26 @@ export const Logo = styled.div`
   height: 4.4rem;
 `;
 
-export const SideBarMenuContainer = styled.div`
+export const SideBarMenuContainer = styled.nav`
+  position: relative;
   width: 100%;
-  margin-right: 2rem;
+
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.color.sidebar_text};
+
+  overflow: hidden;
+`;
+
+export const SideBarMenuList = styled.ul`
+  margin-left: 3rem;
+  margin-right: 3rem;
+
+  display: flex;
+  flex-direction: column;
+
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_line};
+
+  pointer-events: all;
 `;
 
 export const SideBarResizer = styled.div<{ isVisible: boolean }>`
@@ -82,7 +99,7 @@ export const SideBarResizer = styled.div<{ isVisible: boolean }>`
   cursor: col-resize;
 
   &:hover {
-    width: 3px;
+    width: 0.3rem;
     background-color: #c1c3c5b4;
   }
 `;

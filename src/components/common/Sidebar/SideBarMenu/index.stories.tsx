@@ -1,23 +1,23 @@
 import React from 'react';
-import Temp, { TempProps } from './temp';
+import SideBarMenu, { SideBarMenuProps } from './index';
 import { ComponentMeta, Story } from '@storybook/react';
 import { INBOX } from '@/components/common/Figure';
 
 export default {
   title: 'Common/SideBarMenu',
-  component: Temp,
-} as ComponentMeta<typeof Temp>;
+  component: SideBarMenu,
+} as ComponentMeta<typeof SideBarMenu>;
 
-const Template: Story<TempProps> = (args) => (
+const Template: Story<SideBarMenuProps> = (args) => (
   <div style={{ position: 'relative' }}>
-    <Temp {...args} />
+    <SideBarMenu {...args} />
   </div>
 );
 
 export const Default = Template.bind({});
 
 Default.args = {
-  icon: <INBOX focused />,
+  icon: <INBOX />,
   name: 'Inbox',
   count: 0,
 };

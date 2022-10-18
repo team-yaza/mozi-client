@@ -11,7 +11,6 @@ export const Container = styled.nav`
 `;
 
 export const SideBarMenuList = styled.ul`
-  /* width: 100%; */
   margin-left: 3rem;
   margin-right: 3rem;
 
@@ -55,7 +54,6 @@ export const IconContainer = styled.div`
 export const MenuName = styled.div`
   width: 100%;
   min-width: 8rem;
-  /* flex: 1; */
 `;
 
 export const Count = styled.div``;

@@ -1,20 +1,34 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useDrag } from '@/hooks/useDrag';
-import SideBarMenu from '@/components/common/Sidebar/SideBarMenu';
-import { ARROWLEFT, ARROWRIGHT, HAMBURGER } from '@/components/common/Figure';
+import { ARROWLEFT, ARROWRIGHT, HAMBURGER, INBOX, LOGBOOK, MAP, TRASH, UPCOMING } from '@/components/common/Figure';
 import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
-import { Container, ArrowLeftContainer, ControlContainer, LogoContainer, Logo, SideBarResizer } from './styles';
+import Temp from './SideBarMenu/index';
+import {
+  Container,
+  ArrowLeftContainer,
+  ControlContainer,
+  LogoContainer,
+  Logo,
+  SideBarResizer,
+  SideBarMenuList,
+  SideBarMenuContainer,
+} from './styles';
 
 export interface SideBarProps {
   statistics: any;
 }
 
 const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
+  statistics; // 임시
   const [isSideBarOpened, setIsSideBarOpened] = useState(true);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
+
+  const router = useRouter();
 
   const { isDragging, startDrag } = useDrag((movement) => {
     const nextWidth = width + movement.x;
@@ -34,12 +48,12 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
 
   useLayoutEffect(() => {
     setIsSideBarOpened(getSideBarStateFromLocalStorage());
-  }, []);
+  }, [setIsSideBarOpened]);
 
   const onCloseSideBar = useCallback(() => {
     setIsSideBarOpened(false);
     setWidth(0);
-  }, []);
+  }, [setIsSideBarOpened, setWidth]);
 
   const onOpenSideBar = useCallback(() => {
     setIsSideBarOpened(true);
@@ -81,7 +95,66 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
       </LogoContainer>
 
       {/* 사이드바 내용이 들어가는 부분 */}
-      <SideBarMenu statistics={statistics} />
+      {/* <SideBarMenu statistics={statistics} /> */}
+
+      <SideBarMenuContainer>
+        <SideBarMenuList>
+          <Link href="/">
+            <a>
+              <Temp
+                icon={<INBOX focused={router.pathname === '/'} />}
+                count={0}
+                name="Inbox"
+                focused={router.pathname === '/inbox'}
+              />
+            </a>
+          </Link>
+
+          <Link href="/map">
+            <a>
+              <Temp
+                icon={<MAP focused={router.pathname === '/map'} />}
+                count={0}
+                name="Map"
+                focused={router.pathname === '/map'}
+              />
+            </a>
+          </Link>
+
+          <Link href="/upcoming">
+            <a>
+              <Temp
+                icon={<UPCOMING focused={router.pathname === '/upcoming'} />}
+                count={0}
+                name="Upcoming"
+                focused={router.pathname === '/upcoming'}
+              />
+            </a>
+          </Link>
+
+          <Link href="/logbook">
+            <a>
+              <Temp
+                icon={<LOGBOOK focused={router.pathname === '/logbook'} />}
+                count={0}
+                name="Logbook"
+                focused={router.pathname === '/logbook'}
+              />
+            </a>
+          </Link>
+
+          <Link href="/trash">
+            <a>
+              <Temp
+                icon={<TRASH focused={router.pathname === '/trash'} />}
+                count={0}
+                name={'Trash'}
+                focused={router.pathname === '/trash'}
+              />
+            </a>
+          </Link>
+        </SideBarMenuList>
+      </SideBarMenuContainer>
 
       {/* 사이드바 크기 조절하는 부분 */}
       <SideBarResizer onMouseDown={startDrag} isVisible={isDragging} />
