@@ -105,7 +105,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
                 icon={<INBOX focused={router.pathname === '/'} />}
                 count={0}
                 name="Inbox"
-                focused={router.pathname === '/inbox'}
+                focused={router.pathname === '/'}
               />
             </a>
           </Link>
