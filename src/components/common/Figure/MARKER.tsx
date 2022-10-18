@@ -40,7 +40,6 @@ const MARKER: React.FC<FigureProps> = () => {
           </filter>
         </defs>
       </svg>
-      ;
     </SvgWrap>
   );
 };

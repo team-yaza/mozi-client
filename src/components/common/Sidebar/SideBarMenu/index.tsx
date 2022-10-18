@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
 import { TodoStatistics } from '@/shared/types/todo';
-import { INBOX, MAP, UPCOMING, TRASH, LOGBOOK } from '@/components/common/Figure';
+import { INBOX, MAP, UPCOMING, TRASH, LOGBOOK, SETTING } from '@/components/common/Figure';
 import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenuList } from './styles';
+import Temp from './temp';
 
 interface SideBarMenuProps {
   statistics: TodoStatistics;
@@ -69,6 +70,16 @@ const SideBarMenu: React.FC<SideBarMenuProps> = ({ statistics }) => {
               <MenuName>Trash</MenuName>
               <Count>{statistics.trash}</Count>
             </SideBarMenuItem>
+          </a>
+        </Link>
+        <Link href="/trash">
+          <a>
+            <Temp
+              icon={<SETTING focused={router.pathname === '/trash'} />}
+              count={0}
+              name={'Trash'}
+              focused={router.pathname === '/trash'}
+            />
           </a>
         </Link>
       </>
