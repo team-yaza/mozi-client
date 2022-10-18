@@ -8,8 +8,8 @@ export const Container = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
 
-  border-radius: 0.4rem;
-  padding-inline: 1.6rem;
+  border-radius: 0.5rem;
+  padding-inline: 1rem;
   font-weight: 600;
   font-family: inherit;
   ${({ size }) => buttonSizeStyle(size)}
