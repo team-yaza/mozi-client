@@ -1,6 +1,5 @@
+import * as NextImage from 'next/image';
 import { ThemeProvider } from 'styled-components';
-// import { addDecorator } from '@storybook/react';
-// import { withThemesProvider } from 'storybook-addon-styled-component-theme';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { useDarkMode } from 'storybook-dark-mode';
 
@@ -37,3 +36,10 @@ export const parameters = {
     current: 'light',
   },
 };
+
+const OriginalNextImage = NextImage.default;
+
+Object.defineProperty(NextImage, 'default', {
+  configurable: true,
+  value: (props) => <OriginalNextImage {...props} unoptimized />,
+});

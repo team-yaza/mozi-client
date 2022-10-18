@@ -52,8 +52,8 @@ export const LogoContainer = styled.div`
   position: relative;
   width: 100%;
 
-  margin-left: 3rem; // 로고와 왼쪽 벽과의 간격
-  margin-bottom: 3.1rem; // 모지 로고와 아래 사이드바 메뉴와의 간격
+  margin-left: 3.5rem; // 로고와 왼쪽 벽과의 간격
+  margin-bottom: 2.5rem; // 모지 로고와 아래 사이드바 메뉴와의 간격
 
   align-self: flex-start;
   overflow: hidden;
@@ -76,12 +76,12 @@ export const SideBarMenuContainer = styled.nav`
 `;
 
 export const SideBarMenuList = styled.ul`
-  margin-left: 3rem;
-  margin-right: 3rem;
+  margin-inline: 2.5rem;
 
   display: flex;
   flex-direction: column;
 
+  padding-bottom: 0.8rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_line};
 
   pointer-events: all;
