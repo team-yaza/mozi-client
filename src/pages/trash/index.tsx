@@ -9,9 +9,10 @@ import {
   useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import AppLayout from '@/components/common/AppLayout';
-import Title from '@/components/trash/Title';
+import Title from '@/components/common/Title';
 import TodoList from '@/components/common/TodoList';
 import Spinner from '@/components/common/Spinner';
+import { TRASH } from '@/components/common/Figure';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useSoftDeletedTodoList();
@@ -21,7 +22,7 @@ const Trash: NextPageWithLayout = () => {
 
   return (
     <Container>
-      <Title onEmptyButtonClick={deleteAllTodos} />
+      <Title icon={<TRASH />} title="Trash" actionText="Empty" onClick={deleteAllTodos} />
 
       {isLoading && (
         <SpinnerContainer>
