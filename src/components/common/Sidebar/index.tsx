@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER, INBOX, LOGBOOK, MAP, TRASH, UPCOMING } from '@/components/common/Figure';
 import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
-import Temp from './SideBarMenu/index';
+import SideBarMenu from './SideBarMenu/index';
 import {
   Container,
   ArrowLeftContainer,
@@ -101,7 +101,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
         <SideBarMenuList>
           <Link href="/">
             <a>
-              <Temp
+              <SideBarMenu
                 icon={<INBOX focused={router.pathname === '/'} />}
                 count={0}
                 name="Inbox"
@@ -112,7 +112,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
 
           <Link href="/map">
             <a>
-              <Temp
+              <SideBarMenu
                 icon={<MAP focused={router.pathname === '/map'} />}
                 count={0}
                 name="Map"
@@ -123,7 +123,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
 
           <Link href="/upcoming">
             <a>
-              <Temp
+              <SideBarMenu
                 icon={<UPCOMING focused={router.pathname === '/upcoming'} />}
                 count={0}
                 name="Upcoming"
@@ -134,7 +134,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
 
           <Link href="/logbook">
             <a>
-              <Temp
+              <SideBarMenu
                 icon={<LOGBOOK focused={router.pathname === '/logbook'} />}
                 count={0}
                 name="Logbook"
@@ -145,7 +145,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
 
           <Link href="/trash">
             <a>
-              <Temp
+              <SideBarMenu
                 icon={<TRASH focused={router.pathname === '/trash'} />}
                 count={0}
                 name={'Trash'}
