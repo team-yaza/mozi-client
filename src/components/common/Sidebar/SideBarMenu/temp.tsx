@@ -45,6 +45,7 @@ export const Container = styled.li<{ focused?: boolean }>`
 
   &:hover {
     background-color: #f4f2ff;
+    color: #735aff;
   }
 `;
 
@@ -52,10 +53,12 @@ export const IconContainer = styled.div`
   position: relative;
   width: 2rem;
   height: 2rem;
-
-  margin-right: 1.4rem;
 `;
-export const MenuName = styled.div``;
+
+export const MenuName = styled.div`
+  margin-left: 1.4rem;
+`;
+
 export const Count = styled.div`
   margin-left: auto;
 `;
@@ -84,5 +87,3 @@ export const Count = styled.div`
 //   min-width: 8rem;
 //   /* flex: 1; */
 // `;
-
-// export const Count = styled.div``;
