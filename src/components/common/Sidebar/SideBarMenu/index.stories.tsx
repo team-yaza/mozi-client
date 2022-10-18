@@ -1,5 +1,5 @@
 import React from 'react';
-import Temp from './temp';
+import Temp, { TempProps } from './temp';
 import { ComponentMeta, Story } from '@storybook/react';
 import { INBOX } from '@/components/common/Figure';
 
@@ -8,13 +8,11 @@ export default {
   component: Temp,
 } as ComponentMeta<typeof Temp>;
 
-const Template: Story<any> = (args) => <Temp {...args} />;
-
-// const Template: Story<SideBarProps> = (args) => (
-//   <div style={{ position: 'relative' }}>
-//     <SideBar {...args} />
-//   </div>
-// );
+const Template: Story<TempProps> = (args) => (
+  <div style={{ position: 'relative' }}>
+    <Temp {...args} />
+  </div>
+);
 
 export const Default = Template.bind({});
 
