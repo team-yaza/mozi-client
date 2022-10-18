@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
@@ -25,6 +25,10 @@ const Home: NextPageWithLayout = () => {
     setIsDragging(true);
   };
 
+  const onClickHandler = useCallback(() => {
+    createTodo({});
+  }, []);
+
   const onDragEnd = (result: DropResult) => {
     if (todos && result.destination?.droppableId === 'todos') {
       const items = Array.from(todos);
@@ -47,7 +51,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <Container>
       {/* <Header /> */}
-      <Title onClick={createTodo} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
+      <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
       {/* DND features */}
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>

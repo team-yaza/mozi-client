@@ -1,20 +1,38 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useEffect, useRef, ReactElement } from 'react';
+import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
 import AppLayout from '@/components/common/AppLayout';
+import SetLocationModal from '@/components/map/SetLocationModal';
 import { Todo } from '@/shared/types/todo';
+import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { useCreateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
+  const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
+  const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
+  const { mutate: createTodo } = useCreateTodoMutation();
 
   const { data: todos } = useMapTodoList();
   const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
+
+  const onClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const createLocationTodo = useCallback(
+    (locationName: string) => {
+      console.log({ locationName, longitude: clickedCoords.longitude, latitude: clickedCoords.latitude });
+      createTodo({ locationName, longitude: clickedCoords.longitude, latitude: clickedCoords.latitude });
+    },
+    [clickedCoords]
+  );
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -45,16 +63,8 @@ const Map: NextPageWithLayout = () => {
     let eventListeners: naver.maps.MapEventListener;
 
     const naverMapOnClickHandler = (e: any) => {
-      if (naverMap) {
-        createMarker({
-          map: naverMap,
-          position: createPosition(e.coord.y, e.coord.x),
-          icon: {
-            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
-            anchor: new naver.maps.Point(11, 11),
-          },
-        });
-      }
+      setClickedCoords({ longitude: e.coord.x, latitude: e.coord.y });
+      setIsModalOpen(true);
     };
 
     if (naverMap) {
@@ -74,6 +84,10 @@ const Map: NextPageWithLayout = () => {
       <Container>
         {/* 검색 사이드바 */}
         <SearchSideBar setCoords={setCoords} />
+
+        {isOpenModal && (
+          <SetLocationModal isOpened={isOpenModal} onClose={onClose} updateLocationName={createLocationTodo} />
+        )}
 
         {/* Map 영역 */}
         {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
