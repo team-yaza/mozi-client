@@ -105,17 +105,18 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 
 let sub: PushSubscription | null = null;
 
-(async () => {
+const getSub = async () => {
+  if (sub) return sub;
   sub = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
   });
-})();
+  return sub;
+};
 
 self.addEventListener('message', (event) => {
   if (event.data.type === 'TOKEN') {
     token = event.data.token;
-
     return;
   }
 
@@ -124,6 +125,8 @@ self.addEventListener('message', (event) => {
     await todoStore.iterate((todo: Todo) => {
       localAlarm.push(todo);
     });
+
+    const subscription = await getSub();
 
     localAlarm.map(async (todo: Todo) => {
       if (!todo.locationName || !todo.latitude || !todo.longitude) return;
@@ -134,7 +137,7 @@ self.addEventListener('message', (event) => {
         await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
           method: 'POST',
           body: JSON.stringify({
-            subscription: JSON.stringify(sub),
+            subscription: JSON.stringify(subscription),
           }),
           headers: {
             'Content-Type': 'application/json',
