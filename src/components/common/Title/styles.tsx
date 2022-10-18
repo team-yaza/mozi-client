@@ -20,6 +20,10 @@ export const LogoContainer = styled.div`
   height: 2rem;
 
   margin-right: 1rem;
+
+  svg {
+    stroke: ${theme.colors.purple};
+  }
 `;
 
 export const Header = styled.h2`

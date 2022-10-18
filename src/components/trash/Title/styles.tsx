@@ -22,10 +22,12 @@ export const LogoContainer = styled.div`
 
   margin-right: 1rem;
 
-  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
   div {
     ${flexCenter};
+  }
+
+  svg {
+    stroke: ${theme.colors.purple};
   }
 `;
 

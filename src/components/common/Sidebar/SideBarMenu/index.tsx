@@ -1,96 +1,69 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
-
-import { TodoStatistics } from '@/shared/types/todo';
-import { INBOX, MAP, UPCOMING, TRASH, LOGBOOK, SETTING } from '@/components/common/Figure';
-import { Container, Count, IconContainer, MenuName, SideBarMenuItem, SideBarMenuList } from './styles';
-import Temp from './temp';
-
-interface SideBarMenuProps {
-  statistics: TodoStatistics;
+import React from 'react';
+import styled from 'styled-components';
+export interface SideBarMenuProps {
+  icon: React.ReactNode;
+  count: number;
+  name: string;
+  focused: boolean;
 }
 
-const SideBarMenu: React.FC<SideBarMenuProps> = ({ statistics }) => {
-  const router = useRouter();
-
-  const renderMenuItem = useCallback(() => {
-    return (
-      <>
-        <Link href="/">
-          <a>
-            <SideBarMenuItem focused={router.pathname === '/'}>
-              <IconContainer>
-                <INBOX focused={router.pathname === '/'} />
-              </IconContainer>
-              <MenuName>Inbox</MenuName>
-              <Count>{statistics.inbox}</Count>
-            </SideBarMenuItem>
-          </a>
-        </Link>
-        <Link href="/map">
-          <a>
-            <SideBarMenuItem focused={router.pathname === '/map'}>
-              <IconContainer>
-                <MAP focused={router.pathname === '/map'} />
-              </IconContainer>
-              <MenuName>Map</MenuName>
-              <Count>{statistics.map}</Count>
-            </SideBarMenuItem>
-          </a>
-        </Link>
-        <Link href="/upcoming">
-          <a>
-            <SideBarMenuItem focused={router.pathname === '/upcoming'}>
-              <IconContainer>
-                <UPCOMING focused={router.pathname === '/upcoming'} />
-              </IconContainer>
-              <MenuName>Upcoming</MenuName>
-              <Count>12</Count>
-            </SideBarMenuItem>
-          </a>
-        </Link>
-        <Link href="/logbook">
-          <a>
-            <SideBarMenuItem focused={router.pathname === '/logbook'}>
-              <IconContainer>
-                <LOGBOOK focused={router.pathname === '/logbook'} />
-              </IconContainer>
-              <MenuName>Logbook</MenuName>
-              <Count>{statistics.logbook}</Count>
-            </SideBarMenuItem>
-          </a>
-        </Link>
-        <Link href="/trash">
-          <a>
-            <SideBarMenuItem focused={router.pathname === '/trash'}>
-              <IconContainer>
-                <TRASH focused={router.pathname === '/trash'} />
-              </IconContainer>
-              <MenuName>Trash</MenuName>
-              <Count>{statistics.trash}</Count>
-            </SideBarMenuItem>
-          </a>
-        </Link>
-        <Link href="/trash">
-          <a>
-            <Temp
-              icon={<SETTING focused={router.pathname === '/trash'} />}
-              count={0}
-              name={'Trash'}
-              focused={router.pathname === '/trash'}
-            />
-          </a>
-        </Link>
-      </>
-    );
-  }, [router.pathname, statistics]);
-
+const SideBarMenu: React.FC<SideBarMenuProps> = ({ name, icon, count = 0, focused }) => {
   return (
-    <Container>
-      <SideBarMenuList>{renderMenuItem()}</SideBarMenuList>
+    <Container focused={focused}>
+      <IconContainer>{icon}</IconContainer>
+      <MenuName>{name}</MenuName>
+      <Count>{count}</Count>
     </Container>
   );
 };
 
 export default SideBarMenu;
+
+export const Container = styled.li<{ focused?: boolean }>`
+  height: 4.2rem;
+  width: 100%;
+  min-width: 15.5rem;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 1.4rem;
+  padding-inline: 1.7rem;
+  border-radius: 1.3rem;
+  background-color: ${({ focused }) => focused && '#F4F2FF'};
+  color: ${({ theme, focused }) => (focused ? theme.color.sidebar_text_focused : theme.color.sidebar_text)};
+  outline: none;
+
+  cursor: pointer;
+
+  svg {
+    stroke: ${({ focused }) => (focused ? '#735aff' : '#585858;')};
+  }
+
+  &:hover {
+    background-color: #f4f2ff;
+    color: #735aff;
+
+    svg {
+      stroke: #735aff;
+    }
+  }
+`;
+
+export const IconContainer = styled.div`
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+
+  flex-shrink: 0;
+  stroke: inherit;
+`;
+
+export const MenuName = styled.div`
+  margin-left: 1.4rem;
+  min-width: 8rem;
+`;
+
+export const Count = styled.div`
+  margin-left: auto;
+`;
