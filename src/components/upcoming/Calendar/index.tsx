@@ -29,7 +29,7 @@ interface CalendarProps {
 const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
   const onDateClickHandler = useCallback(
     (year: number, month: number, dateTime: number) => {
-      setNowDate(new Date(year, month, dateTime, nowDate.getHours(), nowDate.getMinutes()));
+      setNowDate(new Date(year, month, dateTime));
     },
     [nowDate]
   );
