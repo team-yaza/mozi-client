@@ -12,6 +12,7 @@ import { Todo } from '../shared/types/todo';
 import { SYNC_TODOS } from '../shared/constants/sync';
 import { getDistance } from '../shared/utils/getDistance';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
+import { checkAlarm } from '../shared/utils/date';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -27,6 +28,10 @@ const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4C
 const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
 let token = '';
+
+const FLAGIGNORE = 0;
+const FLAGSATIFIED = 1;
+const FLAGUNSATIFIED = -1;
 
 self.addEventListener('push', (event) => {
   if (!event.data) return;
@@ -129,11 +134,24 @@ self.addEventListener('message', (event) => {
     const subscription = await getSub();
 
     localAlarm.map(async (todo: Todo) => {
-      if (!todo.locationName || !todo.latitude || !todo.longitude) return;
-      const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
-      console.log(todo.title, distance);
+      if (todo.alarmed) return;
 
-      if (distance < ALARM_DISTANCE_STANDARD && !todo.alarmed) {
+      let locationFlag = FLAGIGNORE;
+      let timeFlag = FLAGIGNORE;
+      if (todo.locationName && todo.latitude && todo.longitude) {
+        const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
+        if (distance < ALARM_DISTANCE_STANDARD) locationFlag = FLAGSATIFIED;
+        else locationFlag = FLAGUNSATIFIED;
+      }
+
+      if (todo.alarmDate) {
+        if (checkAlarm(todo.alarmDate)) timeFlag = FLAGSATIFIED;
+        else timeFlag = timeFlag = FLAGUNSATIFIED;
+      }
+
+      console.log(todo.title, locationFlag, timeFlag);
+
+      if ((locationFlag | timeFlag) == FLAGSATIFIED) {
         await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
           method: 'POST',
           body: JSON.stringify({

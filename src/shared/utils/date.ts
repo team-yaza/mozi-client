@@ -59,3 +59,17 @@ export const dateDiff = (date1?: Date | string, date2?: Date | string) => {
 
   return true;
 };
+
+export const checkAlarm = (todoDate: string) => {
+  const nowDate = new Date();
+  const alarmDate = new Date(todoDate);
+
+  console.log(nowDate, alarmDate);
+  if (
+    dateDiff(nowDate, alarmDate) &&
+    nowDate.getHours() === alarmDate.getHours() &&
+    nowDate.getMinutes() >= alarmDate.getMinutes()
+  )
+    return true;
+  return false;
+};
