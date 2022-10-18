@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER, INBOX, LOGBOOK, MAP, TRASH, UPCOMING } from '@/components/common/Figure';
 import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
-import SideBarMenu from './SideBarMenu/index';
+import SideBarMenu from './SideBarMenu';
 import {
   Container,
   ArrowLeftContainer,
