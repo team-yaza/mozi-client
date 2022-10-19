@@ -13,14 +13,11 @@ export const use_unsafe_todoListQuery = () => {
     onSuccess: () => console.log('success'),
     onError: () => console.log('error'),
     onSettled: async (todoListFromServer, error) => {
-      if (axios.isAxiosError(error)) {
-        console.log('네트워크 요청에 실패했습니다.');
-        return;
-      } else if (error) {
+      if (!axios.isAxiosError(error)) {
         console.log('알 수 없는 오류가 발생했습니다.');
         return;
       } else if (!todoListFromServer) {
-        console.log('서버에서 todo를 가져오지 못했습니다. 새로고침을 해주세요');
+        console.log('서버에서 데이터를 가져오지 못했습니다. 새로고침을 해주세요');
         return;
       }
 
