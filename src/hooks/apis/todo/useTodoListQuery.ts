@@ -13,7 +13,8 @@ export const use_unsafe_todoListQuery = () => {
     onSuccess: () => console.log('success'),
     onError: () => console.log('error'),
     onSettled: async (todoListFromServer, error) => {
-      if (!axios.isAxiosError(error)) {
+      if (!axios.isAxiosError(error) && error !== null) {
+        console.log(error);
         console.log('알 수 없는 오류가 발생했습니다.');
         return;
       } else if (!todoListFromServer) {
@@ -35,6 +36,7 @@ export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResp
     select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
     onSuccess: async (data: any) => {
       data;
+
       // console.log(data);
       // 전체를 초기화 시켜줄 필요가 있는지는 생각해볼 필요가 있음
       // await todoStore.clear();
