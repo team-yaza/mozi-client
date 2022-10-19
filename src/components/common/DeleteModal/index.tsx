@@ -5,7 +5,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useCallback } from 'react';
 
-interface DeleteLocationModalProps {
+interface DeleteModalProps {
   id: string;
   type: 'alarm' | 'due' | 'location';
   isOpened: boolean;
@@ -13,7 +13,7 @@ interface DeleteLocationModalProps {
   updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
 }
 
-const DeleteLocationModal: React.FC<DeleteLocationModalProps> = ({ type, id, isOpened, setIsOpened, updateTodo }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ type, id, isOpened, setIsOpened, updateTodo }) => {
   const typeToString = useCallback(() => {
     if (type === 'location') return '장소가';
     else if (type === 'alarm') return '시간 알림이';
@@ -26,6 +26,7 @@ const DeleteLocationModal: React.FC<DeleteLocationModalProps> = ({ type, id, isO
     else if (type === 'due') updateTodo({ id, dueDate: null });
     setIsOpened(false);
   }, [type]);
+
   return (
     <Modal type="alert" isOpened={isOpened} onClose={() => setIsOpened(false)} onConfirm={confirmHandler}>
       <Container>
@@ -42,4 +43,4 @@ const DeleteLocationModal: React.FC<DeleteLocationModalProps> = ({ type, id, isO
   );
 };
 
-export default DeleteLocationModal;
+export default DeleteModal;
