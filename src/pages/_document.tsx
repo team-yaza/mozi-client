@@ -16,7 +16,7 @@ class MyDocument extends Document {
       return {
         ...initialProps,
         styles: [
-          <React.Fragment key={'key'}>
+          <React.Fragment key="key">
             {initialProps.styles}
             {sheet.getStyleElement()}
           </React.Fragment>,
