@@ -8,6 +8,7 @@ export const queryClient = new QueryClient({
       refetchOnReconnect: false,
       refetchIntervalInBackground: false,
       retry: 0,
+      cacheTime: 0,
       networkMode: 'always',
     },
     mutations: {

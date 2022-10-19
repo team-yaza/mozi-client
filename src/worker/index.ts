@@ -216,22 +216,7 @@ registerRoute(
   'GET'
 );
 
-registerRoute(
-  /\/api\/.*$/i,
-  new NetworkFirst({
-    cacheName: 'apis',
-    networkTimeoutSeconds: 10,
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 16,
-        maxAgeSeconds: 86400,
-        purgeOnQuotaError: !0,
-      }),
-    ],
-  }),
-  'GET'
-);
-
+registerRoute(/.*\/api\/v1\/.*$/i, new NetworkOnly());
 registerRoute(/^https:\/\/openapi.map.naver.com\/openapi\/v3\/.*/i, new NetworkOnly());
 registerRoute(/^https:\/\/developers.kakao.com\/sdk\/js\/.*/i, new NetworkOnly());
 registerRoute(
