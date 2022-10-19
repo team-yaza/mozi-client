@@ -22,7 +22,7 @@ const Trash: NextPageWithLayout = () => {
 
   return (
     <Container>
-      <Title icon={<TRASH />} title="Trash" actionText="Empty" onClick={deleteAllTodos} />
+      <Title icon={<TRASH />} title="Trash" actionText="비우기" onClick={deleteAllTodos} />
 
       {isLoading && (
         <SpinnerContainer>
