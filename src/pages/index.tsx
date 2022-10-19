@@ -8,7 +8,7 @@ import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
 import DropPlaceholder from '@/components/common/DropPlaceholder';
-import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import { useTodoListQuery, use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
 import { INBOX, TRASH } from '@/components/common/Figure';
@@ -20,6 +20,9 @@ const Home: NextPageWithLayout = () => {
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
+
+  const { data } = use_unsafe_todoListQuery();
+  console.log(data, 'unsafe todolist query');
 
   const onDragStart = () => {
     setIsDragging(true);
