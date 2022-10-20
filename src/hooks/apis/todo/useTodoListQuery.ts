@@ -1,50 +1,17 @@
 import { useCallback } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { queryClient } from '@/shared/utils/queryClient';
-import { todoStore } from '@/store/forage';
 import { Todo, TodoStatistics } from '@/shared/types/todo';
 import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 
-export const use_unsafe_todoListQuery = () => {
-  return useQuery(['unsafe_todos'], todoService.getTodos, {
-    onSuccess: () => console.log('success'),
-    onError: () => console.log('error'),
-    onSettled: async (todoListFromServer, error) => {
-      if (!axios.isAxiosError(error) && error !== null) {
-        console.log(error);
-        console.log('알 수 없는 오류가 발생했습니다.');
-        return;
-      } else if (!todoListFromServer) {
-        console.log('서버에서 데이터를 가져오지 못했습니다. 새로고침을 해주세요');
-        return;
-      }
-
-      try {
-        await todoStore.clear();
-        return await Promise.all(todoListFromServer.map((todo) => todoStore.setItem(todo.id, todo)));
-      } catch (error) {
-        console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
-      }
-    },
-  });
-};
+export const use_unsafe_todoListQuery = () => useQuery(['todos'], todoService.getTodosFromIndexedDB);
 
 export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos, {
     select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
-    onSuccess: async (data: any) => {
-      data;
-
-      // console.log(data);
-      // 전체를 초기화 시켜줄 필요가 있는지는 생각해볼 필요가 있음
-      // await todoStore.clear();
-      // await data.forEach(async (todo: Todo) => {
-      //   await todoStore.setItem(todo.id, todo);
-      // });
-    },
   });
 };
 
