@@ -8,8 +8,8 @@ import { Container } from './styles';
 
 interface TodoListProps {
   todos?: Todo[];
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
-  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo }) => {
