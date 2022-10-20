@@ -114,6 +114,37 @@ const todoService = {
       console.log('할 일을 만드는데 실패했습니다.');
     }
   },
+  updateTodoAtIndexedDB: async ({
+    id,
+    title,
+    longitude,
+    latitude,
+    description,
+    done,
+    alarmDate,
+    dueDate,
+    locationName,
+  }: TodoUpdateRequest) => {
+    try {
+      await todoStore.setItem(id, {
+        id,
+        title,
+        longitude,
+        latitude,
+        description,
+        done,
+        alarmDate,
+        dueDate,
+        locationName,
+        offline: true,
+      });
+    } catch (error) {
+      console.log(error);
+      console.log('할 일을 수정하는데 실패했습니다.');
+    }
+
+    // sync
+  },
 };
 
 export default todoService;

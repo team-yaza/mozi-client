@@ -15,6 +15,7 @@ import {
   useDeleteTodoMutation,
   useUpdateTodoMutation,
   use_unsafe_createTodoMutation,
+  use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
@@ -28,7 +29,9 @@ const Home: NextPageWithLayout = () => {
 
   const { data } = use_unsafe_todoListQuery();
   const { mutate: createTodoAtIndexedDB } = use_unsafe_createTodoMutation();
+  const { mutate: updateTodoAtIndexedDB } = use_unsafe_updateTodoMutation();
   console.log(data, 'unsafe todolist query');
+  console.log(updateTodoAtIndexedDB, 'unsafe update todo');
 
   const onDragStart = () => {
     setIsDragging(true);
