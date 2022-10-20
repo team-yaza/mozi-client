@@ -154,7 +154,9 @@ const todoService = {
   },
   deleteTodoAtIndexedDB: async (id: string) => {
     try {
-      await todoStore.removeItem(id);
+      const todo = (await todoStore.getItem(id)) as Todo;
+
+      return await todoStore.setItem(id, { ...todo, deletedAt: Date.now(), offlineDeleted: true });
     } catch (error) {
       console.log(error);
       console.log('할 일 삭제하는데 실패했습니다.');

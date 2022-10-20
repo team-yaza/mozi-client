@@ -64,6 +64,14 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 
                   await todoStore.setItem(todo.id, result);
                 }
+              } else if (todo.offlineDeleted) {
+                await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                });
               }
             })
           );

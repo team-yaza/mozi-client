@@ -8,7 +8,9 @@ import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 
 export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> =>
-  useQuery(['todos'], todoService.getTodosFromIndexedDB);
+  useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
+  });
 
 export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos, {

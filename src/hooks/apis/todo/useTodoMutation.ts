@@ -69,7 +69,17 @@ export const use_unsafe_updateTodoMutation = () =>
     }
   );
 
-export const use_unsafe_deleteTodoMutation = () => useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id));
+export const use_unsafe_deleteTodoMutation = () =>
+  useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id), {
+    onSuccess: async (_, id) => {
+      queryClient.setQueriesData(['todos'], (data: any) => {
+        console.log(id, '여기서의 id를 확인해보자');
+        return data.filter((todo: Todo) => todo.id !== id);
+      });
+
+      await syncTodos();
+    },
+  });
 
 export const useCreateTodoMutation = () =>
   useMutation(
