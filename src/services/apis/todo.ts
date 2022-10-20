@@ -135,7 +135,7 @@ const todoService = {
     locationName,
   }: TodoUpdateRequest) => {
     try {
-      await todoStore.setItem(id, {
+      return await todoStore.setItem(id, {
         id,
         title,
         longitude,
