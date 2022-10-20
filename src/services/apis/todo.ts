@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Todo } from '@/shared/types/todo';
 import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
-import { TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
+import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore } from '@/store/forage';
 
 const todoService = {
