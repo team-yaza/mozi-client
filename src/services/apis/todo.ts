@@ -145,6 +145,16 @@ const todoService = {
 
     // sync
   },
+  deleteTodoAtIndexedDB: async (id: string) => {
+    try {
+      await todoStore.removeItem(id);
+    } catch (error) {
+      console.log(error);
+      console.log('할 일 삭제하는데 실패했습니다.');
+    }
+
+    // sync
+  },
 };
 
 export default todoService;
