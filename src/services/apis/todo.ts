@@ -100,7 +100,7 @@ const todoService = {
     try {
       const todoId = uuidv4();
 
-      const aaa = await todoStore.setItem(todoId, {
+      return await todoStore.setItem(todoId, {
         id: todoId,
         locationName,
         longitude,
@@ -108,10 +108,6 @@ const todoService = {
         dueDate,
         offline: true,
       });
-
-      console.log(aaa, '?????');
-
-      return aaa;
     } catch (error) {
       console.log(error);
 
