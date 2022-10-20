@@ -7,7 +7,8 @@ import { Todo, TodoStatistics } from '@/shared/types/todo';
 import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 
-export const use_unsafe_todoListQuery = () => useQuery(['todos'], todoService.getTodosFromIndexedDB);
+export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> =>
+  useQuery(['todos'], todoService.getTodosFromIndexedDB);
 
 export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos, {
