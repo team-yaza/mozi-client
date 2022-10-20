@@ -26,7 +26,6 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ type, id, isOpened, setIsOpen
     else if (type === 'due') updateTodo({ id, dueDate: null });
     setIsOpened(false);
   }, [type]);
-
   return (
     <Modal type="alert" isOpened={isOpened} onClose={() => setIsOpened(false)} onConfirm={confirmHandler}>
       <Container>
