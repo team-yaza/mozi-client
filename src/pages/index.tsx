@@ -9,12 +9,10 @@ import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
 import DropPlaceholder from '@/components/common/DropPlaceholder';
 import { INBOX, TRASH } from '@/components/common/Figure';
-import { useTodoListQuery, use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import { use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import {
-  useCreateTodoMutation,
-  useDeleteTodoMutation,
-  useUpdateTodoMutation,
   use_unsafe_createTodoMutation,
+  use_unsafe_deleteTodoMutation,
   use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
@@ -22,25 +20,19 @@ import { theme } from '@/styles/theme';
 
 const Home: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
-  const { data: todos } = useTodoListQuery();
-  const { mutate: createTodo } = useCreateTodoMutation();
-  const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { data: todos } = use_unsafe_todoListQuery();
+  const { mutate: createTodo } = use_unsafe_createTodoMutation();
+  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
-  const { data } = use_unsafe_todoListQuery();
-  const { mutate: createTodoAtIndexedDB } = use_unsafe_createTodoMutation();
-  const { mutate: updateTodoAtIndexedDB } = use_unsafe_updateTodoMutation();
-  console.log(data, 'unsafe todolist query');
-  console.log(updateTodoAtIndexedDB, 'unsafe update todo');
-
+  console.log(todos);
   const onDragStart = () => {
     setIsDragging(true);
   };
 
   const onClickHandler = useCallback(() => {
     createTodo({});
-    createTodoAtIndexedDB({});
-  }, [createTodo, createTodoAtIndexedDB]);
+  }, [createTodo]);
 
   const onDragEnd = (result: DropResult) => {
     if (todos && result.destination?.droppableId === 'todos') {

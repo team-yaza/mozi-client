@@ -7,7 +7,7 @@ import { cleanupOutdatedCaches } from 'workbox-precaching';
 import './cache';
 import { todoStore } from '../store/forage';
 import { Todo } from '../shared/types/todo';
-import { SYNC_TODOS } from '../shared/constants/sync';
+import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/getDistance';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 import { checkAlarm } from '../shared/utils/date';
@@ -22,8 +22,8 @@ self.__WB_DISABLE_DEV_LOGS = true;
 
 const ALARM_DISTANCE_STANDARD = 1000; //1 km
 const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
-// const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
-const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
+const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
+// const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
 let token = '';
 
@@ -41,70 +41,156 @@ self.addEventListener('push', (event) => {
 });
 
 self.addEventListener('sync', async (event: SyncEvent) => {
-  console.log('sync 이벤트 발생');
   if (event.tag === SYNC_TODOS) {
-    console.log('service worker sync-todo event');
     event.waitUntil(
       (async () => {
-        const localTodos: Todo[] = [];
+        try {
+          const keys = await todoStore.keys();
+          const todos = await Promise.all(keys.map((key) => todoStore.getItem(key)));
 
-        await todoStore.iterate((value: Todo) => {
-          localTodos.push(value);
-        });
+          await Promise.all(
+            todos.map(async (todo: any) => {
+              if (todo.offline) {
+                const res = await fetch(`${PRODUCTION_SERVER}/todos/sync`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify(todo),
+                });
+                if (res.status >= 200) {
+                  const result = await res.json();
 
-        localTodos.map(async (todo: Todo) => {
-          if (todo.created) {
-            await fetch(`${PRODUCTION_SERVER}/todos`, {
-              method: 'POST',
-              body: JSON.stringify({
-                _id: todo.id,
-                ...todo,
-              }),
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-          } else if (todo.updated) {
-            await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
-              method: 'PATCH',
-              body: JSON.stringify({
-                title: todo.title,
-                description: todo.description,
-              }),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-          } else if (todo.deleted) {
-            await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
-              method: 'DELETE',
-            });
-          }
-        });
+                  await todoStore.setItem(todo.id, result);
+                }
+              } else if (todo.offlineDeleted) {
+                await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                });
+              }
+            })
+          );
+          return Promise.resolve();
+        } catch (error) {
+          return Promise.reject();
+        }
 
-        //     console.log(todo.id, 'updatedtododi');
-        //     // axios.patch(`https://mozi-server.com/api/v1/todos/${todo.id}`, {
-        //     //   ...todo,
-        //     // });
-        //     // a();
+        // console.log('실행이안되는것같은데?');
 
-        //     console.log('업데이트');
-        //     // await fetcher('patch', `/todos/${todo.id}`, {
-        //     //   title: todo.title,
-        //     //   longitude: todo.location?.coordinates[0],
-        //     //   latitude: todo.location?.coordinates[1],
-        //     //   description: todo.description,
-        //     // });
+        // const temp = await Promise.all(
+        //   todos.map((todo: any) => {
+        //     if (todo.offline) {
+        //       return fetch(`${PRODUCTION_SERVER}/todos/sync`, {
+        //         method: 'POST',
+        //         headers: {
+        //           'Content-Type': 'application/json',
+        //           Authorization: `Bearer ${token}`,
+        //         },
+        //         body: JSON.stringify(todo),
+        //       })
+        //         .then((res) => {
+        //           if (res.ok) {
+        //             return res.json();
+        //           }
+        //         })
+        //         .then((data) => todoStore.setItem(data.id, data));
+        //     }
+        //   })
+        // );
+        // await todoStore.iterate(async (todo: any, key, iterationNumber) => {
+        //   console.log(todo, 'from sync');
+        //   if (todo.offline) {
+        //     console.log('fetch 전');
+        //     console.log(todo, 'offline 된 todo');
+        //     console.log(...todo, '???????');
+        //     await fetch(`${PRODUCTION_SERVER}/todos/sync`, {
+        //       method: 'POST',
+        //       body: JSON.stringify({
+        //         ...todo,
+        //       }),
+        //       headers: {
+        //         Authorization: `Bearer ${token}`,
+        //       },
+        //     });
+        //     console.log('fetch 후');
         //   }
-        //     // await fetcher('delete', `/todos/${todo.id}`);
-        //   }
+        //   console.log('완전 끝');
         // });
       })()
     );
-
-    console.log('sync 완료');
   }
 });
+
+// self.addEventListener('sync', async (event: SyncEvent) => {
+//   console.log('sync 이벤트 발생');
+//   if (event.tag === SYNC_TODOS) {
+//     console.log('service worker sync-todo event');
+//     event.waitUntil(
+//       (async () => {
+//         const localTodos: Todo[] = [];
+
+//         await todoStore.iterate((value: Todo) => {
+//           localTodos.push(value);
+//         });
+
+//         localTodos.map(async (todo: Todo) => {
+//           if (todo.created) {
+//             await fetch(`${PRODUCTION_SERVER}/todos`, {
+//               method: 'POST',
+//               body: JSON.stringify({
+//                 _id: todo.id,
+//                 ...todo,
+//               }),
+//               headers: {
+//                 Authorization: `Bearer ${token}`,
+//               },
+//             });
+//           } else if (todo.updated) {
+//             await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
+//               method: 'PATCH',
+//               body: JSON.stringify({
+//                 title: todo.title,
+//                 description: todo.description,
+//               }),
+//               headers: {
+//                 'Content-Type': 'application/json',
+//               },
+//             });
+//           } else if (todo.deleted) {
+//             await fetch(`${PRODUCTION_SERVER}/todos/${todo.id}`, {
+//               method: 'DELETE',
+//             });
+//           }
+//         });
+
+//         //     console.log(todo.id, 'updatedtododi');
+//         //     // axios.patch(`https://mozi-server.com/api/v1/todos/${todo.id}`, {
+//         //     //   ...todo,
+//         //     // });
+//         //     // a();
+
+//         //     console.log('업데이트');
+//         //     // await fetcher('patch', `/todos/${todo.id}`, {
+//         //     //   title: todo.title,
+//         //     //   longitude: todo.location?.coordinates[0],
+//         //     //   latitude: todo.location?.coordinates[1],
+//         //     //   description: todo.description,
+//         //     // });
+//         //   }
+//         //     // await fetcher('delete', `/todos/${todo.id}`);
+//         //   }
+//         // });
+//       })()
+//     );
+
+//     console.log('sync 완료');
+//   }
+// });
 
 let sub: PushSubscription | null = null;
 
@@ -118,7 +204,8 @@ const getSub = async () => {
 };
 
 self.addEventListener('message', (event) => {
-  if (event.data.type === 'TOKEN') {
+  // 웹 페이지로부터 토큰을 받음
+  if (event.data.type === TOKEN) {
     token = event.data.token;
     return;
   }

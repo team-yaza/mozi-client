@@ -24,8 +24,8 @@ interface TodoListItemProps {
   index: number;
   isFocused?: boolean;
   setIsFocused: (index: number) => void;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
-  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
