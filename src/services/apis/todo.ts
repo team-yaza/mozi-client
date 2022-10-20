@@ -90,10 +90,21 @@ const todoService = {
       console.log(error);
       await syncTodos();
     }
-
-    // ! 여기에 네트워크 실패했을 때 일단 다 삭제하는 로직 (로컬에서)
   },
+  getTodosFromIndexedDB: async () => {
+    const todos = await fetcher('get', '/todos');
 
+    try {
+      await todoStore.clear();
+      return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
+    } catch (error) {
+      console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
+    }
+
+    const keys = await todoStore.keys();
+
+    return await Promise.all(keys.map((key) => todoStore.getItem(key)));
+  },
   createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
     try {
       const todoId = uuidv4();
@@ -140,8 +151,6 @@ const todoService = {
       console.log(error);
       console.log('할 일을 수정하는데 실패했습니다.');
     }
-
-    // sync
   },
   deleteTodoAtIndexedDB: async (id: string) => {
     try {
@@ -150,8 +159,6 @@ const todoService = {
       console.log(error);
       console.log('할 일 삭제하는데 실패했습니다.');
     }
-
-    // sync
   },
 };
 

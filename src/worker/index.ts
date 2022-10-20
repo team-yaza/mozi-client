@@ -44,28 +44,33 @@ self.addEventListener('sync', async (event: SyncEvent) => {
   if (event.tag === SYNC_TODOS) {
     event.waitUntil(
       (async () => {
-        const keys = await todoStore.keys();
-        const todos = await Promise.all(keys.map((key) => todoStore.getItem(key)));
+        try {
+          const keys = await todoStore.keys();
+          const todos = await Promise.all(keys.map((key) => todoStore.getItem(key)));
 
-        await Promise.all(
-          todos.map(async (todo: any) => {
-            if (todo.offline) {
-              const res = await fetch(`${PRODUCTION_SERVER}/todos/sync`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(todo),
-              });
-              if (res.status >= 200) {
-                const result = await res.json();
+          await Promise.all(
+            todos.map(async (todo: any) => {
+              if (todo.offline) {
+                const res = await fetch(`${PRODUCTION_SERVER}/todos/sync`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify(todo),
+                });
+                if (res.status >= 200) {
+                  const result = await res.json();
 
-                await todoStore.setItem(todo.id, result);
+                  await todoStore.setItem(todo.id, result);
+                }
               }
-            }
-          })
-        );
+            })
+          );
+          return Promise.resolve();
+        } catch (error) {
+          return Promise.reject();
+        }
 
         // console.log('실행이안되는것같은데?');
 

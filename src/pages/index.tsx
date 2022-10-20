@@ -25,6 +25,7 @@ const Home: NextPageWithLayout = () => {
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
+  console.log(todos);
   const onDragStart = () => {
     setIsDragging(true);
   };
