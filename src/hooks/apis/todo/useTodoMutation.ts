@@ -23,7 +23,19 @@ export const use_unsafe_createTodoMutation = () =>
         latitude,
         dueDate,
       }),
-    { onSettled: async () => await syncTodos() }
+    {
+      onSuccess: async (data) => {
+        queryClient.setQueriesData(['todos'], (oldData: any) => {
+          if (oldData) {
+            return [data, ...oldData];
+          }
+
+          return [data];
+        });
+
+        await syncTodos();
+      },
+    }
   );
 
 export const use_unsafe_updateTodoMutation = () =>
