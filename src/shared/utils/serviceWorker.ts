@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { TOKEN } from '../constants/serviceWorker';
+import { getCookie } from './cookie';
+
 export const getServiceWorkerRegistration = async () => {
-  if ('serviceWorker' in navigator && 'SyncManager' in window) {
-    try {
-      return await navigator.serviceWorker.ready;
-    } catch (error) {
-      console.log(error);
-      console.log('웹 사이트를 로드하는데 실패했습니다. 새로고침을 해주세요.');
-    }
+  try {
+    return await navigator.serviceWorker.ready;
+  } catch (error) {
+    console.log(error);
+    console.log('웹 사이트를 로드하는데 실패했습니다. 새로고침을 해주세요.');
   }
 
   return null;
@@ -32,6 +33,13 @@ export const registerBackgroundSync = async (tag: string) => {
   }
 
   return null;
+};
+
+export const sendAuthTokenToServiceWorker = () => {
+  navigator.serviceWorker.controller?.postMessage({
+    type: TOKEN,
+    token: getCookie('token'),
+  });
 };
 
 //     // registration.pushManager.subscribe
