@@ -23,6 +23,7 @@ export const use_unsafe_todoListQuery = () => {
       }
 
       try {
+        await todoStore.clear();
         return await Promise.all(todoListFromServer.map((todo) => todoStore.setItem(todo.id, todo)));
       } catch (error) {
         console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');

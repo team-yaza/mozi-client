@@ -8,10 +8,15 @@ import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import Footer from '@/components/common/Footer';
 import AppLayout from '@/components/common/AppLayout';
 import DropPlaceholder from '@/components/common/DropPlaceholder';
-import { useTodoListQuery, use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
-import { queryClient } from '@/shared/utils/queryClient';
 import { INBOX, TRASH } from '@/components/common/Figure';
+import { useTodoListQuery, use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import {
+  useCreateTodoMutation,
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+  use_unsafe_createTodoMutation,
+} from '@/hooks/apis/todo/useTodoMutation';
+import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
 
 const Home: NextPageWithLayout = () => {
@@ -22,6 +27,7 @@ const Home: NextPageWithLayout = () => {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   const { data } = use_unsafe_todoListQuery();
+  const { mutate: createTodoAtIndexedDB } = use_unsafe_createTodoMutation();
   console.log(data, 'unsafe todolist query');
 
   const onDragStart = () => {
@@ -30,7 +36,8 @@ const Home: NextPageWithLayout = () => {
 
   const onClickHandler = useCallback(() => {
     createTodo({});
-  }, []);
+    createTodoAtIndexedDB({});
+  }, [createTodo, createTodoAtIndexedDB]);
 
   const onDragEnd = (result: DropResult) => {
     if (todos && result.destination?.droppableId === 'todos') {

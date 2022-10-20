@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const getServiceWorkerRegistration = async () => {
   if ('serviceWorker' in navigator && 'SyncManager' in window) {
-    return await navigator.serviceWorker.ready;
+    try {
+      return await navigator.serviceWorker.ready;
+    } catch (error) {
+      console.log(error);
+      console.log('웹 사이트를 로드하는데 실패했습니다. 새로고침을 해주세요.');
+    }
   }
 
   return null;
@@ -19,11 +24,15 @@ export const isBackgroundSyncAvailable = async () => {
   }
 };
 
-//   try {
-//     // 권한을 확인하는 코드 -> 설치된 PWA에서만 sync 권한이 부여된다.
-//     // navigator.permissions.query({ name: 'periodic-background-sync' }).then((status) => {
-//     //   console.log(status);
-//     // });
+export const registerBackgroundSync = async (tag: string) => {
+  const registration = await getServiceWorkerRegistration();
+
+  if (registration) {
+    return await registration.sync.register(tag);
+  }
+
+  return null;
+};
 
 //     // registration.pushManager.subscribe
 //     // navigator.serviceWorker.controller.postMessage({

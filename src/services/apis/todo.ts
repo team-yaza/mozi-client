@@ -1,4 +1,4 @@
-// import { v4 as uuid } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Todo } from '@/shared/types/todo';
 import fetcher from '@/shared/utils/fetcher';
@@ -94,6 +94,25 @@ const todoService = {
     }
 
     // ! 여기에 네트워크 실패했을 때 일단 다 삭제하는 로직 (로컬에서)
+  },
+
+  createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
+    try {
+      const todoId = uuidv4();
+
+      return await todoStore.setItem(todoId, {
+        id: todoId,
+        locationName,
+        longitude,
+        latitude,
+        dueDate,
+        offline: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      console.log('할 일을 만드는데 실패했습니다.');
+    }
   },
 };
 

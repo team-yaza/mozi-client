@@ -14,6 +14,16 @@ import {
   TodoCreateRequest,
 } from '@/shared/types/todo';
 
+export const use_unsafe_createTodoMutation = () =>
+  useMutation(({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+    todoService.createTodoAtIndexedDB({
+      locationName,
+      longitude,
+      latitude,
+      dueDate,
+    })
+  );
+
 export const useCreateTodoMutation = () =>
   useMutation(
     ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
