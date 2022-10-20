@@ -7,7 +7,7 @@ import { cleanupOutdatedCaches } from 'workbox-precaching';
 import './cache';
 import { todoStore } from '../store/forage';
 import { Todo } from '../shared/types/todo';
-import { SYNC_TODOS } from '../shared/constants/sync';
+import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/getDistance';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 import { checkAlarm } from '../shared/utils/date';
@@ -118,7 +118,8 @@ const getSub = async () => {
 };
 
 self.addEventListener('message', (event) => {
-  if (event.data.type === 'TOKEN') {
+  // 웹 페이지로부터 토큰을 받음
+  if (event.data.type === TOKEN) {
     token = event.data.token;
     return;
   }
