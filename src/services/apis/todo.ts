@@ -7,15 +7,13 @@ import { TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore } from '@/store/forage';
 
 const todoService = {
-  createTodo: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
-    const createdTodo = await fetcher('post', '/todos', {
+  createTodo: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+    await fetcher('post', '/todos', {
       locationName,
       longitude,
       latitude,
       dueDate,
-    });
-    return createdTodo;
-  },
+    }),
   getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
   updateTodo: async ({
     id,

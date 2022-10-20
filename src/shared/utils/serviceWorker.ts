@@ -14,15 +14,21 @@ export const getServiceWorkerRegistration = async () => {
 };
 
 export const isBackgroundSyncAvailable = async () => {
-  const status = await navigator.permissions.query({
-    name: <any>'periodic-background-sync',
-  });
+  try {
+    const status = await navigator.permissions.query({
+      name: <any>'periodic-background-sync',
+    });
 
-  if (status.state === 'granted') {
-    return true;
-  } else {
-    return false;
+    if (status.state === 'granted') {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
   }
+
+  return false;
 };
 
 export const registerBackgroundSync = async (tag: string) => {
