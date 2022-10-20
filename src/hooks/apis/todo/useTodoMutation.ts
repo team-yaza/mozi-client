@@ -40,6 +40,8 @@ export const use_unsafe_updateTodoMutation = () =>
       })
   );
 
+export const use_unsafe_deleteTodoMutation = () => useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id));
+
 export const useCreateTodoMutation = () =>
   useMutation(
     ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
