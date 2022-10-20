@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TOKEN } from '../constants/serviceWorker';
+import { TOKEN } from '@/shared/constants/serviceWorker';
 import { getCookie } from './cookie';
 
 export const getServiceWorkerRegistration = async () => {
