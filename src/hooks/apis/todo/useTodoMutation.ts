@@ -15,13 +15,15 @@ import {
 } from '@/shared/types/todo';
 
 export const use_unsafe_createTodoMutation = () =>
-  useMutation(({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
-    todoService.createTodoAtIndexedDB({
-      locationName,
-      longitude,
-      latitude,
-      dueDate,
-    })
+  useMutation(
+    ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+      todoService.createTodoAtIndexedDB({
+        locationName,
+        longitude,
+        latitude,
+        dueDate,
+      }),
+    { onSettled: async () => await syncTodos() }
   );
 
 export const use_unsafe_updateTodoMutation = () =>
