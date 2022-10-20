@@ -9,8 +9,6 @@ export const syncTodos = async () => {
       //   console.log(status);
       // });
 
-      // console.log('????????????');
-
       const registration: ServiceWorkerRegistration = await navigator.serviceWorker.ready;
 
       // registration.pushManager.subscribe
@@ -20,7 +18,6 @@ export const syncTodos = async () => {
       //   latitude: myLocationRef.current.latitude,
       //   longitude: myLocationRef.current.longitude,
       // });
-      // console.log('여긴되나');
 
       navigator.serviceWorker.controller?.postMessage({
         type: 'TOKEN',
