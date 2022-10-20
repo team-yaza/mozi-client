@@ -51,7 +51,22 @@ export const use_unsafe_updateTodoMutation = () =>
         alarmDate,
         dueDate,
         locationName,
-      })
+      }),
+    {
+      onSuccess: async (_, variables) => {
+        queryClient.setQueriesData(['todos'], (data: any) => {
+          return data.map((todo: Todo) => {
+            if (todo.id === variables.id) {
+              return { ...todo, ...variables };
+            }
+
+            return todo;
+          });
+        });
+
+        await syncTodos();
+      },
+    }
   );
 
 export const use_unsafe_deleteTodoMutation = () => useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id));
