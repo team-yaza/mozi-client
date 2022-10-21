@@ -3,7 +3,7 @@ import { SYNC_TODOS } from '@/shared/constants/serviceWorker';
 
 export const syncTodos = async () => {
   if ('serviceWorker' in navigator && 'SyncManager' in window) {
-    sendAuthTokenToServiceWorker(); // 서비스워커에서 요청을 보내려면 토큰이 필요
+    sendAuthTokenToServiceWorker();
 
     const registration = await navigator.serviceWorker.ready;
     const isSyncAvailable = await isBackgroundSyncAvailable();
@@ -15,15 +15,6 @@ export const syncTodos = async () => {
     }
     // try {
     //   const registration: ServiceWorkerRegistration = await navigator.serviceWorker.ready;
-
-    //   // registration.pushManager.subscribe
-
-    //   // navigator.serviceWorker.controller.postMessage({
-    //   //   type: 'SET_INTERVAL',
-    //   //   latitude: myLocationRef.current.latitude,
-    //   //   longitude: myLocationRef.current.longitude,
-    //   // });
-
     //   await registration.sync.register(SYNC_TODOS);
     //   const tags = await registration.sync.getTags();
     //   console.log(tags);
