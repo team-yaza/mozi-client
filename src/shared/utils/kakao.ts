@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { KAKAO_AUTH_URL } from '@/shared/constants/kakao';
+import { KAKAO_AUTH_URL } from '@/shared/constants/url';
 
 export const loginWithKakao = () => {
   window.location.href = KAKAO_AUTH_URL;

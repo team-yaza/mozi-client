@@ -1,5 +1,3 @@
-const breakPoints = {
+export const breakPoints = {
   phone: 750,
-};
-
-export default breakPoints;
+} as const;
