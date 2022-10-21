@@ -5,7 +5,7 @@ import { clientsClaim } from 'workbox-core';
 import { cleanupOutdatedCaches } from 'workbox-precaching';
 
 import './cache';
-import { todoStore } from '../store/forage';
+import { todoStore } from '../store/localForage/index';
 import { Todo } from '../shared/types/todo';
 import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/getDistance';

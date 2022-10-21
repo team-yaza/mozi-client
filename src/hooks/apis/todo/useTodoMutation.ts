@@ -3,9 +3,8 @@ import { v4 as uuid } from 'uuid';
 import { useMutation } from '@tanstack/react-query';
 
 import todoService from '@/services/apis/todo';
-import { todoStore } from '@/store/forage';
+import { todoStore } from '@/store/localForage';
 import { syncTodos } from '@/shared/utils/sync';
-
 import { queryClient } from '@/shared/utils/queryClient';
 import {
   Todo,

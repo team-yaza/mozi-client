@@ -1,15 +1,13 @@
 import { ReactElement, useState } from 'react';
-import { NextPageWithLayout } from '@/pages/_app';
-
-import AppLayout from '@/components/common/AppLayout';
 import styled from 'styled-components';
-import Title from '@/components/common/Title';
-import Calendar from '@/components/upcoming/Calendar/index';
-import TodoList from '@/components/common/TodoList';
+
+import { NextPageWithLayout } from '@/pages/_app';
+import { AppLayout, Title, TodoList } from '@/components/common';
+import { UPCOMING } from '@/components/common/Figure';
+import Calendar from '@/components/upcoming/Calendar';
 import { useUpcommingTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { dateToFormatString, dateDiff } from '@/shared/utils/date';
-import UPCOMING from '@/components/common/Figure/UPCOMING';
 
 const Upcoming: NextPageWithLayout = () => {
   const [nowDate, setNowDate] = useState(new Date());

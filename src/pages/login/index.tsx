@@ -22,8 +22,6 @@ const Login: NextPageWithLayout = () => {
         <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
         <span>카카오톡으로 로그인</span>
       </KakaoLogin>
-      {/* {!session && <a href="/api/auth/signin">sign in</a>}
-      {session && <div onClick={() => signOut()}>sign out</div>} */}
     </Container>
   );
 };

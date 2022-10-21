@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import Title from '@/components/common/Title';
+
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
-import Footer from '@/components/common/Footer';
-import AppLayout from '@/components/common/AppLayout';
+import { AppLayout, Title, Footer } from '@/components/common';
 import DropPlaceholder from '@/components/common/DropPlaceholder';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
