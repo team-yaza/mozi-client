@@ -52,6 +52,7 @@ const Kakao: NextPage = () => {
       }
     })();
   }, []);
+
   return (
     <Container>
       <Spinner />
