@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import AppLayout from '@/components/common/AppLayout';
+import { AppLayout } from '@/components/common';
 import Title from '@/components/setting/Title';
 import Theme from '@/components/setting/Theme';
 import { LogoutButton } from '@/components/setting/LogoutButton';

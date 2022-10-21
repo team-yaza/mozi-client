@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
-import AppLayout from '@/components/common/AppLayout';
+import { AppLayout } from '@/components/common';
 import SetLocationModal from '@/components/map/SetLocationModal';
 import { Todo } from '@/shared/types/todo';
 import { Location } from '@/shared/types/location';
