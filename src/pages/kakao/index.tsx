@@ -3,8 +3,11 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/nextjs';
 
 import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
+import { toastError, toastSuccess } from '@/shared/utils/toast';
+import { LOGIN_FAIL, LOGIN_SUCCESS } from '@/shared/constants/dialog';
 import Spinner from '@/components/common/Spinner';
 
 const Kakao: NextPage = () => {
@@ -37,9 +40,15 @@ const Kakao: NextPage = () => {
         const jwtToken = await sendAccessTokenToServerAndGetJWT(response.data.access_token);
         document.cookie = 'token=' + jwtToken;
 
-        if (jwtToken) router.push('/');
+        if (jwtToken) {
+          router.push('/');
+          toastSuccess(LOGIN_SUCCESS);
+        }
       } catch (e) {
-        console.log(e);
+        toastError(LOGIN_FAIL);
+        router.push('/login');
+
+        Sentry.captureException(e);
       }
     })();
   }, []);

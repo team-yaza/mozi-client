@@ -14,6 +14,7 @@ import { darkTheme, lightTheme } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import { getCookie } from '@/shared/utils/cookie';
 import { useLocationRef } from '@/hooks/location/useLocationRef';
+import { Toaster } from 'react-hot-toast';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -93,6 +94,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
             <ReactQueryDevtoolsProduction />
           </Suspense>
         )}
+        <Toaster />
       </QueryClientProvider>
     </>
   );
