@@ -1,6 +1,6 @@
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
-import { Location } from '../types/location';
+import { Location } from '@/shared/types/location';
 
 export const getCurrentPosition = (callback: Dispatch<SetStateAction<string | Location>>) =>
   navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
