@@ -3,7 +3,7 @@ import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.footer`
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 0;
 

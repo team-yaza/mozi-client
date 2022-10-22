@@ -1,5 +1,4 @@
-import { BOXPLUS, FOOTERCALENDAR, SEARCH } from '../Figure';
-import BOXARROWRIGHT from '../Figure/BOXARROWRIGHT';
+import { BOXARROWRIGHT, BOXPLUS, FOOTERCALENDAR, SEARCH } from '@/components/common/Figure';
 import { Container, IconContainer, OptionsContainer } from './styles';
 
 const Footer: React.FC = () => {
