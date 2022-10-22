@@ -22,8 +22,8 @@ export const GlobalStyle = createGlobalStyle`
     position: relative;
     height: 100%;
     font-size: 62.5%;
-    font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
-      'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    font-family:  -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
+      'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
     letter-spacing: -0.01rem;
   }
 
