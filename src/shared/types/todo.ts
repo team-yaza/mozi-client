@@ -1,6 +1,7 @@
 export interface Todo {
   id: string;
   title?: string;
+  index?: number;
   description?: string;
   longitude?: number;
   latitude?: number;
@@ -19,6 +20,8 @@ export interface Todo {
   created?: boolean;
   updated?: boolean;
   deleted?: boolean;
+
+  offline?: boolean;
 }
 
 export interface TodoSuccessResponse {
@@ -31,6 +34,7 @@ export interface TodoSuccessResponse {
 
 export interface TodoUpdateRequest {
   id: string;
+  index?: number;
   title?: string;
   done?: boolean;
   longitude?: number | null;

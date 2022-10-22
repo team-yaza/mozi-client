@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import * as Sentry from '@sentry/nextjs';
 import { TOKEN } from '@/shared/constants/serviceWorker';
+import { SERVICE_WORKER_REGISTRATION_ERROR } from '@/shared/constants/dialog';
 import { getCookie } from './cookie';
+import { toastError } from './toast';
 
 export const getServiceWorkerRegistration = async () => {
   try {
     return await navigator.serviceWorker.ready;
   } catch (error) {
-    console.log(error);
-    console.log('웹 사이트를 로드하는데 실패했습니다. 새로고침을 해주세요.');
+    toastError(SERVICE_WORKER_REGISTRATION_ERROR);
+    Sentry.captureException(error);
   }
 
   return null;

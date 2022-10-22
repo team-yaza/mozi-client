@@ -129,6 +129,7 @@ const todoService = {
   updateTodoAtIndexedDB: async ({
     id,
     title,
+    index,
     longitude,
     latitude,
     description,
@@ -141,6 +142,7 @@ const todoService = {
       return await todoStore.setItem(id, {
         id,
         title,
+        index,
         longitude,
         latitude,
         description,
