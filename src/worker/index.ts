@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /// <reference lib="webworker" />
 
 import { clientsClaim } from 'workbox-core';
