@@ -3,16 +3,13 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { Header, Spinner, TodoList, Title, AppLayout } from '@/components/common';
+import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
   useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
-import AppLayout from '@/components/common/AppLayout';
-import Title from '@/components/common/Title';
-import TodoList from '@/components/common/TodoList';
-import Spinner from '@/components/common/Spinner';
-import { TRASH } from '@/components/common/Figure';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useSoftDeletedTodoList();
@@ -22,6 +19,7 @@ const Trash: NextPageWithLayout = () => {
 
   return (
     <Container>
+      <Header />
       <Title icon={<TRASH />} title="Trash" actionText="비우기" onClick={deleteAllTodos} />
 
       {isLoading && (

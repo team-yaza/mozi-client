@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
-import { AppLayout } from '@/components/common';
+import { AppLayout, Header } from '@/components/common';
 import SetLocationModal from '@/components/map/SetLocationModal';
 import { Todo } from '@/shared/types/todo';
 import { Location } from '@/shared/types/location';
@@ -85,13 +85,17 @@ const Map: NextPageWithLayout = () => {
         {/* 검색 사이드바 */}
         <SearchSideBar setCoords={setCoords} />
 
-        {isOpenModal && (
-          <SetLocationModal isOpened={isOpenModal} onClose={onClose} updateLocationName={createLocationTodo} />
-        )}
+        {/* Header 영역 */}
+        <Header />
 
         {/* Map 영역 */}
         {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
         <MapLayout id="map" ref={naverMapRef} />
+
+        {/* 모달 */}
+        {isOpenModal && (
+          <SetLocationModal isOpened={isOpenModal} onClose={onClose} updateLocationName={createLocationTodo} />
+        )}
       </Container>
     </>
   );
@@ -111,7 +115,7 @@ const Container = styled.div`
 
 const MapLayout = styled.main`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 5.4rem);
 `;
 
 export default Map;

@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
-
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
-import { AppLayout, Title, Footer } from '@/components/common';
-import DropPlaceholder from '@/components/common/DropPlaceholder';
+import { AppLayout, Title, Footer, Header, DropPlaceholder } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import {
@@ -54,7 +52,7 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <Container>
-      {/* <Header /> */}
+      <Header />
       <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
       {/* DND features */}

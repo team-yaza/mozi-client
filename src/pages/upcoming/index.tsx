@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { AppLayout, Title, TodoList } from '@/components/common';
+import { AppLayout, Header, Title, TodoList } from '@/components/common';
 import { UPCOMING } from '@/components/common/Figure';
 import Calendar from '@/components/upcoming/Calendar';
 import { useUpcommingTodoList } from '@/hooks/apis/todo/useTodoListQuery';
@@ -17,6 +17,7 @@ const Upcoming: NextPageWithLayout = () => {
 
   return (
     <Container>
+      <Header />
       <Title icon={<UPCOMING focused />} title="Upcoming" />
       <Calendar todos={todos ? todos : []} nowDate={nowDate} setNowDate={setNowDate} />
       <TodoContainer>
@@ -37,7 +38,7 @@ Upcoming.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   position: relative;
-  height: 100vh;
+  height: (100vh - 5.4rem);
   width: 100%;
 
   overflow: scroll;
