@@ -13,11 +13,10 @@ import { checkAlarm } from '../shared/utils/date';
 
 declare const self: ServiceWorkerGlobalScope;
 
+self.__WB_DISABLE_DEV_LOGS = true;
 self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
-
-self.__WB_DISABLE_DEV_LOGS = true;
 
 const ALARM_DISTANCE_STANDARD = 1000; //1 km
 const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
