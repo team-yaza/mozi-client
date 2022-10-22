@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Spinner from '.';
 
 export default {
-  title: 'Common/Spinner',
+  title: 'components/Spinner',
   component: Spinner,
   parameters: {
     layout: 'centered',

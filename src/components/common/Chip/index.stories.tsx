@@ -5,7 +5,7 @@ import TAG from '@/components/common/Figure/TAG';
 import PLACE from '@/components/common/Figure/PLACE';
 
 export default {
-  title: 'Common/Chip',
+  title: 'components/Chip',
   component: Chip,
 } as ComponentMeta<typeof Chip>;
 

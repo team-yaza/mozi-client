@@ -3,7 +3,7 @@ import Profile from '.';
 
 export default {
   component: Profile,
-  title: 'Common/Profile',
+  title: 'components/Profile',
 } as ComponentMeta<typeof Profile>;
 
 const Template: ComponentStory<typeof Profile> = (args) => <Profile {...args} />;

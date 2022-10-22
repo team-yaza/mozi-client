@@ -4,7 +4,7 @@ import { ComponentMeta, Story } from '@storybook/react';
 import { INBOX } from '@/components/common/Figure';
 
 export default {
-  title: 'Common/SideBarMenu',
+  title: 'components/SideBarMenu',
   component: SideBarMenu,
 } as ComponentMeta<typeof SideBarMenu>;
 
