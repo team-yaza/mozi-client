@@ -4,7 +4,10 @@ import SideBar, { SideBarProps } from '.';
 
 export default {
   component: SideBar,
-  title: 'Common/SideBar',
+  title: 'components/SideBar',
+  parameters: {
+    layout: 'fullscreen',
+  },
 } as Meta;
 
 const Template: Story<SideBarProps> = (args) => (

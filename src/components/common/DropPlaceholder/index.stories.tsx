@@ -6,7 +6,7 @@ import DropPlaceholder, { DropPlaceholderProps } from '.';
 
 export default {
   component: DropPlaceholder,
-  title: 'Common/DropPlaceholder',
+  title: 'components/DropPlaceholder',
 } as Meta;
 
 const Template: Story<DropPlaceholderProps> = (args) => <DropPlaceholder {...args} />;

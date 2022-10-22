@@ -3,7 +3,7 @@ import CalendarModal from '.';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 export default {
-  title: 'Common/CalendarModal',
+  title: 'components/CalendarModal',
   component: CalendarModal,
 } as ComponentMeta<typeof CalendarModal>;
 

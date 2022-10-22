@@ -6,7 +6,7 @@ import { INBOX } from '@/components/common/Figure';
 
 export default {
   component: Title,
-  title: 'Common/Title',
+  title: 'components/Title',
 } as Meta;
 
 const Template: Story<TitleProps> = (args) => <Title {...args} />;

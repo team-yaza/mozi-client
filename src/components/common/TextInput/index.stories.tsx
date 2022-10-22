@@ -5,7 +5,7 @@ import TextInput, { TextInputProps } from '.';
 
 export default {
   component: TextInput,
-  title: 'Common/TextInput',
+  title: 'components/TextInput',
 } as Meta;
 
 const Template: Story<TextInputProps> = (args) => <TextInput {...args} />;

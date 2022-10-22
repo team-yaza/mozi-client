@@ -3,7 +3,7 @@ import SetLocationModal from '.';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 export default {
-  title: 'Common/SetLocationModal',
+  title: 'components/SetLocationModal',
   component: SetLocationModal,
 } as ComponentMeta<typeof SetLocationModal>;
 

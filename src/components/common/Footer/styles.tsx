@@ -3,14 +3,13 @@ import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.footer`
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 0;
+  ${flexCenter};
 
   height: 6.8rem;
   width: 100%;
-
-  ${flexCenter};
 
   background: ${theme.colors.white};
 `;
@@ -26,8 +25,15 @@ export const IconContainer = styled.div`
   height: 3.4rem;
 
   margin-right: 4.8rem;
+  cursor: pointer;
 
   &:last-child {
     margin-right: 0;
+  }
+
+  stroke: #2c2b31;
+
+  &:hover {
+    stroke: ${theme.colors.purple};
   }
 `;
