@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
-import { Header, Spinner, TodoList, Title, AppLayout } from '@/components/common';
+import { Header, Spinner, TodoList, Title, AppLayout, Footer } from '@/components/common';
 import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
@@ -29,6 +29,8 @@ const Trash: NextPageWithLayout = () => {
       )}
 
       <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+
+      <Footer />
     </Container>
   );
 };
@@ -39,8 +41,11 @@ Trash.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   position: relative;
-  height: 100vh;
+  height: 100%;
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const SpinnerContainer = styled.div`
