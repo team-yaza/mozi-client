@@ -1,6 +1,9 @@
 {
   "name": "MOZI",
   "short_name": "MOZI",
+  "display": "fullscreen",
+  "theme_color": "#735AFF",
+  "background_color": "#735AFF",
   "icons": [
     {
       "src": "/favicon.ico",
@@ -18,10 +21,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
   "start_url": "/",
-  "display": "standalone",
   "orientation": "portrait",
   "lang": "ko-KR"
 }
