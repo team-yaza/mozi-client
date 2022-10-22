@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
 import * as Sentry from '@sentry/nextjs';
+import { v4 as uuidv4 } from 'uuid';
 
 import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
 import { toastError } from '@/shared/utils/toast';
-import { TODO_CREATE_FAILED } from '@/shared/constants/dialog';
+import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED, TODO_DELETE_FAILED } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore, findMaximumIndexAtTodoStore } from '@/store/localForage';
 
@@ -129,6 +129,7 @@ const todoService = {
   updateTodoAtIndexedDB: async ({
     id,
     title,
+    index,
     longitude,
     latitude,
     description,
@@ -141,6 +142,7 @@ const todoService = {
       return await todoStore.setItem(id, {
         id,
         title,
+        index,
         longitude,
         latitude,
         description,
@@ -151,8 +153,8 @@ const todoService = {
         offline: true,
       });
     } catch (error) {
-      console.log(error);
-      console.log('할 일을 수정하는데 실패했습니다.');
+      Sentry.captureException(error);
+      console.log(TODO_UPDATE_FAILED);
     }
   },
   deleteTodoAtIndexedDB: async (id: string) => {
@@ -161,8 +163,8 @@ const todoService = {
 
       return await todoStore.setItem(id, { ...todo, deletedAt: Date.now(), offlineDeleted: true });
     } catch (error) {
-      console.log(error);
-      console.log('할 일 삭제하는데 실패했습니다.');
+      Sentry.captureException(error);
+      console.log(TODO_DELETE_FAILED);
     }
   },
 };

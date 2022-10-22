@@ -14,6 +14,7 @@ import {
 } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
+import { Todo } from '@/shared/types/todo';
 
 const Home: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -31,15 +32,24 @@ const Home: NextPageWithLayout = () => {
     createTodo({});
   }, [createTodo]);
 
-  const onDragEnd = (result: DropResult) => {
-    if (todos && result.destination?.droppableId === 'todos') {
+  const onDragEnd = async (result: DropResult) => {
+    if (!result.destination) return;
+
+    console.log(result.source.index, '출발지');
+    console.log(result.destination.index, '목적지');
+
+    if (todos && result.destination.droppableId === 'todos') {
       const items = Array.from(todos);
       const [reorderedItem] = items.splice(result.source.index, 1);
-
       items.splice(result.destination.index, 0, reorderedItem);
+      items.forEach((item: Todo, index) => (item.index = index));
 
       queryClient.setQueriesData(['todos'], items);
-    } else if (todos && result.destination?.droppableId === 'trash') {
+
+      items.map((item: any, index) => updateTodo({ ...item, index }));
+
+      // await Promise.all(items.map((item: Todo, index) => todoService.updateTodoAtIndexedDB({ id: item.id, index })));
+    } else if (todos && result.destination.droppableId === 'trash') {
       const items = Array.from(todos);
 
       items.splice(result.source.index, 1);

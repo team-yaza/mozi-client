@@ -39,10 +39,22 @@ export const use_unsafe_createTodoMutation = () =>
 
 export const use_unsafe_updateTodoMutation = () =>
   useMutation(
-    ({ id, title, longitude, latitude, description, done, alarmDate, dueDate, locationName }: TodoUpdateRequest) =>
+    ({
+      id,
+      title,
+      index,
+      longitude,
+      latitude,
+      description,
+      done,
+      alarmDate,
+      dueDate,
+      locationName,
+    }: TodoUpdateRequest) =>
       todoService.updateTodoAtIndexedDB({
         id,
         title,
+        index,
         longitude,
         latitude,
         description,
