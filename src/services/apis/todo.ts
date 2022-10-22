@@ -1,13 +1,12 @@
-import { findMaximumIndexAtTodoStore } from './../../store/localForage/index';
 import { v4 as uuidv4 } from 'uuid';
 import * as Sentry from '@sentry/nextjs';
 
 import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
-import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
-import { todoStore } from '@/store/localForage/index';
 import { toastError } from '@/shared/utils/toast';
 import { TODO_CREATE_FAILED } from '@/shared/constants/dialog';
+import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
+import { todoStore, findMaximumIndexAtTodoStore } from '@/store/localForage';
 
 const todoService = {
   createTodo: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
