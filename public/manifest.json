@@ -1,7 +1,7 @@
 {
   "name": "MOZI",
   "short_name": "MOZI",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#735AFF",
   "background_color": "#735AFF",
   "icons": [
