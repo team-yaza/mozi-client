@@ -9,8 +9,6 @@ export const Container = styled.div`
 
   display: flex;
   align-items: center;
-
-  margin-top: 5rem;
   margin-inline: 3rem;
 `;
 
