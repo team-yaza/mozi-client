@@ -96,6 +96,12 @@ const todoService = {
   getTodosFromIndexedDB: async () => {
     const todos = await fetcher('get', '/todos');
 
+    if (!todos || todos.length === 0) {
+      const keys = await todoStore.keys();
+
+      return await Promise.all(keys.map((key) => todoStore.getItem(key)));
+    }
+
     try {
       await todoStore.clear();
       return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
