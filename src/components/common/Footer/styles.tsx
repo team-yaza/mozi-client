@@ -12,6 +12,7 @@ export const Container = styled.footer`
   width: 100%;
 
   background: ${theme.colors.white};
+  border-top: 0.1rem solid ${theme.colors.grey};
 `;
 
 export const OptionsContainer = styled.div`
