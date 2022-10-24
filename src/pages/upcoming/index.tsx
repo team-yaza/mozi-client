@@ -8,6 +8,7 @@ import Calendar from '@/components/upcoming/Calendar';
 import { useUpcommingTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { dateToFormatString, dateDiff } from '@/shared/utils/date';
+import Head from 'next/head';
 
 const Upcoming: NextPageWithLayout = () => {
   const [nowDate, setNowDate] = useState(new Date());
@@ -16,19 +17,24 @@ const Upcoming: NextPageWithLayout = () => {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   return (
-    <Container>
-      <Header />
-      <Title icon={<UPCOMING focused />} title="Upcoming" />
-      <Calendar todos={todos ? todos : []} nowDate={nowDate} setNowDate={setNowDate} />
-      <TodoContainer>
-        <span>{dateToFormatString(nowDate)}</span>
-        <TodoList
-          todos={todos?.filter((todo) => dateDiff(todo.dueDate, nowDate) || dateDiff(todo.alarmDate, nowDate))}
-          updateTodo={updateTodo}
-          deleteTodo={deleteTodo}
-        />
-      </TodoContainer>
-    </Container>
+    <>
+      <Head>
+        <title>MOZI | Upcoming</title>
+      </Head>
+      <Container>
+        <Header />
+        <Title icon={<UPCOMING focused />} title="Upcoming" />
+        <Calendar todos={todos ? todos : []} nowDate={nowDate} setNowDate={setNowDate} />
+        <TodoContainer>
+          <span>{dateToFormatString(nowDate)}</span>
+          <TodoList
+            todos={todos?.filter((todo) => dateDiff(todo.dueDate, nowDate) || dateDiff(todo.alarmDate, nowDate))}
+            updateTodo={updateTodo}
+            deleteTodo={deleteTodo}
+          />
+        </TodoContainer>
+      </Container>
+    </>
   );
 };
 
