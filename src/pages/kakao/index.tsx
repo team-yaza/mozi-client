@@ -57,7 +57,7 @@ const Kakao: NextPage = () => {
   return (
     <>
       <Head>
-        <title>MOZI | Kakao</title>
+        <title>MOZI | 카카오 로그인</title>
       </Head>
       <Container>
         <Spinner />

@@ -1,14 +1,14 @@
 import { ReactElement } from 'react';
-import styled from 'styled-components';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { AppLayout } from '@/components/common';
-import Title from '@/components/setting/Title';
+import { AppLayout, Title } from '@/components/common';
 import Theme from '@/components/setting/Theme';
+import { SETTING } from '@/components/common/Figure';
 import { LogoutButton } from '@/components/setting/LogoutButton';
 import { deleteCookie } from '@/shared/utils/cookie';
-import Head from 'next/head';
 
 const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => {
   const router = useRouter();
@@ -24,7 +24,7 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
         <title>MOZI | Setting</title>
       </Head>
       <Container>
-        <Title />
+        <Title title="Setting" icon={<SETTING />} />
         <Theme setTheme={setTheme} />
         <LogoutButton color="alert" size="medium" onClick={handleLogout}>
           로그아웃
@@ -40,6 +40,8 @@ const Container = styled.div`
   position: relative;
   height: 100vh;
   width: 100%;
+
+  padding-top: 5.4rem;
 `;
 
 export default Setting;
