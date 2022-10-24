@@ -9,6 +9,7 @@ import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
 import { toastError, toastSuccess } from '@/shared/utils/toast';
 import { LOGIN_FAIL, LOGIN_SUCCESS } from '@/shared/constants/dialog';
 import { Spinner } from '@/components/common';
+import Head from 'next/head';
 
 const Kakao: NextPage = () => {
   const router = useRouter();
@@ -54,9 +55,14 @@ const Kakao: NextPage = () => {
   }, []);
 
   return (
-    <Container>
-      <Spinner />
-    </Container>
+    <>
+      <Head>
+        <title>MOZI | 카카오 로그인</title>
+      </Head>
+      <Container>
+        <Spinner />
+      </Container>
+    </>
   );
 };
 
