@@ -1,18 +1,23 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding-left: 1.3rem;
+  height: 1.9rem;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
   flex: 1;
-  flex-grow: 0;
+  flex-shrink: 0;
+  flex-grow: 1;
 
-  outline: none;
+  padding-left: 1.3rem;
 
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: ${({ theme }) => theme.color.text};
 
   overflow: hidden;
-  flex-shrink: 0;
-  flex-grow: 1;
+  outline: none;
+  cursor: text;
 
   &:empty:before {
     content: attr(placeholder);
