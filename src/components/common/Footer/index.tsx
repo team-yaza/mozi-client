@@ -2,13 +2,14 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { BOXARROWRIGHT, BOXPLUS, FOOTERCALENDAR, SEARCH } from '@/components/common/Figure';
 import { TodoCreateRequest } from '@/shared/types/todo';
 import { toastSuccess } from '@/shared/utils/toast';
+import { TODO_CREATED } from '@/shared/constants/dialog';
+import { BOXARROWRIGHT, BOXPLUS, FOOTERCALENDAR, SEARCH } from '@/components/common/Figure';
 import { Container, IconContainer, OptionsContainer } from './styles';
 
 interface FooterProps {
-  createTodo: UseMutateFunction<
+  createTodo?: UseMutateFunction<
     | {
         id: string;
         locationName: string | undefined;
@@ -60,9 +61,11 @@ const Footer: React.FC<FooterProps> = ({ createTodo }) => {
   }, [router]);
 
   const onCreateTodo = useCallback(() => {
-    createTodo({});
-    toastSuccess('Inbox');
-  }, [createTodo]);
+    if (createTodo) {
+      createTodo({});
+      toastSuccess(TODO_CREATED);
+    }
+  }, [createTodo, toastSuccess]);
 
   return (
     <Container>
