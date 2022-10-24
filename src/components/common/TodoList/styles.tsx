@@ -6,5 +6,7 @@ export const Container = styled.div`
 
   padding-inline: 2rem;
 
+  flex: 1;
+
   overflow-y: scroll;
 `;
