@@ -28,8 +28,8 @@ Logbook.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   position: relative;
-  height: 100%;
   width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
