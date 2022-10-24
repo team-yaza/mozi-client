@@ -6,6 +6,7 @@ import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common'
 import { LOGBOOK } from '@/components/common/Figure';
 import { useLogbookTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import Head from 'next/head';
 
 const Logbook: NextPageWithLayout = () => {
   const { data: todos } = useLogbookTodoList();
@@ -13,12 +14,17 @@ const Logbook: NextPageWithLayout = () => {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   return (
-    <Container>
-      <Header />
-      <Title icon={<LOGBOOK focused />} title="Logbook" />
-      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
-      <Footer />
-    </Container>
+    <>
+      <Head>
+        <title>MOZI | Logbook</title>
+      </Head>
+      <Container>
+        <Header />
+        <Title icon={<LOGBOOK focused />} title="Logbook" />
+        <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+        <Footer />
+      </Container>
+    </>
   );
 };
 
