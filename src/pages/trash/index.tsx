@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import type { ReactElement } from 'react';
 import styled from 'styled-components';
 
@@ -9,10 +10,11 @@ import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
   useUpdateTodoMutation,
+  use_unsafe_createTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
-import Head from 'next/head';
 
 const Trash: NextPageWithLayout = () => {
+  const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { data: todos, isLoading } = useSoftDeletedTodoList();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
@@ -36,7 +38,7 @@ const Trash: NextPageWithLayout = () => {
 
         <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
 
-        <Footer />
+        <Footer createTodo={createTodo} />
       </Container>
     </>
   );
