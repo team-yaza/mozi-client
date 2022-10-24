@@ -95,8 +95,6 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
       </LogoContainer>
 
       {/* 사이드바 내용이 들어가는 부분 */}
-      {/* <SideBarMenu statistics={statistics} /> */}
-
       <SideBarMenuContainer>
         <SideBarMenuList>
           <Link href="/">
@@ -105,7 +103,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
                 icon={<INBOX focused={router.pathname === '/'} />}
                 count={0}
                 name="Inbox"
-                focused={router.pathname === '/inbox'}
+                focused={router.pathname === '/'}
               />
             </a>
           </Link>
