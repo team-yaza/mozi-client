@@ -74,6 +74,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
     <>
       <Head>
         <title>MOZI</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>

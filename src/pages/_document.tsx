@@ -39,7 +39,6 @@ class MyDocument extends Document {
           {/* <link rel="manifest" href="/manifest.json" /> */}
           {/* <link rel="apple-touch-icon" href="/icon.png" />
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="application-name" content={APP_NAME} />
           <meta name="apple-mobile-web-app-title" content={APP_NAME} />
           <meta name="description" content={APP_DESCRIPTION} />
