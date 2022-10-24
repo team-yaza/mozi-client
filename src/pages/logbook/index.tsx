@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { ReactElement } from 'react';
 import styled from 'styled-components';
 
@@ -5,11 +6,15 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common';
 import { LOGBOOK } from '@/components/common/Figure';
 import { useLogbookTodoList } from '@/hooks/apis/todo/useTodoListQuery';
-import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
-import Head from 'next/head';
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+  use_unsafe_createTodoMutation,
+} from '@/hooks/apis/todo/useTodoMutation';
 
 const Logbook: NextPageWithLayout = () => {
   const { data: todos } = useLogbookTodoList();
+  const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
@@ -22,7 +27,7 @@ const Logbook: NextPageWithLayout = () => {
         <Header />
         <Title icon={<LOGBOOK focused />} title="Logbook" />
         <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
-        <Footer />
+        <Footer createTodo={createTodo} />
       </Container>
     </>
   );
