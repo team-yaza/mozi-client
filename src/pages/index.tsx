@@ -96,7 +96,7 @@ const Home: NextPageWithLayout = () => {
       </DragDropContext>
 
       {/* 드래그 안할 때는 Footer를 보여줌 */}
-      {!isDragging && <Footer />}
+      {!isDragging && <Footer createTodo={createTodo} />}
     </Container>
   );
 };
