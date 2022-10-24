@@ -6,6 +6,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { loginWithKakao } from '@/shared/utils/kakao';
+import Head from 'next/head';
 
 const Login: NextPageWithLayout = () => {
   useEffect(() => {
@@ -15,14 +16,19 @@ const Login: NextPageWithLayout = () => {
   }, []);
 
   return (
-    <Container>
-      <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
+    <>
+      <Head>
+        <title>MOZI | Login</title>
+      </Head>
+      <Container>
+        <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
-      <KakaoLogin onClick={() => loginWithKakao()}>
-        <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
-        <span>카카오톡으로 로그인</span>
-      </KakaoLogin>
-    </Container>
+        <KakaoLogin onClick={() => loginWithKakao()}>
+          <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
+          <span>카카오톡으로 로그인</span>
+        </KakaoLogin>
+      </Container>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ export const Container = styled.div`
 
   padding-right: 3.2rem;
 
+  /* border-bottom: 1px solid ${theme.colors.grey}; */
   background-color: ${({ theme }) => theme.color.header};
   transition: 0.3s background-color;
 `;

@@ -10,6 +10,7 @@ import {
   useForceDeleteTodoMutation,
   useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
+import Head from 'next/head';
 
 const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useSoftDeletedTodoList();
@@ -18,20 +19,26 @@ const Trash: NextPageWithLayout = () => {
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
   return (
-    <Container>
-      <Header />
-      <Title icon={<TRASH />} title="Trash" actionText="비우기" onClick={deleteAllTodos} />
+    <>
+      <Head>
+        <title>MOZI | Trash</title>
+      </Head>
 
-      {isLoading && (
-        <SpinnerContainer>
-          <Spinner />
-        </SpinnerContainer>
-      )}
+      <Container>
+        <Header />
+        <Title icon={<TRASH />} title="Trash" actionText="비우기" onClick={deleteAllTodos} />
 
-      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+        {isLoading && (
+          <SpinnerContainer>
+            <Spinner />
+          </SpinnerContainer>
+        )}
 
-      <Footer />
-    </Container>
+        <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+
+        <Footer />
+      </Container>
+    </>
   );
 };
 
