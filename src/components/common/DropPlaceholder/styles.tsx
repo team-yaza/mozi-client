@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.div`
-  position: relative;
+  position: absolute;
+  bottom: 0;
   ${flexCenter}
   width: 100%;
   height: 6.8rem;
