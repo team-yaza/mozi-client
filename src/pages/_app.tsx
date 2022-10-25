@@ -5,7 +5,7 @@ import Head from 'next/head';
 import React, { ReactElement, ReactNode, useEffect, useState, useCallback, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
 import { Toaster } from 'react-hot-toast';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -84,6 +84,16 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
           </ThemeProvider>
         </RecoilRoot>
 
+        <ToggleButton
+          onClick={() => {
+            if (theme === 'light') {
+              setTheme('dark');
+            } else {
+              setTheme('light');
+            }
+          }}
+        />
+
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         {showDevtools && (
           <Suspense fallback={null}>
@@ -97,3 +107,17 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 }
 
 export default MyApp;
+
+const ToggleButton = styled.div`
+  position: absolute;
+
+  left: 2rem;
+  bottom: 2rem;
+
+  width: 5rem;
+  height: 5rem;
+
+  border-radius: 50%;
+
+  background-color: purple;
+`;
