@@ -24,7 +24,9 @@ const Login: NextPageWithLayout = () => {
         <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
         <KakaoLogin onClick={() => loginWithKakao()}>
-          <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
+          <LogoContainer>
+            <Image src="/assets/svgs/kakao.svg" layout="fill" />
+          </LogoContainer>
           <span>카카오톡으로 로그인</span>
         </KakaoLogin>
       </Container>
@@ -70,6 +72,12 @@ const KakaoLogin = styled.div`
     margin-left: 1rem;
     font-size: 1.3rem;
   }
+`;
+
+const LogoContainer = styled.div`
+  position: relative;
+  width: 3rem;
+  height: 3rem;
 `;
 
 export default Login;
