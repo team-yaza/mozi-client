@@ -1,10 +1,13 @@
 import React, { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect, useLayoutEffect } from 'react';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 import RecentSearch from './RecentSearch';
+import MapTodoList from './MapTodoList';
 import { getLocationSearchResult } from '@/shared/utils/map';
 import { getCurrentPosition } from '@/shared/utils/location';
 import { Location, LocationSearchResult } from '@/shared/types/location';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import { getItem, setItem } from '@/store/localStorage';
 import { getSearchSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 import { SEARCHPLACE, SIDEBARARROWLEFT } from '@/components/common/Figure';
@@ -26,9 +29,12 @@ import {
 
 interface SearchSideBarProps {
   setCoords: Dispatch<SetStateAction<Location | undefined>>;
+  todos?: Todo[];
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
 }
 
-const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
+const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateTodo, deleteTodo }) => {
   const [keyword, setKeyword] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(true);
@@ -149,7 +155,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
           </SearchResultContainer>
         )}
       </SearchContainer>
-
+      <MapTodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen((prev) => !prev)}>
         {isSearchBarOpen ? '닫기' : '열기'}
         <IconContainer isSearchBarOpen={isSearchBarOpen}>
