@@ -26,7 +26,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
 
     if (isOpened) {
       timer = setTimeout(() => {
-        locationNameInputRef.current?.focus();
+        titleInputRef.current?.focus();
       }, TRANSITION_DELAY);
     }
 
