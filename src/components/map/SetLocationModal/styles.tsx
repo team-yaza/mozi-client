@@ -6,6 +6,10 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 2.4rem 1.6rem 1.6rem;
+
+  div:last-child {
+    margin-top: 1.5rem;
+  }
 `;
 
 export const Title = styled.label`
