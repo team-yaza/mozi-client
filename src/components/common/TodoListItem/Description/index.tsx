@@ -26,8 +26,6 @@ const Description: React.FC<DescriptionProps> = ({ id, description = '', updateT
 
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
-
-    // updateTodo({ id, description: e.target.innerText });
     debouncedUpdateTodo(e);
   }, []);
 
