@@ -55,7 +55,6 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
 
   const clearSearch = useCallback(() => {
     setIsSearching(false);
-    setSearchResult([]);
   }, []);
 
   const onKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -100,11 +99,9 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
     setItem('RECENT_SEARCH', JSON.stringify([result, ...recentSearch].slice(0, 5)));
   };
 
-  const clickSearchBarHandler = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsSearching((oldState) => !oldState);
-  }, []);
+  const clickSearchBarHandler = useCallback(() => {
+    setIsSearching(!isSearching);
+  }, [isSearching]);
 
   return (
     <Container isSearchBarOpen={isSearchBarOpen}>
@@ -119,7 +116,12 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
         {isSearching && (
           <SearchResultContainer>
             {searchResult.length === 0 && (
-              <RecentSearch recentSearch={recentSearch} setRecentSearch={setRecentSearch} setCoords={setCoords} />
+              <RecentSearch
+                recentSearch={recentSearch}
+                setRecentSearch={setRecentSearch}
+                setCoords={setCoords}
+                clearSearch={clearSearch}
+              />
             )}
             {searchResult.length > 0 && (
               <SearchPlaceResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
