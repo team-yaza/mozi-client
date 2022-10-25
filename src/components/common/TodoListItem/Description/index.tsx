@@ -3,6 +3,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { Container } from './styles';
+import { debounce } from '@/shared/utils/debounce/index';
 
 interface DescriptionProps {
   id: string;
@@ -19,10 +20,15 @@ const Description: React.FC<DescriptionProps> = ({ id, description = '', updateT
     }
   }, []);
 
+  const debouncedUpdateTodo = debounce((e: React.ChangeEvent<HTMLDivElement>) => {
+    updateTodo({ id, description: e.target.innerText });
+  }, 300);
+
   const onInputDescription = useCallback((e: React.ChangeEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
-    updateTodo({ id, description: e.target.innerText });
+    // updateTodo({ id, description: e.target.innerText });
+    debouncedUpdateTodo(e);
   }, []);
 
   return (
@@ -32,7 +38,8 @@ const Description: React.FC<DescriptionProps> = ({ id, description = '', updateT
       onInput={onInputDescription}
       contentEditable
       suppressContentEditableWarning
-    ></Container>
+      spellCheck={false}
+    />
   );
 };
 
