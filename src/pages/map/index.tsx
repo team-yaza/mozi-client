@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
-import { AppLayout, Header } from '@/components/common';
 import SetLocationModal from '@/components/map/SetLocationModal';
+import { AppLayout, Header } from '@/components/common';
 import { Todo } from '@/shared/types/todo';
 import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
@@ -89,8 +89,9 @@ const Map: NextPageWithLayout = () => {
         <Header />
 
         {/* Map 영역 */}
-        {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
-        <MapLayout id="map" ref={naverMapRef} />
+        <MapLayout id="map" ref={naverMapRef}>
+          {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
+        </MapLayout>
 
         {/* 모달 */}
         {isOpenModal && (
@@ -107,7 +108,7 @@ Map.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   position: relative;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 
   overflow-x: hidden;
