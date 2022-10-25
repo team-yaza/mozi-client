@@ -24,6 +24,7 @@ import {
   TODAY,
   UPCOMING,
 } from '@/components/common/Figure';
+import { useCallback } from 'react';
 import { Container } from './styles';
 
 interface IconProps {
@@ -34,7 +35,7 @@ interface IconProps {
 }
 
 const Icon: React.FC<IconProps> = ({ name, width, height, stroke }) => {
-  const renderIconByName = (name: string) => {
+  const renderIconByName = useCallback((name: string) => {
     switch (name) {
       case 'ARROWLEFT':
         return <ARROWLEFT />;
@@ -111,7 +112,7 @@ const Icon: React.FC<IconProps> = ({ name, width, height, stroke }) => {
       default:
         return <></>;
     }
-  };
+  }, []);
 
   return (
     <Container width={width} height={height} stroke={stroke}>
