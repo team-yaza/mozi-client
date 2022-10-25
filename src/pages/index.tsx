@@ -52,9 +52,10 @@ const Home: NextPageWithLayout = () => {
     } else if (todos && result.destination.droppableId === 'trash') {
       const items = Array.from(todos);
 
-      items.splice(result.source.index, 1);
+      const [deletedItem] = items.splice(result.source.index, 1);
 
       queryClient.setQueriesData(['todos'], items);
+      deleteTodo(deletedItem.id);
     }
 
     setIsDragging(false);
