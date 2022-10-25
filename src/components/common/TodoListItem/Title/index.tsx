@@ -9,10 +9,11 @@ interface TitleProps {
   id: string;
   title?: string;
   isDoubleClicked: boolean;
+  setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
 }
 
-const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, updateTodo }) => {
+const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, setIsDoubleClicked, updateTodo }) => {
   const [editable, setEditable] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -26,6 +27,22 @@ const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, updateTo
   useEffect(() => {
     if (titleRef.current) titleRef.current.focus();
   }, [isDoubleClicked]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        setEditable(false);
+        setIsDoubleClicked(false);
+      }
+    };
+
+    if (editable) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [editable, setEditable, setIsDoubleClicked]);
 
   const debouncedUpdateTodo = debounce((e: React.ChangeEvent<HTMLDivElement>) => {
     updateTodo({ id, title: e.target.innerText });

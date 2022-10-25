@@ -112,7 +112,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
       <MainContainer>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
-        <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
+        <Title
+          id={id}
+          title={title}
+          isDoubleClicked={isDoubleClicked}
+          setIsDoubleClicked={setIsDoubleClicked}
+          updateTodo={updateTodo}
+        />
         {!isDoubleClicked && locationName && (
           <IconContainer>
             <PLACE focused={true} />
