@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
@@ -6,7 +7,6 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { loginWithKakao } from '@/shared/utils/kakao';
-import Head from 'next/head';
 
 const Login: NextPageWithLayout = () => {
   useEffect(() => {
@@ -24,7 +24,9 @@ const Login: NextPageWithLayout = () => {
         <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
         <KakaoLogin onClick={() => loginWithKakao()}>
-          <Image priority src="/assets/svgs/kakao.svg" width={30} height={30} />
+          <LogoContainer>
+            <Image src="/assets/svgs/kakao.svg" layout="fill" />
+          </LogoContainer>
           <span>카카오톡으로 로그인</span>
         </KakaoLogin>
       </Container>
@@ -70,6 +72,12 @@ const KakaoLogin = styled.div`
     margin-left: 1rem;
     font-size: 1.3rem;
   }
+`;
+
+const LogoContainer = styled.div`
+  position: relative;
+  width: 3rem;
+  height: 3rem;
 `;
 
 export default Login;
