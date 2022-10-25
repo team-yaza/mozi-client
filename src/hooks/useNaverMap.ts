@@ -33,6 +33,7 @@ export const useNaverMap = () => {
   useEffect(() => {
     let onMapLoadedListeners: naver.maps.MapEventListener;
     let onMouseUpListeners: naver.maps.MapEventListener;
+    let onTouchEndListeners: naver.maps.MapEventListener;
 
     const onMapLoaded = () => {
       setIsMapLoading(false);
@@ -44,11 +45,13 @@ export const useNaverMap = () => {
     if (naverMap) {
       onMapLoadedListeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
       onMouseUpListeners = naver.maps.Event.addListener(naverMap, 'mouseup', onMouseUp);
+      onTouchEndListeners = naver.maps.Event.addListener(naverMap, 'touchend', onMouseUp);
     }
 
     return () => {
       naverMap?.removeListener(onMapLoadedListeners);
       naverMap?.removeListener(onMouseUpListeners);
+      naverMap?.removeListener(onTouchEndListeners);
     };
   }, [naverMap]);
 
