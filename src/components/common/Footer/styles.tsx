@@ -12,10 +12,9 @@ export const Container = styled.footer`
   width: 100%;
 
   background: ${({ theme }) => theme.color.footer};
-  border-top: 0.1rem solid ${theme.colors.grey};
   border-top: 0.1rem solid ${({ theme }) => theme.color.footer_border_top};
 
-  transition: background 0.3s;
+  transition: background-color 0.3s, border-top 0.3s;
 `;
 
 export const OptionsContainer = styled.div`

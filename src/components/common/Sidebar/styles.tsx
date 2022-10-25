@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { media } from '@/styles/media';
-import { theme } from '@/styles/theme';
 
 export const Container = styled(motion.aside)`
   position: relative;
@@ -16,10 +15,10 @@ export const Container = styled(motion.aside)`
   pointer-events: none;
   user-select: none;
 
-  transition: 0.3s background-color;
   background-color: ${({ theme }) => theme.color.sidebar};
+  border-right: 0.1rem solid ${({ theme }) => theme.color.sidebar_right_border};
+  transition: background-color 0.3s, border-right 0.3s;
 
-  border-right: 0.1rem solid ${theme.colors.grey};
   ${media.phone} {
     position: absolute;
     z-index: 1;
