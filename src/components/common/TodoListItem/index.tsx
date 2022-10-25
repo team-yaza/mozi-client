@@ -96,7 +96,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       setIsChecked((prevState) => !prevState);
       debounce(() => updateTodo({ id, done: !done }), 500)();
     },
-    [done]
+    [done, setIsChecked]
   );
 
   return (
@@ -112,7 +112,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
       <MainContainer>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
-        <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
+        <Title
+          id={id}
+          title={title}
+          isDoubleClicked={isDoubleClicked}
+          setIsDoubleClicked={setIsDoubleClicked}
+          updateTodo={updateTodo}
+        />
         {!isDoubleClicked && locationName && (
           <IconContainer>
             <PLACE focused={true} />
@@ -135,7 +141,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description id={id} description={description} updateTodo={updateTodo} />
+            <Description
+              id={id}
+              description={description}
+              setIsDoubleClicked={setIsDoubleClicked}
+              updateTodo={updateTodo}
+            />
           </DescriptionContainer>
           <Options
             id={id}

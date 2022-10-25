@@ -5,8 +5,20 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   position: relative;
 
   width: 100%;
+  max-width: 100%;
+  min-width: 100%;
   height: auto;
 
+  /* flex-grow: 0;
+  flex-shrink: 0; */
+
+  padding: 1rem;
+  margin-block: 1rem;
+  border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem transparent solid')};
+  border-radius: 1rem;
+  box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
+
+  outline: none;
   // 컴포넌트의 크기가 명확하다면 transition을 적용할 수 있을 것 같다.
 
   /* max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '4.197rem')}; */
@@ -17,13 +29,6 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
 
   /* max-width: calc(100% - 6rem); */
 
-  padding: 1rem;
-  margin-block: 1rem;
-  border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem transparent solid')};
-  border-radius: 1rem;
-  box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
-
-  outline: none;
   /* transition: max-height 3s, min-height 3s, box-shadow 0.3s; */
   /* transition: all 3s; */
   /* transition: max-height 1s; */
