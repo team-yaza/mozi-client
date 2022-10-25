@@ -17,6 +17,8 @@ declare module 'styled-components' {
       purple: string;
       header: string;
       footer: string;
+      footer_stroke: string;
+      footer_border_top: string;
       grey: string;
       light_grey: string;
     };
