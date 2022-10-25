@@ -21,10 +21,10 @@ const Login: NextPageWithLayout = () => {
         <title>MOZI | Login</title>
       </Head>
       <Container>
-        <Image src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
+        <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
         <KakaoLogin onClick={() => loginWithKakao()}>
-          <Image src="/assets/svgs/kakao.svg" width={30} height={30} />
+          <Image priority src="/assets/svgs/kakao.svg" width={30} height={30} />
           <span>카카오톡으로 로그인</span>
         </KakaoLogin>
       </Container>
