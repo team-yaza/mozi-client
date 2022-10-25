@@ -1,44 +1,34 @@
 import styled from 'styled-components';
 
-export const Container = styled.nav`
-  position: relative;
-  width: 100%;
-
-  font-size: 1.4rem;
-  color: ${({ theme }) => theme.color.sidebar_text};
-
-  overflow: hidden;
-`;
-
-export const SideBarMenuList = styled.ul`
-  margin-left: 3rem;
-  margin-right: 3rem;
-
-  display: flex;
-  flex-direction: column;
-
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_line};
-
-  pointer-events: all;
-`;
-
-export const SideBarMenuItem = styled.li<{ focused?: boolean }>`
+export const Container = styled.li<{ focused?: boolean }>`
   height: 4.2rem;
   width: 100%;
+  min-width: 15.5rem;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
-  padding-left: 1.7rem;
-  padding-right: 1.7rem;
-
-  color: ${({ theme, focused }) => (focused ? theme.color.sidebar_text_focused : theme.color.sidebar_text)};
-  background-color: ${({ focused }) => focused && '#F4F2FF'};
+  font-size: 1.4rem;
+  padding-inline: 1.7rem;
   border-radius: 1.3rem;
-
+  background-color: ${({ focused }) => focused && '#F4F2FF'};
+  color: ${({ theme, focused }) => (focused ? theme.color.sidebar_text_focused : theme.color.sidebar_text)};
   outline: none;
+
   cursor: pointer;
+
+  svg {
+    stroke: ${({ focused }) => (focused ? '#735aff' : '#585858;')};
+  }
+
+  &:hover {
+    background-color: #f4f2ff;
+    color: #735aff;
+
+    svg {
+      stroke: #735aff;
+    }
+  }
 `;
 
 export const IconContainer = styled.div`
@@ -46,14 +36,15 @@ export const IconContainer = styled.div`
   width: 2rem;
   height: 2rem;
 
-  margin-right: 1.4rem; // 아이콘과 글자 사이의 간격
-
-  flex-shrink: 0; // 사이드바 늘리고 줄일 때 아이콘의 크기가 줄어들지 않게함.
+  flex-shrink: 0;
+  stroke: inherit;
 `;
 
 export const MenuName = styled.div`
-  width: 100%;
+  margin-left: 1.4rem;
   min-width: 8rem;
 `;
 
-export const Count = styled.div``;
+export const Count = styled.div`
+  margin-left: auto;
+`;

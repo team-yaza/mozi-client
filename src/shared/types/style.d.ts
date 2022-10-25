@@ -12,6 +12,7 @@ declare module 'styled-components' {
       sidebar_text_focused: string;
       sidebar_right_border: string;
       sidebar_line: string;
+      sidebar_arrow_icon: string;
       todo_background: string;
       todo_checkbox: string;
       background: string;
