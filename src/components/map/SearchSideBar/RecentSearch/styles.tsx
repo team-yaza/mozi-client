@@ -6,6 +6,7 @@ export const Container = styled.div`
   margin: 0 auto;
 
   margin-top: 2.2rem;
+  padding-inline: 2rem;
 `;
 
 export const RecentSearchHeading = styled.h2`
