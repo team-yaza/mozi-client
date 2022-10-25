@@ -11,8 +11,11 @@ export const Container = styled.footer`
   height: 6.8rem;
   width: 100%;
 
-  background: ${theme.colors.white};
+  background: ${({ theme }) => theme.color.footer};
   border-top: 0.1rem solid ${theme.colors.grey};
+  border-top: 0.1rem solid ${({ theme }) => theme.color.footer_border_top};
+
+  transition: background 0.3s;
 `;
 
 export const OptionsContainer = styled.div`
@@ -28,11 +31,11 @@ export const IconContainer = styled.div`
   margin-right: 4.8rem;
   cursor: pointer;
 
+  stroke: ${({ theme }) => theme.color.footer_stroke};
+
   &:last-child {
     margin-right: 0;
   }
-
-  stroke: #2c2b31;
 
   &:hover {
     stroke: ${theme.colors.purple};
