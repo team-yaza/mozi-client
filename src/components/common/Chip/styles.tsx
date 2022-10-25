@@ -36,7 +36,7 @@ export const IconContainer = styled.div`
 
   margin-right: 0.4rem;
 
-  storke: ${theme.colors.grey7};
+  stroke: ${theme.colors.grey7};
 `;
 
 export const DeleteBtn = styled.div`
