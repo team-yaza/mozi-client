@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
@@ -6,7 +7,6 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { loginWithKakao } from '@/shared/utils/kakao';
-import Head from 'next/head';
 
 const Login: NextPageWithLayout = () => {
   useEffect(() => {
