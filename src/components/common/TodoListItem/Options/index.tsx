@@ -4,10 +4,9 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
-import Chip from '@/components/common/Chip';
+import { Chip, CalendarModal } from '@/components/common';
 import { PLACE, CALENDAR, DEADLINE } from '@/components/common/Figure';
 import DeleteModal from '@/components/common/DeleteModal';
-import CalendarModal from '@/components/common/CalendarModal';
 
 interface OptionsProps {
   id: string;
@@ -15,7 +14,7 @@ interface OptionsProps {
   alarmDate?: string;
   dueDate?: string;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
 }
 
 const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate, setIsMapOpened, updateTodo }) => {
@@ -35,23 +34,32 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
 
   const getDate = useCallback((date: undefined | string) => (date ? new Date(date) : new Date()), []);
 
-  const onDeleteLocationHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    setDeleteModalState('location');
-    setIsDeleteModalOpen((old) => !old);
-  }, []);
+  const onDeleteLocationHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      setDeleteModalState('location');
+      setIsDeleteModalOpen((old) => !old);
+    },
+    [setDeleteModalState, setIsDeleteModalOpen]
+  );
 
-  const onDeleteAlarmDateHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    setDeleteModalState('alarm');
-    setIsDeleteModalOpen((old) => !old);
-  }, []);
+  const onDeleteAlarmDateHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      setDeleteModalState('alarm');
+      setIsDeleteModalOpen((old) => !old);
+    },
+    [setDeleteModalState, setIsDeleteModalOpen]
+  );
 
-  const onDeleteDueDateHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    setDeleteModalState('due');
-    setIsDeleteModalOpen((old) => !old);
-  }, []);
+  const onDeleteDueDateHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      setDeleteModalState('due');
+      setIsDeleteModalOpen((old) => !old);
+    },
+    [setDeleteModalState, setIsDeleteModalOpen]
+  );
 
   return (
     <Container>
@@ -60,7 +68,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           <DefinedOption>
             <Chip
               type="location"
-              Icon={<PLACE focused={false} />}
+              icon={<PLACE />}
               content={locationName}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
@@ -73,7 +81,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           <DefinedOption>
             <Chip
               type="date"
-              Icon={<CALENDAR />}
+              icon={<CALENDAR />}
               content={dateToString(getDate(alarmDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
@@ -86,7 +94,7 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           <DefinedOption>
             <Chip
               type="deadline"
-              Icon={<DEADLINE />}
+              icon={<DEADLINE />}
               content={dateToString(getDate(dueDate))}
               backgroundColor="#F5F5F5"
               fontColor="#585858"
@@ -96,10 +104,11 @@ const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate,
           </DefinedOption>
         )}
       </DefinedContainer>
+
       <UndefinedContainer>
         {!locationName && (
           <UndefinedOption onClick={onClickMap}>
-            <PLACE focused={true} />
+            <PLACE />
           </UndefinedOption>
         )}
         {!alarmDate && (
