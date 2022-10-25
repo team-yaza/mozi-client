@@ -1,4 +1,4 @@
-import { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect, useLayoutEffect } from 'react';
 
 import RecentSearch from './RecentSearch';
 import { getLocationSearchResult } from '@/shared/utils/map';
@@ -55,7 +55,6 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
 
   const clearSearch = useCallback(() => {
     setIsSearching(false);
-    setSearchResult([]);
   }, []);
 
   const onKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -66,7 +65,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
     setKeyword(e.target.value);
 
     if (e.target.value === '') {
-      clearSearch();
+      setSearchResult([]);
       return;
     }
 
@@ -100,37 +99,56 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords }) => {
     setItem('RECENT_SEARCH', JSON.stringify([result, ...recentSearch].slice(0, 5)));
   };
 
+  const clickSearchBarHandler = useCallback(() => {
+    setIsSearching(!isSearching);
+  }, [isSearching]);
+
   return (
     <Container isSearchBarOpen={isSearchBarOpen}>
       <SearchContainer isSeraching={isSearching}>
-        <SearchInput value={keyword} onChange={onChange} onKeyDown={onKeyDown} placeholder="검색어를 입력하세요." />
+        <SearchInput
+          value={keyword}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          onClick={clickSearchBarHandler}
+          placeholder="검색어를 입력하세요."
+        />
         {isSearching && (
           <SearchResultContainer>
-            <SearchPlaceResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
-              <SearchPlaceResultHeading>장소</SearchPlaceResultHeading>
-              <SearchPlaceResultList>
-                {searchResult.map((result, index) => (
-                  <SearchPlaceResultItem
-                    key={index}
-                    onClick={() => {
-                      onChangePosition({ longitude: result.location[0], latitude: result.location[1] });
-                      onChangeRecentSearchResult(result);
-                    }}
-                  >
-                    <PlaceIcon>
-                      <SEARCHPLACE />
-                    </PlaceIcon>
-                    <PlaceName>{result.name}</PlaceName>
-                  </SearchPlaceResultItem>
-                ))}
-              </SearchPlaceResultList>
-            </SearchPlaceResultContainer>
+            {searchResult.length === 0 && (
+              <RecentSearch
+                recentSearch={recentSearch}
+                setRecentSearch={setRecentSearch}
+                setCoords={setCoords}
+                clearSearch={clearSearch}
+              />
+            )}
+            {searchResult.length > 0 && (
+              <SearchPlaceResultContainer ref={searchResultContainerRef} isSeraching={isSearching}>
+                <SearchPlaceResultHeading>장소</SearchPlaceResultHeading>
+                <SearchPlaceResultList>
+                  {searchResult.map((result, index) => (
+                    <SearchPlaceResultItem
+                      key={index}
+                      onClick={() => {
+                        onChangePosition({ longitude: result.location[0], latitude: result.location[1] });
+                        onChangeRecentSearchResult(result);
+                      }}
+                    >
+                      <PlaceIcon>
+                        <SEARCHPLACE />
+                      </PlaceIcon>
+                      <PlaceName>{result.name}</PlaceName>
+                    </SearchPlaceResultItem>
+                  ))}
+                </SearchPlaceResultList>
+              </SearchPlaceResultContainer>
+            )}
+
             <SearchTodoContainer />
           </SearchResultContainer>
         )}
       </SearchContainer>
-
-      <RecentSearch recentSearch={recentSearch} setRecentSearch={setRecentSearch} setCoords={setCoords} />
 
       <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen((prev) => !prev)}>
         {isSearchBarOpen ? '닫기' : '열기'}
