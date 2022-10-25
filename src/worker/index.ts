@@ -217,7 +217,7 @@ self.addEventListener('message', (event) => {
     const subscription = await getSub();
 
     localAlarm.map(async (todo: Todo) => {
-      if (todo.alarmed) return;
+      if (todo.alarmed || todo.deletedAt) return;
 
       let locationFlag = FLAGIGNORE;
       let timeFlag = FLAGIGNORE;

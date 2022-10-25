@@ -94,8 +94,8 @@ export const use_unsafe_deleteTodoMutation = () =>
 
 export const useCreateTodoMutation = () =>
   useMutation(
-    ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
-      todoService.createTodo({ locationName, longitude, latitude, dueDate }),
+    ({ title, locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+      todoService.createTodo({ title, locationName, longitude, latitude, dueDate }),
     {
       onSuccess: async (data) => {
         queryClient.setQueriesData(['todos'], (oldData: any) => {
