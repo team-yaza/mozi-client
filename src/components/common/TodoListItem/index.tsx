@@ -9,7 +9,7 @@ import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { debounce } from '@/shared/utils/debounce';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
-import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
+import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer, Icons } from './styles';
 
 interface TodoListItemProps {
   id: string;
@@ -82,13 +82,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     setIsFocused(index);
   }, [index, setIsFocused, isDoubleClicked]);
 
-  const onDoubleClickHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
+  const onDoubleClickHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
 
-    setIsFocused(-1);
-    setIsMapOpened(false);
-    setIsDoubleClicked((prevState) => !prevState);
-  }, []);
+      setIsFocused(-1);
+      setIsMapOpened(false);
+      setIsDoubleClicked((prevState) => !prevState);
+    },
+    [setIsFocused, setIsMapOpened, setIsDoubleClicked]
+  );
 
   const onCheckHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -98,6 +101,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     },
     [done, setIsChecked]
   );
+
+  const renderIcons = () => {
+    const icons = [];
+
+    if (locationName) icons.push(<PLACE />);
+    if (alarmDate) icons.push(<CALENDAR />);
+    if (dueDate) icons.push(<DEADLINE />);
+
+    return icons.map((icon) => <IconContainer>{icon}</IconContainer>);
+  };
 
   return (
     <Container
@@ -119,21 +132,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
           setIsDoubleClicked={setIsDoubleClicked}
           updateTodo={updateTodo}
         />
-        {!isDoubleClicked && locationName && (
-          <IconContainer>
-            <PLACE focused={true} />
-          </IconContainer>
-        )}
-        {!isDoubleClicked && alarmDate && (
-          <IconContainer>
-            <CALENDAR focused={true} />
-          </IconContainer>
-        )}
-        {!isDoubleClicked && dueDate && (
-          <IconContainer>
-            <DEADLINE focused={true} />
-          </IconContainer>
-        )}
+
+        {!isDoubleClicked && <Icons>{renderIcons()}</Icons>}
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}

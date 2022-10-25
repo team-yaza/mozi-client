@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '@/styles/theme';
+import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: boolean }>`
   position: relative;
@@ -70,4 +71,10 @@ export const IconContainer = styled.div`
   position: relative;
   width: 2rem;
   height: 2rem;
+
+  stroke: ${theme.colors.grey7};
+`;
+
+export const Icons = styled.div`
+  ${flexCenter};
 `;

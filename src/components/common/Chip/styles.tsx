@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { theme } from '@/styles/theme';
 
 export const Container = styled.div<{ backgroundColor: string }>`
   height: 2.4rem;
@@ -34,6 +35,8 @@ export const IconContainer = styled.div`
   height: 1.6rem;
 
   margin-right: 0.4rem;
+
+  storke: ${theme.colors.grey7};
 `;
 
 export const DeleteBtn = styled.div`
