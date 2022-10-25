@@ -9,8 +9,9 @@ import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo'
 import { todoStore, findMaximumIndexAtTodoStore } from '@/store/localForage';
 
 const todoService = {
-  createTodo: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+  createTodo: async ({ title, locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
     await fetcher('post', '/todos', {
+      title,
       locationName,
       longitude,
       latitude,

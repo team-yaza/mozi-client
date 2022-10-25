@@ -46,6 +46,7 @@ export interface TodoUpdateRequest {
 }
 
 export interface TodoCreateRequest {
+  title?: string;
   locationName?: string;
   longitude?: number;
   latitude?: number;
