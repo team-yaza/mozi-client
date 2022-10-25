@@ -8,7 +8,9 @@ export const Container = styled.div`
   padding-inline: 2rem;
 
   flex: 1;
-  flex-grow: 0;
+  /* flex-grow: 1; */
+
+  /* background-color: red; */
 
   overflow-y: scroll;
 `;

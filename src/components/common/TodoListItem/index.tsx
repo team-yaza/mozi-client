@@ -96,7 +96,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       setIsChecked((prevState) => !prevState);
       debounce(() => updateTodo({ id, done: !done }), 500)();
     },
-    [done]
+    [done, setIsChecked]
   );
 
   return (
@@ -141,7 +141,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description id={id} description={description} updateTodo={updateTodo} />
+            <Description
+              id={id}
+              description={description}
+              setIsDoubleClicked={setIsDoubleClicked}
+              updateTodo={updateTodo}
+            />
           </DescriptionContainer>
           <Options
             id={id}
