@@ -18,13 +18,13 @@ export const LocationChip = LocationTemplate.bind({});
 TagChip.args = {
   fontColor: '#585858',
   backgroundColor: '#F5F5F5',
-  Icon: <TAG stroke="#92909F" fill="#92909F" />,
+  icon: <TAG stroke="#92909F" fill="#92909F" />,
   content: '테스트 태그',
 };
 
 LocationChip.args = {
   fontColor: '#585858',
   backgroundColor: '#F5F5F5',
-  Icon: <PLACE fill="#92909F" />,
+  icon: <PLACE fill="#92909F" />,
   content: '충남대학교',
 };
