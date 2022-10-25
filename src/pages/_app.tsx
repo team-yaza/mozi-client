@@ -62,7 +62,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   useEffect(() => {
     const token = getCookie('token');
     if (!token) router.push('/login');
-  }, [getCookie, router]);
+  }, []);
 
   useEffect(() => {
     window.toggleDevtools = () => setShowDevtools((old) => !old);
