@@ -3,25 +3,26 @@ import Image from 'next/image';
 import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
+import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
 import SetLocationModal from '@/components/map/SetLocationModal';
-import MapTodoList from '@/components/map/MapTodoList';
 import { AppLayout, Header } from '@/components/common';
 import { Todo } from '@/shared/types/todo';
 import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
-import { useCreateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
   const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
-  const { mutate: createTodo } = useCreateTodoMutation();
+  const { naverMap, isMapLoading, bounds, createMarker, createPosition, setCoords } = useNaverMap();
 
   const { data: todos } = useMapTodoList();
-  const { naverMap, isMapLoading, bounds, createMarker, createPosition, setCoords } = useNaverMap();
+  const { mutate: createTodo } = useCreateTodoMutation();
+  const { mutate: updateTodo } = useUpdateTodoMutation();
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   const onClose = useCallback(() => {
     setIsModalOpen(false);
@@ -83,8 +84,12 @@ const Map: NextPageWithLayout = () => {
       </Head>
       <Container>
         {/* 검색 사이드바 */}
-        <SearchSideBar setCoords={setCoords} />
-        <MapTodoList bounds={bounds} />
+        <SearchSideBar
+          setCoords={setCoords}
+          todos={todos?.filter((todo) => bounds?.hasPoint({ x: todo.longitude as number, y: todo.latitude as number }))}
+          updateTodo={updateTodo}
+          deleteTodo={deleteTodo}
+        />
 
         {/* Header 영역 */}
         <Header />
