@@ -7,7 +7,7 @@ import { Container } from './styles';
 interface DescriptionProps {
   id: string;
   description?: string;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
 }
 
 const Description: React.FC<DescriptionProps> = ({ id, description = '', updateTodo }) => {
