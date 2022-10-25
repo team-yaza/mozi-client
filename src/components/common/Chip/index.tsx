@@ -6,7 +6,7 @@ export interface ChipProps {
   type: 'location' | 'date' | 'deadline' | 'tag';
   backgroundColor: string;
   fontColor: string;
-  Icon: React.ReactNode;
+  icon: React.ReactNode;
   Modal?: React.ReactNode;
   isModalOpen?: boolean;
   content: string;
@@ -17,7 +17,7 @@ export interface ChipProps {
 const Chip: React.FC<ChipProps> = ({
   backgroundColor,
   fontColor,
-  Icon,
+  icon,
   Modal,
   content,
   onClickHandler,
@@ -33,7 +33,7 @@ const Chip: React.FC<ChipProps> = ({
   return (
     <Wrapper>
       <Container backgroundColor={backgroundColor} onClick={onChipClicked}>
-        <IconContainer>{Icon}</IconContainer>
+        <IconContainer>{icon}</IconContainer>
         <Content fontColor={fontColor}>{content}</Content>
         {focused && (
           <DeleteBtn onClick={onDeleteHander}>
