@@ -27,9 +27,8 @@ const Map: NextPageWithLayout = () => {
   }, []);
 
   const createLocationTodo = useCallback(
-    (locationName: string) => {
-      console.log({ locationName, longitude: clickedCoords.longitude, latitude: clickedCoords.latitude });
-      createTodo({ locationName, longitude: clickedCoords.longitude, latitude: clickedCoords.latitude });
+    ({ title, locationName }: { title: string; locationName: string }) => {
+      createTodo({ title, locationName, longitude: clickedCoords.longitude, latitude: clickedCoords.latitude });
     },
     [clickedCoords]
   );
@@ -94,9 +93,7 @@ const Map: NextPageWithLayout = () => {
         </MapLayout>
 
         {/* 모달 */}
-        {isOpenModal && (
-          <SetLocationModal isOpened={isOpenModal} onClose={onClose} updateLocationName={createLocationTodo} />
-        )}
+        {isOpenModal && <SetLocationModal isOpened={isOpenModal} onClose={onClose} createTodo={createLocationTodo} />}
       </Container>
     </>
   );

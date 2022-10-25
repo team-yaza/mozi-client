@@ -1,74 +1,33 @@
+import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  position: absolute;
-  width: 20rem;
-  height: 10rem;
-  background-color: #ffffff;
-  box-shadow: 0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd;
-
-  border-radius: 2rem;
-  overflow: hidden;
-
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -70%);
-
-  z-index: 105;
-`;
-
-export const Wrapper = styled.div`
-  position: relative;
-
+export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  height: 100%;
-  justify-content: space-between;
+  align-items: center;
+  padding: 2.4rem 1.6rem 1.6rem;
 `;
 
-export const Header = styled.div`
+export const Title = styled.label`
+  ${theme.fonts.h4};
+  margin-bottom: 2rem;
+`;
+
+export const LocationInput = styled.input`
+  height: 4rem;
   width: 100%;
-  height: 30%;
-  background-color: #775eff;
 
-  display: flex;
-  justify-content: center;
-`;
-
-export const LocationNameInput = styled.input`
-  width: 13rem;
-
-  font-size: 1.4rem;
-
-  align-self: center;
-
+  padding: 0.6rem 4rem 0.6rem 1.4rem;
+  border-radius: 0.4rem;
   border: none;
+
+  ${theme.fonts.body};
+  caret-color: ${theme.colors.purple};
+  outline: none;
+
+  border: 0.1rem solid ${theme.colors.grey6};
+
   :focus {
-    outline: none;
-  }
-`;
-
-export const ButtonnDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  margin: 1rem;
-  padding-right: 1rem;
-`;
-
-export const Button = styled.button`
-  background-color: #ffffff;
-  border: none;
-
-  font-size: 1.3rem;
-
-  margin-left: 1rem;
-
-  color: #a09eac;
-
-  :hover {
-    color: #000000;
+    border: 0.1rem solid ${theme.colors.purple};
   }
 `;
