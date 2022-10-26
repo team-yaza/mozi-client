@@ -7,7 +7,6 @@ export const useNaverMap = () => {
   const [marker, setMarker] = useState<naver.maps.Marker>(); // 마커 정보
   const [coords, setCoords] = useState<Location>(); // 사용자의 위치
   const [markerCoords, setMarkerCoords] = useState<Location>(); // 마커의 위치
-  const [bounds, setBounds] = useState<naver.maps.Bounds>(); // 지도의 가장자리 좌표
 
   useEffect(() => {
     if (coords) {
@@ -25,33 +24,23 @@ export const useNaverMap = () => {
       });
 
       map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
-      setBounds(map?.getBounds());
       setNaverMap(map);
     }
   }, [coords]);
 
   useEffect(() => {
     let onMapLoadedListeners: naver.maps.MapEventListener;
-    let onMouseUpListeners: naver.maps.MapEventListener;
-    let onTouchEndListeners: naver.maps.MapEventListener;
 
     const onMapLoaded = () => {
       setIsMapLoading(false);
     };
-    const onMouseUp = () => {
-      setBounds(naverMap?.getBounds());
-    };
 
     if (naverMap) {
       onMapLoadedListeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
-      onMouseUpListeners = naver.maps.Event.addListener(naverMap, 'mouseup', onMouseUp);
-      onTouchEndListeners = naver.maps.Event.addListener(naverMap, 'touchend', onMouseUp);
     }
 
     return () => {
       naverMap?.removeListener(onMapLoadedListeners);
-      naverMap?.removeListener(onMouseUpListeners);
-      naverMap?.removeListener(onTouchEndListeners);
     };
   }, [naverMap]);
 
@@ -68,7 +57,6 @@ export const useNaverMap = () => {
     marker,
     coords,
     markerCoords,
-    bounds,
     setNaverMap,
     setMarker,
     setCoords,
