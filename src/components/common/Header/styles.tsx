@@ -13,7 +13,7 @@ export const Container = styled.div`
 
   /* border-bottom: 1px solid ${theme.colors.grey}; */
   background-color: ${({ theme }) => theme.color.header};
-  transition: 0.3s background-color;
+  transition: background-color 0.3s;
 `;
 
 export const SettingContainer = styled.div`
