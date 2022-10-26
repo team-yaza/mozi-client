@@ -86,6 +86,8 @@ export const SideBarMenuList = styled.ul`
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_line};
 
   pointer-events: all;
+
+  transition: border-bottom 0.3s;
 `;
 
 export const SideBarResizer = styled.div<{ isVisible: boolean }>`
