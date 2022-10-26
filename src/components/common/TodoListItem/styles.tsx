@@ -17,7 +17,7 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   margin-block: 1rem;
   border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem transparent solid')};
   border-radius: 1rem;
-  box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
+  box-shadow: ${({ isDoubleClicked, theme }) => isDoubleClicked && theme.color.todolistitem_box_shadow};
 
   outline: none;
   // 컴포넌트의 크기가 명확하다면 transition을 적용할 수 있을 것 같다.

@@ -77,6 +77,10 @@ export const theme = {
     line-height: 1.6rem;
   `,
   },
+  boxSahdow: {
+    light: '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd',
+    dark: '0rem 1.2rem 1.7rem 0.2rem hsla(0, 0%, 0%, 0.14),0rem 0.5rem 2.2rem 0.4rem hsla(0, 0%, 0%, 0.12), 0rem 0.7rem 0.8rem -0.4rem hsla(0, 0%, 0%, 0.2)',
+  },
 };
 
 export const lightTheme: DefaultTheme = {
@@ -95,6 +99,7 @@ export const lightTheme: DefaultTheme = {
     logbook_background: theme.colors.white,
     todo_background: theme.colors.white,
     todo_checkbox: '#AEAEAE',
+    todolistitem_box_shadow: theme.boxSahdow.light,
     background: theme.colors.white,
     purple: theme.colors.purple,
     header: theme.colors.white,
@@ -122,6 +127,7 @@ export const darkTheme: DefaultTheme = {
     logbook_background: theme.colors.grey3,
     todo_background: '#25232C',
     todo_checkbox: '#797687',
+    todolistitem_box_shadow: theme.boxSahdow.dark,
     background: theme.colors.black2,
     purple: theme.colors.purple,
     header: theme.colors.black2,

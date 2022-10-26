@@ -27,6 +27,9 @@ export const LogoContainer = styled.div`
 export const Header = styled.h2`
   font-size: 2.2rem;
   font-weight: bold;
+
+  color: ${({ theme }) => theme.color.white};
+  transition: color 0.3s;
 `;
 
 export const ActionButton = styled(Button)`

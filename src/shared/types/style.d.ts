@@ -17,6 +17,7 @@ declare module 'styled-components' {
       logbook_background: string;
       todo_background: string;
       todo_checkbox: string;
+      todolistitem_box_shadow: string;
       background: string;
       purple: string;
       header: string;
