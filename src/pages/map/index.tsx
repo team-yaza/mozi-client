@@ -17,7 +17,8 @@ const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
   const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
-  const { naverMap, isMapLoading, bounds, createMarker, createPosition, setCoords } = useNaverMap();
+  const [bounds, setBounds] = useState<naver.maps.Bounds>(); // 지도의 가장자리 오브젝트
+  const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
   const { data: todos } = useMapTodoList();
   const { mutate: createTodo } = useCreateTodoMutation();
@@ -34,6 +35,24 @@ const Map: NextPageWithLayout = () => {
     },
     [clickedCoords]
   );
+
+  useEffect(() => {
+    if (!naverMap) return;
+
+    const onMouseUp = () => {
+      setBounds(naverMap.getBounds());
+    };
+
+    const onMouseUpListeners = naver.maps.Event.addListener(naverMap, 'mouseup', onMouseUp);
+    const onTouchEndListeners = naver.maps.Event.addListener(naverMap, 'touchend', onMouseUp);
+    setBounds(naverMap.getBounds());
+
+    return () => {
+      if (!naverMap) return;
+      naverMap.removeListener(onMouseUpListeners);
+      naverMap.removeListener(onTouchEndListeners);
+    };
+  }, [naverMap]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
