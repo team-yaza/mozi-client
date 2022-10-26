@@ -2,6 +2,7 @@ import React, { useCallback, useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTheme } from 'styled-components';
 
 import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER, INBOX, LOGBOOK, MAP, TRASH, UPCOMING } from '@/components/common/Figure';
@@ -24,6 +25,7 @@ export interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
   statistics; // 임시
+  const theme = useTheme();
   const [isSideBarOpened, setIsSideBarOpened] = useState(true);
   const [controlIconHovered, setControlIconHovered] = useState(false);
   const [width, setWidth] = useState(300);
@@ -84,7 +86,13 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
           onHoverStart={() => setControlIconHovered(true)}
           onHoverEnd={() => setControlIconHovered(false)}
         >
-          {isSideBarOpened ? <ARROWLEFT /> : controlIconHovered ? <ARROWRIGHT /> : <HAMBURGER />}
+          {isSideBarOpened ? (
+            <ARROWLEFT stroke={theme.color.sidebar_arrow_icon} />
+          ) : controlIconHovered ? (
+            <ARROWRIGHT stroke={theme.color.sidebar_arrow_icon} />
+          ) : (
+            <HAMBURGER fill={theme.color.sidebar_arrow_icon} />
+          )}
         </ArrowLeftContainer>
       </ControlContainer>
       {/* MOZI 로고 (임시) 부분 */}
@@ -122,7 +130,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
           <Link href="/upcoming">
             <a>
               <SideBarMenu
-                icon={<UPCOMING focused={router.pathname === '/upcoming'} />}
+                icon={<UPCOMING focused={router.pathname === '/upcoming'} fill={'white'} />}
                 count={0}
                 name="Upcoming"
                 focused={router.pathname === '/upcoming'}
@@ -133,7 +141,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
           <Link href="/logbook">
             <a>
               <SideBarMenu
-                icon={<LOGBOOK focused={router.pathname === '/logbook'} />}
+                icon={<LOGBOOK focused={router.pathname === '/logbook'} fill={theme.color.sidebar_menu_background} />}
                 count={0}
                 name="Logbook"
                 focused={router.pathname === '/logbook'}
