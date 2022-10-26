@@ -130,7 +130,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
           <Link href="/upcoming">
             <a>
               <SideBarMenu
-                icon={<UPCOMING focused={router.pathname === '/upcoming'} />}
+                icon={<UPCOMING focused={router.pathname === '/upcoming'} fill={'white'} />}
                 count={0}
                 name="Upcoming"
                 focused={router.pathname === '/upcoming'}
@@ -141,7 +141,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
           <Link href="/logbook">
             <a>
               <SideBarMenu
-                icon={<LOGBOOK focused={router.pathname === '/logbook'} />}
+                icon={<LOGBOOK focused={router.pathname === '/logbook'} fill={theme.color.sidebar_menu_background} />}
                 count={0}
                 name="Logbook"
                 focused={router.pathname === '/logbook'}

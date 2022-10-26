@@ -11,18 +11,19 @@ export const Container = styled.li<{ focused?: boolean }>`
   font-size: 1.4rem;
   padding-inline: 1.7rem;
   border-radius: 1.3rem;
-  background-color: ${({ focused }) => focused && '#F4F2FF'};
+  background-color: ${({ focused, theme }) => focused && theme.color.sidebar_menu_background};
   color: ${({ theme, focused }) => (focused ? theme.color.sidebar_text_focused : theme.color.sidebar_text)};
   outline: none;
-
   cursor: pointer;
+
+  transition: background-color 0.3s;
 
   svg {
     stroke: ${({ focused }) => (focused ? '#735aff' : '#585858;')};
   }
 
   &:hover {
-    background-color: #f4f2ff;
+    background-color: ${({ theme }) => theme.color.sidebar_menu_background};
     color: #735aff;
 
     svg {
