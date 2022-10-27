@@ -18,6 +18,7 @@ const Map: NextPageWithLayout = () => {
   const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
   const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
   const [bounds, setBounds] = useState<naver.maps.Bounds>(); // 지도의 가장자리 오브젝트
+  const [markers, setMarkers] = useState<Array<naver.maps.Marker>>([]);
   const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
   const { data: todos } = useMapTodoList();
@@ -35,6 +36,12 @@ const Map: NextPageWithLayout = () => {
     },
     [clickedCoords]
   );
+
+  const deleteAllMarkers = useCallback(() => {
+    if (!naverMap) return;
+    console.log('delete all markers');
+    markers.forEach((marker) => marker.setMap(null));
+  }, [markers]);
 
   useEffect(() => {
     if (!naverMap) return;
@@ -66,16 +73,51 @@ const Map: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (naverMap && todos) {
+      deleteAllMarkers();
+      const newMarkers: naver.maps.Marker[] = [];
       todos.forEach((todo: Todo) => {
-        createMarker({
+        const markerTitlestyle =
+          'position: absolute; bottom: 4.5rem;' +
+          'background-color: #FFFFFF; visibility:hidden; padding-inline: 1rem;' +
+          'display:flex; justify-content: center; align-items: center; height: 3.5rem;' +
+          'border: 1px #735AFF solid; border-radius: 3rem; max-width: 20rem;';
+        const spanStyle =
+          'font-size: 2rem; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; line-height: 3rem;';
+        const markerTitle = `<div id=${todo.id} style="${markerTitlestyle}"><span style="${spanStyle}">${todo.title}</span></div>`;
+        const markerImg = '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
+        const containerStyle =
+          'position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;';
+        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg}</div>`;
+        const marker = createMarker({
           map: naverMap,
           position: createPosition(todo.latitude as number, todo.longitude as number),
+          zIndex: 1,
           icon: {
-            content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+            content: markerContainer,
             anchor: new naver.maps.Point(11, 11),
           },
         });
+        const sendBack = () => {
+          marker.setZIndex(0);
+        };
+        const bringForward = () => {
+          marker.setZIndex(100);
+        };
+        marker.addListener('click', () => {
+          const marker = document.getElementById(todo.id);
+          if (!marker) return;
+
+          if (marker.style.visibility === 'hidden') {
+            marker.style.visibility = 'visible';
+            bringForward();
+          } else {
+            marker.style.visibility = 'hidden';
+            sendBack();
+          }
+        });
+        newMarkers.push(marker);
       });
+      setMarkers(newMarkers);
     }
   }, [todos, naverMap]);
 
