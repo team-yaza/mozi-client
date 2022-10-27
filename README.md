@@ -34,11 +34,10 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 
 ## 기술 스택
 
-<center>
 
-  ![stack](https://user-images.githubusercontent.com/63354527/198322381-30d774fd-f541-4ead-bc32-3b2ec81b3c64.png)
-
-</center>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/63354527/198322381-30d774fd-f541-4ead-bc32-3b2ec81b3c64.png" alt="tech stack"/>
+</p> 
 
 - **PWA**를 적용하여 웹에서 다운로드가 가능하도록 구현하였고, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 백그라운드 동기화 기능을 활용했습니다.
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
