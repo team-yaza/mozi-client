@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { TodoUpdateRequest } from '@/shared/types/todo';
+import { debounce } from '@/shared/utils/debounce';
 import { Container } from './styles';
-import { debounce } from '@/shared/utils/debounce/index';
 
 interface DescriptionProps {
   id: string;

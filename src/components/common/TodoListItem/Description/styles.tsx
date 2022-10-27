@@ -10,6 +10,8 @@ export const Container = styled.div`
 
   font-size: 1.4rem;
   cursor: text;
+  color: ${({ theme }) => theme.color.white};
+  transition: color 0.3s;
 
   &:empty:before {
     content: attr(placeholder);
