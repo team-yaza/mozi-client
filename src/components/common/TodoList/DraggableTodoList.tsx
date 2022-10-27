@@ -14,6 +14,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo }) => {
   const [isFocused, setIsFocused] = useState(-1);
+  const [isEditing, setIsEditing] = useState(-1);
 
   useEffect(() => {
     const handleArrowKeyDown = (e: KeyboardEvent) => {
@@ -44,7 +45,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
   return (
     <Container>
       {todos.map((todo, index) => (
-        <Draggable key={todo.id} draggableId={todo.id} index={index}>
+        <Draggable key={todo.id} draggableId={todo.id} index={index} isDragDisabled={isEditing === index}>
           {(provided) => (
             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <TodoListItem
@@ -61,6 +62,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
                 index={index}
                 isFocused={isFocused === index}
                 setIsFocused={setIsFocused}
+                setIsEditing={setIsEditing}
                 updateTodo={updateTodo}
                 deleteTodo={deleteTodo}
               />

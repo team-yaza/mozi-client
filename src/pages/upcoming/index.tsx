@@ -1,5 +1,6 @@
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
+import Head from 'next/head';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Header, Title, TodoList } from '@/components/common';
@@ -8,7 +9,6 @@ import Calendar from '@/components/upcoming/Calendar';
 import { useUpcommingTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { dateToFormatString, dateDiff } from '@/shared/utils/date';
-import Head from 'next/head';
 
 const Upcoming: NextPageWithLayout = () => {
   const [nowDate, setNowDate] = useState(new Date());
