@@ -14,7 +14,7 @@ import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import { getCookie } from '@/shared/utils/cookie';
-import { useLocationRef } from '@/hooks/location/useLocationRef';
+import { useLocationRef } from '@/hooks/useLocationRef';
 import { SENDLOCATION_INTERVAL } from '@/shared/constants/delay';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

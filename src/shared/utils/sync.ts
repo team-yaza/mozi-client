@@ -10,8 +10,8 @@ export const syncTodos = async () => {
 
     if (isSyncAvailable) {
       await registration.sync.register(SYNC_TODOS);
-      const tags = await registration.sync.getTags();
-      console.log(tags, '태그요 ㅎㅎ');
+      // const tags = await registration.sync.getTags();
+      // console.log(tags, '태그요 ㅎㅎ');
     } else {
       console.log('데이터베이스 동기화 요청에 실패했습니다.');
     }

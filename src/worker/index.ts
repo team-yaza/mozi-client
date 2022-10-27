@@ -7,7 +7,7 @@ import './cache';
 import { todoStore } from '../store/localForage/index';
 import { Todo } from '../shared/types/todo';
 import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
-import { getDistance } from '../shared/utils/getDistance';
+import { getDistance } from '../shared/utils/location';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 import { checkAlarm } from '../shared/utils/date';
 
