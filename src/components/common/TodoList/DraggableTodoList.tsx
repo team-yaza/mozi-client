@@ -14,6 +14,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo }) => {
   const [isFocused, setIsFocused] = useState(-1);
+  // const [isEditing, setIsEditing] = useState(-1);
 
   useEffect(() => {
     const handleArrowKeyDown = (e: KeyboardEvent) => {
