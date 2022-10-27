@@ -24,7 +24,7 @@ interface TodoListItemProps {
   index: number;
   isFocused?: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
-  setIsEditing: Dispatch<SetStateAction<number>>;
+  setIsEditing?: Dispatch<SetStateAction<number>>;
   updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
@@ -79,7 +79,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   }, [id, deleteTodo, isFocused]);
 
   useEffect(() => {
-    if (isDoubleClicked) setIsEditing(index);
+    if (isDoubleClicked && setIsEditing) setIsEditing(index);
   }, [isDoubleClicked, setIsEditing]);
 
   const onClickHandler = useCallback(() => {
