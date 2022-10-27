@@ -1,7 +1,7 @@
 export interface Todo {
   id: string;
   title?: string;
-  index?: number;
+  index: number;
   description?: string;
   longitude?: number;
   latitude?: number;

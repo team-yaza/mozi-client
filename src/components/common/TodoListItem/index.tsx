@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -23,7 +23,8 @@ interface TodoListItemProps {
   done: boolean;
   index: number;
   isFocused?: boolean;
-  setIsFocused: (index: number) => void;
+  setIsFocused: Dispatch<SetStateAction<number>>;
+  setIsEditing: Dispatch<SetStateAction<number>>;
   updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
@@ -41,6 +42,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   isFocused,
   locationName,
   setIsFocused,
+  setIsEditing,
   updateTodo,
   deleteTodo,
 }) => {
@@ -75,6 +77,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
     return () => document.removeEventListener('keydown', deleteTodoHandler);
   }, [id, deleteTodo, isFocused]);
+
+  useEffect(() => {
+    if (isDoubleClicked) setIsEditing(index);
+  }, [isDoubleClicked, setIsEditing]);
 
   const onClickHandler = useCallback(() => {
     if (isDoubleClicked) return;
