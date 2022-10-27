@@ -4,6 +4,7 @@ import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import { toastError } from '@/shared/utils/toast';
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
 import SetLocationModal from '@/components/map/SetLocationModal';
@@ -104,6 +105,10 @@ const Map: NextPageWithLayout = () => {
           marker.setZIndex(100);
         };
         marker.addListener('click', () => {
+          if (todo.title === null || todo.title === undefined) {
+            toastError('Todo에 Title이 비어있습니다.');
+            return;
+          }
           const marker = document.getElementById(todo.id);
           if (!marker) return;
 
