@@ -42,6 +42,10 @@ const Container = styled.div`
   width: 100%;
 
   padding-top: 5.4rem;
+
+  background-color: ${({ theme }) => theme.color.background};
+  color: ${({ theme }) => theme.color.text};
+  transition: background-color 0.3s, color 0.3s;
 `;
 
 export default Setting;

@@ -48,6 +48,9 @@ const Container = styled.div`
   width: 100%;
 
   overflow: scroll;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
 `;
 
 const TodoContainer = styled.div`
