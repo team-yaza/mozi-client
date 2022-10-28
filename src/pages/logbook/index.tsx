@@ -44,6 +44,9 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
 `;
 
 export default Logbook;

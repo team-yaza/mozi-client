@@ -182,6 +182,9 @@ const Container = styled.div`
   width: 100%;
 
   overflow-x: hidden;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
 `;
 
 const MapLayout = styled.main`
