@@ -3,7 +3,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
-import TodoListItem from '@/components/common/TodoListItem';
+import TodoListItem from '@/components/common/TodoListItem/unsafe_TodoListItem';
 import { Container } from './styles';
 
 interface TodoListProps {
@@ -49,16 +49,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
           {(provided) => (
             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <TodoListItem
-                key={todo.id}
-                id={todo.id}
-                title={todo.title}
-                description={todo.description}
-                longitude={todo.longitude}
-                latitude={todo.latitude}
-                locationName={todo.locationName}
-                alarmDate={todo.alarmDate}
-                dueDate={todo.dueDate}
-                done={todo.done}
+                todo={todo}
                 index={index}
                 isFocused={isFocused === index}
                 setIsFocused={setIsFocused}

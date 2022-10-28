@@ -13,7 +13,7 @@ export interface Todo {
   alarmed: boolean;
 
   deletedAt?: Date;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 
   // 오프라인 로직에 사용되는 type
