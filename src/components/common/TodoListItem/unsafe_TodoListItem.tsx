@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title/index';
@@ -161,4 +161,4 @@ const TodoListItem = ({
   );
 };
 
-export default TodoListItem;
+export default React.memo(TodoListItem);
