@@ -33,4 +33,6 @@ export const UndefinedOption = styled.div`
 
   width: 2.5rem;
   height: 2.5rem;
+
+  stroke: ${theme.colors.grey3};
 `;
