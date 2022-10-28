@@ -10,9 +10,6 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
   min-width: 100%;
   height: auto;
 
-  /* flex-grow: 0;
-  flex-shrink: 0; */
-
   padding: 1rem;
   margin-block: 1rem;
   border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem transparent solid')};
@@ -73,6 +70,7 @@ export const IconContainer = styled.div`
   height: 2rem;
 
   stroke: ${theme.colors.grey7};
+  cursor: pointer;
 `;
 
 export const Icons = styled.div`

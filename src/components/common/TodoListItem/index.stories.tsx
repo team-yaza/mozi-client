@@ -1,22 +1,26 @@
 import React from 'react';
-import TodoListItem from '.';
-import TodoListItem2 from './temp';
+import TodoListItem from './unsafe_TodoListItem';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 export default {
   title: 'components/TodoListItem',
-  component: TodoListItem2,
-} as ComponentMeta<typeof TodoListItem2>;
+  component: TodoListItem,
+} as ComponentMeta<typeof TodoListItem>;
 
-// const Template: ComponentStory<typeof TodoListItem> = (args) => <TodoListItem {...args} />;
+const Template: ComponentStory<typeof TodoListItem> = (args) => <TodoListItem {...args} />;
 
-// export const Default = Template.bind({});
+export const Default = Template.bind({});
 
-const Template2: ComponentStory<typeof TodoListItem> = (args) => <TodoListItem2 {...args} />;
-
-export const Default2 = Template2.bind({});
-
-Default2.args = {
-  id: 'hello-mozi',
-  title: '팅팅',
+Default.args = {
+  todo: {
+    id: 'random uuid',
+    title: 'MOZI',
+    index: 1,
+    done: false,
+    createdAt: new Date(),
+    alarmed: false,
+    locationName: '서울특별시 강남구',
+    alarmDate: '2021-08-01',
+    dueDate: '2021-08-01',
+  },
 };
