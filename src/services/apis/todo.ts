@@ -146,6 +146,8 @@ const todoService = {
     locationName,
   }: TodoUpdateRequest) => {
     try {
+      // const todo = (await todoStore.getItem(id)) as Todo;
+      // console.log(todo, 'from indexedDB');
       return await todoStore.setItem(id, {
         id,
         title,

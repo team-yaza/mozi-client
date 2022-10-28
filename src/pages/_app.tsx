@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import styled, { ThemeProvider } from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -19,7 +19,7 @@ import { Location } from '@/shared/types/location';
 import { trackCurrentPosition } from '@/shared/utils/location';
 import { CHECK_DISTANCE } from '@/shared/constants/serviceWorker';
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
-import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
+// import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -47,8 +47,13 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
       setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
     };
     const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
-      toast.error(GET_LOCATION_ERROR);
+      if (positionError.PERMISSION_DENIED) {
+        // 나중에 여기서 브라우저ㅓ권한달라고 요청
+        return;
+      }
+
       Sentry.captureException(positionError);
+      trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
     };
 
     trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
