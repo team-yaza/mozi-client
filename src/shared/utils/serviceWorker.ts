@@ -51,6 +51,10 @@ export const sendAuthTokenToServiceWorker = () => {
   });
 };
 
+export const sendMessageToServiceWorker = (message: any) => {
+  navigator.serviceWorker.controller?.postMessage(message);
+};
+
 //     // registration.pushManager.subscribe
 //     // navigator.serviceWorker.controller.postMessage({
 //     //   type: 'SET_INTERVAL',

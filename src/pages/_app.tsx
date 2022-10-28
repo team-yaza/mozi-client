@@ -2,20 +2,24 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { ReactElement, ReactNode, useEffect, useState, useCallback, Suspense } from 'react';
+import { useRouter } from 'next/router';
+import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import styled, { ThemeProvider } from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import * as Sentry from '@sentry/nextjs';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
-import { useRouter } from 'next/router';
 import { getCookie } from '@/shared/utils/cookie';
-import { useLocationRef } from '@/hooks/useLocationRef';
-import { SENDLOCATION_INTERVAL } from '@/shared/constants/delay';
+import { Location } from '@/shared/types/location';
+import { trackCurrentPosition } from '@/shared/utils/location';
+import { CHECK_DISTANCE } from '@/shared/constants/serviceWorker';
+import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
+import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -34,30 +38,31 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
+  const [userPosition, setUserPosition] = useState<Location>();
 
   const router = useRouter();
 
-  const { myLocationRef, updateCurrentPosition } = useLocationRef();
+  useEffect(() => {
+    const getLocationSuccessCallback = (position: GeolocationPosition) => {
+      setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+    };
+    const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
+      toast.error(GET_LOCATION_ERROR);
+      Sentry.captureException(positionError);
+    };
+
+    trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  }, [setUserPosition, trackCurrentPosition]);
 
   useEffect(() => {
-    const sendLocationInterval = setInterval(sendLocation, SENDLOCATION_INTERVAL);
-
-    return () => {
-      clearInterval(sendLocationInterval);
-    };
-  }, [myLocationRef]);
-
-  const sendLocation = useCallback(() => {
-    if (!navigator.serviceWorker.controller || !myLocationRef.current) return;
-
-    updateCurrentPosition();
-
-    navigator.serviceWorker.controller.postMessage({
-      type: 'SET_INTERVAL',
-      latitude: myLocationRef.current.latitude,
-      longitude: myLocationRef.current.longitude,
-    });
-  }, [myLocationRef]);
+    if (userPosition && navigator.serviceWorker.controller) {
+      sendMessageToServiceWorker({
+        type: CHECK_DISTANCE,
+        latitude: userPosition.latitude,
+        longitude: userPosition.longitude,
+      });
+    }
+  }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');
