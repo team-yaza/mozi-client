@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { flexCenter } from '@/styles/utils';
+import { theme } from '@/styles/theme';
 
 export const Container = styled.div`
   position: absolute;
@@ -48,6 +49,8 @@ export const ActionIconContainer = styled.div`
   position: relative;
   width: 3rem;
   height: 3rem;
+
+  stroke: ${theme.colors.grey3};
 `;
 
 export const ActionText = styled.span`
