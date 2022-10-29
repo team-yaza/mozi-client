@@ -10,5 +10,5 @@ export const Header = styled.div`
   color: #92909f;
   font-size: 1.5rem;
 
-  border-bottom: 1px #dfdfdf solid;
+  border-bottom: 0.1rem #dfdfdf solid;
 `;
