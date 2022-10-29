@@ -9,6 +9,9 @@ export const Container = styled.div`
   margin-bottom: 2rem; // 밑애 option과의 거리
 
   font-size: 1.4rem;
+  cursor: text;
+  color: ${({ theme }) => theme.color.white};
+  transition: color 0.3s;
 
   &:empty:before {
     content: attr(placeholder);

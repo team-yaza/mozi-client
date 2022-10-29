@@ -2,18 +2,24 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { ReactElement, ReactNode, useEffect, useState, useCallback, Suspense } from 'react';
+import { useRouter } from 'next/router';
+import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
+import { Toaster } from 'react-hot-toast';
+import styled, { ThemeProvider } from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ThemeProvider } from 'styled-components';
+import * as Sentry from '@sentry/nextjs';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
-import { useRouter } from 'next/router';
 import { getCookie } from '@/shared/utils/cookie';
-import { useLocationRef } from '@/hooks/location/useLocationRef';
+import { Location } from '@/shared/types/location';
+import { trackCurrentPosition } from '@/shared/utils/location';
+import { CHECK_DISTANCE } from '@/shared/constants/serviceWorker';
+import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
+// import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -29,34 +35,39 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
   }))
 );
 
-const INTERVALTIME = 5000;
-
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
-  const [theme] = useState('light');
+  const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
+  const [userPosition, setUserPosition] = useState<Location>();
+
   const router = useRouter();
 
-  const { myLocationRef, updateCurrentPosition } = useLocationRef();
+  useEffect(() => {
+    const getLocationSuccessCallback = (position: GeolocationPosition) => {
+      setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+    };
+    const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
+      if (positionError.PERMISSION_DENIED) {
+        // 나중에 여기서 브라우저ㅓ권한달라고 요청
+        return;
+      }
+
+      Sentry.captureException(positionError);
+      trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+    };
+
+    trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  }, [setUserPosition, trackCurrentPosition]);
 
   useEffect(() => {
-    const sendLocationInterval = setInterval(sendLocation, INTERVALTIME);
-
-    return () => {
-      clearInterval(sendLocationInterval);
-    };
-  }, [myLocationRef]);
-
-  const sendLocation = useCallback(() => {
-    if (!navigator.serviceWorker.controller || !myLocationRef.current) return;
-
-    updateCurrentPosition();
-
-    navigator.serviceWorker.controller.postMessage({
-      type: 'SET_INTERVAL',
-      latitude: myLocationRef.current.latitude,
-      longitude: myLocationRef.current.longitude,
-    });
-  }, [myLocationRef]);
+    if (userPosition && navigator.serviceWorker.controller) {
+      sendMessageToServiceWorker({
+        type: CHECK_DISTANCE,
+        latitude: userPosition.latitude,
+        longitude: userPosition.longitude,
+      });
+    }
+  }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');
@@ -69,27 +80,29 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  // const handleTheme = useCallback(() => {
-  //   if (theme === 'dark') setTheme('light');
-  //   else setTheme('dark');
-  // }, [theme]);
-
   return (
     <>
       <Head>
         <title>MOZI</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#fff" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon.png"></link>
       </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            {getLayout(<Component {...pageProps} />)}
+            {getLayout(<Component {...pageProps} setTheme={setTheme} />)}
           </ThemeProvider>
         </RecoilRoot>
+
+        <ToggleButton
+          onClick={() => {
+            if (theme === 'light') {
+              setTheme('dark');
+            } else {
+              setTheme('light');
+            }
+          }}
+        />
 
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         {showDevtools && (
@@ -97,9 +110,24 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
             <ReactQueryDevtoolsProduction />
           </Suspense>
         )}
+        <Toaster />
       </QueryClientProvider>
     </>
   );
 }
 
 export default MyApp;
+
+const ToggleButton = styled.div`
+  position: absolute;
+
+  left: 2rem;
+  bottom: 2rem;
+
+  width: 5rem;
+  height: 5rem;
+
+  border-radius: 50%;
+
+  background-color: purple;
+`;

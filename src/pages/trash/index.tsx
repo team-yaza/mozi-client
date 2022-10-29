@@ -1,36 +1,46 @@
+import Head from 'next/head';
 import type { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { Header, Spinner, TodoList, Title, AppLayout, Footer } from '@/components/common';
+import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
   useUpdateTodoMutation,
+  use_unsafe_createTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
-import AppLayout from '@/components/common/AppLayout';
-import Title from '@/components/trash/Title';
-import TodoList from '@/components/common/TodoList';
-import Spinner from '@/components/common/Spinner';
 
 const Trash: NextPageWithLayout = () => {
+  const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { data: todos, isLoading } = useSoftDeletedTodoList();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
   return (
-    <Container>
-      <Title onEmptyButtonClick={deleteAllTodos} />
+    <>
+      <Head>
+        <title>MOZI | Trash</title>
+      </Head>
 
-      {isLoading && (
-        <SpinnerContainer>
-          <Spinner />
-        </SpinnerContainer>
-      )}
+      <Container>
+        <Header />
+        <Title icon={<TRASH />} title="Trash" actionText="비우기" onClick={deleteAllTodos} />
 
-      <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
-    </Container>
+        {isLoading && (
+          <SpinnerContainer>
+            <Spinner />
+          </SpinnerContainer>
+        )}
+
+        <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+
+        <Footer createTodo={createTodo} />
+      </Container>
+    </>
   );
 };
 
@@ -40,8 +50,14 @@ Trash.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   position: relative;
-  height: 100vh;
+  height: 100%;
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
 `;
 
 const SpinnerContainer = styled.div`

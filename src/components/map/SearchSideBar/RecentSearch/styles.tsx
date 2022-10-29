@@ -5,7 +5,11 @@ export const Container = styled.div`
   width: 30rem;
   margin: 0 auto;
 
-  margin-top: 2.2rem;
+  padding-top: 2.2rem;
+  padding-inline: 2rem;
+  background-color: ${({ theme }) => theme.color.recent_search_background};
+  color: ${({ theme }) => theme.color.white};
+  transition: background-color 0.3s, color 0.3s;
 `;
 
 export const RecentSearchHeading = styled.h2`
@@ -26,7 +30,8 @@ export const RecentSearchItem = styled.li`
   align-items: center;
   justify-content: space-between;
 
-  border-bottom: 0.1rem solid ${theme.colors.grey};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_right_border};
+  transition: border-bottom 0.3s;
 `;
 
 export const RecentSearchKeyword = styled.div`
@@ -53,4 +58,9 @@ export const DeleteContainer = styled.div`
   height: 3rem;
 
   cursor: pointer;
+
+  svg {
+    stroke: ${({ theme }) => theme.color.recent_search_button};
+    transition: stroke 0.3s;
+  }
 `;

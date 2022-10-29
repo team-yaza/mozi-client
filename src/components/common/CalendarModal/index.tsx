@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import Modal from '@/components/common/Modal';
 
@@ -88,6 +88,31 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
     );
   }, [nowDate]);
 
+  const onHourInputHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value == '') return;
+      const hour = nowDate.getHours() < HOURS ? Number(e.target.value) : Number(e.target.value) + 12;
+      setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), hour, nowDate.getMinutes()));
+    },
+    [nowDate]
+  );
+
+  const onMinuteInputHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value == '') return;
+      setNowDate(
+        new Date(
+          nowDate.getFullYear(),
+          nowDate.getMonth(),
+          nowDate.getDate(),
+          nowDate.getHours(),
+          Number(e.target.value)
+        )
+      );
+    },
+    [nowDate]
+  );
+
   return (
     <Modal isOpened={isCalendarModalOpen} onClose={() => setIsCalendarModalOpen(false)} onConfirm={onConfirmHandler}>
       <Container>
@@ -150,9 +175,9 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
               <MeridiemContainer onClick={onMeridiemToggle}>
                 {nowDate.getHours() < HOURS ? '오전' : '오후'}
               </MeridiemContainer>
-              <HourInput type="number" defaultValue={getDateToHour(nowDate)} />
+              <HourInput type="number" defaultValue={getDateToHour(nowDate)} onBlur={onHourInputHandler} />
               {':'}
-              <MinuteInput type="number" defaultValue={getDateToMin(nowDate)} />
+              <MinuteInput type="number" defaultValue={getDateToMin(nowDate)} onBlur={onMinuteInputHandler} />
             </TimeContainer>
           </Footer>
         )}

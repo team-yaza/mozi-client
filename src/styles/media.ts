@@ -1,4 +1,4 @@
-import breakPoints from '@/shared/constants/breakpoints';
+import { breakPoints } from '@/shared/constants/breakpoints';
 
 const { phone } = breakPoints;
 

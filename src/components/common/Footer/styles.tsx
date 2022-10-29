@@ -3,16 +3,18 @@ import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.footer`
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 0;
+  ${flexCenter};
 
   height: 6.8rem;
   width: 100%;
 
-  ${flexCenter};
+  background: ${({ theme }) => theme.color.footer};
+  border-top: 0.1rem solid ${({ theme }) => theme.color.footer_border_top};
 
-  background: ${theme.colors.white};
+  transition: background-color 0.3s, border-top 0.3s;
 `;
 
 export const OptionsContainer = styled.div`
@@ -26,8 +28,15 @@ export const IconContainer = styled.div`
   height: 3.4rem;
 
   margin-right: 4.8rem;
+  cursor: pointer;
+
+  stroke: ${({ theme }) => theme.color.footer_stroke};
 
   &:last-child {
     margin-right: 0;
+  }
+
+  &:hover {
+    stroke: ${theme.colors.purple};
   }
 `;

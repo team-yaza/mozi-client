@@ -1,10 +1,14 @@
 import React from 'react';
-import Spinner from '.';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
+import Spinner from '.';
+
 export default {
-  title: 'Common/Spinner',
+  title: 'components/Spinner',
   component: Spinner,
+  parameters: {
+    layout: 'centered',
+  },
 } as ComponentMeta<typeof Spinner>;
 
 const Template: ComponentStory<typeof Spinner> = (args) => <Spinner {...args} />;

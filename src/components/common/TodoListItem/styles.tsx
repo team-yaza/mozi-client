@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 import { theme } from '@/styles/theme';
+import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: boolean }>`
   position: relative;
 
   width: 100%;
+  max-width: 100%;
+  min-width: 100%;
   height: auto;
 
+  padding: 1rem;
+  margin-block: 1rem;
+  border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem transparent solid')};
+  border-radius: 1rem;
+  box-shadow: ${({ isDoubleClicked, theme }) => isDoubleClicked && theme.color.todolistitem_box_shadow};
+
+  outline: none;
   // 컴포넌트의 크기가 명확하다면 transition을 적용할 수 있을 것 같다.
 
   /* max-height: ${({ isDoubleClicked }) => (isDoubleClicked ? '30rem' : '4.197rem')}; */
@@ -17,13 +27,6 @@ export const Container = styled.div<{ isFocused?: boolean; isDoubleClicked: bool
 
   /* max-width: calc(100% - 6rem); */
 
-  padding: 1rem;
-  margin-block: 1rem;
-  border: ${({ isFocused }) => (isFocused ? '0.2rem #735AFF solid' : '0.2rem #ffffff solid')};
-  border-radius: 1rem;
-  box-shadow: ${({ isDoubleClicked }) => isDoubleClicked && '0.1rem 0.1rem 0.5rem 0.1rem #bdbdbd'};
-
-  outline: none;
   /* transition: max-height 3s, min-height 3s, box-shadow 0.3s; */
   /* transition: all 3s; */
   /* transition: max-height 1s; */
@@ -44,7 +47,7 @@ export const CheckBox = styled.div<{ checked: boolean }>`
 
   flex-shrink: 0;
 
-  border: ${({ checked, theme }) => !checked && `1px solid ${theme.color.todo_checkbox}`};
+  border: ${({ checked, theme }) => !checked && `0.1rem solid ${theme.color.todo_checkbox}`};
   border-radius: 0.5rem;
 
   background-image: ${({ checked }) => checked && 'url("/assets/svgs/check.svg")'};
@@ -65,4 +68,11 @@ export const IconContainer = styled.div`
   position: relative;
   width: 2rem;
   height: 2rem;
+
+  stroke: ${theme.colors.grey7};
+  cursor: pointer;
+`;
+
+export const Icons = styled.div`
+  ${flexCenter};
 `;

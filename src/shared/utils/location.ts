@@ -30,3 +30,10 @@ export const getCurrentPositionRef = (locationRef: MutableRefObject<Location>) =
 export const getCurrentPosition = (options?: PositionOptions): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject, options));
 };
+
+export const trackCurrentPosition = (
+  successCallback: PositionCallback,
+  errorCallback: PositionErrorCallback | null | undefined
+) => {
+  navigator.geolocation.watchPosition(successCallback, errorCallback, { enableHighAccuracy: true, timeout: 3000 });
+};

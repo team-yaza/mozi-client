@@ -1,11 +1,26 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import SideBar from '.';
+import { Meta, Story } from '@storybook/react';
+
+import SideBar, { SideBarProps } from '.';
 
 export default {
-  title: 'Common/Sidebar',
   component: SideBar,
-} as ComponentMeta<typeof SideBar>;
+  title: 'components/SideBar',
+  parameters: {
+    layout: 'fullscreen',
+  },
+} as Meta;
 
-const Template: ComponentStory<typeof SideBar> = (args) => <SideBar {...args} />;
+const Template: Story<SideBarProps> = (args) => (
+  <div style={{ position: 'relative' }}>
+    <SideBar {...args} />
+  </div>
+);
 
-export const Basic = Template.bind({});
+export const Primary = Template.bind({});
+
+Primary.args = {
+  statistics: {
+    inbox: 0,
+    today: 0,
+  },
+};

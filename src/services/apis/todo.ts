@@ -1,16 +1,22 @@
-// import { v4 as uuid } from 'uuid';
+import * as Sentry from '@sentry/nextjs';
+import { v4 as uuidv4 } from 'uuid';
 
-import { Todo } from '@/shared/types/todo';
 import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
-import { TodoUpdateRequest } from '@/shared/types/todo';
-import { todoStore } from '@/store/forage';
+import { toastError } from '@/shared/utils/toast';
+import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED, TODO_DELETE_FAILED } from '@/shared/constants/dialog';
+import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
+import { todoStore, findMaximumIndexAtTodoStore } from '@/store/localForage';
 
 const todoService = {
-  createTodo: async () => {
-    const createdTodo = await fetcher('post', '/todos');
-    return createdTodo;
-  },
+  createTodo: async ({ title, locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+    await fetcher('post', '/todos', {
+      title,
+      locationName,
+      longitude,
+      latitude,
+      dueDate,
+    }),
   getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
   updateTodo: async ({
     id,
@@ -34,7 +40,8 @@ const todoService = {
         alarmDate,
         dueDate,
       });
-      if (locationName && longitude && latitude) await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
+      if ((locationName && longitude && latitude) || alarmDate)
+        await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
       else await todoStore.setItem(id, updatedTodo);
 
       return updatedTodo;
@@ -86,8 +93,107 @@ const todoService = {
       console.log(error);
       await syncTodos();
     }
+  },
+  getTodosFromIndexedDB: async () => {
+    const todos = await fetcher('get', '/todos');
 
-    // ! 여기에 네트워크 실패했을 때 일단 다 삭제하는 로직 (로컬에서)
+    try {
+      await todoStore.clear();
+      return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
+    } catch (error) {
+      console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
+    }
+
+    const keys = await todoStore.keys();
+
+    if (keys.length === 0) return [];
+    return await Promise.all(keys.map((key) => todoStore.getItem(key)));
+  },
+  createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
+    try {
+      const todoId = uuidv4();
+      const maximumIndexAtTodoStore = await findMaximumIndexAtTodoStore();
+
+      return await todoStore.setItem(todoId, {
+        id: todoId,
+        locationName,
+        longitude,
+        latitude,
+        dueDate,
+        index: maximumIndexAtTodoStore + 1,
+        offline: true,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      toastError(TODO_CREATE_FAILED);
+    }
+  },
+  updateTodoAtIndexedDB: async ({
+    id,
+    title,
+    index,
+    longitude,
+    latitude,
+    description,
+    done,
+    alarmDate,
+    dueDate,
+    locationName,
+  }: TodoUpdateRequest) => {
+    try {
+      // const todo = (await todoStore.getItem(id)) as Todo;
+      // console.log(todo, 'from indexedDB');
+      return await todoStore.setItem(id, {
+        id,
+        title,
+        index,
+        longitude,
+        latitude,
+        description,
+        done,
+        alarmDate,
+        dueDate,
+        locationName,
+        offline: true,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      console.log(TODO_UPDATE_FAILED);
+    }
+  },
+  deleteTodoAtIndexedDB: async (id: string) => {
+    try {
+      const todo = (await todoStore.getItem(id)) as Todo;
+
+      return await todoStore.setItem(id, { ...todo, deletedAt: Date.now(), offlineDeleted: true });
+    } catch (error) {
+      toastError(TODO_DELETE_FAILED);
+      Sentry.captureException(error);
+    }
+  },
+  forceDeleteTodoAtIndexedDB: async () => {
+    try {
+      const keys = await todoStore.keys();
+      const todos = await Promise.all(keys.map((key) => todoStore.getItem(key)));
+
+      return await Promise.all(
+        todos.map((todo: any) => todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true }))
+      );
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  },
+  forceDeleteAllTodosAtTrash: async () => {
+    const keys = await todoStore.keys();
+    const todos = (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
+
+    return await Promise.all(
+      todos.map((todo: Todo) => {
+        if (todo.deletedAt) {
+          return todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true });
+        }
+      })
+    );
   },
 };
 

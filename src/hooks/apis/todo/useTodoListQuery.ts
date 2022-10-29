@@ -1,31 +1,30 @@
-import { queryClient } from '@/shared/utils/queryClient';
 import { useCallback } from 'react';
 import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { todoStore } from '@/store/forage';
+import { queryClient } from '@/shared/utils/queryClient';
 import { Todo, TodoStatistics } from '@/shared/types/todo';
 import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 
-export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
-  return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
-    onSuccess: async (data: any) => {
-      console.log(data);
-
-      // 전체를 초기화 시켜줄 필요가 있는지는 생각해볼 필요가 있음
-      await todoStore.clear();
-      await data.forEach(async (todo: Todo) => {
-        await todoStore.setItem(todo.id, todo);
-      });
-    },
+export const useSoftDeletedTodoList = () => {
+  return useQuery(['todos', 'deleted'], todoService.getTodosFromIndexedDB, {
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt && !todo.offlineForceDeleted), []),
   });
 };
 
-export const useSoftDeletedTodoList = () => {
+export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> =>
+  useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+    select: useCallback(
+      (todos: Todo[]) =>
+        todos.filter((todo) => !todo.deletedAt && !todo.done).sort((a: any, b: any) => a.index - b.index),
+      []
+    ),
+  });
+
+export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt), []),
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
   });
 };
 
@@ -33,7 +32,7 @@ export const useLogbookTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
     select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.done && !todo.deletedAt), []),
     onSuccess: (data: any) => {
-      console.log(data, ' 먼데');
+      data;
     },
   });
 };
@@ -73,5 +72,14 @@ export const useTodoListStatistics = () => {
       }
     },
     initialData: { logbook: 0, trash: 0, inbox: 0, map: 0 },
+  });
+};
+
+export const useUpcommingTodoList = () => {
+  return useQuery(['todos'], todoService.getTodos, {
+    select: useCallback(
+      (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
+      []
+    ),
   });
 };

@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["node", "jest", "@types/testing-library__jest-dom", "@types/navermaps"],
     "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

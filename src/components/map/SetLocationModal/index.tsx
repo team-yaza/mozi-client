@@ -10,20 +10,23 @@ import { useInput } from '@/hooks/useInput';
 interface SetLocationModalProps {
   isOpened: boolean;
   onClose: () => void;
-  updateLocationName: (locationName: string) => void;
+  createTodo: ({ title, locationName }: { title: string; locationName: string }) => void;
 }
 
-const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, updateLocationName }) => {
+const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, createTodo }) => {
   const [locationName, onChangeLocationNameHandler] = useInput('');
+  const [title, onChangeTitleHandler] = useInput('');
   const locationNameInputRef = useRef<HTMLInputElement>(null);
+  const titleInputRef = useRef<HTMLInputElement>(null);
   const locationInputId = useId();
+  const titleInputId = useId();
 
   useLayoutEffect(() => {
     let timer: NodeJS.Timeout;
 
     if (isOpened) {
       timer = setTimeout(() => {
-        locationNameInputRef.current?.focus();
+        titleInputRef.current?.focus();
       }, TRANSITION_DELAY);
     }
 
@@ -33,14 +36,24 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
   }, [isOpened]);
 
   const onConfirm = () => {
-    updateLocationName(locationName);
+    createTodo({ title, locationName });
     onClose();
   };
 
   return (
     <Modal isOpened={isOpened} onClose={onClose} onConfirm={onConfirm}>
       <ContentContainer>
-        <Title htmlFor={locationInputId}>🚩 장소의 이름을 입력해주세요.</Title>
+        <Title htmlFor={titleInputId}>🚩 Create New Todo !!</Title>
+        <CommonTextInput
+          id={titleInputId}
+          ref={titleInputRef}
+          placeholder="New Todo"
+          spellCheck={false}
+          value={title}
+          onChange={onChangeTitleHandler}
+          supportsMaxLength
+          maxLength={LOCATION_INPUT_LENGTH}
+        />
         <CommonTextInput
           id={locationInputId}
           ref={locationNameInputRef}

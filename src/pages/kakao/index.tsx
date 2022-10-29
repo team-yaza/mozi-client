@@ -3,9 +3,13 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/nextjs';
 
 import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
-import Spinner from '@/components/common/Spinner';
+import { toastError, toastSuccess } from '@/shared/utils/toast';
+import { LOGIN_FAIL, LOGIN_SUCCESS } from '@/shared/constants/dialog';
+import { Spinner } from '@/components/common';
+import Head from 'next/head';
 
 const Kakao: NextPage = () => {
   const router = useRouter();
@@ -22,8 +26,6 @@ const Kakao: NextPage = () => {
       client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
     };
 
-    console.log('data: ', data);
-
     const queryString = Object.entries(data)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
@@ -39,19 +41,34 @@ const Kakao: NextPage = () => {
         const jwtToken = await sendAccessTokenToServerAndGetJWT(response.data.access_token);
         document.cookie = 'token=' + jwtToken;
 
-        if (jwtToken) router.push('/');
+        if (jwtToken) {
+          router.push('/');
+          toastSuccess(LOGIN_SUCCESS);
+        }
       } catch (e) {
-        console.log(e);
+        toastError(LOGIN_FAIL);
+        router.push('/login');
+
+        Sentry.captureException(e);
       }
     })();
   }, []);
+
   return (
-    <Container>
-      <Spinner />
-    </Container>
+    <>
+      <Head>
+        <title>MOZI | 카카오 로그인</title>
+      </Head>
+      <Container>
+        <Spinner />
+      </Container>
+    </>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default Kakao;

@@ -26,9 +26,12 @@ jobs:
           NEXT_PUBLIC_KAKAO_REDIRECT_URI: ${{secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI}}
           NEXT_PUBLIC_KAKAO_REST_API_KEY: ${{secrets.NEXT_PUBLIC_KAKAO_REST_API_KEY}}
           NEXT_PUBLIC_KAKAO_CLIENT_SECRET: ${{secrets.NEXT_PUBLIC_KAKAO_CLIENT_SECRET}}
+          NEXT_PUBLIC_SENTRY_DSN: ${{secrets.NEXT_PUBLIC_SENTRY_DSN}}
           AUTH_SECRET: ${{secrets.AUTH_SECRET}}
           KAKAO_SECRET: ${{secrets.KAKAO_SECRET}}
           JWT_SECRET: ${{secrets.JWT_SECRET}}
+          SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+
         run: |
           echo "NEXT_PUBLIC_NAVER_CLIENT_ID=$NEXT_PUBLIC_NAVER_CLIENT_ID" > .env.local
           echo "NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY=$NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY" >> .env.local
@@ -38,6 +41,8 @@ jobs:
           echo "KAKAO_SECRET=$KAKAO_SECRET" >> .env.local
           echo "AUTH_SECRET=$AUTH_SECRET" >> .env.local
           echo "JWT_SECRET=$JWT_SECRET" >> .env.local
+          echo -e "[auth]\ntoken=$SENTRY_AUTH_TOKEN" >.sentryclirc
+
           docker build -f Dockerfile -t hancihu/mozi-client .
           docker push hancihu/mozi-client
 

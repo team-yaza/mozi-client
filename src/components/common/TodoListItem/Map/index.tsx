@@ -5,7 +5,7 @@ import { useNaverMap } from '@/hooks/useNaverMap';
 import { TodoUpdateRequest } from '@/shared/types/todo';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
-import SetLocationModal from '@/components/map/SetLocationModal';
+import SetLocationModal from '@/components/common/SetLocationModal';
 import { Container, SpinnerContainer, ConfirmContainer } from './styles';
 
 interface MapProps {

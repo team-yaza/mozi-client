@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { theme } from '@/styles/theme';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  margin-bottom: 1rem;
+  padding-left: 2rem;
 `;
 
 export const DefinedContainer = styled.div`
@@ -23,6 +24,8 @@ export const UndefinedContainer = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
+
+  stroke: ${theme.colors.grey7};
 `;
 
 export const UndefinedOption = styled.div`
@@ -30,4 +33,6 @@ export const UndefinedOption = styled.div`
 
   width: 2.5rem;
   height: 2.5rem;
+
+  stroke: ${theme.colors.grey3};
 `;

@@ -29,18 +29,18 @@ export const useNaverMap = () => {
   }, [coords]);
 
   useEffect(() => {
-    let listeners: naver.maps.MapEventListener;
+    let onMapLoadedListeners: naver.maps.MapEventListener;
 
     const onMapLoaded = () => {
       setIsMapLoading(false);
     };
 
     if (naverMap) {
-      listeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
+      onMapLoadedListeners = naver.maps.Event.addListener(naverMap, 'tilesloaded', onMapLoaded);
     }
 
     return () => {
-      naverMap?.removeListener(listeners);
+      naverMap?.removeListener(onMapLoadedListeners);
     };
   }, [naverMap]);
 

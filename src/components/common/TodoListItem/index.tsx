@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -7,9 +7,9 @@ import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { TodoUpdateRequest } from '@/shared/types/todo';
-import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
-import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer } from './styles';
 import { debounce } from '@/shared/utils/debounce';
+import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
+import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer, Icons } from './styles';
 
 interface TodoListItemProps {
   id: string;
@@ -23,9 +23,10 @@ interface TodoListItemProps {
   done: boolean;
   index: number;
   isFocused?: boolean;
-  setIsFocused: (index: number) => void;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
-  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
+  setIsFocused: Dispatch<SetStateAction<number>>;
+  setIsEditing?: Dispatch<SetStateAction<number>>;
+  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
@@ -41,6 +42,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   isFocused,
   locationName,
   setIsFocused,
+  setIsEditing,
   updateTodo,
   deleteTodo,
 }) => {
@@ -54,17 +56,19 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     setIsFocused(-1);
     setIsMapOpened(false);
     setIsDoubleClicked(false);
-  }, []);
+  }, [setIsFocused, setIsMapOpened, setIsDoubleClicked]);
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
   useEffect(() => {
     if (done) setIsChecked(true);
-  }, []);
+  }, [setIsChecked]);
 
   useEffect(() => {
-    const deleteTodoHandler = () => {
-      deleteTodo(id);
+    const deleteTodoHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        deleteTodo(id);
+      }
     };
 
     if (isFocused) {
@@ -74,17 +78,26 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     return () => document.removeEventListener('keydown', deleteTodoHandler);
   }, [id, deleteTodo, isFocused]);
 
+  useEffect(() => {
+    if (isDoubleClicked && setIsEditing) setIsEditing(index);
+  }, [isDoubleClicked, setIsEditing]);
+
   const onClickHandler = useCallback(() => {
+    if (isDoubleClicked) return;
+
     setIsFocused(index);
-  }, [index, setIsFocused]);
+  }, [index, setIsFocused, isDoubleClicked]);
 
-  const onDoubleClickHandler = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
+  const onDoubleClickHandler = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
 
-    setIsFocused(-1);
-    setIsMapOpened(false);
-    setIsDoubleClicked((prevState) => !prevState);
-  }, []);
+      setIsFocused(-1);
+      setIsMapOpened(false);
+      setIsDoubleClicked((prevState) => !prevState);
+    },
+    [setIsFocused, setIsMapOpened, setIsDoubleClicked]
+  );
 
   const onCheckHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -92,8 +105,18 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       setIsChecked((prevState) => !prevState);
       debounce(() => updateTodo({ id, done: !done }), 500)();
     },
-    [done]
+    [done, setIsChecked]
   );
+
+  const renderIcons = () => {
+    const icons = [];
+
+    if (locationName) icons.push(<PLACE />);
+    if (alarmDate) icons.push(<CALENDAR />);
+    if (dueDate) icons.push(<DEADLINE />);
+
+    return icons.map((icon) => <IconContainer>{icon}</IconContainer>);
+  };
 
   return (
     <Container
@@ -108,22 +131,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 
       <MainContainer>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
-        <Title id={id} title={title} isDoubleClicked={isDoubleClicked} updateTodo={updateTodo} />
-        {!isDoubleClicked && locationName && (
-          <IconContainer>
-            <PLACE focused={true} />
-          </IconContainer>
-        )}
-        {!isDoubleClicked && alarmDate && (
-          <IconContainer>
-            <CALENDAR focused={true} />
-          </IconContainer>
-        )}
-        {!isDoubleClicked && dueDate && (
-          <IconContainer>
-            <DEADLINE focused={true} />
-          </IconContainer>
-        )}
+        <Title
+          id={id}
+          title={title}
+          isDoubleClicked={isDoubleClicked}
+          setIsDoubleClicked={setIsDoubleClicked}
+          updateTodo={updateTodo}
+        />
+
+        {!isDoubleClicked && <Icons>{renderIcons()}</Icons>}
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
@@ -131,7 +147,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description id={id} description={description} updateTodo={updateTodo} />
+            <Description
+              id={id}
+              description={description}
+              setIsDoubleClicked={setIsDoubleClicked}
+              updateTodo={updateTodo}
+            />
           </DescriptionContainer>
           <Options
             id={id}

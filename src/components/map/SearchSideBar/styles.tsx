@@ -13,16 +13,16 @@ export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
   z-index: 99999;
 
   transform: ${({ isSearchBarOpen }) => !isSearchBarOpen && 'translateX(-36rem)'};
-  transition: transform 250ms ease-in-out;
+
+  background: ${({ theme }) => theme.color.sidebar};
+  transition: background-color 0.3s, transform 250ms ease-in-out;
 `;
 
 export const SearchContainer = styled.div<{ isSeraching?: boolean }>`
   position: relative;
   width: 100%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexCenter};
 
   margin-top: 5rem;
 
@@ -41,14 +41,20 @@ export const SearchInput = styled.input`
 
   padding-left: 3.5rem;
 
-  border: 0.1rem solid ${theme.colors.grey};
+  border: 0.1rem solid ${({ theme }) => theme.color.sidebar_right_border};
   border-radius: 0.8rem;
 
   background-image: url('/assets/svgs/search.svg');
   background-repeat: no-repeat;
   background-position: 1rem center;
   background-size: 2rem 2rem;
+  background-color: ${({ theme }) => theme.color.recent_search_background};
+  caret-color: ${({ theme }) => theme.color.white};
+  color: ${({ theme }) => theme.color.white};
+  transition: background-color 0.3s, caret-color 0.3s, color 0.3s, border 0.3s;
   outline: none;
+
+  font-size: 1.6rem;
 
   ::placeholder {
     color: #aeaeae;
@@ -58,17 +64,19 @@ export const SearchInput = styled.input`
 export const SearchPlaceResultContainer = styled.div<{ isSeraching?: boolean }>`
   display: ${({ isSeraching }) => (isSeraching ? 'block' : 'none')};
 
-  margin-inline: 2rem;
+  padding-inline: 2rem;
   padding-bottom: 1rem;
 
   background: white;
 
-  border-bottom: 0.1rem solid ${theme.colors.grey};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.sidebar_right_border};
+
+  background-color: ${({ theme }) => theme.color.recent_search_background};
 `;
 
 export const SearchPlaceResultHeading = styled.h3`
-  margin-top: 2.1rem;
-  margin-bottom: 1.1rem;
+  padding-top: 2.1rem;
+  padding-bottom: 1.1rem;
 
   color: ${theme.colors.darkGrey};
 `;
@@ -95,6 +103,8 @@ export const SearchPlaceResultItem = styled.li`
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  color: ${({ theme }) => theme.color.white};
+  transition: color 0.3s;
 `;
 
 export const RecentSearchContainer = styled.div``;
@@ -118,7 +128,8 @@ export const SideBarToggleButton = styled.button`
   border-top-right-radius: 0.7rem;
   border-bottom-right-radius: 0.7rem;
 
-  background-color: white;
+  background-color: ${({ theme }) => theme.color.sidebar};
+  transition: background-color 0.3s;
 `;
 
 export const IconContainer = styled.div<{ isSearchBarOpen?: boolean }>`
@@ -137,19 +148,19 @@ export const SearchResultContainer = styled.div`
   width: 30rem;
   top: 3.6rem;
 
-  border: 0.1rem solid ${theme.colors.grey};
+  border: 0.1rem solid ${({ theme }) => theme.color.sidebar_right_border};
   border-bottom-right-radius: 0.7rem;
   border-bottom-left-radius: 0.7rem;
   background: white;
+
+  transition: border 0.3s;
 `;
 
 export const SearchTodoContainer = styled.div`
+  height: 3rem;
   padding-inline: 1.6rem;
   padding-bottom: 1.6rem;
-  background: white;
 
-  border-bottom-right-radius: 0.7rem;
-  border-bottom-left-radius: 0.7rem;
-
-  height: 30px;
+  background-color: ${({ theme }) => theme.color.recent_search_background};
+  transition: background-color 0.3s;
 `;
