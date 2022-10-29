@@ -1,0 +1,15 @@
+# git & github
+.git
+.github
+
+# husky
+.husky
+
+#cypress
+cypress
+
+#certbot
+data
+
+#nginx setting
+nginx
