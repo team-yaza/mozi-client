@@ -14,6 +14,8 @@ declare module 'styled-components' {
       sidebar_line: string;
       sidebar_arrow_icon: string;
       sidebar_menu_background: string;
+      recent_search_background: string;
+      recent_search_button: string;
       logbook_background: string;
       todo_background: string;
       todo_checkbox: string;
