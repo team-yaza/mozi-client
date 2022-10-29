@@ -184,20 +184,16 @@ const todoService = {
     }
   },
   forceDeleteAllTodosAtTrash: async () => {
-    try {
-      const keys = await todoStore.keys();
-      const todos = (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
+    const keys = await todoStore.keys();
+    const todos = (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
 
-      return await Promise.all(
-        todos.map((todo: Todo) => {
-          if (todo.deletedAt) {
-            todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true });
-          }
-        })
-      );
-    } catch (error) {
-      Sentry.captureException(error);
-    }
+    return await Promise.all(
+      todos.map((todo: Todo) => {
+        if (todo.deletedAt) {
+          return todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true });
+        }
+      })
+    );
   },
 };
 

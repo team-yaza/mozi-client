@@ -22,6 +22,9 @@ export interface Todo {
   deleted?: boolean;
 
   offline?: boolean;
+  offlineDeleted?: boolean;
+  offlineForceDeleted?: boolean;
+  forceDeleted?: boolean;
 }
 
 export interface TodoSuccessResponse {

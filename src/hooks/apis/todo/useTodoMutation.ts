@@ -181,8 +181,10 @@ export const useForceDeleteTodoMutation = () =>
   });
 
 export const useDeleteAllTodosMutation = () =>
-  useMutation(() => todoService.deleteAllTodos(), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
+  useMutation(() => todoService.forceDeleteAllTodosAtTrash(), {
+    onSuccess: async () => {
+      queryClient.setQueriesData(['todos', 'deleted'], []);
+
+      await syncTodos();
     },
   });
