@@ -97,12 +97,6 @@ const todoService = {
   getTodosFromIndexedDB: async () => {
     const todos = await fetcher('get', '/todos');
 
-    if (!todos || todos.length === 0) {
-      const keys = await todoStore.keys();
-
-      return await Promise.all(keys.map((key) => todoStore.getItem(key)));
-    }
-
     try {
       await todoStore.clear();
       return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
@@ -112,6 +106,7 @@ const todoService = {
 
     const keys = await todoStore.keys();
 
+    if (keys.length === 0) return [];
     return await Promise.all(keys.map((key) => todoStore.getItem(key)));
   },
   createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
@@ -172,9 +167,33 @@ const todoService = {
 
       return await todoStore.setItem(id, { ...todo, deletedAt: Date.now(), offlineDeleted: true });
     } catch (error) {
+      toastError(TODO_DELETE_FAILED);
       Sentry.captureException(error);
-      console.log(TODO_DELETE_FAILED);
     }
+  },
+  forceDeleteTodoAtIndexedDB: async () => {
+    try {
+      const keys = await todoStore.keys();
+      const todos = await Promise.all(keys.map((key) => todoStore.getItem(key)));
+
+      return await Promise.all(
+        todos.map((todo: any) => todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true }))
+      );
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  },
+  forceDeleteAllTodosAtTrash: async () => {
+    const keys = await todoStore.keys();
+    const todos = (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
+
+    return await Promise.all(
+      todos.map((todo: Todo) => {
+        if (todo.deletedAt) {
+          return todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true });
+        }
+      })
+    );
   },
 };
 

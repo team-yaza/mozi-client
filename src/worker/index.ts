@@ -20,8 +20,8 @@ cleanupOutdatedCaches();
 
 const ALARM_DISTANCE_STANDARD = 1000; //1 km
 const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
-const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
-// const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
+// const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
+const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
 let token = '';
 
@@ -48,7 +48,18 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 
           await Promise.all(
             todos.map(async (todo: any) => {
-              if (todo.offline) {
+              if (todo.offlineForceDeleted) {
+                const res = await fetch(`${PRODUCTION_SERVER}/todos/force/${todo.id}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                });
+                if (res.status === 200) {
+                  await todoStore.removeItem(todo.id);
+                }
+              } else if (todo.offline) {
                 const res = await fetch(`${PRODUCTION_SERVER}/todos/sync`, {
                   method: 'POST',
                   headers: {

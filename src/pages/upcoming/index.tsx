@@ -7,14 +7,14 @@ import { AppLayout, Header, Title, TodoList } from '@/components/common';
 import { UPCOMING } from '@/components/common/Figure';
 import Calendar from '@/components/upcoming/Calendar';
 import { useUpcommingTodoList } from '@/hooks/apis/todo/useTodoListQuery';
-import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import { use_unsafe_deleteTodoMutation, use_unsafe_updateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { dateToFormatString, dateDiff } from '@/shared/utils/date';
 
 const Upcoming: NextPageWithLayout = () => {
   const [nowDate, setNowDate] = useState(new Date());
   const { data: todos } = useUpcommingTodoList();
-  const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
   return (
     <>
