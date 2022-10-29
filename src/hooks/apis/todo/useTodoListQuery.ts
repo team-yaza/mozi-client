@@ -7,6 +7,12 @@ import { Todo, TodoStatistics } from '@/shared/types/todo';
 import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 
+export const useSoftDeletedTodoList = () => {
+  return useQuery(['todos', 'deleted'], todoService.getTodosFromIndexedDB, {
+    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt && !todo.offlineForceDeleted), []),
+  });
+};
+
 export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> =>
   useQuery(['todos'], todoService.getTodosFromIndexedDB, {
     select: useCallback(
@@ -22,17 +28,10 @@ export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResp
   });
 };
 
-export const useSoftDeletedTodoList = () => {
-  return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt), []),
-  });
-};
-
 export const useLogbookTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
     select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.done && !todo.deletedAt), []),
     onSuccess: (data: any) => {
-      // console.log(data, ' 먼데');
       data;
     },
   });
