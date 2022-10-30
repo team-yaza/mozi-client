@@ -28,6 +28,7 @@ const todoService = {
     alarmDate,
     dueDate,
     locationName,
+    deletedAt,
   }: TodoUpdateRequest) => {
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, {
@@ -39,6 +40,7 @@ const todoService = {
         done,
         alarmDate,
         dueDate,
+        deletedAt,
       });
       if ((locationName && longitude && latitude) || alarmDate)
         await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
