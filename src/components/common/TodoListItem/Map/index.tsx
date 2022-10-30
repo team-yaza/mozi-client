@@ -26,6 +26,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           setCoords({ latitude: coords.latitude, longitude: coords.longitude });
+          setMarkerCoords({ latitude: coords.latitude, longitude: coords.longitude });
         },
         (error) => console.error(error),
         { enableHighAccuracy: true }

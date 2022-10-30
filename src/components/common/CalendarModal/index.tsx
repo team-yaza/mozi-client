@@ -20,9 +20,10 @@ import {
   HourInput,
   MinuteInput,
 } from './styles';
+import { Todo } from '@/shared/types/todo';
 
 interface CalendarModalProps {
-  id: string;
+  todo: Todo;
   date: Date;
   type: 'alarm' | 'due';
   isCalendarModalOpen: boolean;
@@ -36,7 +37,7 @@ const SUN = 0;
 const SAT = 6;
 
 const CalendarModal: React.FC<CalendarModalProps> = ({
-  id,
+  todo,
   type,
   date,
   isCalendarModalOpen,
@@ -60,8 +61,8 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
 
   const onConfirmHandler = useCallback(() => {
     setIsCalendarModalOpen(false);
-    if (type === 'alarm') updateTodo({ id, alarmDate: nowDate });
-    else updateTodo({ id, dueDate: nowDate });
+    if (type === 'alarm') updateTodo({ ...todo, alarmDate: nowDate });
+    else updateTodo({ ...todo, dueDate: nowDate });
   }, [nowDate, type]);
 
   const onPrevArrowClickHandler = useCallback(() => {

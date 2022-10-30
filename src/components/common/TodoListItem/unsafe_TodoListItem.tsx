@@ -137,14 +137,7 @@ const TodoListItem = ({
               setIsDoubleClicked={setIsDoubleClicked}
             />
           </DescriptionContainer>
-          <Options
-            id={todo.id}
-            locationName={todo.locationName}
-            alarmDate={todo.alarmDate}
-            dueDate={todo.dueDate}
-            setIsMapOpened={setIsMapOpened}
-            updateTodo={updateTodo}
-          />
+          <Options todo={todo} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
         </>
       )}
 
