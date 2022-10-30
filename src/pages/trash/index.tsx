@@ -1,10 +1,15 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
+import { queryClient } from '@/shared/utils/queryClient';
 import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
-import { Header, Spinner, TodoList, Title, AppLayout, Footer } from '@/components/common';
+import { Header, Spinner, Title, AppLayout, Footer, DropPlaceholder } from '@/components/common';
+import TodoList from '@/components/common/TodoList/DraggableTodoList';
+import { theme } from '@/styles/theme';
 import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
@@ -14,12 +19,31 @@ import {
 } from '@/hooks/apis/todo/useTodoMutation';
 
 const Trash: NextPageWithLayout = () => {
+  const [isDragging, setIsDragging] = useState(false);
   const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { data: todos, isLoading } = useSoftDeletedTodoList();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
+  const onDragStart = useCallback(() => {
+    setIsDragging(true);
+  }, []);
+
+  const onDragEnd = async (result: DropResult) => {
+    if (!result.destination) return;
+    if (todos && result.destination.droppableId === 'restore') {
+      const items = Array.from(todos);
+
+      const [restoredItem] = items.splice(result.source.index, 1);
+
+      queryClient.setQueriesData(['todos'], items);
+      console.log(restoredItem.id);
+      updateTodo({ id: restoredItem.id, deletedAt: null });
+    }
+
+    setIsDragging(false);
+  };
   return (
     <>
       <Head>
@@ -36,9 +60,36 @@ const Trash: NextPageWithLayout = () => {
           </SpinnerContainer>
         )}
 
-        <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+          <Droppable droppableId="todos">
+            {(provided) => (
+              <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
+                <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+                {provided.placeholder}
+              </TodoListContainer>
+            )}
+          </Droppable>
 
-        <Footer createTodo={createTodo} />
+          <Droppable droppableId="restore">
+            {(provided, snapshot) => (
+              <DropPlaceholder
+                ref={provided.innerRef}
+                isDragging={isDragging}
+                active={snapshot.isDraggingOver}
+                borderColor={theme.colors.purple}
+                backgroundColor="#f3d9fa"
+                hoverColor="#cc5de8"
+                text="복원"
+                icon={<TRASH />}
+                {...provided.droppableProps}
+              >
+                {provided.placeholder}
+              </DropPlaceholder>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        {!isDragging && <Footer createTodo={createTodo} />}
       </Container>
     </>
   );
@@ -66,6 +117,11 @@ const SpinnerContainer = styled.div`
 
   width: 100%;
   height: 100%;
+`;
+
+const TodoListContainer = styled.div`
+  overflow-y: scroll;
+  flex: 1;
 `;
 
 export default Trash;
