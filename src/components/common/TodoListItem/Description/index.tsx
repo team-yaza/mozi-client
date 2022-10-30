@@ -1,22 +1,25 @@
 import { useEffect, useRef } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { TodoUpdateRequest } from '@/shared/types/todo';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
 import { debounce } from '@/shared/utils/debounce';
 import { Container } from './styles';
 
 interface DescriptionProps {
-  id: string;
+  todo: Todo;
   description?: string;
   setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
-const Description: React.FC<DescriptionProps> = ({ id, description = '', setIsDoubleClicked, updateTodo }) => {
+const Description: React.FC<DescriptionProps> = ({ todo, setIsDoubleClicked, updateTodo }) => {
   const descriptionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (descriptionRef.current && description) descriptionRef.current.innerText = description;
+    if (descriptionRef.current && todo.description) descriptionRef.current.innerText = todo.description;
   }, []);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ const Description: React.FC<DescriptionProps> = ({ id, description = '', setIsDo
   }, []);
 
   const debouncedUpdateTodo = debounce((e: React.ChangeEvent<HTMLDivElement>) => {
-    updateTodo({ id, description: e.target.innerText });
+    updateTodo({ ...todo, description: e.target.innerText });
   }, 300);
 
   const onInputDescription = (e: React.ChangeEvent<HTMLDivElement>) => {

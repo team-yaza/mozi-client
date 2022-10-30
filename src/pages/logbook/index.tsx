@@ -7,16 +7,16 @@ import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common'
 import { LOGBOOK } from '@/components/common/Figure';
 import { useLogbookTodoList } from '@/hooks/apis/todo/useTodoListQuery';
 import {
-  useDeleteTodoMutation,
-  useUpdateTodoMutation,
+  use_unsafe_deleteTodoMutation,
   use_unsafe_createTodoMutation,
+  use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 
 const Logbook: NextPageWithLayout = () => {
   const { data: todos } = useLogbookTodoList();
   const { mutate: createTodo } = use_unsafe_createTodoMutation();
-  const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
   return (
     <>

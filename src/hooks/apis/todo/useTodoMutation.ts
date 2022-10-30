@@ -25,9 +25,7 @@ export const use_unsafe_createTodoMutation = () =>
     {
       onSuccess: async (data) => {
         queryClient.setQueriesData(['todos'], (oldData: any) => {
-          if (oldData) {
-            return [data, ...oldData];
-          }
+          if (oldData) return [...oldData, data];
 
           return [data];
         });
@@ -157,17 +155,6 @@ export const useUpdateTodoMutation = () =>
       },
     }
   );
-
-export const useDeleteTodoMutation = () =>
-  useMutation((id: string) => todoService.deleteTodo(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
-      queryClient.invalidateQueries(['statistics']);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
 
 export const useForceDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.forceDeleteTodo(id), {

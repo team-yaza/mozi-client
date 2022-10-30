@@ -1,13 +1,16 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { Container, Header } from './styles';
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
 import TodoList from '@/components/common/TodoList';
 
 interface MapTodoListProps {
   todos?: Todo[];
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
-  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
 const MapTodoList = ({ todos, updateTodo, deleteTodo }: MapTodoListProps) => {

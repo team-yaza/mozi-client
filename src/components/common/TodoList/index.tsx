@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
-import TodoListItem from '@/components/common/TodoListItem';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
+import TodoListItem from '@/components/common/TodoListItem/unsafe_TodoListItem';
 import { Container } from './styles';
 
 interface TodoListProps {
   todos?: Todo[];
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<any, any, any, any>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
@@ -45,15 +48,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos = [], updateTodo, deleteTodo 
       {todos.map((todo, index) => (
         <TodoListItem
           key={todo.id}
-          id={todo.id}
-          title={todo.title}
-          description={todo.description}
-          longitude={todo.longitude}
-          latitude={todo.latitude}
-          locationName={todo.locationName}
-          alarmDate={todo.alarmDate}
-          dueDate={todo.dueDate}
-          done={todo.done}
+          todo={todo}
           index={index}
           isFocused={isFocused === index}
           setIsFocused={setIsFocused}

@@ -64,21 +64,7 @@ const todoService = {
       dueDate,
     });
   },
-  deleteTodo: async (id: string) => {
-    try {
-      await fetcher('delete', `/todos/${id}`);
-    } catch (error) {
-      console.error(error); // network error
 
-      await syncTodos();
-    }
-    try {
-      const todo = (await todoStore.getItem(id)) as Todo;
-      await todoStore.setItem(id, { ...todo, deleted: true, id });
-    } catch (error) {
-      console.log(error);
-    }
-  },
   forceDeleteTodo: async (id: string) => {
     try {
       await fetcher('delete', `/todos/force/${id}`);
@@ -95,13 +81,12 @@ const todoService = {
     }
   },
   getTodosFromIndexedDB: async () => {
-    const todos = await fetcher('get', '/todos');
-
     try {
+      const todos = await fetcher('get', '/todos');
       await todoStore.clear();
       return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
     } catch (error) {
-      console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
+      // console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
     }
 
     const keys = await todoStore.keys();
