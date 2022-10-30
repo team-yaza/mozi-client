@@ -23,10 +23,9 @@ const Home: NextPageWithLayout = () => {
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
-  console.log(todos);
-  const onDragStart = () => {
+  const onDragStart = useCallback(() => {
     setIsDragging(true);
-  };
+  }, []);
 
   const onClickHandler = useCallback(() => {
     createTodo({});
@@ -34,9 +33,6 @@ const Home: NextPageWithLayout = () => {
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
-
-    console.log(result.source.index, '출발지');
-    console.log(result.destination.index, '목적지');
 
     if (todos && result.destination.droppableId === 'todos') {
       const items = Array.from(todos);
