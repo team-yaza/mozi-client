@@ -46,6 +46,7 @@ export interface TodoUpdateRequest {
   alarmDate?: Date | null;
   dueDate?: Date | null;
   description?: string;
+  deletedAt?: Date | null;
 }
 
 export interface TodoCreateRequest {
