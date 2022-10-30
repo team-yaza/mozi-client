@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { TodoUpdateRequest } from '@/shared/types/todo';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import { Chip, CalendarModal } from '@/components/common';
@@ -14,7 +14,7 @@ interface OptionsProps {
   alarmDate?: string;
   dueDate?: string;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
 const Options: React.FC<OptionsProps> = ({ id, locationName, alarmDate, dueDate, setIsMapOpened, updateTodo }) => {

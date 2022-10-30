@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Modal from '@/components/common/Modal';
 import { Container, Header, Content } from './styles';
 import { UseMutateFunction } from '@tanstack/react-query';
-import { TodoUpdateRequest } from '@/shared/types/todo';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { useCallback } from 'react';
 
 interface DeleteModalProps {
@@ -10,7 +10,7 @@ interface DeleteModalProps {
   type: 'alarm' | 'due' | 'location';
   isOpened: boolean;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({ type, id, isOpened, setIsOpened, updateTodo }) => {

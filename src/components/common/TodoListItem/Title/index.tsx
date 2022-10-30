@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { debounce } from '@/shared/utils/debounce';
-import { TodoUpdateRequest } from '@/shared/types/todo';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { Container } from './styles';
 
 interface TitleProps {
@@ -10,7 +10,7 @@ interface TitleProps {
   title?: string;
   isDoubleClicked: boolean;
   setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
 const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, setIsDoubleClicked, updateTodo }) => {

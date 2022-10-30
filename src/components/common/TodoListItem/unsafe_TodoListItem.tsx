@@ -6,7 +6,10 @@ import Description from './Description/index';
 import Map from './Map/index';
 import Options from './Options/index';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { debounce } from '@/shared/utils/debounce';
 import { CheckBox, Container, DescriptionContainer, IconContainer, Icons, MainContainer } from './styles';
@@ -17,7 +20,7 @@ interface TodoListItemProps {
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
   setIsEditing: Dispatch<SetStateAction<number>>;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
@@ -129,6 +132,7 @@ const TodoListItem = ({
         <>
           <DescriptionContainer>
             <Description
+              todo={todo}
               id={todo.id}
               description={todo.description}
               updateTodo={updateTodo}

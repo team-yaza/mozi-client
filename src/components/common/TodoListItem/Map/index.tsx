@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { TodoUpdateRequest } from '@/shared/types/todo';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
 import SetLocationModal from '@/components/common/SetLocationModal';
@@ -12,7 +12,7 @@ interface MapProps {
   id: string;
   longitude?: number;
   latitude?: number;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
