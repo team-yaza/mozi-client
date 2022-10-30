@@ -31,7 +31,7 @@ interface SearchSideBarProps {
   setCoords: Dispatch<SetStateAction<Location | undefined>>;
   todos?: Todo[];
   updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
-  deleteTodo: UseMutateFunction<void, unknown, string, unknown>;
+  deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
 const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateTodo, deleteTodo }) => {

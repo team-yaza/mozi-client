@@ -64,21 +64,7 @@ const todoService = {
       dueDate,
     });
   },
-  deleteTodo: async (id: string) => {
-    try {
-      await fetcher('delete', `/todos/${id}`);
-    } catch (error) {
-      console.error(error); // network error
 
-      await syncTodos();
-    }
-    try {
-      const todo = (await todoStore.getItem(id)) as Todo;
-      await todoStore.setItem(id, { ...todo, deleted: true, id });
-    } catch (error) {
-      console.log(error);
-    }
-  },
   forceDeleteTodo: async (id: string) => {
     try {
       await fetcher('delete', `/todos/force/${id}`);

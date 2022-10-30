@@ -9,15 +9,15 @@ import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
-  useUpdateTodoMutation,
   use_unsafe_createTodoMutation,
+  use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 
 const Trash: NextPageWithLayout = () => {
   const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { data: todos, isLoading } = useSoftDeletedTodoList();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
-  const { mutate: updateTodo } = useUpdateTodoMutation();
+  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
   return (
