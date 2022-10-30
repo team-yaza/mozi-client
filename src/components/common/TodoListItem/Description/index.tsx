@@ -9,7 +9,6 @@ import { debounce } from '@/shared/utils/debounce';
 import { Container } from './styles';
 
 interface DescriptionProps {
-  id: string;
   todo: Todo;
   description?: string;
   setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;

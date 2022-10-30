@@ -7,25 +7,22 @@ import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
 import SetLocationModal from '@/components/common/SetLocationModal';
 import { Container, SpinnerContainer, ConfirmContainer } from './styles';
+import { Todo } from '@/shared/types/todo';
 
 interface MapProps {
-  id: string;
-  longitude?: number;
-  latitude?: number;
+  todo: Todo;
   updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
-  setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
+const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const { naverMap, isMapLoading, coords, markerCoords, setMarkerCoords, setCoords, createMarker, createPosition } =
     useNaverMap();
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   useEffect(() => {
-    if (longitude && latitude) setCoords({ longitude, latitude }); // 좌표가 존재하면 거기를 가운데로
+    if (todo.longitude && todo.latitude) setCoords({ longitude: todo.longitude, latitude: todo.latitude });
     else {
-      // 존재하지 않으면 현재위치를 지도의 가운데로
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           setCoords({ latitude: coords.latitude, longitude: coords.longitude });
@@ -34,7 +31,7 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
         { enableHighAccuracy: true }
       );
     }
-  }, [longitude, latitude, setCoords]);
+  }, [todo, setCoords]);
 
   useEffect(() => {
     if (naverMap && coords) {
@@ -56,9 +53,9 @@ const Map: React.FC<MapProps> = ({ id, longitude, latitude, updateTodo }) => {
 
   const updateLocationName = useCallback(
     (locationName: string) => {
-      updateTodo({ id, locationName, latitude: markerCoords?.latitude, longitude: markerCoords?.longitude });
+      updateTodo({ ...todo, locationName, latitude: markerCoords?.latitude, longitude: markerCoords?.longitude });
     },
-    [id, markerCoords, updateTodo]
+    [todo, markerCoords, updateTodo]
   );
 
   return (

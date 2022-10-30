@@ -4,22 +4,22 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { debounce } from '@/shared/utils/debounce';
 // import { TodoUpdateRequest } from '@/shared/types/todo';
 import { Container } from './styles';
+import { Todo } from '@/shared/types/todo';
 
 interface TitleProps {
-  id: string;
-  title?: string;
+  todo: Todo;
   isDoubleClicked: boolean;
   setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
-const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, setIsDoubleClicked, updateTodo }) => {
+const Title: React.FC<TitleProps> = ({ todo, isDoubleClicked, setIsDoubleClicked, updateTodo }) => {
   const [editable, setEditable] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (titleRef.current && title) {
-      titleRef.current.innerText = title;
+    if (titleRef.current && todo.title) {
+      titleRef.current.innerText = todo.title;
     }
     // 의존성 배열 비워서 title이 자동으로 업데이트되지 않도록 해야함
   }, []);
@@ -45,7 +45,7 @@ const Title: React.FC<TitleProps> = ({ id, title = '', isDoubleClicked, setIsDou
   }, [editable, setEditable, setIsDoubleClicked]);
 
   const debouncedUpdateTodo = debounce((e: React.ChangeEvent<HTMLDivElement>) => {
-    updateTodo({ id, title: e.target.innerText });
+    updateTodo({ ...todo, title: e.target.innerText });
   }, 300);
 
   const onClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {

@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import Title from './Title/index';
-import Description from './Description/index';
-import Map from './Map/index';
-import Options from './Options/index';
+import Title from './Title';
+import Description from './Description';
+import Map from './Map';
+import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import {
   Todo,
@@ -19,7 +19,7 @@ interface TodoListItemProps {
   index: number;
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
-  setIsEditing: Dispatch<SetStateAction<number>>;
+  setIsEditing?: Dispatch<SetStateAction<number>>;
   updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
@@ -53,7 +53,7 @@ const TodoListItem = ({
 
   useEffect(() => {
     if (isDoubleClicked && setIsEditing) setIsEditing(index);
-  }, [isDoubleClicked, setIsEditing]);
+  }, [isDoubleClicked, setIsEditing, index]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsFocused(-1);
@@ -117,8 +117,7 @@ const TodoListItem = ({
       <MainContainer>
         <CheckBox checked={todo.done} onClick={onCheckHandler} />
         <Title
-          id={todo.id}
-          title={todo.title}
+          todo={todo}
           isDoubleClicked={isDoubleClicked}
           updateTodo={updateTodo}
           setIsDoubleClicked={setIsDoubleClicked}
@@ -133,7 +132,6 @@ const TodoListItem = ({
           <DescriptionContainer>
             <Description
               todo={todo}
-              id={todo.id}
               description={todo.description}
               updateTodo={updateTodo}
               setIsDoubleClicked={setIsDoubleClicked}
@@ -152,15 +150,7 @@ const TodoListItem = ({
 
       {/* <Map /> */}
 
-      {isMapOpened && (
-        <Map
-          id={todo.id}
-          updateTodo={updateTodo}
-          setIsMapOpened={setIsMapOpened}
-          longitude={todo.longitude}
-          latitude={todo.latitude}
-        />
-      )}
+      {isMapOpened && <Map todo={todo} updateTodo={updateTodo} />}
     </Container>
   );
 };
