@@ -6,6 +6,36 @@ import { queryClient } from '@/shared/utils/queryClient';
 import { Todo, TodoStatistics } from '@/shared/types/todo';
 import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
+import { ROUTES } from '@/shared/constants/routes';
+
+export const use_unsafe_TodoListQuery = (page: string) => {
+  switch (page) {
+    case ROUTES.HOME:
+      return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+        select: (todos: Todo[]) =>
+          todos.filter((todo) => !todo.done && !todo.deletedAt).sort((todoA, todoB) => todoA.index - todoB.index),
+      });
+    case ROUTES.UPCOMING:
+      return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+        select: (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
+      });
+    case ROUTES.LOGBOOK:
+      return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+        select: (todos: Todo[]) => todos.filter((todo) => todo.done && !todo.deletedAt),
+      });
+    case ROUTES.TRASH:
+      return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+        select: (todos: Todo[]) => todos.filter((todo) => todo.deletedAt),
+      });
+    case ROUTES.MAP:
+      return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
+        select: (todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude && !todo.deletedAt),
+      });
+
+    default:
+      throw new Error('적절한 QueryType이 아닙니다.');
+  }
+};
 
 export const useSoftDeletedTodoList = () => {
   return useQuery(['todos', 'deleted'], todoService.getTodosFromIndexedDB, {

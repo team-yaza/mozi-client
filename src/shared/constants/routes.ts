@@ -1,6 +1,10 @@
 export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
-  TODAY: '/today',
+  KAKAO: '/kakao',
   MAP: '/map',
+  UPCOMING: '/upcoming',
+  LOGBOOK: '/logbook',
+  TRASH: '/trash',
+  SETTING: '/setting',
 } as const;
