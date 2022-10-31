@@ -126,6 +126,7 @@ const todoService = {
     alarmDate,
     dueDate,
     locationName,
+    deletedAt,
   }: TodoUpdateRequest) => {
     try {
       // const todo = (await todoStore.getItem(id)) as Todo;
@@ -141,6 +142,7 @@ const todoService = {
         alarmDate,
         dueDate,
         locationName,
+        deletedAt,
         offline: true,
       });
     } catch (error) {
