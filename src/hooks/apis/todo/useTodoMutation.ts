@@ -48,6 +48,7 @@ export const use_unsafe_updateTodoMutation = () =>
       alarmDate,
       dueDate,
       locationName,
+      deletedAt,
     }: TodoUpdateRequest) =>
       todoService.updateTodoAtIndexedDB({
         id,
@@ -60,6 +61,7 @@ export const use_unsafe_updateTodoMutation = () =>
         alarmDate,
         dueDate,
         locationName,
+        deletedAt,
       }),
     {
       onSuccess: async (_, variables) => {
