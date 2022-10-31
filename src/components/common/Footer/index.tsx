@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { TodoCreateRequest } from '@/shared/types/todo';
@@ -29,7 +28,7 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ createTodo }) => {
   const router = useRouter();
 
-  const onClickArrowRight = useCallback(() => {
+  const onClickArrowRight = () => {
     switch (router.pathname) {
       case '/':
         router.push('/map');
@@ -58,14 +57,14 @@ const Footer: React.FC<FooterProps> = ({ createTodo }) => {
     if (router.pathname === '/') {
       router.push('/map');
     }
-  }, [router]);
+  };
 
-  const onCreateTodo = useCallback(() => {
+  const onCreateTodo = () => {
     if (createTodo) {
       createTodo({});
       toastSuccess(TODO_CREATED);
     }
-  }, [createTodo, toastSuccess]);
+  };
 
   return (
     <Container>
