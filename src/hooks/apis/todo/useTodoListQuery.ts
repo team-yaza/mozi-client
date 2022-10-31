@@ -7,6 +7,16 @@ import { Todo, TodoStatistics } from '@/shared/types/todo';
 import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 
+export const use_unsafe_TodoListQuery = (type: string) => {
+  switch (type) {
+    case 'all':
+      return 1;
+
+    default:
+      throw new Error('적절한 QueryType이 아닙니다.');
+  }
+};
+
 export const useSoftDeletedTodoList = () => {
   return useQuery(['todos', 'deleted'], todoService.getTodosFromIndexedDB, {
     select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.deletedAt && !todo.offlineForceDeleted), []),
