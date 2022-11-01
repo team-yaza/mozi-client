@@ -1,9 +1,9 @@
 ---
 name: RFC Issue Template
 about: RFC 기본으로 사용되는 템플릿입니다.
-title: "[JIRA 하위 이슈 제목]"
-labels: ""
-assignees: ""
+title: '[JIRA 하위 이슈 제목]'
+labels: ''
+assignees: ''
 ---
 
 ### 이슈 등록 전 확인사항 ( 확인하고 지워주시면 됩니다 🙂 )

@@ -6,7 +6,6 @@
     <!-- <img src="https://img.shields.io/github/v/release/ssafy-mate/ssafy-mate_front-end?color=%23068fc6" alt="GitHub release (latest by date)" /> -->
 </div>
 
-
 ## 목차
 
 1. [**서비스 소개**](#1)
@@ -34,10 +33,9 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 
 ## 기술 스택
 
-
 <p align="center">
   <img src="https://user-images.githubusercontent.com/63354527/198322381-30d774fd-f541-4ead-bc32-3b2ec81b3c64.png" alt="tech stack"/>
-</p> 
+</p>
 
 - **PWA**를 적용하여 웹에서 다운로드가 가능하도록 구현하였고, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 백그라운드 동기화 기능을 활용했습니다.
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
@@ -51,14 +49,13 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 - **Docker**를 사용하여 애플리케이션을 컨테니어화하여 배포를 진행합니다.
 - **NGINX**를 사용하여 웹서버를 구성했습니다.
 
-
 <div id="3"></div>
 
 ## 💻 실행 방법
 
 개발환경: `Node.js v16.15.1`, `MacOS Monterey 12.2.1`
-### Development Mode
 
+### Development Mode
 
 ```sh
 yarn install
@@ -66,6 +63,7 @@ yarn dev
 ```
 
 ### Production Mode
+
 ```sh
 yarn build
 yarn start
@@ -74,7 +72,6 @@ yarn start
 <div id="4"></div>
 
 ## 개발자 및 프로젝트에 도움을 주신 분들
-
 
 <table>
   <tr>
@@ -159,4 +156,3 @@ yarn start
     </td>
   </tr>
 </table>
-
