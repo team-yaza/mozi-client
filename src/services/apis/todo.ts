@@ -96,7 +96,7 @@ const todoService = {
     if (keys.length === 0) return [];
     return await Promise.all(keys.map((key) => todoStore.getItem(key)));
   },
-  createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
+  createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) => {
     try {
       const todoId = uuidv4();
       const maximumIndexAtTodoStore = await findMaximumIndexAtTodoStore();
@@ -104,6 +104,7 @@ const todoService = {
       return await todoStore.setItem(todoId, {
         id: todoId,
         locationName,
+        title,
         longitude,
         latitude,
         dueDate,
