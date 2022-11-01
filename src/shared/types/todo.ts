@@ -21,7 +21,7 @@ export interface Todo {
   updated?: boolean;
   deleted?: boolean;
 
-  offline?: boolean;
+  offline?: 'created' | 'updated' | 'deleted' | 'forceDeleted';
   offlineDeleted?: boolean;
   offlineForceDeleted?: boolean;
   forceDeleted?: boolean;

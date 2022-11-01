@@ -90,8 +90,6 @@ self.addEventListener('sync', async (event: SyncEvent) => {
           return Promise.reject();
         }
 
-        // console.log('실행이안되는것같은데?');
-
         // const temp = await Promise.all(
         //   todos.map((todo: any) => {
         //     if (todo.offline) {
@@ -127,9 +125,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
         //         Authorization: `Bearer ${token}`,
         //       },
         //     });
-        //     console.log('fetch 후');
         //   }
-        //   console.log('완전 끝');
         // });
       })()
     );
@@ -137,7 +133,6 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 });
 
 // self.addEventListener('sync', async (event: SyncEvent) => {
-//   console.log('sync 이벤트 발생');
 //   if (event.tag === SYNC_TODOS) {
 //     console.log('service worker sync-todo event');
 //     event.waitUntil(
@@ -177,14 +172,11 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 //             });
 //           }
 //         });
-
-//         //     console.log(todo.id, 'updatedtododi');
 //         //     // axios.patch(`https://mozi-server.com/api/v1/todos/${todo.id}`, {
 //         //     //   ...todo,
 //         //     // });
 //         //     // a();
 
-//         //     console.log('업데이트');
 //         //     // await fetcher('patch', `/todos/${todo.id}`, {
 //         //     //   title: todo.title,
 //         //     //   longitude: todo.location?.coordinates[0],
@@ -197,8 +189,6 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 //         // });
 //       })()
 //     );
-
-//     console.log('sync 완료');
 //   }
 // });
 
@@ -214,7 +204,6 @@ const getSub = async () => {
 };
 
 self.addEventListener('message', (event) => {
-  // 웹 페이지로부터 토큰을 받음
   if (event.data.type === TOKEN) {
     token = event.data.token;
     return;
