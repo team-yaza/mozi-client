@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  run-cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn
+
+      # - name: Generate environment json file
+      #   run: |
+      #     echo "$CYPRESS_ENV_JSON" >> cypress.env.json
+      #   env:
+      #     CYPRESS_ENV_JSON: ${{ secrets.CYPRESS_ENV_JSON }}
+
+      - name: E2E test - chrome
+        uses: cypress-io/github-action@v4
+        with:
+          install: false
+          start: yarn dev
+          browser: chrome
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

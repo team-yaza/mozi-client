@@ -133,3 +133,6 @@ storybook-static
 
 # Sentry
 .sentryclirc
+
+# Cypress
+videos/
