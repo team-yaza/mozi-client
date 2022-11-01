@@ -1,12 +1,15 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import Title from './Title/index';
-import Description from './Description/index';
-import Map from './Map/index';
-import Options from './Options/index';
+import Title from './Title';
+import Description from './Description';
+import Map from './Map';
+import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { debounce } from '@/shared/utils/debounce';
 import { CheckBox, Container, DescriptionContainer, IconContainer, Icons, MainContainer } from './styles';
@@ -16,8 +19,8 @@ interface TodoListItemProps {
   index: number;
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
-  setIsEditing: Dispatch<SetStateAction<number>>;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  setIsEditing?: Dispatch<SetStateAction<number>>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
@@ -50,7 +53,7 @@ const TodoListItem = ({
 
   useEffect(() => {
     if (isDoubleClicked && setIsEditing) setIsEditing(index);
-  }, [isDoubleClicked, setIsEditing]);
+  }, [isDoubleClicked, setIsEditing, index]);
 
   const onClickOutsideHandler = useCallback(() => {
     setIsFocused(-1);
@@ -114,8 +117,7 @@ const TodoListItem = ({
       <MainContainer>
         <CheckBox checked={todo.done} onClick={onCheckHandler} />
         <Title
-          id={todo.id}
-          title={todo.title}
+          todo={todo}
           isDoubleClicked={isDoubleClicked}
           updateTodo={updateTodo}
           setIsDoubleClicked={setIsDoubleClicked}
@@ -129,34 +131,19 @@ const TodoListItem = ({
         <>
           <DescriptionContainer>
             <Description
-              id={todo.id}
+              todo={todo}
               description={todo.description}
               updateTodo={updateTodo}
               setIsDoubleClicked={setIsDoubleClicked}
             />
           </DescriptionContainer>
-          <Options
-            id={todo.id}
-            locationName={todo.locationName}
-            alarmDate={todo.alarmDate}
-            dueDate={todo.dueDate}
-            setIsMapOpened={setIsMapOpened}
-            updateTodo={updateTodo}
-          />
+          <Options todo={todo} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
         </>
       )}
 
       {/* <Map /> */}
 
-      {isMapOpened && (
-        <Map
-          id={todo.id}
-          updateTodo={updateTodo}
-          setIsMapOpened={setIsMapOpened}
-          longitude={todo.longitude}
-          latitude={todo.latitude}
-        />
-      )}
+      {isMapOpened && <Map todo={todo} updateTodo={updateTodo} />}
     </Container>
   );
 };

@@ -28,6 +28,7 @@ const todoService = {
     alarmDate,
     dueDate,
     locationName,
+    deletedAt,
   }: TodoUpdateRequest) => {
     try {
       const updatedTodo = await fetcher('patch', `/todos/${id}`, {
@@ -39,6 +40,7 @@ const todoService = {
         done,
         alarmDate,
         dueDate,
+        deletedAt,
       });
       if ((locationName && longitude && latitude) || alarmDate)
         await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
@@ -64,21 +66,7 @@ const todoService = {
       dueDate,
     });
   },
-  deleteTodo: async (id: string) => {
-    try {
-      await fetcher('delete', `/todos/${id}`);
-    } catch (error) {
-      console.error(error); // network error
 
-      await syncTodos();
-    }
-    try {
-      const todo = (await todoStore.getItem(id)) as Todo;
-      await todoStore.setItem(id, { ...todo, deleted: true, id });
-    } catch (error) {
-      console.log(error);
-    }
-  },
   forceDeleteTodo: async (id: string) => {
     try {
       await fetcher('delete', `/todos/force/${id}`);
@@ -95,13 +83,12 @@ const todoService = {
     }
   },
   getTodosFromIndexedDB: async () => {
-    const todos = await fetcher('get', '/todos');
-
     try {
+      const todos = await fetcher('get', '/todos');
       await todoStore.clear();
       return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
     } catch (error) {
-      console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
+      // console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
     }
 
     const keys = await todoStore.keys();
@@ -109,7 +96,7 @@ const todoService = {
     if (keys.length === 0) return [];
     return await Promise.all(keys.map((key) => todoStore.getItem(key)));
   },
-  createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) => {
+  createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) => {
     try {
       const todoId = uuidv4();
       const maximumIndexAtTodoStore = await findMaximumIndexAtTodoStore();
@@ -117,6 +104,7 @@ const todoService = {
       return await todoStore.setItem(todoId, {
         id: todoId,
         locationName,
+        title,
         longitude,
         latitude,
         dueDate,
@@ -139,6 +127,7 @@ const todoService = {
     alarmDate,
     dueDate,
     locationName,
+    deletedAt,
   }: TodoUpdateRequest) => {
     try {
       // const todo = (await todoStore.getItem(id)) as Todo;
@@ -154,6 +143,7 @@ const todoService = {
         alarmDate,
         dueDate,
         locationName,
+        deletedAt,
         offline: true,
       });
     } catch (error) {

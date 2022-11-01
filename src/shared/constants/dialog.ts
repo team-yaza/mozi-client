@@ -7,3 +7,4 @@ export const TODO_DELETE_FAILED = '할 일을 삭제하는데 실패했습니다
 export const SERVICE_WORKER_REGISTRATION_ERROR = '웹 사이트를 로드하는데 실패했습니다. 새로고침을 해주세요.' as const;
 export const TODO_CREATED = 'Inbox에 할 일을 추가했습니다' as const;
 export const GET_LOCATION_ERROR = '위치 정보를 가져오는데 실패했습니다' as const;
+export const QUERY_TYPE_ERROR = '적절한 QueryType이 아닙니다' as const;

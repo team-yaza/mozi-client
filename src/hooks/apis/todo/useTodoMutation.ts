@@ -15,8 +15,9 @@ import {
 
 export const use_unsafe_createTodoMutation = () =>
   useMutation(
-    ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+    ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) =>
       todoService.createTodoAtIndexedDB({
+        title,
         locationName,
         longitude,
         latitude,
@@ -25,9 +26,7 @@ export const use_unsafe_createTodoMutation = () =>
     {
       onSuccess: async (data) => {
         queryClient.setQueriesData(['todos'], (oldData: any) => {
-          if (oldData) {
-            return [data, ...oldData];
-          }
+          if (oldData) return [...oldData, data];
 
           return [data];
         });
@@ -50,6 +49,7 @@ export const use_unsafe_updateTodoMutation = () =>
       alarmDate,
       dueDate,
       locationName,
+      deletedAt,
     }: TodoUpdateRequest) =>
       todoService.updateTodoAtIndexedDB({
         id,
@@ -62,6 +62,7 @@ export const use_unsafe_updateTodoMutation = () =>
         alarmDate,
         dueDate,
         locationName,
+        deletedAt,
       }),
     {
       onSuccess: async (_, variables) => {
@@ -139,8 +140,30 @@ export const useCreateTodoMutation = () =>
 
 export const useUpdateTodoMutation = () =>
   useMutation(
-    ({ id, title, done, latitude, longitude, description, locationName, alarmDate, dueDate }: TodoUpdateRequest) =>
-      todoService.updateTodo({ id, title, done, latitude, longitude, description, locationName, alarmDate, dueDate }),
+    ({
+      id,
+      title,
+      done,
+      latitude,
+      longitude,
+      description,
+      locationName,
+      alarmDate,
+      dueDate,
+      deletedAt,
+    }: TodoUpdateRequest) =>
+      todoService.updateTodo({
+        id,
+        title,
+        done,
+        latitude,
+        longitude,
+        description,
+        locationName,
+        alarmDate,
+        dueDate,
+        deletedAt,
+      }),
     {
       onSuccess: (_, variables) => {
         queryClient.setQueriesData(['todos'], (data: any) => {
@@ -157,17 +180,6 @@ export const useUpdateTodoMutation = () =>
       },
     }
   );
-
-export const useDeleteTodoMutation = () =>
-  useMutation((id: string) => todoService.deleteTodo(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['todos']);
-      queryClient.invalidateQueries(['statistics']);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
 
 export const useForceDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.forceDeleteTodo(id), {

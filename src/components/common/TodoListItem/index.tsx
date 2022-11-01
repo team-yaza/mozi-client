@@ -6,12 +6,14 @@ import Description from './Description';
 import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import { TodoUpdateRequest } from '@/shared/types/todo';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { debounce } from '@/shared/utils/debounce';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer, Icons } from './styles';
+import { Todo } from '@/shared/types/todo';
 
 interface TodoListItemProps {
+  todo: Todo;
   id: string;
   title?: string;
   description?: string;
@@ -25,17 +27,12 @@ interface TodoListItemProps {
   isFocused?: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
   setIsEditing?: Dispatch<SetStateAction<number>>;
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
-  id,
-  title,
-  description,
-  longitude,
-  latitude,
-  done,
+  todo,
   index,
   alarmDate,
   dueDate,
@@ -61,13 +58,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
   useEffect(() => {
-    if (done) setIsChecked(true);
+    if (todo.done) setIsChecked(true);
   }, [setIsChecked]);
 
   useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
       if (e.key === 'Backspace' || e.key === 'Delete') {
-        deleteTodo(id);
+        deleteTodo(todo.id);
       }
     };
 
@@ -76,7 +73,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
 
     return () => document.removeEventListener('keydown', deleteTodoHandler);
-  }, [id, deleteTodo, isFocused]);
+  }, [todo.id, deleteTodo, isFocused]);
 
   useEffect(() => {
     if (isDoubleClicked && setIsEditing) setIsEditing(index);
@@ -103,9 +100,9 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       setIsChecked((prevState) => !prevState);
-      debounce(() => updateTodo({ id, done: !done }), 500)();
+      debounce(() => updateTodo({ ...todo, done: !todo.done }), 500)();
     },
-    [done, setIsChecked]
+    [todo.done, setIsChecked]
   );
 
   const renderIcons = () => {
@@ -132,8 +129,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       <MainContainer>
         <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title
-          id={id}
-          title={title}
+          todo={todo}
           isDoubleClicked={isDoubleClicked}
           setIsDoubleClicked={setIsDoubleClicked}
           updateTodo={updateTodo}
@@ -147,35 +143,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description
-              id={id}
-              description={description}
-              setIsDoubleClicked={setIsDoubleClicked}
-              updateTodo={updateTodo}
-            />
+            <Description todo={todo} setIsDoubleClicked={setIsDoubleClicked} updateTodo={updateTodo} />
           </DescriptionContainer>
-          <Options
-            id={id}
-            locationName={locationName}
-            alarmDate={alarmDate}
-            dueDate={dueDate}
-            setIsMapOpened={setIsMapOpened}
-            updateTodo={updateTodo}
-          />
+          <Options todo={todo} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
         </>
       )}
 
       {/* <Map /> */}
 
-      {isMapOpened && (
-        <Map
-          id={id}
-          updateTodo={updateTodo}
-          setIsMapOpened={setIsMapOpened}
-          longitude={longitude}
-          latitude={latitude}
-        />
-      )}
+      {isMapOpened && <Map todo={todo} updateTodo={updateTodo} />}
     </Container>
   );
 };

@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
 import TodoListItem from '@/components/common/TodoListItem/unsafe_TodoListItem';
 import { Container } from './styles';
 
 interface TodoListProps {
   todos?: Todo[];
-  updateTodo: UseMutateFunction<unknown, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<any, any, any, any>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 

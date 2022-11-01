@@ -3,7 +3,11 @@ import Image from 'next/image';
 import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
-import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import {
+  use_unsafe_deleteTodoMutation,
+  use_unsafe_updateTodoMutation,
+  use_unsafe_createTodoMutation,
+} from '@/hooks/apis/todo/useTodoMutation';
 import { toastError } from '@/shared/utils/toast';
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
@@ -12,20 +16,21 @@ import { AppLayout, Header } from '@/components/common';
 import { Todo } from '@/shared/types/todo';
 import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { useMapTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import { ROUTES } from '@/shared/constants/routes';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
   const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
   const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
-  const [bounds, setBounds] = useState<naver.maps.Bounds>(); // 지도의 가장자리 오브젝트
+  const [bounds, setBounds] = useState<naver.maps.Bounds>();
   const [markers, setMarkers] = useState<Array<naver.maps.Marker>>([]);
   const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
-  const { data: todos } = useMapTodoList();
-  const { mutate: createTodo } = useCreateTodoMutation();
-  const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { data: todos } = useTodoListQuery(ROUTES.MAP);
+  const { mutate: createTodo } = use_unsafe_createTodoMutation();
+  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
   const onClose = useCallback(() => {
     setIsModalOpen(false);

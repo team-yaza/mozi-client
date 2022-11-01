@@ -21,7 +21,7 @@ export interface Todo {
   updated?: boolean;
   deleted?: boolean;
 
-  offline?: boolean;
+  offline?: 'created' | 'updated' | 'deleted' | 'forceDeleted';
   offlineDeleted?: boolean;
   offlineForceDeleted?: boolean;
   forceDeleted?: boolean;
@@ -46,6 +46,7 @@ export interface TodoUpdateRequest {
   alarmDate?: Date | null;
   dueDate?: Date | null;
   description?: string;
+  deletedAt?: Date | null;
 }
 
 export interface TodoCreateRequest {

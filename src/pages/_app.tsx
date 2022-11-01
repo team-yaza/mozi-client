@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState, Suspense, useRef } from 'react';
 import { RecoilRoot } from 'recoil';
 import { Toaster } from 'react-hot-toast';
 import styled, { ThemeProvider } from 'styled-components';
@@ -17,9 +17,11 @@ import { darkTheme, lightTheme } from '@/styles/theme';
 import { getCookie } from '@/shared/utils/cookie';
 import { Location } from '@/shared/types/location';
 import { trackCurrentPosition } from '@/shared/utils/location';
-import { CHECK_DISTANCE } from '@/shared/constants/serviceWorker';
+import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
 // import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
+
+const CHECKALARM_INTERVAL = 60000;
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -39,8 +41,33 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
   const [userPosition, setUserPosition] = useState<Location>();
+  const userPositionRef = useRef<Location>({ latitude: 0, longitude: 0 });
 
   const router = useRouter();
+
+  const checkAlarm = () => {
+    if (!userPositionRef || !navigator.serviceWorker.controller) return;
+
+    sendMessageToServiceWorker({
+      type: CHECK_ALARM,
+      latitude: userPositionRef.current.latitude,
+      longitude: userPositionRef.current.longitude,
+    });
+  };
+
+  const setIntervalMinute = (interval: number) => {
+    if (!userPositionRef.current) return;
+    const now = new Date();
+    const delay = interval - (now.getTime() % interval);
+
+    const start = () => {
+      console.log('interval start');
+      checkAlarm();
+      setInterval(checkAlarm, interval);
+    };
+
+    setTimeout(start, delay);
+  };
 
   useEffect(() => {
     const getLocationSuccessCallback = (position: GeolocationPosition) => {
@@ -60,14 +87,16 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   }, [setUserPosition, trackCurrentPosition]);
 
   useEffect(() => {
-    if (userPosition && navigator.serviceWorker.controller) {
-      sendMessageToServiceWorker({
-        type: CHECK_DISTANCE,
-        latitude: userPosition.latitude,
-        longitude: userPosition.longitude,
-      });
-    }
+    if (!userPosition || !navigator.serviceWorker.controller) return;
+    console.log('location check');
+    checkAlarm();
+    userPositionRef.current.longitude = userPosition.longitude;
+    userPositionRef.current.latitude = userPosition.latitude;
   }, [userPosition]);
+
+  useEffect(() => {
+    setIntervalMinute(CHECKALARM_INTERVAL);
+  }, []);
 
   useEffect(() => {
     const token = getCookie('token');

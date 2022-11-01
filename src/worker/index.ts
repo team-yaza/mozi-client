@@ -11,6 +11,7 @@ import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/location';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 import { checkAlarm } from '../shared/utils/date';
+import { CHECK_ALARM } from '../shared/constants/serviceWorker';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -90,8 +91,6 @@ self.addEventListener('sync', async (event: SyncEvent) => {
           return Promise.reject();
         }
 
-        // console.log('실행이안되는것같은데?');
-
         // const temp = await Promise.all(
         //   todos.map((todo: any) => {
         //     if (todo.offline) {
@@ -127,9 +126,7 @@ self.addEventListener('sync', async (event: SyncEvent) => {
         //         Authorization: `Bearer ${token}`,
         //       },
         //     });
-        //     console.log('fetch 후');
         //   }
-        //   console.log('완전 끝');
         // });
       })()
     );
@@ -137,7 +134,6 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 });
 
 // self.addEventListener('sync', async (event: SyncEvent) => {
-//   console.log('sync 이벤트 발생');
 //   if (event.tag === SYNC_TODOS) {
 //     console.log('service worker sync-todo event');
 //     event.waitUntil(
@@ -177,14 +173,11 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 //             });
 //           }
 //         });
-
-//         //     console.log(todo.id, 'updatedtododi');
 //         //     // axios.patch(`https://mozi-server.com/api/v1/todos/${todo.id}`, {
 //         //     //   ...todo,
 //         //     // });
 //         //     // a();
 
-//         //     console.log('업데이트');
 //         //     // await fetcher('patch', `/todos/${todo.id}`, {
 //         //     //   title: todo.title,
 //         //     //   longitude: todo.location?.coordinates[0],
@@ -197,8 +190,6 @@ self.addEventListener('sync', async (event: SyncEvent) => {
 //         // });
 //       })()
 //     );
-
-//     console.log('sync 완료');
 //   }
 // });
 
@@ -213,55 +204,55 @@ const getSub = async () => {
   return sub;
 };
 
-self.addEventListener('message', (event) => {
-  // 웹 페이지로부터 토큰을 받음
+const checkTodoHandler = async (event: ExtendableMessageEvent) => {
+  const localAlarm: Todo[] = [];
+  await todoStore.iterate((todo: Todo) => {
+    localAlarm.push(todo);
+  });
+
+  const subscription = await getSub();
+
+  localAlarm.map(async (todo: Todo) => {
+    if (todo.alarmed || todo.deletedAt) return;
+
+    let locationFlag = FLAGIGNORE;
+    let timeFlag = FLAGIGNORE;
+    if (todo.locationName && todo.latitude && todo.longitude) {
+      const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
+      if (distance < ALARM_DISTANCE_STANDARD) locationFlag = FLAGSATIFIED;
+      else locationFlag = FLAGUNSATIFIED;
+    }
+
+    if (todo.alarmDate) {
+      if (checkAlarm(todo.alarmDate)) timeFlag = FLAGSATIFIED;
+      else timeFlag = timeFlag = FLAGUNSATIFIED;
+    }
+
+    console.log(todo.title, locationFlag, timeFlag);
+
+    if ((locationFlag | timeFlag) == FLAGSATIFIED) {
+      await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          subscription: JSON.stringify(subscription),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      await todoStore.setItem(todo.id, { ...todo, alarmed: true });
+    }
+  });
+};
+
+self.addEventListener('message', (event: ExtendableMessageEvent) => {
   if (event.data.type === TOKEN) {
     token = event.data.token;
     return;
   }
 
-  const checkTodoHandler = async () => {
-    const localAlarm: Todo[] = [];
-    await todoStore.iterate((todo: Todo) => {
-      localAlarm.push(todo);
-    });
-
-    const subscription = await getSub();
-
-    localAlarm.map(async (todo: Todo) => {
-      if (todo.alarmed || todo.deletedAt) return;
-
-      let locationFlag = FLAGIGNORE;
-      let timeFlag = FLAGIGNORE;
-      if (todo.locationName && todo.latitude && todo.longitude) {
-        const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
-        if (distance < ALARM_DISTANCE_STANDARD) locationFlag = FLAGSATIFIED;
-        else locationFlag = FLAGUNSATIFIED;
-      }
-
-      if (todo.alarmDate) {
-        if (checkAlarm(todo.alarmDate)) timeFlag = FLAGSATIFIED;
-        else timeFlag = timeFlag = FLAGUNSATIFIED;
-      }
-
-      console.log(todo.title, locationFlag, timeFlag);
-
-      if ((locationFlag | timeFlag) == FLAGSATIFIED) {
-        await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
-          method: 'POST',
-          body: JSON.stringify({
-            subscription: JSON.stringify(subscription),
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        await todoStore.setItem(todo.id, { ...todo, alarmed: true });
-      }
-    });
-  };
-  if (event.data && event.data.type === 'SET_INTERVAL') {
-    console.log('get message !');
-    event.waitUntil(checkTodoHandler());
+  if (event.data && event.data.type === CHECK_ALARM) {
+    console.log('check notification');
+    event.waitUntil(checkTodoHandler(event));
   }
 });

@@ -2,6 +2,9 @@ import React, { useCallback, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import Modal from '@/components/common/Modal';
 
+import { getYearMonth, getCalendarDates, getDateToHour, getDateToMin } from '@/shared/utils/date';
+import { NEXTARROW, PREVARROW, STOPWATCH } from '@/components/common/Figure';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import {
   Container,
   Header,
@@ -17,17 +20,15 @@ import {
   HourInput,
   MinuteInput,
 } from './styles';
-import { getYearMonth, getCalendarDates, getDateToHour, getDateToMin } from '@/shared/utils/date';
-import { NEXTARROW, PREVARROW, STOPWATCH } from '@/components/common/Figure';
-import { TodoUpdateRequest } from '@/shared/types/todo';
+import { Todo } from '@/shared/types/todo';
 
 interface CalendarModalProps {
-  id: string;
+  todo: Todo;
   date: Date;
   type: 'alarm' | 'due';
   isCalendarModalOpen: boolean;
   setIsCalendarModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<any, unknown, TodoUpdateRequest, unknown>;
+  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
 const HOURS = 12;
@@ -36,7 +37,7 @@ const SUN = 0;
 const SAT = 6;
 
 const CalendarModal: React.FC<CalendarModalProps> = ({
-  id,
+  todo,
   type,
   date,
   isCalendarModalOpen,
@@ -60,8 +61,8 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
 
   const onConfirmHandler = useCallback(() => {
     setIsCalendarModalOpen(false);
-    if (type === 'alarm') updateTodo({ id, alarmDate: nowDate });
-    else updateTodo({ id, dueDate: nowDate });
+    if (type === 'alarm') updateTodo({ ...todo, alarmDate: nowDate });
+    else updateTodo({ ...todo, dueDate: nowDate });
   }, [nowDate, type]);
 
   const onPrevArrowClickHandler = useCallback(() => {
