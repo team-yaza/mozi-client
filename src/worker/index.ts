@@ -10,7 +10,7 @@ import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/location';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 import { checkAlarm } from '../shared/utils/date';
-import { CHECK_DISTANCE } from '../shared/constants/serviceWorker';
+import { CHECK_ALARM } from '../shared/constants/serviceWorker';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -203,54 +203,55 @@ const getSub = async () => {
   return sub;
 };
 
-self.addEventListener('message', (event) => {
+const checkTodoHandler = async (event: ExtendableMessageEvent) => {
+  const localAlarm: Todo[] = [];
+  await todoStore.iterate((todo: Todo) => {
+    localAlarm.push(todo);
+  });
+
+  const subscription = await getSub();
+
+  localAlarm.map(async (todo: Todo) => {
+    if (todo.alarmed || todo.deletedAt) return;
+
+    let locationFlag = FLAGIGNORE;
+    let timeFlag = FLAGIGNORE;
+    if (todo.locationName && todo.latitude && todo.longitude) {
+      const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
+      if (distance < ALARM_DISTANCE_STANDARD) locationFlag = FLAGSATIFIED;
+      else locationFlag = FLAGUNSATIFIED;
+    }
+
+    if (todo.alarmDate) {
+      if (checkAlarm(todo.alarmDate)) timeFlag = FLAGSATIFIED;
+      else timeFlag = timeFlag = FLAGUNSATIFIED;
+    }
+
+    console.log(todo.title, locationFlag, timeFlag);
+
+    if ((locationFlag | timeFlag) == FLAGSATIFIED) {
+      await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          subscription: JSON.stringify(subscription),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      await todoStore.setItem(todo.id, { ...todo, alarmed: true });
+    }
+  });
+};
+
+self.addEventListener('message', (event: ExtendableMessageEvent) => {
   if (event.data.type === TOKEN) {
     token = event.data.token;
     return;
   }
 
-  const checkTodoHandler = async () => {
-    const localAlarm: Todo[] = [];
-    await todoStore.iterate((todo: Todo) => {
-      localAlarm.push(todo);
-    });
-
-    const subscription = await getSub();
-
-    localAlarm.map(async (todo: Todo) => {
-      if (todo.alarmed || todo.deletedAt) return;
-
-      let locationFlag = FLAGIGNORE;
-      let timeFlag = FLAGIGNORE;
-      if (todo.locationName && todo.latitude && todo.longitude) {
-        const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
-        if (distance < ALARM_DISTANCE_STANDARD) locationFlag = FLAGSATIFIED;
-        else locationFlag = FLAGUNSATIFIED;
-      }
-
-      if (todo.alarmDate) {
-        if (checkAlarm(todo.alarmDate)) timeFlag = FLAGSATIFIED;
-        else timeFlag = timeFlag = FLAGUNSATIFIED;
-      }
-
-      console.log(todo.title, locationFlag, timeFlag);
-
-      if ((locationFlag | timeFlag) == FLAGSATIFIED) {
-        await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
-          method: 'POST',
-          body: JSON.stringify({
-            subscription: JSON.stringify(subscription),
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        await todoStore.setItem(todo.id, { ...todo, alarmed: true });
-      }
-    });
-  };
-  if (event.data && event.data.type === CHECK_DISTANCE) {
-    console.log('get message !');
-    event.waitUntil(checkTodoHandler());
+  if (event.data && event.data.type === CHECK_ALARM) {
+    console.log('check notification');
+    event.waitUntil(checkTodoHandler(event));
   }
 });
