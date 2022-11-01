@@ -10,6 +10,7 @@ import { SYNC_TODOS, TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/location';
 import { urlBase64ToUint8Array } from '../shared/utils/encryption';
 import { checkAlarm } from '../shared/utils/date';
+import { CHECK_DISTANCE } from '../shared/constants/serviceWorker';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -259,7 +260,7 @@ self.addEventListener('message', (event) => {
       }
     });
   };
-  if (event.data && event.data.type === 'SET_INTERVAL') {
+  if (event.data && event.data.type === CHECK_DISTANCE) {
     console.log('get message !');
     event.waitUntil(checkTodoHandler());
   }
