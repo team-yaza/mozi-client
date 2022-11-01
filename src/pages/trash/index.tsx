@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { queryClient } from '@/shared/utils/queryClient';
-import { useSoftDeletedTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { Header, Spinner, Title, AppLayout, Footer, DropPlaceholder } from '@/components/common';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { theme } from '@/styles/theme';
@@ -17,11 +17,12 @@ import {
   use_unsafe_createTodoMutation,
   use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
+import { ROUTES } from '@/shared/constants/routes';
 
 const Trash: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
+  const { data: todos, isLoading } = useTodoListQuery(ROUTES.TRASH);
   const { mutate: createTodo } = use_unsafe_createTodoMutation();
-  const { data: todos, isLoading } = useSoftDeletedTodoList();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();

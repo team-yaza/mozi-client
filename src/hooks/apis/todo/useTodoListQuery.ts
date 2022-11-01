@@ -9,7 +9,7 @@ import todoService from '@/services/apis/todo';
 import { ROUTES } from '@/shared/constants/routes';
 import { QUERY_TYPE_ERROR } from '@/shared/constants/dialog';
 
-export const useTodoListQuery = (page: string): UseQueryResult<Todo[], AxiosError> => {
+export const useTodoListQuery = (page: string): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
   switch (page) {
     case ROUTES.HOME:
       return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
@@ -54,7 +54,7 @@ export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<Se
 
 export const useLogbookTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => todo.done && !todo.deletedAt), []),
+    select: (todos: Todo[]) => todos.filter((todo) => todo.done && !todo.deletedAt),
     onSuccess: (data: any) => {
       data;
     },
@@ -63,10 +63,7 @@ export const useLogbookTodoList = () => {
 
 export const useMapTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback(
-      (todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude && !todo.deletedAt),
-      []
-    ),
+    select: (todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude && !todo.deletedAt),
   });
 };
 
@@ -101,9 +98,6 @@ export const useTodoListStatistics = () => {
 
 export const useUpcommingTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback(
-      (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
-      []
-    ),
+    select: (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
   });
 };
