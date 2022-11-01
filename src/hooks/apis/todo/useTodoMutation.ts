@@ -15,8 +15,9 @@ import {
 
 export const use_unsafe_createTodoMutation = () =>
   useMutation(
-    ({ locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
+    ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) =>
       todoService.createTodoAtIndexedDB({
+        title,
         locationName,
         longitude,
         latitude,
