@@ -6,7 +6,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { AppLayout, Title, Footer, Header, DropPlaceholder } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
-import { use_unsafe_todoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import {
   use_unsafe_createTodoMutation,
   use_unsafe_deleteTodoMutation,
@@ -15,17 +15,16 @@ import {
 import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
+import { ROUTES } from '@/shared/constants/routes';
 
 const Home: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
-  const { data: todos } = use_unsafe_todoListQuery();
+  const { data: todos } = useTodoListQuery(ROUTES.HOME);
   const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
-  const onDragStart = useCallback(() => {
-    setIsDragging(true);
-  }, []);
+  const onDragStart = () => setIsDragging(true);
 
   const onClickHandler = useCallback(() => {
     createTodo({});

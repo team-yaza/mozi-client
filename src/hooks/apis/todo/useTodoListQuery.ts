@@ -1,14 +1,15 @@
 import { useCallback } from 'react';
 import { AxiosError } from 'axios';
+import { ServerResponse } from 'http';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { queryClient } from '@/shared/utils/queryClient';
 import { Todo, TodoStatistics } from '@/shared/types/todo';
-import { ServerResponse } from '@/shared/types/common';
 import todoService from '@/services/apis/todo';
 import { ROUTES } from '@/shared/constants/routes';
+import { QUERY_TYPE_ERROR } from '@/shared/constants/dialog';
 
-export const use_unsafe_TodoListQuery = (page: string) => {
+export const useTodoListQuery = (page: string): UseQueryResult<Todo[], AxiosError> => {
   switch (page) {
     case ROUTES.HOME:
       return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
@@ -31,9 +32,8 @@ export const use_unsafe_TodoListQuery = (page: string) => {
       return useQuery(['todos'], todoService.getTodosFromIndexedDB, {
         select: (todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude && !todo.deletedAt),
       });
-
     default:
-      throw new Error('적절한 QueryType이 아닙니다.');
+      throw new Error(QUERY_TYPE_ERROR);
   }
 };
 
@@ -51,12 +51,6 @@ export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<Se
       []
     ),
   });
-
-export const useTodoListQuery = (): UseQueryResult<Todo[], AxiosError<ServerResponse>> => {
-  return useQuery(['todos'], todoService.getTodos, {
-    select: useCallback((todos: Todo[]) => todos.filter((todo) => !todo.deletedAt && !todo.done), []),
-  });
-};
 
 export const useLogbookTodoList = () => {
   return useQuery(['todos'], todoService.getTodos, {
