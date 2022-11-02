@@ -52,21 +52,6 @@ export const use_unsafe_todoListQuery = (): UseQueryResult<Todo[], AxiosError<Se
     ),
   });
 
-export const useLogbookTodoList = () => {
-  return useQuery(['todos'], todoService.getTodos, {
-    select: (todos: Todo[]) => todos.filter((todo) => todo.done && !todo.deletedAt),
-    onSuccess: (data: any) => {
-      data;
-    },
-  });
-};
-
-export const useMapTodoList = () => {
-  return useQuery(['todos'], todoService.getTodos, {
-    select: (todos: Todo[]) => todos.filter((todo) => todo.latitude && todo.longitude && !todo.deletedAt),
-  });
-};
-
 export const useTodoListStatistics = () => {
   return useQuery<any>(['statistics'], todoService.getTodos, {
     select: () => {
@@ -93,11 +78,5 @@ export const useTodoListStatistics = () => {
       }
     },
     initialData: { logbook: 0, trash: 0, inbox: 0, map: 0 },
-  });
-};
-
-export const useUpcommingTodoList = () => {
-  return useQuery(['todos'], todoService.getTodos, {
-    select: (todos: Todo[]) => todos.filter((todo) => (todo.dueDate || todo.alarmDate) && !todo.deletedAt),
   });
 };
