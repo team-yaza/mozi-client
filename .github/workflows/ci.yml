@@ -83,10 +83,10 @@ jobs:
         run: yarn
 
       - name: Generate environment json file
-        run: |
-          echo "$CYPRESS_ENV_JSON" >> cypress.json
         env:
           CYPRESS_ENV_JSON: ${{ secrets.CYPRESS_ENV_JSON }}
+        run: |
+          echo "$CYPRESS_ENV_JSON" >> cypress.env.json
 
       - name: E2E test - chrome
         uses: cypress-io/github-action@v4

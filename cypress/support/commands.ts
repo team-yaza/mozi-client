@@ -13,6 +13,7 @@ Cypress.Commands.add('dataCy', (value) => {
 
 Cypress.Commands.add('login', () => {
   cy.setCookie('token', Cypress.env('token'));
+  alert(Cypress.env());
   cy.visit('/inbox');
 });
 
