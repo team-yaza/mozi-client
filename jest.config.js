@@ -20,6 +20,7 @@ const customJestConfig = {
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',
     '@/styles/(.*)': '<rootDir>/src/styles/$1',
   },
+  modulePathIgnorePatterns: ['cypress'],
   verbose: true,
 };
 

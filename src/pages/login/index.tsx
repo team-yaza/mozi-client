@@ -23,7 +23,7 @@ const Login: NextPageWithLayout = () => {
       <Container>
         <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
-        <KakaoLogin onClick={() => loginWithKakao()}>
+        <KakaoLogin onClick={() => loginWithKakao()} data-testid="kakaoLogin">
           <LogoContainer>
             <Image src="/assets/svgs/kakao.svg" layout="fill" />
           </LogoContainer>
