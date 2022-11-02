@@ -42,12 +42,12 @@ const Kakao: NextPage = () => {
         document.cookie = 'token=' + jwtToken;
 
         if (jwtToken) {
-          router.push('/');
+          router.push('/inbox');
           toastSuccess(LOGIN_SUCCESS);
         }
       } catch (e) {
         toastError(LOGIN_FAIL);
-        router.push('/login');
+        router.push('/');
 
         Sentry.captureException(e);
       }

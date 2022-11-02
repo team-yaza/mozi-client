@@ -1,122 +1,92 @@
-import { ReactElement, useCallback, useState } from 'react';
+import Head from 'next/head';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import TodoList from '@/components/common/TodoList/DraggableTodoList';
-import { AppLayout, Title, Footer, Header, DropPlaceholder } from '@/components/common';
-import { INBOX, TRASH } from '@/components/common/Figure';
-import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import {
-  use_unsafe_createTodoMutation,
-  use_unsafe_deleteTodoMutation,
-  use_unsafe_updateTodoMutation,
-} from '@/hooks/apis/todo/useTodoMutation';
-import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
-import { Todo } from '@/shared/types/todo';
-import { ROUTES } from '@/shared/constants/routes';
+import { flexCenter } from '@/styles/utils';
+import { loginWithKakao } from '@/shared/utils/kakao';
+import { getCookie } from '@/shared/utils/cookie';
 
-const Home: NextPageWithLayout = () => {
-  const [isDragging, setIsDragging] = useState(false);
-  const { data: todos } = useTodoListQuery(ROUTES.HOME);
-  const { mutate: createTodo } = use_unsafe_createTodoMutation();
-  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
-  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
+const Login: NextPageWithLayout = () => {
+  const router = useRouter();
 
-  const onDragStart = () => setIsDragging(true);
+  useEffect(() => {
+    const token = getCookie('token');
+    if (token) router.push('/inbox');
+  }, []);
 
-  const onClickHandler = useCallback(() => {
-    createTodo({});
-  }, [createTodo]);
-
-  const onDragEnd = async (result: DropResult) => {
-    if (!result.destination) return;
-
-    if (todos && result.destination.droppableId === 'todos') {
-      const items = Array.from(todos);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      items.forEach((item: Todo, index) => (item.index = index));
-
-      queryClient.setQueriesData(['todos'], items);
-
-      items.map((item: any, index) => updateTodo({ ...item, index }));
-
-      // await Promise.all(items.map((item: Todo, index) => todoService.updateTodoAtIndexedDB({ id: item.id, index })));
-    } else if (todos && result.destination.droppableId === 'trash') {
-      const items = Array.from(todos);
-
-      const [deletedItem] = items.splice(result.source.index, 1);
-
-      queryClient.setQueriesData(['todos'], items);
-      deleteTodo(deletedItem.id);
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(`${process.env.KAKAO_JAVASCRIPT_KEY}`);
     }
-
-    setIsDragging(false);
-  };
+  }, []);
 
   return (
-    <Container>
-      <Header />
-      <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
+    <>
+      <Head>
+        <title>MOZI | Login</title>
+      </Head>
+      <Container>
+        <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
-      {/* DND features */}
-      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-        <Droppable droppableId="todos">
-          {(provided) => (
-            <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-              <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
-              {provided.placeholder}
-            </TodoListContainer>
-          )}
-        </Droppable>
-
-        <Droppable droppableId="trash">
-          {(provided, snapshot) => (
-            <DropPlaceholder
-              ref={provided.innerRef}
-              isDragging={isDragging}
-              active={snapshot.isDraggingOver}
-              borderColor={theme.colors.purple}
-              backgroundColor="#f3d9fa"
-              hoverColor="#cc5de8"
-              text="삭제"
-              icon={<TRASH />}
-              {...provided.droppableProps}
-            >
-              {provided.placeholder}
-            </DropPlaceholder>
-          )}
-        </Droppable>
-      </DragDropContext>
-
-      {/* 드래그 안할 때는 Footer를 보여줌 */}
-      {!isDragging && <Footer createTodo={createTodo} />}
-    </Container>
+        <KakaoLogin onClick={() => loginWithKakao()} data-testid="kakaoLogin">
+          <LogoContainer>
+            <Image priority src="/assets/svgs/kakao.svg" layout="fill" />
+          </LogoContainer>
+          <span>카카오톡으로 로그인</span>
+        </KakaoLogin>
+      </Container>
+    </>
   );
 };
 
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <AppLayout>{page}</AppLayout>;
+Login.getLayout = function getLayout(page: ReactElement) {
+  return <LoginLayout>{page}</LoginLayout>;
 };
 
-const Container = styled.div`
+const LoginLayout = styled.div`
   position: relative;
+  display: flex;
+
   width: 100%;
   height: 100%;
-  display: flex;
+
+  overflow: hidden;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  ${flexCenter};
   flex-direction: column;
 
-  margin: 0 auto;
-
-  transition: 0.3s;
-  background-color: ${({ theme }) => theme.color.background};
+  background-color: ${theme.colors.main};
 `;
 
-const TodoListContainer = styled.div`
-  overflow-y: scroll;
-  flex: 1;
+const KakaoLogin = styled.div`
+  width: 34rem;
+  height: 5rem;
+  ${flexCenter};
+
+  margin-top: 4rem;
+  border-radius: 1rem;
+
+  background-color: ${theme.colors.kakao};
+
+  cursor: pointer;
+
+  span {
+    margin-left: 1rem;
+    font-size: 1.3rem;
+  }
 `;
 
-export default Home;
+const LogoContainer = styled.div`
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+`;
+
+export default Login;

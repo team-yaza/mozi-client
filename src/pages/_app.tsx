@@ -19,9 +19,8 @@ import { Location } from '@/shared/types/location';
 import { trackCurrentPosition } from '@/shared/utils/location';
 import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
+import { CHECK_ALARM_INTERVAL } from '@/shared/constants/delay';
 // import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
-
-const CHECKALARM_INTERVAL = 60000;
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -95,12 +94,12 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   }, [userPosition]);
 
   useEffect(() => {
-    setIntervalMinute(CHECKALARM_INTERVAL);
+    setIntervalMinute(CHECK_ALARM_INTERVAL);
   }, []);
 
   useEffect(() => {
     const token = getCookie('token');
-    if (!token) router.push('/login');
+    if (!token) router.push('/');
   }, []);
 
   useEffect(() => {
