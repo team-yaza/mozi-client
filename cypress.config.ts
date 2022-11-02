@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineConfig } from 'cypress';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export default defineConfig({
   projectId: 'q4deia',
