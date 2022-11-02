@@ -5,15 +5,16 @@ import styled from 'styled-components';
 import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common';
 import { LOGBOOK } from '@/components/common/Figure';
-import { useLogbookTodoList } from '@/hooks/apis/todo/useTodoListQuery';
+import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import {
   use_unsafe_deleteTodoMutation,
   use_unsafe_createTodoMutation,
   use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
+import { ROUTES } from '@/shared/constants/routes';
 
 const Logbook: NextPageWithLayout = () => {
-  const { data: todos } = useLogbookTodoList();
+  const { data: todos } = useTodoListQuery(ROUTES.LOGBOOK);
   const { mutate: createTodo } = use_unsafe_createTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
