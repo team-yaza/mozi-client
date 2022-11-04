@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
@@ -26,10 +26,6 @@ const Trash: NextPageWithLayout = () => {
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
-
-  const onDragStart = useCallback(() => {
-    setIsDragging(true);
-  }, []);
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
@@ -61,7 +57,7 @@ const Trash: NextPageWithLayout = () => {
           </SpinnerContainer>
         )}
 
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
           <Droppable droppableId="todos">
             {(provided) => (
               <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>

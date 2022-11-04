@@ -1,6 +1,6 @@
 import { Container, Content, IconContainer, DeleteBtn, Wrapper } from './styles';
 import { DELETE } from '@/components/common/Figure';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 export interface ChipProps {
   type: 'location' | 'date' | 'deadline' | 'tag';
@@ -25,10 +25,10 @@ const Chip: React.FC<ChipProps> = ({
 }) => {
   const [focused, setFocused] = useState<boolean>(false);
 
-  const onChipClicked = useCallback(() => {
+  const onChipClicked = () => {
     setFocused((oldState) => !oldState);
     if (onClickHandler != undefined) onClickHandler();
-  }, [onClickHandler]);
+  };
 
   return (
     <Wrapper>
