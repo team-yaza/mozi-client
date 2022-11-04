@@ -107,7 +107,7 @@ const TodoListItem = ({
 
       <MainContainer>
         <CheckBox checked={isChecked} onClick={onCheckHandler}>
-          {isChecked && <Image width={15} height={15} src="/assets/svgs/check.svg" />}
+          {isChecked && <Image priority width={15} height={15} src="/assets/svgs/check.svg" />}
         </CheckBox>
         <Title
           todo={todo}
