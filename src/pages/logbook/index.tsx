@@ -9,14 +9,14 @@ import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import {
   use_unsafe_deleteTodoMutation,
   useCreateTodoMutation,
-  use_unsafe_updateTodoMutation,
+  useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { ROUTES } from '@/shared/constants/routes';
 
 const Logbook: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery(ROUTES.LOGBOOK);
   const { mutate: createTodo } = useCreateTodoMutation();
-  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
   return (

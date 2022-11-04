@@ -15,7 +15,7 @@ import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
   useCreateTodoMutation,
-  use_unsafe_updateTodoMutation,
+  useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { ROUTES } from '@/shared/constants/routes';
 
@@ -24,7 +24,7 @@ const Trash: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useTodoListQuery(ROUTES.TRASH);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
-  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
 
   const onDragStart = useCallback(() => {

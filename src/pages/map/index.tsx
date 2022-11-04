@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import {
   use_unsafe_deleteTodoMutation,
-  use_unsafe_updateTodoMutation,
+  useUpdateTodoMutation,
   useCreateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { toastError } from '@/shared/utils/toast';
@@ -29,7 +29,7 @@ const Map: NextPageWithLayout = () => {
 
   const { data: todos } = useTodoListQuery(ROUTES.MAP);
   const { mutate: createTodo } = useCreateTodoMutation();
-  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
   const onClose = useCallback(() => {

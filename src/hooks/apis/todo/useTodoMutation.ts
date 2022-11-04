@@ -1,4 +1,3 @@
-import { queryKeys } from './../../../shared/constants/queryKey';
 // import { AxiosError } from 'axios';
 // import { v4 as uuid } from 'uuid';
 import { useMutation } from '@tanstack/react-query';
@@ -12,6 +11,7 @@ import {
   TodoUpdateRequest,
   TodoCreateRequest,
 } from '@/shared/types/todo';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 export const useCreateTodoMutation = () =>
   useMutation(
@@ -37,7 +37,7 @@ export const useCreateTodoMutation = () =>
     }
   );
 
-export const use_unsafe_updateTodoMutation = () =>
+export const useUpdateTodoMutation = () =>
   useMutation(
     ({ ...rest }: TodoUpdateRequest) =>
       todoService.updateTodoAtIndexedDB({
