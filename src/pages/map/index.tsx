@@ -3,11 +3,7 @@ import Image from 'next/image';
 import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
-import {
-  use_unsafe_deleteTodoMutation,
-  useUpdateTodoMutation,
-  useCreateTodoMutation,
-} from '@/hooks/apis/todo/useTodoMutation';
+import { useDeleteTodoMutation, useUpdateTodoMutation, useCreateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { toastError } from '@/shared/utils/toast';
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
@@ -30,7 +26,7 @@ const Map: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery(ROUTES.MAP);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   const onClose = useCallback(() => {
     setIsModalOpen(false);

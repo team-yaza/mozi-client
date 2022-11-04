@@ -7,11 +7,7 @@ import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { AppLayout, Title, Footer, Header, DropPlaceholder } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import {
-  useCreateTodoMutation,
-  use_unsafe_deleteTodoMutation,
-  useUpdateTodoMutation,
-} from '@/hooks/apis/todo/useTodoMutation';
+import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
@@ -23,7 +19,7 @@ const Inbox: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery(ROUTES.HOME);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   const onDragStart = () => setIsDragging(true);
   const onClickHandler = () => createTodo({});

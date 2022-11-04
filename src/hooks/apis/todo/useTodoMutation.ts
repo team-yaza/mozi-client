@@ -60,7 +60,7 @@ export const useUpdateTodoMutation = () =>
     }
   );
 
-export const use_unsafe_deleteTodoMutation = () =>
+export const useDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id), {
     onSuccess: async (_, id) => {
       queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {

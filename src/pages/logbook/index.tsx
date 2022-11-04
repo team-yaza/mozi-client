@@ -6,18 +6,14 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common';
 import { LOGBOOK } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import {
-  use_unsafe_deleteTodoMutation,
-  useCreateTodoMutation,
-  useUpdateTodoMutation,
-} from '@/hooks/apis/todo/useTodoMutation';
+import { useDeleteTodoMutation, useCreateTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { ROUTES } from '@/shared/constants/routes';
 
 const Logbook: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery(ROUTES.LOGBOOK);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   return (
     <>
