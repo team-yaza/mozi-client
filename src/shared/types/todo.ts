@@ -60,6 +60,7 @@ export interface TodoCreateRequest {
 export interface TodoStatistics {
   inbox: number;
   map: number;
+  upcoming: number;
   logbook: number;
   trash: number;
 }

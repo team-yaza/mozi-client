@@ -5,8 +5,8 @@ import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
 import { toastError } from '@/shared/utils/toast';
 import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED, TODO_DELETE_FAILED } from '@/shared/constants/dialog';
-import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/shared/types/todo';
-import { todoStore, findMaximumIndexAtTodoStore } from '@/store/localForage';
+import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
+import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@/store/localForage';
 
 const todoService = {
   createTodo: async ({ title, locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
@@ -82,11 +82,11 @@ const todoService = {
       await syncTodos();
     }
   },
-  getTodosFromIndexedDB: async () => {
+  getTodosFromIndexedDB: async (): Promise<Todo[]> => {
     try {
       const todos = await fetcher('get', '/todos');
       await todoStore.clear();
-      return await Promise.all(todos.map((todo: any) => todoStore.setItem(todo.id, todo)));
+      return await Promise.all(todos.map((todo: Todo) => todoStore.setItem(todo.id, todo)));
     } catch (error) {
       // console.log('데이터를 불러오는데 실패했습니다. 새로고침을 해주세요.');
     }
@@ -94,7 +94,7 @@ const todoService = {
     const keys = await todoStore.keys();
 
     if (keys.length === 0) return [];
-    return await Promise.all(keys.map((key) => todoStore.getItem(key)));
+    return (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
   },
   createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) => {
     try {
@@ -184,6 +184,29 @@ const todoService = {
         }
       })
     );
+  },
+  calculateStatisticsFromIndexedDB: async () => {
+    const todos = await getTodosFromIndexedDB();
+    // const statistics = queryClient.getQueryData<TodoStatistics>([queryKeys.GET_TODOLIST_STATISTICS]);
+    const statistics: TodoStatistics = { inbox: 0, map: 0, upcoming: 0, logbook: 0, trash: 0 };
+    if (statistics) {
+      return todos.reduce((acc, todo) => {
+        if (todo.deletedAt) {
+          acc.trash += 1;
+        } else if (todo.done) {
+          acc.logbook += 1;
+        } else if (todo.latitude && todo.longitude) {
+          acc.map += 1;
+        } else if (todo.dueDate) {
+          acc.upcoming += 1;
+        } else {
+          acc.inbox += 1;
+        }
+        return acc;
+      }, statistics);
+    }
+
+    return statistics;
   },
 };
 
