@@ -39,31 +39,9 @@ export const useCreateTodoMutation = () =>
 
 export const use_unsafe_updateTodoMutation = () =>
   useMutation(
-    ({
-      id,
-      title,
-      index,
-      longitude,
-      latitude,
-      description,
-      done,
-      alarmDate,
-      dueDate,
-      locationName,
-      deletedAt,
-    }: TodoUpdateRequest) =>
+    ({ ...rest }: TodoUpdateRequest) =>
       todoService.updateTodoAtIndexedDB({
-        id,
-        title,
-        index,
-        longitude,
-        latitude,
-        description,
-        done,
-        alarmDate,
-        dueDate,
-        locationName,
-        deletedAt,
+        ...rest,
       }),
     {
       onSuccess: async (_, variables) => {
@@ -138,49 +116,6 @@ export const use_unsafe_deleteTodoMutation = () =>
 //       },
 //     }
 //   );
-
-export const useUpdateTodoMutation = () =>
-  useMutation(
-    ({
-      id,
-      title,
-      done,
-      latitude,
-      longitude,
-      description,
-      locationName,
-      alarmDate,
-      dueDate,
-      deletedAt,
-    }: TodoUpdateRequest) =>
-      todoService.updateTodo({
-        id,
-        title,
-        done,
-        latitude,
-        longitude,
-        description,
-        locationName,
-        alarmDate,
-        dueDate,
-        deletedAt,
-      }),
-    {
-      onSuccess: (_, variables) => {
-        queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {
-          return data.map((todo: Todo) => {
-            if (todo.id === variables.id) {
-              return { ...todo, ...variables };
-            }
-
-            return todo;
-          });
-        });
-
-        queryClient.invalidateQueries(['statistics']);
-      },
-    }
-  );
 
 export const useForceDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.forceDeleteTodo(id), {
