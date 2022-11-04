@@ -1,7 +1,8 @@
-import axios from 'axios';
+import Head from 'next/head';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import * as Sentry from '@sentry/nextjs';
 
@@ -9,7 +10,6 @@ import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
 import { toastError, toastSuccess } from '@/shared/utils/toast';
 import { LOGIN_FAIL, LOGIN_SUCCESS } from '@/shared/constants/dialog';
 import { Spinner } from '@/components/common';
-import Head from 'next/head';
 
 const Kakao: NextPage = () => {
   const router = useRouter();
@@ -46,8 +46,8 @@ const Kakao: NextPage = () => {
           toastSuccess(LOGIN_SUCCESS);
         }
       } catch (e) {
+        router.push('/login');
         toastError(LOGIN_FAIL);
-        router.push('/');
 
         Sentry.captureException(e);
       }
