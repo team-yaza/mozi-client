@@ -82,7 +82,7 @@ const todoService = {
       await syncTodos();
     }
   },
-  getTodosFromIndexedDB: async () => {
+  getTodosFromIndexedDB: async (): Promise<Todo[]> => {
     try {
       const todos = await fetcher('get', '/todos');
       await todoStore.clear();
@@ -94,7 +94,7 @@ const todoService = {
     const keys = await todoStore.keys();
 
     if (keys.length === 0) return [];
-    return await Promise.all(keys.map((key) => todoStore.getItem(key)));
+    return (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
   },
   createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) => {
     try {

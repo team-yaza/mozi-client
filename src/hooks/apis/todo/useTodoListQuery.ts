@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { ServerResponse } from 'http';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { Todo } from '@/shared/types/todo';
+import { Todo, TodoStatistics } from '@/shared/types/todo';
 import todoService from '@/services/apis/todo';
 import { ROUTES } from '@/shared/constants/routes';
 import { QUERY_TYPE_ERROR } from '@/shared/constants/dialog';
@@ -37,28 +37,38 @@ export const useTodoListQuery = (page: string): UseQueryResult<Todo[], AxiosErro
 };
 
 export const useTodoListStatistics = () => {
-  return useQuery([queryKeys.TODOS, queryKeys.STATISTICS], todoService.getTodosFromIndexedDB);
+  return useQuery<Todo[], AxiosError<ServerResponse>, TodoStatistics>(
+    [queryKeys.TODOS, queryKeys.STATISTICS],
+    todoService.getTodosFromIndexedDB,
+    {
+      select: (todos) => {
+        return todos.reduce(
+          (acc, todo: Todo) => {
+            if (todo.deletedAt) {
+              acc.trash += 1;
+            } else if (todo.done) {
+              acc.logbook += 1;
+            } else if (todo.latitude && todo.longitude) {
+              acc.map += 1;
+              acc.inbox += 1;
+            } else {
+              acc.inbox += 1;
+            }
+            return acc;
+          },
+          { inbox: 0, map: 0, upcoming: 0, logbook: 0, trash: 0 }
+        );
+      },
+      // initialData: { inbox: 0, map: 0, upcoming: 0, logbook: 0, trash: 0 },
+    }
+  );
 };
 
 // select: () => {
 // const todos = queryClient.getQueryData([queryKeys.GET_TODOLIST]) as Todo[];
 // todos;
 // if (todos) {
-//   return todos.reduce(
-//     (acc: TodoStatistics, todo: Todo) => {
-//       if (todo.deletedAt) {
-//         acc.trash += 1;
-//       } else if (todo.done) {
-//         acc.logbook += 1;
-//       } else if (todo.latitude && todo.longitude) {
-//         acc.map += 1;
-//       } else {
-//         acc.inbox += 1;
-//       }
-//       return acc;
-//     },
-//     { inbox: 0, logbook: 0, trash: 0, map: 0 }
-//   );
+//
 // } else {
 //   return { inbox: 0, logbook: 0, trash: 0, map: 0 };
 // }
