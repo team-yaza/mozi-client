@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {
   use_unsafe_deleteTodoMutation,
   use_unsafe_updateTodoMutation,
-  use_unsafe_createTodoMutation,
+  useCreateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { toastError } from '@/shared/utils/toast';
 import { NextPageWithLayout } from '@/pages/_app';
@@ -28,7 +28,7 @@ const Map: NextPageWithLayout = () => {
   const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
 
   const { data: todos } = useTodoListQuery(ROUTES.MAP);
-  const { mutate: createTodo } = use_unsafe_createTodoMutation();
+  const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 

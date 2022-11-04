@@ -8,7 +8,7 @@ import { AppLayout, Title, Footer, Header, DropPlaceholder } from '@/components/
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import {
-  use_unsafe_createTodoMutation,
+  useCreateTodoMutation,
   use_unsafe_deleteTodoMutation,
   use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
@@ -20,7 +20,7 @@ import { ROUTES } from '@/shared/constants/routes';
 const Inbox: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { data: todos } = useTodoListQuery(ROUTES.HOME);
-  const { mutate: createTodo } = use_unsafe_createTodoMutation();
+  const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
