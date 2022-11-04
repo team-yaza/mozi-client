@@ -26,7 +26,7 @@ export const useCreateTodoMutation = () =>
     {
       onSuccess: async (data) => {
         queryClient.setQueriesData([queryKeys.TODOS], (oldData: any) => {
-          if (oldData) return [...oldData, data];
+          if (oldData) return [data, ...oldData];
 
           return [data];
         });
