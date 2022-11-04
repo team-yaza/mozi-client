@@ -14,7 +14,7 @@ import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
-  use_unsafe_createTodoMutation,
+  useCreateTodoMutation,
   use_unsafe_updateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { ROUTES } from '@/shared/constants/routes';
@@ -22,7 +22,7 @@ import { ROUTES } from '@/shared/constants/routes';
 const Trash: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { data: todos, isLoading } = useTodoListQuery(ROUTES.TRASH);
-  const { mutate: createTodo } = use_unsafe_createTodoMutation();
+  const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();

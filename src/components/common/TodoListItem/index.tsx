@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -6,60 +7,37 @@ import Description from './Description';
 import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-// import { TodoUpdateRequest } from '@/shared/types/todo';
-import { debounce } from '@/shared/utils/debounce';
+import {
+  Todo,
+  // TodoUpdateRequest
+} from '@/shared/types/todo';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
-import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer, Icons } from './styles';
-import { Todo } from '@/shared/types/todo';
+import { debounce } from '@/shared/utils/debounce';
+import { CheckBox, Container, DescriptionContainer, IconContainer, Icons, MainContainer } from './styles';
 
 interface TodoListItemProps {
   todo: Todo;
-  id: string;
-  title?: string;
-  description?: string;
-  longitude?: number;
-  latitude?: number;
-  locationName?: string;
-  alarmDate?: string;
-  dueDate?: string;
-  done: boolean;
   index: number;
-  isFocused?: boolean;
+  isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
   setIsEditing?: Dispatch<SetStateAction<number>>;
   updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({
+const TodoListItem = ({
   todo,
   index,
-  alarmDate,
-  dueDate,
   isFocused,
-  locationName,
   setIsFocused,
   setIsEditing,
   updateTodo,
   deleteTodo,
-}) => {
-  const [isChecked, setIsChecked] = useState(false);
+}: TodoListItemProps) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
-
+  const [isChecked, setIsChecked] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const onClickOutsideHandler = useCallback(() => {
-    setIsFocused(-1);
-    setIsMapOpened(false);
-    setIsDoubleClicked(false);
-  }, [setIsFocused, setIsMapOpened, setIsDoubleClicked]);
-
-  useOnClickOutside(containerRef, onClickOutsideHandler);
-
-  useEffect(() => {
-    if (todo.done) setIsChecked(true);
-  }, [setIsChecked]);
 
   useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
@@ -73,47 +51,48 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
 
     return () => document.removeEventListener('keydown', deleteTodoHandler);
-  }, [todo.id, deleteTodo, isFocused]);
+  }, [todo, deleteTodo, isFocused]);
 
   useEffect(() => {
     if (isDoubleClicked && setIsEditing) setIsEditing(index);
-  }, [isDoubleClicked, setIsEditing]);
+  }, [isDoubleClicked, setIsEditing, index]);
 
-  const onClickHandler = useCallback(() => {
+  const onClickOutsideHandler = () => {
+    setIsFocused(-1);
+    setIsMapOpened(false);
+    setIsDoubleClicked(false);
+  };
+
+  useOnClickOutside(containerRef, onClickOutsideHandler);
+
+  const onClickHandler = () => {
     if (isDoubleClicked) return;
-
     setIsFocused(index);
-  }, [index, setIsFocused, isDoubleClicked]);
+  };
 
-  const onDoubleClickHandler = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
+  const onDoubleClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (document.getElementById('modal-root')?.contains(e.target as HTMLDivElement)) return;
 
-      setIsFocused(-1);
-      setIsMapOpened(false);
-      setIsDoubleClicked((prevState) => !prevState);
-    },
-    [setIsFocused, setIsMapOpened, setIsDoubleClicked]
-  );
+    setIsFocused(-1);
+    setIsMapOpened(false);
+    setIsDoubleClicked((prevState) => !prevState);
+  };
 
-  const onCheckHandler = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.stopPropagation();
-      setIsChecked((prevState) => !prevState);
-      debounce(() => updateTodo({ ...todo, done: !todo.done }), 500)();
-    },
-    [todo.done, setIsChecked]
-  );
+  const onCheckHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setIsChecked((old) => !old);
+    debounce(() => updateTodo({ id: todo.id, done: !todo.done }), 500)();
+  };
 
-  const renderIcons = () => {
+  const renderIcons = useMemo(() => {
     const icons = [];
 
-    if (locationName) icons.push(<PLACE />);
-    if (alarmDate) icons.push(<CALENDAR />);
-    if (dueDate) icons.push(<DEADLINE />);
+    if (todo.locationName) icons.push(<PLACE />);
+    if (todo.alarmDate) icons.push(<CALENDAR />);
+    if (todo.dueDate) icons.push(<DEADLINE />);
 
     return icons.map((icon) => <IconContainer>{icon}</IconContainer>);
-  };
+  }, [todo]);
 
   return (
     <Container
@@ -127,15 +106,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {/* 클릭 안해도 보이는 부분 */}
 
       <MainContainer>
-        <CheckBox checked={isChecked} onClick={onCheckHandler} />
+        <CheckBox checked={isChecked} onClick={onCheckHandler}>
+          {isChecked && <Image width={15} height={15} src="/assets/svgs/check.svg" />}
+        </CheckBox>
         <Title
           todo={todo}
           isDoubleClicked={isDoubleClicked}
-          setIsDoubleClicked={setIsDoubleClicked}
           updateTodo={updateTodo}
+          setIsDoubleClicked={setIsDoubleClicked}
         />
-
-        {!isDoubleClicked && <Icons>{renderIcons()}</Icons>}
+        {!isDoubleClicked && <Icons>{renderIcons}</Icons>}
       </MainContainer>
 
       {/* 더블 클릭시 생기는 부분 */}
@@ -143,7 +123,12 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description todo={todo} setIsDoubleClicked={setIsDoubleClicked} updateTodo={updateTodo} />
+            <Description
+              todo={todo}
+              description={todo.description}
+              updateTodo={updateTodo}
+              setIsDoubleClicked={setIsDoubleClicked}
+            />
           </DescriptionContainer>
           <Options todo={todo} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
         </>
