@@ -21,6 +21,9 @@ export const Primary = Template.bind({});
 Primary.args = {
   statistics: {
     inbox: 0,
-    today: 0,
+    map: 0,
+    logbook: 0,
+    trash: 0,
+    upcoming: 0,
   },
 };

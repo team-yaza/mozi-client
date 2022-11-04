@@ -1,5 +1,6 @@
 import { isBackgroundSyncAvailable, sendAuthTokenToServiceWorker } from './serviceWorker';
 import { SYNC_TODOS } from '@/shared/constants/serviceWorker';
+import { toastError } from './toast';
 
 export const syncTodos = async () => {
   if ('serviceWorker' in navigator && 'SyncManager' in window) {
@@ -13,7 +14,7 @@ export const syncTodos = async () => {
       // const tags = await registration.sync.getTags();
       // console.log(tags, '태그요 ㅎㅎ');
     } else {
-      console.log('데이터베이스 동기화 요청에 실패했습니다.');
+      toastError('데이터베이스 동기화 요청에 실패했습니다');
     }
   }
 };
