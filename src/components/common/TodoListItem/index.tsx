@@ -1,10 +1,11 @@
+import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import Title from './Title/index';
-import Description from './Description/index';
-import Map from './Map/index';
-import Options from './Options/index';
+import Title from './Title';
+import Description from './Description';
+import Map from './Map';
+import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import {
   Todo,
@@ -35,6 +36,7 @@ const TodoListItem = ({
 }: TodoListItemProps) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -78,6 +80,7 @@ const TodoListItem = ({
 
   const onCheckHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
+    setIsChecked((old) => !old);
     debounce(() => updateTodo({ id: todo.id, done: !todo.done }), 500)();
   };
 
@@ -103,7 +106,9 @@ const TodoListItem = ({
       {/* 클릭 안해도 보이는 부분 */}
 
       <MainContainer>
-        <CheckBox checked={todo.done} onClick={onCheckHandler} />
+        <CheckBox checked={isChecked} onClick={onCheckHandler}>
+          {isChecked && <Image width={15} height={15} src="/assets/svgs/check.svg" />}
+        </CheckBox>
         <Title
           todo={todo}
           isDoubleClicked={isDoubleClicked}
