@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
@@ -16,6 +16,7 @@ import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
 import { ROUTES } from '@/shared/constants/routes';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 const Inbox: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -25,10 +26,7 @@ const Inbox: NextPageWithLayout = () => {
   const { mutate: deleteTodo } = use_unsafe_deleteTodoMutation();
 
   const onDragStart = () => setIsDragging(true);
-
-  const onClickHandler = useCallback(() => {
-    createTodo({});
-  }, [createTodo]);
+  const onClickHandler = () => createTodo({});
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
@@ -39,7 +37,7 @@ const Inbox: NextPageWithLayout = () => {
       items.splice(result.destination.index, 0, reorderedItem);
       items.forEach((item: Todo, index) => (item.index = index));
 
-      queryClient.setQueriesData(['todos'], items);
+      queryClient.setQueriesData([queryKeys.TODOS], items);
 
       items.map((item: any, index) => updateTodo({ ...item, index }));
 
@@ -49,7 +47,7 @@ const Inbox: NextPageWithLayout = () => {
 
       const [deletedItem] = items.splice(result.source.index, 1);
 
-      queryClient.setQueriesData(['todos'], items);
+      queryClient.setQueriesData([queryKeys.TODOS], items);
       deleteTodo(deletedItem.id);
     }
 
