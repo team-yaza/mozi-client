@@ -21,19 +21,14 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
   const [CalendarModalState, setCalendarModalState] = useState<'alarm' | 'due'>('alarm');
   const [deleteModalState, setDeleteModalState] = useState<'location' | 'alarm' | 'due'>('location');
 
-  const onClickMap = useCallback(() => {
-    setIsMapOpened((prevState) => !prevState);
-  }, [setIsMapOpened]);
+  const onClickMap = () => setIsMapOpened((prevState) => !prevState);
 
-  const onClickCalendar = useCallback(
-    (type: 'alarm' | 'due') => {
-      setCalendarModalState(type);
-      setIsCalendarModalOpen((prevState) => !prevState);
-    },
-    [setIsCalendarModalOpen, setIsCalendarModalOpen]
-  );
+  const onClickCalendar = (type: 'alarm' | 'due') => {
+    setCalendarModalState(type);
+    setIsCalendarModalOpen((prevState) => !prevState);
+  };
 
-  const getDate = useCallback((date: undefined | string) => (date ? new Date(date) : new Date()), []);
+  const getDate = (date: undefined | string) => (date ? new Date(date) : new Date());
 
   const onDeleteLocationHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -44,23 +39,17 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
     [setDeleteModalState, setIsDeleteModalOpen]
   );
 
-  const onDeleteAlarmDateHandler = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.stopPropagation();
-      setDeleteModalState('alarm');
-      setIsDeleteModalOpen((old) => !old);
-    },
-    [setDeleteModalState, setIsDeleteModalOpen]
-  );
+  const onDeleteAlarmDateHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalState('alarm');
+    setIsDeleteModalOpen((old) => !old);
+  };
 
-  const onDeleteDueDateHandler = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.stopPropagation();
-      setDeleteModalState('due');
-      setIsDeleteModalOpen((old) => !old);
-    },
-    [setDeleteModalState, setIsDeleteModalOpen]
-  );
+  const onDeleteDueDateHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalState('due');
+    setIsDeleteModalOpen((old) => !old);
+  };
 
   return (
     <Container>
