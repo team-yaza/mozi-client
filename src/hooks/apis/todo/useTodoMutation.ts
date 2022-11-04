@@ -31,7 +31,6 @@ export const useCreateTodoMutation = () =>
           return [data];
         });
 
-        // indexedDB에 todo 생성
         await syncTodos();
       },
     }
@@ -71,51 +70,6 @@ export const useDeleteTodoMutation = () =>
       await syncTodos();
     },
   });
-
-// export const useCreateTodoMutation = () =>
-//   useMutation(
-//     ({ title, locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
-//       todoService.createTodo({ title, locationName, longitude, latitude, dueDate }),
-//     {
-//       onSuccess: async (data) => {
-//         queryClient.setQueriesData([queryKeys.TODOS], (oldData: any) => {
-//           if (oldData) {
-//             return [data, ...oldData];
-//           }
-
-//           return [data];
-//         });
-//         queryClient.invalidateQueries(['statistics']);
-
-//         await todoStore.setItem(data.id, data);
-//       },
-//       onError: async (error: any) => {
-//         // 네트워크 에러 부분
-//         console.log(error.message, '에러메시지');
-//         console.log('오프라인에서 투두생성');
-
-//         const offlineTodoId = uuid();
-//         const localTodo = { created: true, id: offlineTodoId, alarmed: false, done: false };
-
-//         try {
-//           await todoStore.setItem(offlineTodoId, {
-//             id: offlineTodoId,
-//             title: '',
-//             description: '',
-//             done: false,
-//             alarmed: false,
-//             created: true,
-//           });
-//         } catch (error) {
-//           console.log(error);
-//         }
-
-//         queryClient.setQueriesData([queryKeys.TODOS], (data: any) => [localTodo, ...data]);
-
-//         await syncTodos();
-//       },
-//     }
-//   );
 
 export const useForceDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.forceDeleteTodo(id), {
