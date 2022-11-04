@@ -16,4 +16,4 @@ export { default as Spinner } from './Spinner';
 export { default as TextInput } from './TextInput';
 export { default as Title } from './Title';
 export { default as TodoList } from './TodoList';
-export { default as TodoListItem } from './TodoListItem';
+export { default as TodoListItem } from './TodoListItem/legacy_index';

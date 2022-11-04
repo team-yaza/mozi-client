@@ -5,7 +5,6 @@ import { Container } from './styles';
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const { data: statistics } = useTodoListStatistics();
-  console.log(statistics, '?');
 
   return (
     <Container>

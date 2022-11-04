@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoListItem from './unsafe_TodoListItem';
+import TodoListItem from './index';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 export default {

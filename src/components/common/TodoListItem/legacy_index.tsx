@@ -1,41 +1,65 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import Title from './Title';
-import Description from './Description';
-import Map from './Map';
-import Options from './Options';
+import Title from './Title/index';
+import Description from './Description/index';
+import Map from './Map/index';
+import Options from './Options/index';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import {
-  Todo,
-  // TodoUpdateRequest
-} from '@/shared/types/todo';
-import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
+// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { debounce } from '@/shared/utils/debounce';
-import { CheckBox, Container, DescriptionContainer, IconContainer, Icons, MainContainer } from './styles';
+import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
+import { CheckBox, Container, DescriptionContainer, MainContainer, IconContainer, Icons } from './styles';
+import { Todo } from '@/shared/types/todo';
 
 interface TodoListItemProps {
   todo: Todo;
+  id: string;
+  title?: string;
+  description?: string;
+  longitude?: number;
+  latitude?: number;
+  locationName?: string;
+  alarmDate?: string;
+  dueDate?: string;
+  done: boolean;
   index: number;
-  isFocused: boolean;
+  isFocused?: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
   setIsEditing?: Dispatch<SetStateAction<number>>;
   updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
   deleteTodo: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
-const TodoListItem = ({
+const TodoListItem: React.FC<TodoListItemProps> = ({
   todo,
   index,
+  alarmDate,
+  dueDate,
   isFocused,
+  locationName,
   setIsFocused,
   setIsEditing,
   updateTodo,
   deleteTodo,
-}: TodoListItemProps) => {
+}) => {
+  const [isChecked, setIsChecked] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const onClickOutsideHandler = useCallback(() => {
+    setIsFocused(-1);
+    setIsMapOpened(false);
+    setIsDoubleClicked(false);
+  }, [setIsFocused, setIsMapOpened, setIsDoubleClicked]);
+
+  useOnClickOutside(containerRef, onClickOutsideHandler);
+
+  useEffect(() => {
+    if (todo.done) setIsChecked(true);
+  }, [setIsChecked]);
 
   useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
@@ -49,19 +73,11 @@ const TodoListItem = ({
     }
 
     return () => document.removeEventListener('keydown', deleteTodoHandler);
-  }, [todo, deleteTodo, isFocused]);
+  }, [todo.id, deleteTodo, isFocused]);
 
   useEffect(() => {
     if (isDoubleClicked && setIsEditing) setIsEditing(index);
-  }, [isDoubleClicked, setIsEditing, index]);
-
-  const onClickOutsideHandler = useCallback(() => {
-    setIsFocused(-1);
-    setIsMapOpened(false);
-    setIsDoubleClicked(false);
-  }, [setIsFocused, setIsMapOpened, setIsDoubleClicked]);
-
-  useOnClickOutside(containerRef, onClickOutsideHandler);
+  }, [isDoubleClicked, setIsEditing]);
 
   const onClickHandler = useCallback(() => {
     if (isDoubleClicked) return;
@@ -80,28 +96,24 @@ const TodoListItem = ({
     [setIsFocused, setIsMapOpened, setIsDoubleClicked]
   );
 
-  const debouncedUpdateTodo = useCallback(
-    debounce(() => updateTodo({ id: todo.id, done: !todo.done }), 500),
-    [todo, updateTodo, debounce]
-  );
-
   const onCheckHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
-      debouncedUpdateTodo();
+      setIsChecked((prevState) => !prevState);
+      debounce(() => updateTodo({ ...todo, done: !todo.done }), 500)();
     },
-    [debouncedUpdateTodo]
+    [todo.done, setIsChecked]
   );
 
-  const renderIcons = useCallback(() => {
+  const renderIcons = () => {
     const icons = [];
 
-    if (todo.locationName) icons.push(<PLACE />);
-    if (todo.alarmDate) icons.push(<CALENDAR />);
-    if (todo.dueDate) icons.push(<DEADLINE />);
+    if (locationName) icons.push(<PLACE />);
+    if (alarmDate) icons.push(<CALENDAR />);
+    if (dueDate) icons.push(<DEADLINE />);
 
     return icons.map((icon) => <IconContainer>{icon}</IconContainer>);
-  }, [todo]);
+  };
 
   return (
     <Container
@@ -115,13 +127,14 @@ const TodoListItem = ({
       {/* 클릭 안해도 보이는 부분 */}
 
       <MainContainer>
-        <CheckBox checked={todo.done} onClick={onCheckHandler} />
+        <CheckBox checked={isChecked} onClick={onCheckHandler} />
         <Title
           todo={todo}
           isDoubleClicked={isDoubleClicked}
-          updateTodo={updateTodo}
           setIsDoubleClicked={setIsDoubleClicked}
+          updateTodo={updateTodo}
         />
+
         {!isDoubleClicked && <Icons>{renderIcons()}</Icons>}
       </MainContainer>
 
@@ -130,12 +143,7 @@ const TodoListItem = ({
       {isDoubleClicked && (
         <>
           <DescriptionContainer>
-            <Description
-              todo={todo}
-              description={todo.description}
-              updateTodo={updateTodo}
-              setIsDoubleClicked={setIsDoubleClicked}
-            />
+            <Description todo={todo} setIsDoubleClicked={setIsDoubleClicked} updateTodo={updateTodo} />
           </DescriptionContainer>
           <Options todo={todo} setIsMapOpened={setIsMapOpened} updateTodo={updateTodo} />
         </>

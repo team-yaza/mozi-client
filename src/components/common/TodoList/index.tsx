@@ -5,7 +5,7 @@ import {
   Todo,
   // TodoUpdateRequest
 } from '@/shared/types/todo';
-import TodoListItem from '@/components/common/TodoListItem/unsafe_TodoListItem';
+import TodoListItem from '@/components/common/TodoListItem/index';
 import { Container } from './styles';
 
 interface TodoListProps {
