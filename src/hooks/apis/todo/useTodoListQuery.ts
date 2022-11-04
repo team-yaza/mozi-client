@@ -63,14 +63,3 @@ export const useTodoListStatistics = () => {
     }
   );
 };
-
-// select: () => {
-// const todos = queryClient.getQueryData([queryKeys.GET_TODOLIST]) as Todo[];
-// todos;
-// if (todos) {
-//
-// } else {
-//   return { inbox: 0, logbook: 0, trash: 0, map: 0 };
-// }
-// },
-// initialData: { logbook: 0, trash: 0, inbox: 0, map: 0 },

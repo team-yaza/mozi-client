@@ -9,64 +9,6 @@ import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/sh
 import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@/store/localForage';
 
 const todoService = {
-  createTodo: async ({ title, locationName, longitude, latitude, dueDate }: TodoCreateRequest) =>
-    await fetcher('post', '/todos', {
-      title,
-      locationName,
-      longitude,
-      latitude,
-      dueDate,
-    }),
-  getTodos: async (): Promise<Todo[]> => await fetcher('get', '/todos'),
-  updateTodo: async ({
-    id,
-    title,
-    longitude,
-    latitude,
-    description,
-    done,
-    alarmDate,
-    dueDate,
-    locationName,
-    deletedAt,
-  }: TodoUpdateRequest) => {
-    try {
-      const updatedTodo = await fetcher('patch', `/todos/${id}`, {
-        title,
-        longitude,
-        latitude,
-        locationName,
-        description,
-        done,
-        alarmDate,
-        dueDate,
-        deletedAt,
-      });
-      if ((locationName && longitude && latitude) || alarmDate)
-        await todoStore.setItem(id, { ...updatedTodo, alarmed: false });
-      else await todoStore.setItem(id, updatedTodo);
-
-      return updatedTodo;
-    } catch (error) {
-      console.error(error);
-
-      await syncTodos();
-    }
-    // 네트워크 요청이 실패하면 로컬에 todo를 적는다.
-    await todoStore.setItem(id, {
-      id,
-      title,
-      longitude,
-      latitude,
-      locationName,
-      description,
-      done,
-      updated: true,
-      alarmDate,
-      dueDate,
-    });
-  },
-
   forceDeleteTodo: async (id: string) => {
     try {
       await fetcher('delete', `/todos/force/${id}`);
@@ -116,34 +58,12 @@ const todoService = {
       toastError(TODO_CREATE_FAILED);
     }
   },
-  updateTodoAtIndexedDB: async ({
-    id,
-    title,
-    index,
-    longitude,
-    latitude,
-    description,
-    done,
-    alarmDate,
-    dueDate,
-    locationName,
-    deletedAt,
-  }: TodoUpdateRequest) => {
+  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest) => {
     try {
       // const todo = (await todoStore.getItem(id)) as Todo;
       // console.log(todo, 'from indexedDB');
       return await todoStore.setItem(id, {
-        id,
-        title,
-        index,
-        longitude,
-        latitude,
-        description,
-        done,
-        alarmDate,
-        dueDate,
-        locationName,
-        deletedAt,
+        ...rest,
         offline: true,
       });
     } catch (error) {
