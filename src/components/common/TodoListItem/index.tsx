@@ -40,6 +40,10 @@ const TodoListItem = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsChecked(todo.done);
+  }, [setIsChecked]);
+
+  useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
       if (e.key === 'Backspace' || e.key === 'Delete') {
         deleteTodo(todo.id);
