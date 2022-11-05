@@ -3,7 +3,7 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
 import Script from 'next/script';
 
-import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL } from '@/shared/constants/application';
+import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL, OG_IMAGE } from '@/shared/constants/application';
 import { theme } from '@/styles/theme';
 import { SEO } from '@/components/common/index';
 
@@ -33,13 +33,13 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="ko">
         <SEO
           title={APP_NAME}
           description={APP_DESCRIPTION}
           customMetaTags={[
             {
-              charSet: 'utf-8',
+              charset: 'utf-8',
             },
             {
               viewport: 'width=device-width, initial-scale=1',
@@ -75,7 +75,7 @@ class MyDocument extends Document {
             type: APP_TYPE,
             url: APP_URL,
             siteName: APP_NAME,
-            image: '/assets/images/og-image.png',
+            image: OG_IMAGE,
           }}
         />
         {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
@@ -84,6 +84,12 @@ class MyDocument extends Document {
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
 
         <link rel="manifest" href="/manifest.json" />
+
+        <link
+          rel="apple-touch-startup-image"
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+          href="/apple-launch-828x1792.png"
+        />
         <Head>
           <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />
           <Script
