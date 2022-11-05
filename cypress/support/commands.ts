@@ -1,17 +1,22 @@
 /// <reference types="cypress" />
 // ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
+export {};
 //
 // For more comprehensive examples of custom
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+
+Cypress.Commands.add('dataCy', (value) => {
+  return cy.get(`[data-cy=${value}]`);
+});
+
+Cypress.Commands.add('login', () => {
+  cy.setCookie('token', Cypress.env('token'));
+  alert(Cypress.env());
+  cy.visit('/inbox');
+});
+
 //
 //
 // -- This is a child command --

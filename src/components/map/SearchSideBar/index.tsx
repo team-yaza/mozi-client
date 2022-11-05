@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Dispatch, SetStateAction, useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useState, Dispatch, SetStateAction, useRef, useEffect, useLayoutEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import RecentSearch from './RecentSearch';
@@ -62,15 +62,13 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
     setIsSearchBarOpen(getSearchSideBarStateFromLocalStorage());
   }, []);
 
-  const clearSearch = useCallback(() => {
-    setIsSearching(false);
-  }, []);
+  const clearSearch = () => setIsSearching(false);
 
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+  const onKeyDown = (e: React.KeyboardEvent) => {
     e.stopPropagation();
-  }, []);
+  };
 
-  const onChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
 
     if (e.target.value === '') {
@@ -90,14 +88,11 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
       setIsSearching(true);
       setSearchResult(result.slice(0, 5));
     }
-  }, []);
+  };
 
-  const onChangePosition = useCallback(
-    ({ latitude, longitude }: { latitude: number; longitude: number }) => {
-      setCoords({ latitude, longitude });
-    },
-    [setCoords]
-  );
+  const onChangePosition = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+    setCoords({ latitude, longitude });
+  };
 
   const onChangeRecentSearchResult = (result: LocationSearchResult) => {
     const hasSameRecentSearch = recentSearch.some((recentSearchItem) => recentSearchItem.name === result.name);
@@ -108,9 +103,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
     setItem('RECENT_SEARCH', JSON.stringify([result, ...recentSearch].slice(0, 5)));
   };
 
-  const clickSearchBarHandler = useCallback(() => {
-    setIsSearching(!isSearching);
-  }, [isSearching]);
+  const clickSearchBarHandler = () => setIsSearching(!isSearching);
 
   return (
     <Container isSearchBarOpen={isSearchBarOpen}>

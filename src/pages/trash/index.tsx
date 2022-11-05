@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
@@ -14,22 +14,18 @@ import { TRASH } from '@/components/common/Figure';
 import {
   useDeleteAllTodosMutation,
   useForceDeleteTodoMutation,
-  use_unsafe_createTodoMutation,
-  use_unsafe_updateTodoMutation,
+  useCreateTodoMutation,
+  useUpdateTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
 import { ROUTES } from '@/shared/constants/routes';
 
 const Trash: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { data: todos, isLoading } = useTodoListQuery(ROUTES.TRASH);
-  const { mutate: createTodo } = use_unsafe_createTodoMutation();
+  const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
-  const { mutate: updateTodo } = use_unsafe_updateTodoMutation();
+  const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
-
-  const onDragStart = useCallback(() => {
-    setIsDragging(true);
-  }, []);
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
@@ -61,7 +57,7 @@ const Trash: NextPageWithLayout = () => {
           </SpinnerContainer>
         )}
 
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
           <Droppable droppableId="todos">
             {(provided) => (
               <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>

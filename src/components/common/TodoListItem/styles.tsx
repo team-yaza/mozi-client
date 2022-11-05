@@ -42,15 +42,17 @@ export const MainContainer = styled.div`
 `;
 
 export const CheckBox = styled.div<{ checked: boolean }>`
+  position: relative;
   width: 1.8rem;
   height: 1.8rem;
+
+  ${flexCenter};
 
   flex-shrink: 0;
 
   border: ${({ checked, theme }) => !checked && `0.1rem solid ${theme.color.todo_checkbox}`};
   border-radius: 0.5rem;
 
-  background-image: ${({ checked }) => checked && 'url("/assets/svgs/check.svg")'};
   background-color: ${({ checked }) => checked && theme.colors.purple};
   background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;

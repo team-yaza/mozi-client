@@ -135,4 +135,4 @@ storybook-static
 .sentryclirc
 
 # Cypress
-videos/
+cypress.env.json

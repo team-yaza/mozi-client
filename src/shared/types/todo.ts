@@ -21,11 +21,13 @@ export interface Todo {
   updated?: boolean;
   deleted?: boolean;
 
-  offline?: 'created' | 'updated' | 'deleted' | 'forceDeleted';
+  offline?: Offline;
   offlineDeleted?: boolean;
   offlineForceDeleted?: boolean;
   forceDeleted?: boolean;
 }
+
+export type Offline = 'created' | 'updated' | 'deleted' | 'forceDeleted';
 
 export interface TodoSuccessResponse {
   id: string;
@@ -60,6 +62,7 @@ export interface TodoCreateRequest {
 export interface TodoStatistics {
   inbox: number;
   map: number;
+  upcoming: number;
   logbook: number;
   trash: number;
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,6 +8,7 @@ import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER, INBOX, LOGBOOK, MAP, TRASH, UPCOMING } from '@/components/common/Figure';
 import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
 import SideBarMenu from './SideBarMenu';
+import { TodoStatistics } from '@/shared/types/todo';
 import {
   Container,
   ArrowLeftContainer,
@@ -20,11 +21,10 @@ import {
 } from './styles';
 
 export interface SideBarProps {
-  statistics: any;
+  statistics?: TodoStatistics;
 }
 
 const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
-  statistics; // 임시
   const theme = useTheme();
   const [isSideBarOpened, setIsSideBarOpened] = useState(true);
   const [controlIconHovered, setControlIconHovered] = useState(false);
@@ -52,23 +52,23 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
     setIsSideBarOpened(getSideBarStateFromLocalStorage());
   }, [setIsSideBarOpened]);
 
-  const onCloseSideBar = useCallback(() => {
+  const onCloseSideBar = () => {
     setIsSideBarOpened(false);
     setWidth(0);
-  }, [setIsSideBarOpened, setWidth]);
+  };
 
-  const onOpenSideBar = useCallback(() => {
+  const onOpenSideBar = () => {
     setIsSideBarOpened(true);
     setWidth(300);
-  }, [setIsSideBarOpened, setWidth]);
+  };
 
-  const onToggleSideBar = useCallback(() => {
+  const onToggleSideBar = () => {
     if (isSideBarOpened) {
       onCloseSideBar();
     } else {
       onOpenSideBar();
     }
-  }, [isSideBarOpened]);
+  };
 
   return (
     <Container
@@ -105,13 +105,13 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
       {/* 사이드바 내용이 들어가는 부분 */}
       <SideBarMenuContainer>
         <SideBarMenuList>
-          <Link href="/">
+          <Link href="/inbox">
             <a>
               <SideBarMenu
-                icon={<INBOX focused={router.pathname === '/'} />}
-                count={0}
+                icon={<INBOX focused={router.pathname === '/inbox'} />}
+                count={statistics?.inbox || 0}
                 name="Inbox"
-                focused={router.pathname === '/'}
+                focused={router.pathname === '/inbox'}
               />
             </a>
           </Link>
@@ -120,7 +120,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
             <a>
               <SideBarMenu
                 icon={<MAP focused={router.pathname === '/map'} />}
-                count={0}
+                count={statistics?.map || 0}
                 name="Map"
                 focused={router.pathname === '/map'}
               />
@@ -131,7 +131,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
             <a>
               <SideBarMenu
                 icon={<UPCOMING focused={router.pathname === '/upcoming'} fill={'white'} />}
-                count={0}
+                count={statistics?.upcoming || 0}
                 name="Upcoming"
                 focused={router.pathname === '/upcoming'}
               />
@@ -142,7 +142,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
             <a>
               <SideBarMenu
                 icon={<LOGBOOK focused={router.pathname === '/logbook'} fill={theme.color.sidebar_menu_background} />}
-                count={0}
+                count={statistics?.logbook || 0}
                 name="Logbook"
                 focused={router.pathname === '/logbook'}
               />
@@ -153,7 +153,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
             <a>
               <SideBarMenu
                 icon={<TRASH focused={router.pathname === '/trash'} />}
-                count={0}
+                count={statistics?.trash || 0}
                 name={'Trash'}
                 focused={router.pathname === '/trash'}
               />

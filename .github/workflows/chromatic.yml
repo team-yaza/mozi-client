@@ -1,4 +1,3 @@
-# Workflow name
 name: 'Chromatic Deployment'
 
 on:
