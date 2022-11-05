@@ -5,8 +5,6 @@ import { ServerStyleSheet } from 'styled-components';
 import { APP_AUTHOR, APP_DESCRIPTION, APP_KEYWORDS, APP_NAME } from '@/shared/constants/application';
 import { theme } from '@/styles/theme';
 
-// import { SEO } from '@/components/common/index';
-
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
