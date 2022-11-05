@@ -16,8 +16,10 @@ export const Container = styled.li`
 
   padding: 1.4rem;
 
-  border: 0.1rem solid #ccc;
-  border-radius: 0.4rem;
+  margin-inline: 2rem;
+
+  /* border: 0.1rem solid #ccc; */
+  /* border-radius: 0.4rem; */
 `;
 
 export const CheckBoxContainer = styled.div``;

@@ -1,10 +1,11 @@
+import React from 'react';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
-import { AppLayout, Title, Footer, Header, DropPlaceholder } from '@/components/common';
+import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -16,7 +17,7 @@ import { queryKeys } from '@/shared/constants/queryKey';
 
 const Inbox: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
-  const { data: todos } = useTodoListQuery(ROUTES.HOME);
+  const { data: todos, isLoading } = useTodoListQuery(ROUTES.HOME);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
@@ -56,11 +57,12 @@ const Inbox: NextPageWithLayout = () => {
       <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
       {/* DND features */}
+
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Droppable droppableId="todos">
           {(provided) => (
             <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-              <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+              {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />}
               {provided.placeholder}
             </TodoListContainer>
           )}

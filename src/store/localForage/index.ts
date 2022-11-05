@@ -1,5 +1,5 @@
-import { Todo } from '@/shared/types/todo';
 import localForage from 'localforage';
+import { Todo } from '@/shared/types/todo';
 
 export const todoStore = localForage.createInstance({
   name: 'todo-store',
