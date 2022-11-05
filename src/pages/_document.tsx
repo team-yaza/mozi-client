@@ -5,8 +5,6 @@ import { ServerStyleSheet } from 'styled-components';
 import { APP_AUTHOR, APP_DESCRIPTION, APP_KEYWORDS, APP_NAME } from '@/shared/constants/application';
 import { theme } from '@/styles/theme';
 
-// import { SEO } from '@/components/common/index';
-
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
@@ -52,14 +50,65 @@ class MyDocument extends Document {
           <meta name="apple-mobile-web-app-title" content={APP_NAME} />
           {/* 홈화면에 표시되는 앱 아이콘 지정 */}
           <link rel="apple-touch-icon" sizes="192x192" href="/apple-icon-192x192.png" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+          <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
+          <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
 
           <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
           <link rel="shortcut icon" href="/favicon.svg" type="image/svg" />
-
+          {/* iPhone Xr (828px x 1792px) */}
           <link
             rel="apple-touch-startup-image"
             media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
             href="/apple-launch-828x1792.png"
+          />
+          {/* iPhone Xs Max (1242px x 2688px)  */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+            href="/apple-launch-1242x2688.png"
+          />
+          {/* iPhone X, Xs (1125px x 2436px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+            href="/apple-launch-1125x2436.png"
+          />
+          {/* iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
+            href="/apple-launch-1242x2208.png"
+          />
+          {/* iPhone 8, 7, 6s, 6 (750px x 1334px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+            href="/apple-launch-750x1334.png"
+          />
+          {/* iPad Pro 12.9" (2048px x 2732px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+            href="/apple-launch-2048x2732.png"
+          />
+          {/* iPad Pro 11” (1668px x 2388px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+            href="/apple-launch-1668x2388.png"
+          />
+          {/* iPad Pro 10.5" (1668px x 2224px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+            href="/apple-launch-1668x2224.png"
+          />
+          {/* iPad Mini, Air (1536px x 2048px) */}
+          <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+            href="/apple-launch-1536x2048.png"
           />
 
           <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />
