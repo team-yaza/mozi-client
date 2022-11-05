@@ -3,7 +3,7 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
 import Script from 'next/script';
 
-import { APP_DESCRIPTION, APP_NAME } from '@/shared/constants/application';
+import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL } from '@/shared/constants/application';
 import { theme } from '@/styles/theme';
 import { SEO } from '@/components/common/index';
 
@@ -51,28 +51,36 @@ class MyDocument extends Document {
               description: APP_DESCRIPTION,
             },
             {
+              keywords: 'MOZI, 소프트웨어 마에스트로, 소마, 야자',
+            },
+            {
               'theme-color': theme.colors.purple,
             },
             {
               'apple-mobile-web-app-title': APP_NAME,
             },
             {
-              keywords: 'MOZI, 소프트웨어 마에스트로, 소마, 야자',
+              'apple-mobile-web-app-capable': 'yes',
+            },
+            {
+              'mobile-web-app-capable': 'yes',
+            },
+            {
+              'apple-mobile-web-app-status-bar-style': theme.colors.purple,
             },
           ]}
           og={{
             title: APP_NAME,
             description: APP_DESCRIPTION,
+            type: APP_TYPE,
+            url: APP_URL,
+            siteName: APP_NAME,
           }}
         />
         {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
         {/* <link rel="apple-touch-icon" href="/icon.png" />
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="mobile-web-app-capable" content="yes" />
-
         <meta property="og:image" content="" />
         <meta property="og:url" content="/" />
         <link rel="manifest" href="/manifest.json" />
