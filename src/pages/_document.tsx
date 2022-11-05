@@ -39,6 +39,12 @@ class MyDocument extends Document {
           description={APP_DESCRIPTION}
           customMetaTags={[
             {
+              charSet: 'utf-8',
+            },
+            {
+              viewport: 'width=device-width, initial-scale=1',
+            },
+            {
               'application-name': APP_NAME,
             },
             {
@@ -50,27 +56,27 @@ class MyDocument extends Document {
             {
               'apple-mobile-web-app-title': APP_NAME,
             },
+            {
+              keywords: 'MOZI, 소프트웨어 마에스트로, 소마, 야자',
+            },
           ]}
           og={{
             title: APP_NAME,
             description: APP_DESCRIPTION,
           }}
         />
-        <Head>
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
-          {/* <link rel="manifest" href="/manifest.json" /> */}
-          {/* <link rel="apple-touch-icon" href="/icon.png" />
+        {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
+        {/* <link rel="manifest" href="/manifest.json" /> */}
+        {/* <link rel="apple-touch-icon" href="/icon.png" />
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
-          <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-          <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="mobile-web-app-capable" content="yes" />
 
-          <meta property="og:image" content="" />
-          <meta property="og:url" content="/" />
-          <meta name="keywords" content="" />
-          <link rel="manifest" href="/manifest.json" />
+        <meta property="og:image" content="" />
+        <meta property="og:url" content="/" />
+        <link rel="manifest" href="/manifest.json" />
+        <Head>
           <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />
           <Script
             strategy="beforeInteractive"
