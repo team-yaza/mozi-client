@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -9,7 +8,7 @@ import * as Sentry from '@sentry/nextjs';
 import { sendAccessTokenToServerAndGetJWT } from '@/shared/utils/kakao';
 import { toastError, toastSuccess } from '@/shared/utils/toast';
 import { LOGIN_FAIL, LOGIN_SUCCESS } from '@/shared/constants/dialog';
-import { Spinner } from '@/components/common';
+import { SEO, Spinner } from '@/components/common';
 
 const Kakao: NextPage = () => {
   const router = useRouter();
@@ -56,9 +55,7 @@ const Kakao: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>MOZI | 카카오 로그인</title>
-      </Head>
+      <SEO title="MOZI | Kakao" />
       <Container>
         <Spinner />
       </Container>

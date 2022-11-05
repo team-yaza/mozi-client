@@ -1,2 +1,5 @@
 export const APP_NAME = 'MOZI' as const;
 export const APP_DESCRIPTION = '할 일을 잊지 않기 위한 시간/장소 기반 TODO 서비스' as const;
+export const APP_TYPE = 'website' as const;
+export const APP_URL = 'https://mozi-client.vercel.app' as const;
+export const OG_IMAGE = 'https://mozi-client.vercel.app/assets/images/og-mozi.png' as const;

@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect } from 'react';
@@ -9,6 +8,7 @@ import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { loginWithKakao } from '@/shared/utils/kakao';
 import { getCookie } from '@/shared/utils/cookie';
+import { SEO } from '@/components/common';
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
@@ -26,9 +26,7 @@ const Login: NextPageWithLayout = () => {
 
   return (
     <>
-      <Head>
-        <title>MOZI | Login</title>
-      </Head>
+      <SEO title="MOZI | Login" />
       <Container>
         <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 

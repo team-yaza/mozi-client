@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
@@ -107,10 +106,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   return (
     <>
-      <Head>
-        <title>MOZI</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
