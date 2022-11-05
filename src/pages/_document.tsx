@@ -52,6 +52,9 @@ class MyDocument extends Document {
           <meta name="apple-mobile-web-app-title" content={APP_NAME} />
           {/* 홈화면에 표시되는 앱 아이콘 지정 */}
           <link rel="apple-touch-icon" sizes="192x192" href="/apple-icon-192x192.png" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+          <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
+          <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
 
           <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
           <link rel="shortcut icon" href="/favicon.svg" type="image/svg" />
