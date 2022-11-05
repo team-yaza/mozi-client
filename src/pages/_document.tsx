@@ -75,14 +75,14 @@ class MyDocument extends Document {
             type: APP_TYPE,
             url: APP_URL,
             siteName: APP_NAME,
+            image: '/assets/images/og-image.png',
           }}
         />
         {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
         {/* <link rel="apple-touch-icon" href="/icon.png" />
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
-        <meta property="og:image" content="" />
-        <meta property="og:url" content="/" />
+
         <link rel="manifest" href="/manifest.json" />
         <Head>
           <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />

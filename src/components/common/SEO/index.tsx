@@ -103,6 +103,8 @@ const SEO: React.FC<SEOProps> = ({
   }
 
   tags.push(<meta property="og:locale" content="ko_KR" />);
+  tags.push(<meta property="og:image:width" content="1200" />);
+  tags.push(<meta property="og:image:height" content="630" />);
 
   if (customMetaTags.length > 0) {
     tags.push(customMetaTags.map(({ key, ...tagProps }, i) => <meta key={`meta-${key || i}`} {...tagProps} />));
