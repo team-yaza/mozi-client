@@ -1,9 +1,8 @@
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
-import Head from 'next/head';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { AppLayout, Header, Title, TodoList } from '@/components/common';
+import { AppLayout, Header, SEO, Title, TodoList } from '@/components/common';
 import { UPCOMING } from '@/components/common/Figure';
 import Calendar from '@/components/upcoming/Calendar';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
@@ -19,9 +18,7 @@ const Upcoming: NextPageWithLayout = () => {
 
   return (
     <>
-      <Head>
-        <title>MOZI | Upcoming</title>
-      </Head>
+      <SEO title="MOZI | Upcoming" />
       <Container>
         <Header />
         <Title icon={<UPCOMING focused />} title="Upcoming" />

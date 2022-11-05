@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import type { ReactElement } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -7,7 +6,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { NextPageWithLayout } from '@/pages/_app';
 import { queryClient } from '@/shared/utils/queryClient';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { Header, Spinner, Title, AppLayout, Footer, DropPlaceholder } from '@/components/common';
+import { Header, Spinner, Title, AppLayout, Footer, DropPlaceholder, SEO } from '@/components/common';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { theme } from '@/styles/theme';
 import { TRASH } from '@/components/common/Figure';
@@ -43,9 +42,7 @@ const Trash: NextPageWithLayout = () => {
   };
   return (
     <>
-      <Head>
-        <title>MOZI | Trash</title>
-      </Head>
+      <SEO title="MOZI | Trash" />
 
       <Container>
         <Header />

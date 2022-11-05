@@ -1,9 +1,8 @@
-import Head from 'next/head';
 import { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common';
+import { AppLayout, Footer, Header, SEO, Title, TodoList } from '@/components/common';
 import { LOGBOOK } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useCreateTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -17,9 +16,7 @@ const Logbook: NextPageWithLayout = () => {
 
   return (
     <>
-      <Head>
-        <title>MOZI | Logbook</title>
-      </Head>
+      <SEO title="MOZI | Logbook" />
       <Container>
         <Header />
         <Title icon={<LOGBOOK focused />} title="Logbook" />

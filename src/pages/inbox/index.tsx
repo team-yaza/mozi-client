@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
-import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton } from '@/components/common';
+import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton, SEO } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -52,44 +52,47 @@ const Inbox: NextPageWithLayout = () => {
   };
 
   return (
-    <Container>
-      <Header />
-      <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
+    <>
+      <SEO title="MOZI | Inbox" />
+      <Container>
+        <Header />
+        <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
-      {/* DND features */}
+        {/* DND features */}
 
-      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-        <Droppable droppableId="todos">
-          {(provided) => (
-            <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-              {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />}
-              {provided.placeholder}
-            </TodoListContainer>
-          )}
-        </Droppable>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+          <Droppable droppableId="todos">
+            {(provided) => (
+              <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
+                {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />}
+                {provided.placeholder}
+              </TodoListContainer>
+            )}
+          </Droppable>
 
-        <Droppable droppableId="trash">
-          {(provided, snapshot) => (
-            <DropPlaceholder
-              ref={provided.innerRef}
-              isDragging={isDragging}
-              active={snapshot.isDraggingOver}
-              borderColor={theme.colors.purple}
-              backgroundColor="#f3d9fa"
-              hoverColor="#cc5de8"
-              text="삭제"
-              icon={<TRASH />}
-              {...provided.droppableProps}
-            >
-              {provided.placeholder}
-            </DropPlaceholder>
-          )}
-        </Droppable>
-      </DragDropContext>
+          <Droppable droppableId="trash">
+            {(provided, snapshot) => (
+              <DropPlaceholder
+                ref={provided.innerRef}
+                isDragging={isDragging}
+                active={snapshot.isDraggingOver}
+                borderColor={theme.colors.purple}
+                backgroundColor="#f3d9fa"
+                hoverColor="#cc5de8"
+                text="삭제"
+                icon={<TRASH />}
+                {...provided.droppableProps}
+              >
+                {provided.placeholder}
+              </DropPlaceholder>
+            )}
+          </Droppable>
+        </DragDropContext>
 
-      {/* 드래그 안할 때는 Footer를 보여줌 */}
-      {!isDragging && <Footer createTodo={createTodo} />}
-    </Container>
+        {/* 드래그 안할 때는 Footer를 보여줌 */}
+        {!isDragging && <Footer createTodo={createTodo} />}
+      </Container>
+    </>
   );
 };
 
