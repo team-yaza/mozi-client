@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
@@ -145,7 +146,9 @@ const Map: NextPageWithLayout = () => {
 
   return (
     <>
-      {/* <SEO title="MOZI | Map" /> */}
+      <Head>
+        <title>MOZI | Map</title>
+      </Head>
       <Container>
         {/* 검색 사이드바 */}
         <SearchSideBar

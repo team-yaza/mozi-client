@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
-import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton, SEO } from '@/components/common';
+import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
@@ -14,6 +14,7 @@ import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
 import { ROUTES } from '@/shared/constants/routes';
 import { queryKeys } from '@/shared/constants/queryKey';
+import Head from 'next/head';
 
 const Inbox: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -53,7 +54,9 @@ const Inbox: NextPageWithLayout = () => {
 
   return (
     <>
-      <SEO title="MOZI | Inbox" />
+      <Head>
+        <title>MOZI | Inbox</title>
+      </Head>
       <Container>
         <Header />
         <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />

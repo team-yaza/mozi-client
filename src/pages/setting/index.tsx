@@ -1,9 +1,10 @@
+import Head from 'next/head';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { AppLayout, SEO, Title } from '@/components/common';
+import { AppLayout, Title } from '@/components/common';
 import Theme from '@/components/setting/Theme';
 import { SETTING } from '@/components/common/Figure';
 import { LogoutButton } from '@/components/setting/LogoutButton';
@@ -19,7 +20,9 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
 
   return (
     <>
-      <SEO title="MOZI | Setting" />
+      <Head>
+        <title>MOZI | Setting</title>
+      </Head>
       <Container>
         <Title title="Setting" icon={<SETTING />} />
         <Theme setTheme={setTheme} />

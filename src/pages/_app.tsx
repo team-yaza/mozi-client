@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import Head from 'next/head';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
@@ -14,8 +15,14 @@ import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
 import { getCookie } from '@/shared/utils/cookie';
-import Head from 'next/head';
-import { APP_NAME } from '@/shared/constants/application';
+import {
+  APP_NAME,
+  APP_DESCRIPTION,
+  OG_IMAGE,
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_WIDTH,
+  OG_LOCALE,
+} from '@/shared/constants/application';
 // import { Location } from '@/shared/types/location';
 // import { trackCurrentPosition } from '@/shared/utils/location';
 // import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
@@ -114,6 +121,11 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
         <title>{APP_NAME}</title>
+        <meta property="og:description" content={APP_DESCRIPTION} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:locale" content={OG_LOCALE} />
+        <meta property="og:image:width" content={OG_IMAGE_WIDTH} />
+        <meta property="og:image:height" content={OG_IMAGE_HEIGHT} />
       </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
