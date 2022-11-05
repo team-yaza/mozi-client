@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useRef, ReactElement, useState, useCallback } from 'react';
 import styled from 'styled-components';
@@ -7,7 +8,7 @@ import { toastError } from '@/shared/utils/toast';
 import { NextPageWithLayout } from '@/pages/_app';
 import SearchSideBar from '@/components/map/SearchSideBar';
 import SetLocationModal from '@/components/map/SetLocationModal';
-import { AppLayout, Header, SEO } from '@/components/common';
+import { AppLayout, Header } from '@/components/common';
 import { Todo } from '@/shared/types/todo';
 import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
@@ -145,7 +146,9 @@ const Map: NextPageWithLayout = () => {
 
   return (
     <>
-      <SEO title="MOZI | Map" />
+      <Head>
+        <title>MOZI | Map</title>
+      </Head>
       <Container>
         {/* 검색 사이드바 */}
         <SearchSideBar
