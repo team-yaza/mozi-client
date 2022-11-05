@@ -5,6 +5,7 @@ import Script from 'next/script';
 
 import { APP_DESCRIPTION, APP_NAME } from '@/shared/constants/application';
 import { theme } from '@/styles/theme';
+import { SEO } from '@/components/common/index';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -33,24 +34,41 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
+        <SEO
+          title={APP_NAME}
+          description={APP_DESCRIPTION}
+          customMetaTags={[
+            {
+              'application-name': APP_NAME,
+            },
+            {
+              description: APP_DESCRIPTION,
+            },
+            {
+              'theme-color': theme.colors.purple,
+            },
+            {
+              'apple-mobile-web-app-title': APP_NAME,
+            },
+          ]}
+          og={{
+            title: APP_NAME,
+            description: APP_DESCRIPTION,
+          }}
+        />
         <Head>
           <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
           {/* <link rel="manifest" href="/manifest.json" /> */}
           {/* <link rel="apple-touch-icon" href="/icon.png" />
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
-          <meta name="application-name" content={APP_NAME} />
-          <meta name="apple-mobile-web-app-title" content={APP_NAME} />
-          <meta name="description" content={APP_DESCRIPTION} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <meta name="theme-color" content={theme.colors.purple} />
-          <meta property="og:title" content="" />
+
           <meta property="og:image" content="" />
-          <meta property="og:description" content="" />
           <meta property="og:url" content="/" />
-          <meta name="description" content="" />
           <meta name="keywords" content="" />
           <link rel="manifest" href="/manifest.json" />
           <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />
