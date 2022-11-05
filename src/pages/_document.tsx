@@ -3,9 +3,9 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
 import Script from 'next/script';
 
-import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL, OG_IMAGE } from '@/shared/constants/application';
-import { theme } from '@/styles/theme';
-import { SEO } from '@/components/common/index';
+// import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL, OG_IMAGE } from '@/shared/constants/application';
+// import { theme } from '@/styles/theme';
+// import { SEO } from '@/components/common/index';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -34,7 +34,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
-        <SEO
+        {/* <SEO
           title={APP_NAME}
           description={APP_DESCRIPTION}
           customMetaTags={[
@@ -77,7 +77,7 @@ class MyDocument extends Document {
             siteName: APP_NAME,
             image: OG_IMAGE,
           }}
-        />
+        /> */}
         {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
         {/* <link rel="apple-touch-icon" href="/icon.png" />

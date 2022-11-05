@@ -14,6 +14,8 @@ import { GlobalStyle } from '@/styles/globalStyle';
 import { queryClient } from '@/shared/utils/queryClient';
 import { darkTheme, lightTheme } from '@/styles/theme';
 import { getCookie } from '@/shared/utils/cookie';
+import Head from 'next/head';
+import { APP_NAME } from '@/shared/constants/application';
 // import { Location } from '@/shared/types/location';
 // import { trackCurrentPosition } from '@/shared/utils/location';
 // import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
@@ -106,6 +108,13 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   return (
     <>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
+        <title>{APP_NAME}</title>
+      </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
