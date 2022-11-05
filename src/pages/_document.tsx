@@ -33,13 +33,13 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="ko">
         <SEO
           title={APP_NAME}
           description={APP_DESCRIPTION}
           customMetaTags={[
             {
-              charSet: 'utf-8',
+              charset: 'utf-8',
             },
             {
               viewport: 'width=device-width, initial-scale=1',
