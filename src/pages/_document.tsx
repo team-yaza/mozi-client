@@ -84,6 +84,12 @@ class MyDocument extends Document {
           {/* <link rel="apple-touch-icon" href="/icon.png"></link> */}
 
         <link rel="manifest" href="/manifest.json" />
+
+        <link
+          rel="apple-touch-startup-image"
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+          href="/apple-launch-828x1792.png"
+        />
         <Head>
           <Script strategy="beforeInteractive" src="https://developers.kakao.com/sdk/js/kakao.min.js" />
           <Script
