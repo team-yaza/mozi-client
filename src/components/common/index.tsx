@@ -12,6 +12,7 @@ export { default as Profile } from './Profile';
 export { default as SEO } from './SEO';
 export { default as SetLocationModal } from './SetLocationModal';
 export { default as Sidebar } from './Sidebar';
+export { default as Skeleton } from './Skeleton';
 export { default as Spinner } from './Spinner';
 export { default as TextInput } from './TextInput';
 export { default as Title } from './Title';
