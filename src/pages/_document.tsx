@@ -3,7 +3,7 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
 import Script from 'next/script';
 
-import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL } from '@/shared/constants/application';
+import { APP_DESCRIPTION, APP_NAME, APP_TYPE, APP_URL, OG_IMAGE } from '@/shared/constants/application';
 import { theme } from '@/styles/theme';
 import { SEO } from '@/components/common/index';
 
@@ -75,7 +75,7 @@ class MyDocument extends Document {
             type: APP_TYPE,
             url: APP_URL,
             siteName: APP_NAME,
-            image: '/assets/images/og-image.png',
+            image: OG_IMAGE,
           }}
         />
         {/* <link rel="shortcut icon" href="/favicon.svg" type="image/svg" /> */}
