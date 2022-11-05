@@ -8,7 +8,6 @@ import { theme } from '@/styles/theme';
 import { flexCenter } from '@/styles/utils';
 import { loginWithKakao } from '@/shared/utils/kakao';
 import { getCookie } from '@/shared/utils/cookie';
-import { SEO } from '@/components/common';
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
@@ -26,7 +25,6 @@ const Login: NextPageWithLayout = () => {
 
   return (
     <>
-      <SEO title="MOZI | Login" />
       <Container>
         <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
 
