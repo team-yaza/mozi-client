@@ -14,7 +14,7 @@ import {
 } from '@/shared/types/todo';
 import { queryKeys } from '@/shared/constants/queryKey';
 import { toastError } from '@/shared/utils/toast';
-import { TODO_CREATE_FAILED } from '@/shared/constants/dialog';
+import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED } from '@/shared/constants/dialog';
 
 export const useCreateTodoMutation = () =>
   useMutation(
@@ -62,6 +62,10 @@ export const useUpdateTodoMutation = () =>
         });
 
         await syncTodos();
+      },
+      onError: (error) => {
+        console.log(TODO_UPDATE_FAILED);
+        Sentry.captureException(error);
       },
     }
   );

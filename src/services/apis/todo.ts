@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/nextjs';
 import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
 import { toastError, toastIcon } from '@/shared/utils/toast';
-import { TODO_UPDATE_FAILED, TODO_DELETE_FAILED, IS_OFFLINE } from '@/shared/constants/dialog';
+import { TODO_DELETE_FAILED, IS_OFFLINE } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@/store/localForage';
 
@@ -55,19 +55,11 @@ const todoService = {
       offline: 'created',
     });
   },
-  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest) => {
-    try {
-      // const todo = (await todoStore.getItem(id)) as Todo;
-      // console.log(todo, 'from indexedDB');
-      return await todoStore.setItem(id, {
-        ...rest,
-        offline: true,
-      });
-    } catch (error) {
-      Sentry.captureException(error);
-      console.log(TODO_UPDATE_FAILED);
-    }
-  },
+  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest) =>
+    await todoStore.setItem(id, {
+      ...rest,
+      offline: 'updated',
+    }),
   deleteTodoAtIndexedDB: async (id: string) => {
     try {
       const todo = (await todoStore.getItem(id)) as Todo;
@@ -79,16 +71,11 @@ const todoService = {
     }
   },
   forceDeleteTodoAtIndexedDB: async () => {
-    try {
-      const keys = await todoStore.keys();
-      const todos = await Promise.all(keys.map((key) => todoStore.getItem(key)));
+    const todos = await getTodosFromIndexedDB();
 
-      return await Promise.all(
-        todos.map((todo: any) => todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true }))
-      );
-    } catch (error) {
-      Sentry.captureException(error);
-    }
+    return await Promise.all(
+      todos.filter((todo) => todo.deletedAt).map((todo) => todoStore.setItem(todo.id, { ...todo, offline: 'deleted' }))
+    );
   },
   forceDeleteAllTodosAtTrash: async () => {
     const keys = await todoStore.keys();

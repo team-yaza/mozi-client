@@ -23,9 +23,7 @@ const Inbox: NextPageWithLayout = () => {
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
-  const onDragStart = () => setIsDragging(true);
   const onClickHandler = () => createTodo({});
-
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
@@ -63,7 +61,7 @@ const Inbox: NextPageWithLayout = () => {
 
         {/* DND features */}
 
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
           <Droppable droppableId="todos">
             {(provided) => (
               <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
