@@ -1,3 +1,4 @@
+import React from 'react';
 import { LOGO } from '@/components/common/Figure';
 import { Container, SpinnerContainer } from './styles';
 
@@ -11,4 +12,4 @@ const Spinner: React.FC = () => {
   );
 };
 
-export default Spinner;
+export default React.memo(Spinner);
