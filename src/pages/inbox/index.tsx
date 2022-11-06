@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
@@ -14,7 +15,6 @@ import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
 import { ROUTES } from '@/shared/constants/routes';
 import { queryKeys } from '@/shared/constants/queryKey';
-import Head from 'next/head';
 
 const Inbox: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
