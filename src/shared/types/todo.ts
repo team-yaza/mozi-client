@@ -41,6 +41,7 @@ export interface TodoUpdateRequest {
   dueDate?: Date | null;
   description?: string;
   deletedAt?: Date | null;
+  test?: any;
 }
 
 export interface TodoCreateRequest {
