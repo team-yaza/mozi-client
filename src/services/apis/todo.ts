@@ -37,8 +37,11 @@ const todoService = {
         longitude,
         latitude,
         dueDate,
+        done: false,
+        alarmed: false,
+        createdAt: new Date(),
         index: maximumIndexAtTodoStore + 1,
-        offline: true,
+        offline: 'created',
       });
     } catch (error) {
       Sentry.captureException(error);
@@ -60,7 +63,7 @@ const todoService = {
   },
   deleteTodoAtIndexedDB: async (id: string) => {
     try {
-      const todo = (await todoStore.getItem(id)) as Todo;
+      const todo = await todoStore.getItem<Todo>(id);
 
       return await todoStore.setItem(id, { ...todo, deletedAt: Date.now(), offlineDeleted: true });
     } catch (error) {

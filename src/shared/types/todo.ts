@@ -16,11 +16,6 @@ export interface Todo {
   createdAt: Date;
   updatedAt?: Date;
 
-  // 오프라인 로직에 사용되는 type
-  created?: boolean;
-  updated?: boolean;
-  deleted?: boolean;
-
   offline?: Offline;
   offlineDeleted?: boolean;
   offlineForceDeleted?: boolean;
