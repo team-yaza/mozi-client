@@ -8,9 +8,9 @@ describe('Login', () => {
     cy.url().should('include', '/');
   });
 
-  // it('카카오 로그인 성공시 /inbox로 이동', () => {
-  //   cy.get('[data-testid="kakaoLogin"]').should('be.visible');
-  //   cy.login();
-  //   cy.url().should('include', '/inbox');
-  // });
+  it('카카오 로그인 성공시 /inbox로 이동', () => {
+    cy.get('[data-testid="kakaoLogin"]').should('be.visible');
+    cy.login();
+    cy.url().should('include', '/inbox');
+  });
 });
