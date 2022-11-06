@@ -1,6 +1,7 @@
 // import { AxiosError } from 'axios';
 // import { v4 as uuid } from 'uuid';
 import { useMutation } from '@tanstack/react-query';
+import * as Sentry from '@sentry/nextjs';
 
 import todoService from '@/services/apis/todo';
 import { syncTodos } from '@/shared/utils/sync';
@@ -12,6 +13,8 @@ import {
   TodoCreateRequest,
 } from '@/shared/types/todo';
 import { queryKeys } from '@/shared/constants/queryKey';
+import { toastError } from '@/shared/utils/toast';
+import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED } from '@/shared/constants/dialog';
 
 export const useCreateTodoMutation = () =>
   useMutation(
@@ -32,6 +35,10 @@ export const useCreateTodoMutation = () =>
         });
 
         await syncTodos();
+      },
+      onError: (error) => {
+        toastError(TODO_CREATE_FAILED);
+        Sentry.captureException(error);
       },
     }
   );
@@ -55,6 +62,10 @@ export const useUpdateTodoMutation = () =>
         });
 
         await syncTodos();
+      },
+      onError: (error) => {
+        console.log(TODO_UPDATE_FAILED);
+        Sentry.captureException(error);
       },
     }
   );

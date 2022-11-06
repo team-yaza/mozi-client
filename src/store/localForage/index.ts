@@ -19,5 +19,5 @@ export const findMaximumIndexAtTodoStore = async () => {
 
 export const getTodosFromIndexedDB = async (): Promise<Todo[]> => {
   const keys = await todoStore.keys();
-  return (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
+  return (await Promise.all(keys.map((key) => todoStore.getItem<Todo>(key)))) as Todo[];
 };

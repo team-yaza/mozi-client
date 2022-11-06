@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
@@ -14,7 +15,6 @@ import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
 import { ROUTES } from '@/shared/constants/routes';
 import { queryKeys } from '@/shared/constants/queryKey';
-import Head from 'next/head';
 
 const Inbox: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -23,9 +23,7 @@ const Inbox: NextPageWithLayout = () => {
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
-  const onDragStart = () => setIsDragging(true);
   const onClickHandler = () => createTodo({});
-
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
@@ -63,7 +61,7 @@ const Inbox: NextPageWithLayout = () => {
 
         {/* DND features */}
 
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
           <Droppable droppableId="todos">
             {(provided) => (
               <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
