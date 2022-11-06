@@ -1,8 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import Chip from '.';
-import TAG from '@/components/common/Figure/TAG';
-import PLACE from '@/components/common/Figure/PLACE';
+import { TAG, PLACE } from '@/components/common/Figure';
 
 export default {
   title: 'components/Chip',

@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/nextjs';
 import { v4 as uuidv4 } from 'uuid';
 
 import fetcher from '@/shared/utils/fetcher';
-import { syncTodos } from '@/shared/utils/sync';
 import { toastError } from '@/shared/utils/toast';
 import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED, TODO_DELETE_FAILED } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
@@ -10,19 +9,7 @@ import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@
 
 const todoService = {
   forceDeleteTodo: async (id: string) => {
-    try {
-      await fetcher('delete', `/todos/force/${id}`);
-    } catch (error) {
-      console.error(error); // network error
-    }
-  },
-  deleteAllTodos: async () => {
-    try {
-      await fetcher('delete', '/todos/all');
-    } catch (error) {
-      console.log(error);
-      await syncTodos();
-    }
+    await fetcher('delete', `/todos/force/${id}`);
   },
   getTodosFromIndexedDB: async (): Promise<Todo[]> => {
     try {
