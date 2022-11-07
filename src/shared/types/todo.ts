@@ -1,15 +1,15 @@
 export interface Todo {
   id: string;
   title?: string;
-  index: number;
   description?: string;
+  index: number;
+  done: boolean;
   longitude?: number;
   latitude?: number;
   locationName?: string;
   alarmDate?: any;
   dueDate?: any;
 
-  done: boolean;
   alarmed: boolean;
 
   deletedAt?: Date;
@@ -31,15 +31,15 @@ export interface TodoSuccessResponse {
 
 export interface TodoUpdateRequest {
   id: string;
-  index?: number;
   title?: string;
+  description?: string;
+  index?: number;
   done?: boolean;
   longitude?: number | null;
   latitude?: number | null;
   locationName?: string | null;
   alarmDate?: Date | null;
   dueDate?: Date | null;
-  description?: string;
   deletedAt?: Date | null;
 }
 
