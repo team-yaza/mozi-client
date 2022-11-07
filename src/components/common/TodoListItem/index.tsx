@@ -46,7 +46,8 @@ const TodoListItem = ({
   useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
       if (e.key === 'Backspace' || e.key === 'Delete') {
-        deleteTodo(todo.id);
+        // deleteTodo(todo.id);
+        updateTodo({ ...todo, deletedAt: new Date() });
       }
     };
 

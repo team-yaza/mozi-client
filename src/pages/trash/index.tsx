@@ -36,7 +36,7 @@ const Trash: NextPageWithLayout = () => {
 
       queryClient.setQueriesData(['todos'], items);
       console.log(restoredItem.id);
-      updateTodo({ id: restoredItem.id, deletedAt: null });
+      updateTodo({ ...restoredItem, deletedAt: undefined });
     }
 
     setIsDragging(false);

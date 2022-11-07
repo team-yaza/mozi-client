@@ -74,7 +74,6 @@ export const useDeleteTodoMutation = () =>
   useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id), {
     onSuccess: async (_, id) => {
       queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {
-        console.log(id, '여기서의 id를 확인해보자');
         return data.filter((todo: Todo) => todo.id !== id);
       });
 
