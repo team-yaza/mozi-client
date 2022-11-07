@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import cypress, { defineConfig } from 'cypress';
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   projectId: 'q4deia',
