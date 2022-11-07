@@ -55,11 +55,14 @@ const todoService = {
       offline: 'created',
     });
   },
-  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest) =>
-    await todoStore.setItem(id, {
+  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest) => {
+    const todo = await todoStore.getItem<Todo>(id);
+
+    return await todoStore.setItem(id, {
+      ...todo,
       ...rest,
-      offline: 'updated',
-    }),
+    });
+  },
   deleteTodoAtIndexedDB: async (id: string) => {
     try {
       const todo = (await todoStore.getItem(id)) as Todo;
