@@ -35,12 +35,14 @@ export interface TodoUpdateRequest {
   description?: string;
   index?: number;
   done?: boolean;
-  longitude?: number | null;
-  latitude?: number | null;
-  locationName?: string | null;
-  alarmDate?: Date | null;
-  dueDate?: Date | null;
-  deletedAt?: Date | null;
+  longitude?: number;
+  latitude?: number;
+  locationName?: string;
+  alarmDate?: Date;
+  dueDate?: Date;
+  deletedAt?: Date;
+  alarmed?: boolean;
+  createdAt?: Date;
 }
 
 export interface TodoCreateRequest {
