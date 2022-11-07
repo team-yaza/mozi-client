@@ -1,10 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import * as Sentry from '@sentry/nextjs';
 
 import fetcher from '@/shared/utils/fetcher';
 import { syncTodos } from '@/shared/utils/sync';
-import { toastError, toastIcon } from '@/shared/utils/toast';
-import { TODO_DELETE_FAILED, IS_OFFLINE } from '@/shared/constants/dialog';
+import { toastIcon } from '@/shared/utils/toast';
+import { IS_OFFLINE } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@/store/localForage';
 
@@ -62,15 +61,9 @@ const todoService = {
       offline: 'updated',
     });
   },
-  deleteTodoAtIndexedDB: async (id: string) => {
-    try {
-      const todo = (await todoStore.getItem(id)) as Todo;
-
-      return await todoStore.setItem(id, { ...todo, deletedAt: Date.now(), offlineDeleted: true });
-    } catch (error) {
-      toastError(TODO_DELETE_FAILED);
-      Sentry.captureException(error);
-    }
+  deleteTodoAtIndexedDB: async (id: string): Promise<Partial<Todo>> => {
+    const todo = await todoStore.getItem<Todo>(id);
+    return await todoStore.setItem(id, { ...todo, offline: 'deleted' });
   },
   forceDeleteTodoAtIndexedDB: async () => {
     const todos = await getTodosFromIndexedDB();
