@@ -18,7 +18,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        id: yarn-cache
         with:
           path: |
             ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -39,7 +39,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      actions: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -62,33 +62,6 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
-
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout source code
-  #       uses: actions/checkout@v2
-
-  #     - name: Get yarn cache directory path
-  #       id: yarn-cache-dir-path
-  #       run: echo "::set-output name=dir::$(yarn cache dir)"
-
-  #     - uses: actions/cache@v3
-  #       id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-  #       with:
-  #         path: |
-  #           ${{ steps.yarn-cache-dir-path.outputs.dir }}
-  #           **/node_modules
-  #         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-yarn-
-
-  #     - name: Install Dependencies
-  #       if: steps.yarn-cache.outputs.cache-hit != 'true'
-  #       run: yarn install
-
-  #     - name: Lint
-  #       run: yarn lint
 
   prettier:
     runs-on: ubuntu-latest

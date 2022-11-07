@@ -1,24 +1,18 @@
-// import { AxiosError } from 'axios';
-// import { v4 as uuid } from 'uuid';
+import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import * as Sentry from '@sentry/nextjs';
 
 import todoService from '@/services/apis/todo';
 import { syncTodos } from '@/shared/utils/sync';
 import { queryClient } from '@/shared/utils/queryClient';
-import {
-  Todo,
-  // TodoSuccessResponse,
-  TodoUpdateRequest,
-  TodoCreateRequest,
-} from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest, TodoCreateRequest } from '@/shared/types/todo';
 import { queryKeys } from '@/shared/constants/queryKey';
 import { toastError } from '@/shared/utils/toast';
-import { TODO_CREATE_FAILED, TODO_UPDATE_FAILED } from '@/shared/constants/dialog';
+import { TODO_CREATE_FAILED, TODO_DELETE_FAILED, TODO_UPDATE_FAILED } from '@/shared/constants/dialog';
 
 export const useCreateTodoMutation = () =>
-  useMutation(
-    ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) =>
+  useMutation<Todo, AxiosError, TodoCreateRequest>(
+    ({ locationName, longitude, latitude, dueDate, title }) =>
       todoService.createTodoAtIndexedDB({
         title,
         locationName,
@@ -44,8 +38,8 @@ export const useCreateTodoMutation = () =>
   );
 
 export const useUpdateTodoMutation = () =>
-  useMutation(
-    ({ ...rest }: TodoUpdateRequest) =>
+  useMutation<Partial<Todo>, AxiosError, TodoUpdateRequest>(
+    ({ ...rest }) =>
       todoService.updateTodoAtIndexedDB({
         ...rest,
       }),
@@ -71,13 +65,17 @@ export const useUpdateTodoMutation = () =>
   );
 
 export const useDeleteTodoMutation = () =>
-  useMutation((id: string) => todoService.deleteTodoAtIndexedDB(id), {
-    onSuccess: async (_, id) => {
-      queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {
-        return data.filter((todo: Todo) => todo.id !== id);
+  useMutation<Partial<Todo>, AxiosError, string>((id: string) => todoService.deleteTodoAtIndexedDB(id), {
+    onSuccess: async (_, id: string) => {
+      queryClient.setQueriesData<Todo[]>([queryKeys.TODOS], (data) => {
+        return data?.filter((todo: Todo) => todo.id !== id);
       });
 
       await syncTodos();
+    },
+    onError: (error) => {
+      toastError(TODO_DELETE_FAILED);
+      Sentry.captureException(error);
     },
   });
 

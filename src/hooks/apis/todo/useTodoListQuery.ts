@@ -25,7 +25,7 @@ export const useTodoListQuery = (page: string): UseQueryResult<Todo[], AxiosErro
       });
     case ROUTES.TRASH:
       return useQuery([queryKeys.TODOS], todoService.getTodosFromIndexedDB, {
-        select: (todos: Todo[]) => todos.filter((todo) => todo.deletedAt),
+        select: (todos: Todo[]) => todos.filter((todo) => todo.deletedAt && todo.offline !== 'deleted'),
       });
     case ROUTES.MAP:
       return useQuery([queryKeys.TODOS], todoService.getTodosFromIndexedDB, {
