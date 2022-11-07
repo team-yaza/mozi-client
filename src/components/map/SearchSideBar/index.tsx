@@ -79,9 +79,9 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
     const { coords } = await getCurrentPosition();
 
     const result = await getLocationSearchResult({
-      keyword: e.target.value,
-      latitude: coords.latitude,
       longitude: coords.longitude,
+      latitude: coords.latitude,
+      keyword: e.target.value,
     });
 
     if (e.target.value.length > 0) {
