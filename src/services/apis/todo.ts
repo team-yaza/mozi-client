@@ -55,8 +55,8 @@ const todoService = {
       offline: 'created',
     });
   },
-  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest) => {
-    return await todoStore.setItem(id, {
+  updateTodoAtIndexedDB: async ({ id, ...rest }: TodoUpdateRequest): Promise<Partial<Todo>> => {
+    return await todoStore.setItem<Partial<Todo>>(id, {
       id,
       ...rest,
       offline: 'updated',
