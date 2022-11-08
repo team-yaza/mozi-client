@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Header, Title } from '@/components/common';
-import { NEXTARROW, PREVARROW, UPCOMING } from '@/components/common/Figure';
-import { getYearAndMonth } from '@/shared/utils/date';
+import { UPCOMING } from '@/components/common/Figure';
+import Navigator from '@/components/upcoming/Navigator';
 
 const Upcoming: NextPageWithLayout = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -12,19 +12,7 @@ const Upcoming: NextPageWithLayout = () => {
     <Container>
       <Header />
       <Title icon={<UPCOMING />} title="Upcoming">
-        <Navigator>
-          <ArrowContainer
-            onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-          >
-            <PREVARROW />
-          </ArrowContainer>
-          {getYearAndMonth(currentDate)}
-          <ArrowContainer
-            onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-          >
-            <NEXTARROW />
-          </ArrowContainer>
-        </Navigator>
+        <Navigator currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </Title>
     </Container>
   );
@@ -44,34 +32,6 @@ const Container = styled.div`
 
   background-color: ${({ theme }) => theme.color.background};
   transition: background-color 0.3s;
-`;
-
-const Navigator = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  font-size: 2rem;
-  font-weight: bold;
-  margin-left: auto;
-  margin-right: -1.5rem;
-
-  cursor: default;
-
-  color: ${({ theme }) => theme.color.white};
-  transition: color 0.3s;
-`;
-
-const ArrowContainer = styled.div`
-  position: relative;
-  width: 2rem;
-
-  margin-inline: 2rem;
-
-  cursor: pointer;
-
-  stroke: ${({ theme }) => theme.color.icon};
-  transition: stroke 0.3s;
 `;
 
 export default Upcoming;
