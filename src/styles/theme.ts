@@ -7,6 +7,7 @@ export const theme = {
     black1: '#2C2B31',
     black2: '#1E1C24',
     purple: '#735AFF',
+    purple1: '#7380F6',
     lightPurple: '#f4f2ff',
     main: '#775EFF',
     grey: '#E9E9E9',
@@ -24,6 +25,7 @@ export const theme = {
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
     kakao: '#FEE502',
+    red: '#ff6161',
   },
   fonts: {
     h1: `

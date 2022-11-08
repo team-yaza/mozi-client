@@ -1,10 +1,11 @@
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 
+import Navigator from '@/components/upcoming/Navigator';
 import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Header, Title } from '@/components/common';
 import { UPCOMING } from '@/components/common/Figure';
-import Navigator from '@/components/upcoming/Navigator';
+import CalendarHeader from '@/components/upcoming/CalendarHeader';
 
 const Upcoming: NextPageWithLayout = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -14,6 +15,7 @@ const Upcoming: NextPageWithLayout = () => {
       <Title icon={<UPCOMING />} title="Upcoming">
         <Navigator currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </Title>
+      <CalendarHeader />
     </Container>
   );
 };
