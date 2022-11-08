@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 import {
   Container,
   Header,
@@ -31,6 +29,8 @@ const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
     setNowDate(new Date(year, month, dateTime));
   };
 
+  console.log(getCalendarDates(nowDate), '?');
+
   const onPrevArrowClickHandler = () => {
     setNowDate(
       new Date(
@@ -55,13 +55,13 @@ const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
     );
   };
   //같으면 true 다르면 false
-  const dateDiff = useCallback((todoDate: string | undefined, value: { year: number; month: number; date: number }) => {
+  const dateDiff = (todoDate: string | undefined, value: { year: number; month: number; date: number }) => {
     if (!todoDate) return false;
     const newDate = new Date(todoDate);
     if (newDate.getFullYear() === value.year && newDate.getMonth() === value.month && newDate.getDate() === value.date)
       return true;
     else return false;
-  }, []);
+  };
 
   return (
     <Container>
