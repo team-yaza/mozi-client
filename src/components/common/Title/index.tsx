@@ -5,9 +5,10 @@ export interface TitleProps {
   title: string;
   actionText?: string;
   onClick?: () => void;
+  children?: React.ReactNode;
 }
 
-const Title: React.FC<TitleProps> = ({ icon, title, actionText, onClick }) => (
+const Title: React.FC<TitleProps> = ({ icon, title, actionText, onClick, children }) => (
   <Container>
     <LogoContainer>{icon}</LogoContainer>
     <Header>{title}</Header>
@@ -16,6 +17,7 @@ const Title: React.FC<TitleProps> = ({ icon, title, actionText, onClick }) => (
         {actionText}
       </ActionButton>
     )}
+    {children}
   </Container>
 );
 

@@ -7,6 +7,7 @@ export const theme = {
     black1: '#2C2B31',
     black2: '#1E1C24',
     purple: '#735AFF',
+    purple1: '#7380F6',
     lightPurple: '#f4f2ff',
     main: '#775EFF',
     grey: '#E9E9E9',
@@ -20,9 +21,14 @@ export const theme = {
     grey7: '#585858',
     grey8: '#2C2B30',
     grey9: '#2a2a2a',
+    grey10: '#2c2b31',
+    grey11: '#484551',
+    grey12: '#eeeeee',
+    grey13: '#e8e8e8',
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
     kakao: '#FEE502',
+    red: '#ff6161',
   },
   fonts: {
     h1: `
@@ -111,6 +117,10 @@ export const lightTheme: DefaultTheme = {
     footer_border_top: theme.colors.grey,
     grey: '#eeeeee',
     light_grey: theme.colors.lightGrey,
+    icon: theme.colors.grey10,
+    calendar_header: theme.colors.grey11,
+    calendar_border: theme.colors.grey12,
+    calendar_body_border: theme.colors.grey13,
   },
 };
 
@@ -141,5 +151,9 @@ export const darkTheme: DefaultTheme = {
     footer_border_top: theme.colors.grey0,
     grey: '#eeeeee',
     light_grey: theme.colors.lightGrey,
+    icon: theme.colors.white,
+    calendar_header: theme.colors.white,
+    calendar_border: theme.colors.grey11,
+    calendar_body_border: theme.colors.grey11,
   },
 };

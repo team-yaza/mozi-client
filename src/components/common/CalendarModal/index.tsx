@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import Modal from '@/components/common/Modal';
 
-import { getYearMonth, getCalendarDates, getDateToHour, getDateToMin } from '@/shared/utils/date';
+import { getYearAndMonth, getCalendarDates, getDateToHour, getDateToMin } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW, STOPWATCH } from '@/components/common/Figure';
 // import { TodoUpdateRequest } from '@/shared/types/todo';
 import {
@@ -121,7 +121,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
           <ArrowContainer onClick={onPrevArrowClickHandler}>
             <PREVARROW />
           </ArrowContainer>
-          {getYearMonth(nowDate)}
+          {getYearAndMonth(nowDate)}
           <ArrowContainer onClick={onNextArrowClickHandler}>
             <NEXTARROW />
           </ArrowContainer>

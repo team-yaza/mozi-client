@@ -28,6 +28,10 @@ declare module 'styled-components' {
       footer_border_top: string;
       grey: string;
       light_grey: string;
+      icon: string;
+      calendar_header: string;
+      calendar_border: string;
+      calendar_body_border: string;
     };
     fonts?: {
       h1: string;
