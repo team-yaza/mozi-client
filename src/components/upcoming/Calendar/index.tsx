@@ -12,7 +12,7 @@ import {
   TodosContainer,
   TodoSpan,
 } from './styles';
-import { getYearMonth, getCalendarDates } from '@/shared/utils/date';
+import { getYearAndMonth, getCalendarDates } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW } from '@/components/common/Figure';
 import { Todo } from '@/shared/types/todo';
 
@@ -27,14 +27,11 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
-  const onDateClickHandler = useCallback(
-    (year: number, month: number, dateTime: number) => {
-      setNowDate(new Date(year, month, dateTime));
-    },
-    [nowDate]
-  );
+  const onDateClickHandler = (year: number, month: number, dateTime: number) => {
+    setNowDate(new Date(year, month, dateTime));
+  };
 
-  const onPrevArrowClickHandler = useCallback(() => {
+  const onPrevArrowClickHandler = () => {
     setNowDate(
       new Date(
         nowDate.getFullYear(),
@@ -44,9 +41,9 @@ const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
         nowDate.getMinutes()
       )
     );
-  }, [nowDate]);
+  };
 
-  const onNextArrowClickHandler = useCallback(() => {
+  const onNextArrowClickHandler = () => {
     setNowDate(
       new Date(
         nowDate.getFullYear(),
@@ -56,8 +53,7 @@ const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
         nowDate.getMinutes()
       )
     );
-  }, [nowDate]);
-
+  };
   //같으면 true 다르면 false
   const dateDiff = useCallback((todoDate: string | undefined, value: { year: number; month: number; date: number }) => {
     if (!todoDate) return false;
@@ -73,7 +69,7 @@ const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
         <ArrowContainer onClick={onPrevArrowClickHandler}>
           <PREVARROW />
         </ArrowContainer>
-        {getYearMonth(nowDate)}
+        {getYearAndMonth(nowDate)}
         <ArrowContainer onClick={onNextArrowClickHandler}>
           <NEXTARROW />
         </ArrowContainer>

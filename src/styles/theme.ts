@@ -20,6 +20,7 @@ export const theme = {
     grey7: '#585858',
     grey8: '#2C2B30',
     grey9: '#2a2a2a',
+    grey10: '#2c2b31',
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
     kakao: '#FEE502',
@@ -111,6 +112,7 @@ export const lightTheme: DefaultTheme = {
     footer_border_top: theme.colors.grey,
     grey: '#eeeeee',
     light_grey: theme.colors.lightGrey,
+    icon: theme.colors.grey10,
   },
 };
 
@@ -141,5 +143,6 @@ export const darkTheme: DefaultTheme = {
     footer_border_top: theme.colors.grey0,
     grey: '#eeeeee',
     light_grey: theme.colors.lightGrey,
+    icon: theme.colors.white,
   },
 };

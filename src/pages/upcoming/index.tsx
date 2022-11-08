@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 
@@ -9,7 +10,6 @@ import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { dateToFormatString, dateDiff } from '@/shared/utils/date';
 import { ROUTES } from '@/shared/constants/routes';
-import Head from 'next/head';
 
 const Upcoming: NextPageWithLayout = () => {
   const [nowDate, setNowDate] = useState(new Date());

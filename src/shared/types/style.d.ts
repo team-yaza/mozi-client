@@ -28,6 +28,7 @@ declare module 'styled-components' {
       footer_border_top: string;
       grey: string;
       light_grey: string;
+      icon: string;
     };
     fonts?: {
       h1: string;
