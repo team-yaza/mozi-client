@@ -13,6 +13,7 @@ import { ROUTES } from '@/shared/constants/routes';
 const Upcoming: NextPageWithLayout = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { data: todos } = useTodoListQuery(ROUTES.UPCOMING);
+
   return (
     <Container>
       <Header />

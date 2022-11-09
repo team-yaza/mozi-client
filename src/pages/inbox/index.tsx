@@ -23,28 +23,24 @@ const Inbox: NextPageWithLayout = () => {
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
-  const onClickHandler = () => createTodo({});
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
     if (todos && result.destination.droppableId === 'todos') {
-      const items = Array.from(todos);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      items.forEach((item: Todo, index) => (item.index = index));
+      const [reorderedItem] = todos.splice(result.source.index, 1);
+      todos.splice(result.destination.index, 0, reorderedItem);
+      todos.forEach((item: Todo, index) => (item.index = index));
 
-      queryClient.setQueriesData([queryKeys.TODOS], items);
+      queryClient.setQueriesData([queryKeys.TODOS], todos);
 
-      items.map((item: any, index) => updateTodo({ ...item, index }));
+      todos.map((item: Todo, index) => updateTodo({ ...item, index }));
 
       // await Promise.all(items.map((item: Todo, index) => todoService.updateTodoAtIndexedDB({ id: item.id, index })));
     } else if (todos && result.destination.droppableId === 'trash') {
-      const items = Array.from(todos);
+      const [deletedTodo] = todos.splice(result.source.index, 1);
 
-      const [deletedItem] = items.splice(result.source.index, 1);
-
-      queryClient.setQueriesData([queryKeys.TODOS], items);
-      deleteTodo(deletedItem.id);
+      queryClient.setQueriesData([queryKeys.TODOS], todos);
+      deleteTodo(deletedTodo.id);
     }
 
     setIsDragging(false);
@@ -57,7 +53,7 @@ const Inbox: NextPageWithLayout = () => {
       </Head>
       <Container>
         <Header />
-        <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
+        <Title onClick={() => createTodo({})} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
         {/* DND features */}
 

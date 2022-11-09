@@ -53,6 +53,12 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 
 <div id="3"></div>
 
+## 시스템 아키텍처
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/63354527/200804672-894f4f1a-2ff5-4804-b68d-61b767df1e77.png" alt="architecture"/>
+</p>
+
 ## 💻 실행 방법
 
 개발환경: `Node.js v16.15.1`, `MacOS Monterey 12.2.1`
