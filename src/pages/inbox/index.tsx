@@ -33,7 +33,7 @@ const Inbox: NextPageWithLayout = () => {
 
       queryClient.setQueriesData([queryKeys.TODOS], todos);
 
-      todos.map((item: any, index) => updateTodo({ ...item, index }));
+      todos.map((item: Todo, index) => updateTodo({ ...item, index }));
 
       // await Promise.all(items.map((item: Todo, index) => todoService.updateTodoAtIndexedDB({ id: item.id, index })));
     } else if (todos && result.destination.droppableId === 'trash') {
