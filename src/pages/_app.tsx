@@ -122,8 +122,9 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
         />
         <title>{APP_NAME}</title>
         <meta property="og:description" content={APP_DESCRIPTION} />
-        <meta property="og:image" content={OG_IMAGE} />
         <meta property="og:locale" content={OG_LOCALE} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:alt" content={APP_NAME} />
         <meta property="og:image:width" content={OG_IMAGE_WIDTH} />
         <meta property="og:image:height" content={OG_IMAGE_HEIGHT} />
       </Head>
