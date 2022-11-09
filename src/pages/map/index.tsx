@@ -84,12 +84,13 @@ const Map: NextPageWithLayout = () => {
           'display:flex; justify-content: center; align-items: center; height: 3.5rem;' +
           'border: 1px #735AFF solid; border-radius: 3rem; max-width: 20rem;';
         const spanStyle =
-          'font-size: 2rem; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; line-height: 3rem;';
+          'font-size: 2rem; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; line-height: 3rem; z-index: 0';
+        const boundary = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; background-color: #000000; border-radius: 50%; opacity: 30%; width: 30rem; height: 30rem;"></div>`;
         const markerTitle = `<div id=${todo.id} style="${markerTitlestyle}"><span style="${spanStyle}">${todo.title}</span></div>`;
         const markerImg = '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
         const containerStyle =
           'position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;';
-        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg}</div>`;
+        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg + boundary}</div>`;
         const marker = createMarker({
           map: naverMap,
           position: createPosition(todo.latitude as number, todo.longitude as number),
@@ -106,18 +107,21 @@ const Map: NextPageWithLayout = () => {
           marker.setZIndex(100);
         };
         marker.addListener('click', () => {
-          if (todo.title === null || todo.title === undefined) {
+          if (todo.title === null || todo.title === undefined || todo.title === '') {
             toastError('Todo에 Title이 비어있습니다.');
             return;
           }
           const marker = document.getElementById(todo.id);
-          if (!marker) return;
+          const boundary = document.getElementById(`b_${todo.id}`);
+          if (!marker || !boundary) return;
 
           if (marker.style.visibility === 'hidden') {
             marker.style.visibility = 'visible';
+            boundary.style.visibility = 'visible';
             bringForward();
           } else {
             marker.style.visibility = 'hidden';
+            boundary.style.visibility = 'hidden';
             sendBack();
           }
         });
