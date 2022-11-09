@@ -2,11 +2,13 @@
   <br/>
   <img src="./public/logo.png" alt="MOZI" width="200px" height="200px"> 
   <h1>MOZI</h1>
+      <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fteam-yaza%2Fmozi-client&count_bg=%23735AFF&title_bg=%23775EFF&icon=checkmarx.svg&icon_color=%23FFFFFF&title=MOZI&edge_flat=false"/></a>  
      <img src="https://img.shields.io/badge/NGINX-Active-2ea04?&logo=nginx&logoColor=white" alt="NGINX" />
       <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress" alt="Cypress" />
+      
+</div>
      <!-- [![mozi-client](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/zyvbtc/runs) -->
     <!-- <img src="https://img.shields.io/github/v/release/ssafy-mate/ssafy-mate_front-end?color=%23068fc6" alt="GitHub release (latest by date)" /> -->
-</div>
 
 ## 목차
 
