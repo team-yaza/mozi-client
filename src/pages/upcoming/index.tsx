@@ -19,8 +19,11 @@ const Upcoming: NextPageWithLayout = () => {
       <Title icon={<UPCOMING />} title="Upcoming">
         <Navigator currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </Title>
-      <CalendarHeader />
-      <CalendarBody currentDate={currentDate} setCurrentDate={setCurrentDate} todos={todos || []} />
+
+      <CalendarContainer>
+        <CalendarHeader />
+        <CalendarBody currentDate={currentDate} setCurrentDate={setCurrentDate} todos={todos || []} />
+      </CalendarContainer>
       <Footer />
     </Container>
   );
@@ -40,6 +43,11 @@ const Container = styled.div`
 
   background-color: ${({ theme }) => theme.color.background};
   transition: background-color 0.3s;
+`;
+
+const CalendarContainer = styled.div`
+  position: relative;
+  height: auto;
 `;
 
 export default Upcoming;
