@@ -13,9 +13,10 @@ const Google: NextPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
+    const serverUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://mozi-server.com';
 
     (async () => {
-      await axios.get(`http://localhost:3001/api/v1/migrations/google?code=${code}`, {
+      await axios.get(`${serverUrl}/api/v1/migrations/google?code=${code}`, {
         headers: {
           Authorization: `Bearer ${getCookie('token')}`,
         },
