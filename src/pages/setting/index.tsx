@@ -18,6 +18,10 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
     router.push('/login');
   };
 
+  const onClick = () => {
+    router.push(process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string);
+  };
+
   return (
     <>
       <Head>
@@ -29,6 +33,8 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
         <LogoutButton color="alert" size="medium" onClick={handleLogout}>
           로그아웃
         </LogoutButton>
+
+        <button onClick={onClick}>구글 캘린더 ㅋ</button>
       </Container>
     </>
   );
