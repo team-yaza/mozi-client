@@ -18,6 +18,12 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
     router.push('/login');
   };
 
+  const onClick = () => {
+    router.push(
+      'https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly&response_type=code&client_id=778822349637-83fhpnla1flrp9ir7ampppu1br7a2o0p.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fmigrations%2Fgoogle'
+    );
+  };
+
   return (
     <>
       <Head>
@@ -29,6 +35,8 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
         <LogoutButton color="alert" size="medium" onClick={handleLogout}>
           로그아웃
         </LogoutButton>
+
+        <button onClick={onClick}>구글 캘린더 ㅋ</button>
       </Container>
     </>
   );
