@@ -167,7 +167,7 @@ const Map: NextPageWithLayout = () => {
 
         {/* Map 영역 */}
         <MapLayout id="map" ref={naverMapRef}>
-          {isMapLoading && <Image src="/assets/images/map.png" layout="fill" />}
+          {isMapLoading && <Image src="/assets/images/map.png" layout="fill" alt="지도 사진" />}
         </MapLayout>
 
         {/* 모달 */}
