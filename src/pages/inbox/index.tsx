@@ -39,7 +39,6 @@ const Inbox: NextPageWithLayout = () => {
       const [deletedTodo] = todos.splice(result.source.index, 1);
 
       queryClient.setQueriesData([queryKeys.TODOS], todos);
-      // deleteTodo(deletedTodo.id);
       updateTodo({ ...deletedTodo, deletedAt: new Date() });
     }
 
