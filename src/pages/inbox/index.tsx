@@ -9,7 +9,7 @@ import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import { useCreateTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
@@ -21,7 +21,6 @@ const Inbox: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useTodoListQuery(ROUTES.HOME);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
@@ -40,7 +39,7 @@ const Inbox: NextPageWithLayout = () => {
       const [deletedTodo] = todos.splice(result.source.index, 1);
 
       queryClient.setQueriesData([queryKeys.TODOS], todos);
-      deleteTodo(deletedTodo.id);
+      updateTodo({ ...deletedTodo, deletedAt: new Date() });
     }
 
     setIsDragging(false);
@@ -61,7 +60,7 @@ const Inbox: NextPageWithLayout = () => {
           <Droppable droppableId="todos">
             {(provided) => (
               <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-                {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />}
+                {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} />}
                 {provided.placeholder}
               </TodoListContainer>
             )}
