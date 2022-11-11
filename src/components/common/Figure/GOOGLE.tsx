@@ -1,7 +1,6 @@
 import { SvgWrap } from './styles';
-import { FigureProps } from '@/shared/types/figure';
 
-const GOOGLE: React.FC<FigureProps> = () => {
+const GOOGLE: React.FC = () => {
   return (
     <SvgWrap>
       <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
