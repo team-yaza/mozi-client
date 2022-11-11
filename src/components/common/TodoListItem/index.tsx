@@ -25,7 +25,15 @@ interface TodoListItemProps {
   deleteTodo?: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 
-const TodoListItem = ({ todo, index, isFocused, setIsFocused, setIsEditing, updateTodo }: TodoListItemProps) => {
+const TodoListItem = ({
+  todo,
+  index,
+  isFocused,
+  setIsFocused,
+  setIsEditing,
+  updateTodo,
+  deleteTodo,
+}: TodoListItemProps) => {
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [isMapOpened, setIsMapOpened] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -38,6 +46,11 @@ const TodoListItem = ({ todo, index, isFocused, setIsFocused, setIsEditing, upda
   useEffect(() => {
     const deleteTodoHandler = (e: KeyboardEvent) => {
       if (e.key === 'Backspace' || e.key === 'Delete') {
+        if (deleteTodo) {
+          deleteTodo(todo.id);
+          return;
+        }
+
         updateTodo({ ...todo, deletedAt: new Date() });
       }
     };

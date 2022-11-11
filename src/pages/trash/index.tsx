@@ -11,21 +11,22 @@ import { Header, Spinner, Title, AppLayout, Footer, DropPlaceholder } from '@/co
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { theme } from '@/styles/theme';
 import { TRASH } from '@/components/common/Figure';
+import { ROUTES } from '@/shared/constants/routes';
+import { queryKeys } from '@/shared/constants/queryKey';
 import {
   useDeleteAllTodosMutation,
-  useForceDeleteTodoMutation,
   useCreateTodoMutation,
   useUpdateTodoMutation,
+  useDeleteTodoMutation,
 } from '@/hooks/apis/todo/useTodoMutation';
-import { ROUTES } from '@/shared/constants/routes';
 
 const Trash: NextPageWithLayout = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { data: todos, isLoading } = useTodoListQuery(ROUTES.TRASH);
   const { mutate: createTodo } = useCreateTodoMutation();
-  const { mutate: forceDeleteTodo } = useForceDeleteTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteAllTodos } = useDeleteAllTodosMutation();
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
@@ -34,13 +35,13 @@ const Trash: NextPageWithLayout = () => {
 
       const [restoredItem] = items.splice(result.source.index, 1);
 
-      queryClient.setQueriesData(['todos'], items);
-      console.log(restoredItem.id);
+      queryClient.setQueriesData([queryKeys.TODOS], items);
       updateTodo({ ...restoredItem, deletedAt: undefined });
     }
 
     setIsDragging(false);
   };
+
   return (
     <>
       <Head>
@@ -61,7 +62,7 @@ const Trash: NextPageWithLayout = () => {
           <Droppable droppableId="todos">
             {(provided) => (
               <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-                <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={forceDeleteTodo} />
+                <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
                 {provided.placeholder}
               </TodoListContainer>
             )}

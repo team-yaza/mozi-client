@@ -6,14 +6,13 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Footer, Header, Title, TodoList } from '@/components/common';
 import { LOGBOOK } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useDeleteTodoMutation, useCreateTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { ROUTES } from '@/shared/constants/routes';
+import { useCreateTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 
 const Logbook: NextPageWithLayout = () => {
   const { data: todos } = useTodoListQuery(ROUTES.LOGBOOK);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
 
   return (
     <>
@@ -23,7 +22,7 @@ const Logbook: NextPageWithLayout = () => {
       <Container>
         <Header />
         <Title icon={<LOGBOOK focused />} title="Logbook" />
-        <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+        <TodoList todos={todos} updateTodo={updateTodo} />
         <Footer createTodo={createTodo} />
       </Container>
     </>

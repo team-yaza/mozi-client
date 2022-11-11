@@ -79,21 +79,19 @@ export const useDeleteTodoMutation = () =>
     },
   });
 
-export const useForceDeleteTodoMutation = () =>
-  useMutation((id: string) => todoService.forceDeleteTodo(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.TODOS]);
-      queryClient.invalidateQueries(['statistics']);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
 export const useDeleteAllTodosMutation = () =>
-  useMutation(() => todoService.forceDeleteAllTodosAtTrash(), {
+  useMutation(() => todoService.deleteAllTodosAtTrash(), {
     onSuccess: async () => {
-      queryClient.setQueriesData([queryKeys.TODOS, 'deleted'], []);
+      queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {
+        return data.filter((todo: Todo) => {
+          return todo.offline !== 'deleted';
+        });
+      });
+
+      // queryClient.invalidateQueries([queryKeys.TODOS]);
+      // queryClient.setQueriesData([queryKeys.TODOS, 'deleted'], []);
+      // queryClient.invalidateQueries(['statistics']);
+      // queryClient.setQueriesData([queryKeys.TODOS], (data: any) => data);
 
       await syncTodos();
     },
