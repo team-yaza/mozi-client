@@ -1,11 +1,12 @@
-import { Spinner } from '@/components/common/index';
-import { getCookie } from '@/shared/utils/cookie';
-import axios from 'axios';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
+
+import { Spinner } from '@/components/common';
+import { getCookie } from '@/shared/utils/cookie';
 
 const Google: NextPage = () => {
   const router = useRouter();
