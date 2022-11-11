@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import fetcher from '@/shared/utils/fetcher';
-import { syncTodos } from '@/shared/utils/sync';
 import { toastIcon } from '@/shared/utils/toast';
 import { IS_OFFLINE } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
@@ -20,21 +19,6 @@ const todoService = {
     const keys = await todoStore.keys();
     if (keys.length === 0) return [];
     return (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
-  },
-  forceDeleteTodo: async (id: string) => {
-    try {
-      await fetcher('delete', `/todos/force/${id}`);
-    } catch (error) {
-      console.error(error); // network error
-    }
-  },
-  deleteAllTodos: async () => {
-    try {
-      await fetcher('delete', '/todos/all');
-    } catch (error) {
-      console.log(error);
-      await syncTodos();
-    }
   },
   createTodoAtIndexedDB: async ({ locationName, longitude, latitude, dueDate, title }: TodoCreateRequest) => {
     const todoId = uuidv4();
@@ -65,21 +49,13 @@ const todoService = {
     const todo = await todoStore.getItem<Todo>(id);
     return await todoStore.setItem(id, { ...todo, offline: 'deleted' });
   },
-  forceDeleteTodoAtIndexedDB: async () => {
+  deleteAllTodosAtTrash: async () => {
     const todos = await getTodosFromIndexedDB();
-
-    return await Promise.all(
-      todos.filter((todo) => todo.deletedAt).map((todo) => todoStore.setItem(todo.id, { ...todo, offline: 'deleted' }))
-    );
-  },
-  forceDeleteAllTodosAtTrash: async () => {
-    const keys = await todoStore.keys();
-    const todos = (await Promise.all(keys.map((key) => todoStore.getItem(key)))) as Todo[];
 
     return await Promise.all(
       todos.map((todo: Todo) => {
         if (todo.deletedAt) {
-          return todoStore.setItem(todo.id, { ...todo, offlineForceDeleted: true });
+          return todoStore.setItem(todo.id, { ...todo, offline: 'deleted' });
         }
       })
     );

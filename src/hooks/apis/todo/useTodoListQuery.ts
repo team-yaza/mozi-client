@@ -13,7 +13,9 @@ export const useTodoListQuery = (page: string): UseQueryResult<Todo[], AxiosErro
     case ROUTES.HOME:
       return useQuery([queryKeys.TODOS], todoService.getTodosFromIndexedDB, {
         select: (todos: Todo[]) =>
-          todos.filter((todo) => !todo.done && !todo.deletedAt).sort((todoA, todoB) => todoA.index - todoB.index),
+          todos
+            .filter((todo) => !todo.done && !todo.deletedAt)
+            .sort((todoA, todoB) => (todoA.index > todoB.index ? 1 : -1)),
       });
     case ROUTES.UPCOMING:
       return useQuery([queryKeys.TODOS], todoService.getTodosFromIndexedDB, {
