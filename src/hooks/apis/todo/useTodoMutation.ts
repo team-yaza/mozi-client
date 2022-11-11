@@ -83,15 +83,8 @@ export const useDeleteAllTodosMutation = () =>
   useMutation(() => todoService.deleteAllTodosAtTrash(), {
     onSuccess: async () => {
       queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {
-        return data.filter((todo: Todo) => {
-          return todo.offline !== 'deleted';
-        });
+        return data.filter((todo: Todo) => !todo.deletedAt);
       });
-
-      // queryClient.invalidateQueries([queryKeys.TODOS]);
-      // queryClient.setQueriesData([queryKeys.TODOS, 'deleted'], []);
-      // queryClient.invalidateQueries(['statistics']);
-      // queryClient.setQueriesData([queryKeys.TODOS], (data: any) => data);
 
       await syncTodos();
     },
