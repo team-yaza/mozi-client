@@ -14,6 +14,8 @@ import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { ROUTES } from '@/shared/constants/routes';
+import { CROSSHAIRS } from '@/components/common/Figure';
+import { screenOut } from '@/styles/utils';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
@@ -168,7 +170,17 @@ const Map: NextPageWithLayout = () => {
         {/* Map 영역 */}
         <MapLayout id="map" ref={naverMapRef}>
           {isMapLoading && <Image src="/assets/images/map.png" layout="fill" alt="지도 사진" />}
+          {!isMapLoading && (
+            <CurrentLocation>
+              <LogoContainer>
+                <CROSSHAIRS />
+                <CurrentPosition>현위치</CurrentPosition>
+              </LogoContainer>
+            </CurrentLocation>
+          )}
         </MapLayout>
+
+        {/* 현재 위치 */}
 
         {/* 모달 */}
         {isOpenModal && <SetLocationModal isOpened={isOpenModal} onClose={onClose} createTodo={createLocationTodo} />}
@@ -195,6 +207,37 @@ const Container = styled.div`
 const MapLayout = styled.main`
   width: 100%;
   height: calc(100vh - 5.4rem);
+`;
+
+const CurrentLocation = styled.div`
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  right: 3rem;
+  bottom: 3rem;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
+  border-radius: 0.8rem;
+
+  z-index: 10000;
+`;
+
+const LogoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+
+  svg {
+    fill: ${({ theme }) => theme.color.crosshair};
+    transition: fill 0.3s;
+  }
+`;
+
+const CurrentPosition = styled.span`
+  ${screenOut};
 `;
 
 export default Map;

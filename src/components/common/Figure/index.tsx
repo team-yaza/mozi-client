@@ -5,6 +5,7 @@ export { default as BOXPLUS } from './BOXPLUS';
 export { default as CALENDAR } from './CALENDAR';
 export { default as CANCEL } from './CANCEL';
 export { default as CATEGORY } from './CATEGORY';
+export { default as CROSSHAIRS } from './CROSSHAIRS';
 export { default as DEADLINE } from './DEADLINE';
 export { default as FOOTERCALENDAR } from './FOOTERCALENDAR';
 export { default as HAMBURGER } from './HAMBURGER';
