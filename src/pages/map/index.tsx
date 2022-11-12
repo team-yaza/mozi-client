@@ -150,6 +150,16 @@ const Map: NextPageWithLayout = () => {
     };
   }, [naverMap]);
 
+  const onClickCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setCoords({ latitude: coords.latitude, longitude: coords.longitude });
+      },
+      (error) => console.error(error),
+      { enableHighAccuracy: true }
+    );
+  };
+
   return (
     <>
       <Head>
@@ -171,7 +181,7 @@ const Map: NextPageWithLayout = () => {
         <MapLayout id="map" ref={naverMapRef}>
           {isMapLoading && <Image src="/assets/images/map.png" layout="fill" alt="지도 사진" />}
           {!isMapLoading && (
-            <CurrentLocation>
+            <CurrentLocation onClick={onClickCurrentLocation}>
               <LogoContainer>
                 <CROSSHAIRS />
                 <CurrentPosition>현위치</CurrentPosition>
