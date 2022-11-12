@@ -6,6 +6,7 @@ export const theme = {
     black: '#000000',
     black1: '#2C2B31',
     black2: '#1E1C24',
+    black3: '#1C2E45',
     purple: '#735AFF',
     purple1: '#7380F6',
     lightPurple: '#f4f2ff',
@@ -28,6 +29,7 @@ export const theme = {
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
     kakao: '#FEE502',
+
     red: '#ff6161',
   },
   fonts: {
@@ -121,6 +123,7 @@ export const lightTheme: DefaultTheme = {
     calendar_header: theme.colors.grey11,
     calendar_border: theme.colors.grey12,
     calendar_body_border: theme.colors.grey13,
+    crosshair: theme.colors.black3,
   },
 };
 
@@ -155,5 +158,6 @@ export const darkTheme: DefaultTheme = {
     calendar_header: theme.colors.white,
     calendar_border: theme.colors.grey11,
     calendar_body_border: theme.colors.grey11,
+    crosshair: theme.colors.white,
   },
 };
