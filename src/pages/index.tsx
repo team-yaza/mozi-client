@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect } from 'react';
@@ -26,15 +25,12 @@ const Login: NextPageWithLayout = () => {
 
   return (
     <>
-      <Head>
-        <title>MOZI | Login</title>
-      </Head>
       <Container>
-        <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} />
+        <Image priority src="/assets/svgs/flying_mozi.svg" width={90.84} height={123.23} alt="MOZI LOGO" />
 
         <KakaoLogin onClick={() => loginWithKakao()} data-testid="kakaoLogin">
           <LogoContainer>
-            <Image priority src="/assets/svgs/kakao.svg" layout="fill" />
+            <Image priority src="/assets/svgs/kakao.svg" layout="fill" alt="카카오" />
           </LogoContainer>
           <span>카카오톡으로 로그인</span>
         </KakaoLogin>

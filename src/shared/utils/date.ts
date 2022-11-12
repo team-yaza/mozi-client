@@ -17,7 +17,7 @@ export const dateToFormatString = (date: Date) =>
   '.' +
   ('0' + date.getDate()).slice(SLICEMONTHLENGTH);
 
-export const getYearMonth = (date: Date) =>
+export const getYearAndMonth = (date: Date) =>
   date.getFullYear() + '.' + ('0' + (date.getMonth() + 1)).slice(SLICEMONTHLENGTH);
 
 export const getCalendarDates = (date: Date) => {

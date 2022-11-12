@@ -6,7 +6,7 @@ import { useTheme } from 'styled-components';
 
 import { useDrag } from '@/hooks/useDrag';
 import { ARROWLEFT, ARROWRIGHT, HAMBURGER, INBOX, LOGBOOK, MAP, TRASH, UPCOMING } from '@/components/common/Figure';
-import { getSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
+import { getSideBarStateFromLocalStorage, setSideBarStateToLocalStorage } from '@/store/localStorage/sidebar';
 import SideBarMenu from './SideBarMenu';
 import { TodoStatistics } from '@/shared/types/todo';
 import {
@@ -65,8 +65,10 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
   const onToggleSideBar = () => {
     if (isSideBarOpened) {
       onCloseSideBar();
+      setSideBarStateToLocalStorage(false);
     } else {
       onOpenSideBar();
+      setSideBarStateToLocalStorage(true);
     }
   };
 
@@ -98,7 +100,7 @@ const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
       {/* MOZI 로고 (임시) 부분 */}
       <LogoContainer>
         <Logo>
-          <Image src="/assets/svgs/mozi.svg" layout="fill" />
+          <Image src="/assets/svgs/mozi.svg" layout="fill" alt="MOZI" />
         </Logo>
       </LogoContainer>
 

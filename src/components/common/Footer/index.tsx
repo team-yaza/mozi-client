@@ -8,21 +8,7 @@ import { BOXARROWRIGHT, BOXPLUS, FOOTERCALENDAR, SEARCH } from '@/components/com
 import { Container, IconContainer, OptionsContainer } from './styles';
 
 interface FooterProps {
-  createTodo?: UseMutateFunction<
-    | {
-        id: string;
-        locationName: string | undefined;
-        longitude: number | undefined;
-        latitude: number | undefined;
-        dueDate: Date | undefined;
-        index: number;
-        offline: boolean;
-      }
-    | undefined,
-    unknown,
-    TodoCreateRequest,
-    unknown
-  >;
+  createTodo?: UseMutateFunction<unknown, unknown, TodoCreateRequest, unknown>;
 }
 
 const Footer: React.FC<FooterProps> = ({ createTodo }) => {

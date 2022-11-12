@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef } from 'react';
+import React, { useId, useLayoutEffect, useRef } from 'react';
 
 import { TRANSITION_DELAY } from '@/shared/constants/delay';
 import Modal from '@/components/common/Modal';
@@ -6,7 +6,6 @@ import CommonTextInput from '@/components/common/TextInput/index';
 import { LOCATION_INPUT_LENGTH } from '@/shared/constants/input';
 import { ContentContainer, Title } from './styles';
 import { useInput } from '@/hooks/useInput';
-
 interface SetLocationModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -43,7 +42,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
   return (
     <Modal isOpened={isOpened} onClose={onClose} onConfirm={onConfirm}>
       <ContentContainer>
-        <Title htmlFor={titleInputId}>🚩 Create New Todo !!</Title>
+        <Title htmlFor={titleInputId}>🚩 할 일 추가</Title>
         <CommonTextInput
           id={titleInputId}
           ref={titleInputRef}
@@ -69,4 +68,4 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
   );
 };
 
-export default SetLocationModal;
+export default React.memo(SetLocationModal);

@@ -15,14 +15,9 @@ Default.args = {
   placeholder: '아무거나 입력해보세요.',
 };
 
-export const NoBorder = Template.bind({});
-NoBorder.args = {
-  placeholder: '아무거나 입력해보세요.',
-};
-
-export const WithMaxLegnth = Template.bind({});
-WithMaxLegnth.args = {
-  supportsMaxLength: true,
-  maxLength: 10,
-  placeholder: '아무거나 입력해보세요.',
-};
+// export const WithMaxLegnth = Template.bind({});
+// WithMaxLegnth.args = {
+//   supportsMaxLength: true,
+//   maxLength: 10,
+//   placeholder: '아무거나 입력해보세요.',
+// };

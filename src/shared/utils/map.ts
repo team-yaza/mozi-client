@@ -1,7 +1,7 @@
 import locationService, { GetSearchResultParams } from '@/services/apis/location';
 
-export const getLocationSearchResult = async ({ keyword, latitude, longitude }: GetSearchResultParams) => {
-  const searchResult = await locationService.getsearchResult({ keyword, latitude, longitude });
+export const getLocationSearchResult = async ({ longitude, latitude, keyword }: GetSearchResultParams) => {
+  const searchResult = await locationService.getsearchResult({ longitude, latitude, keyword });
   return searchResult;
 };
 

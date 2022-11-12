@@ -44,74 +44,76 @@ interface SEOProps {
   };
 }
 
-const SEO: React.FC<SEOProps> = React.memo(
-  ({
-    title,
-    description,
-    canonical,
-    robots,
-    maxDescriptionCharacters,
-    twitter = {},
-    og = {},
-    customMetaTags = [],
-    customLinkTags = [],
-  }) => {
-    const tags = [];
+const SEO: React.FC<SEOProps> = ({
+  title,
+  description,
+  canonical,
+  robots,
+  maxDescriptionCharacters,
+  twitter = {},
+  og = {},
+  customMetaTags = [],
+  customLinkTags = [],
+}) => {
+  const tags = [];
 
-    if (title) {
-      tags.push(<title key="title">{title}</title>);
-    }
-    if (description) {
-      tags.push(
-        <meta key="description" name="description" content={description.substring(0, maxDescriptionCharacters)} />
-      );
-    }
-    if (robots) {
-      tags.push(<meta key="robots" name="robots" content={robots} />);
-    }
-    if (canonical) {
-      tags.push(<link key="canonical" rel="canonical" href={canonical} />);
-    }
-    if (twitter.card) {
-      tags.push(<meta key="twitter:card" name="twitter:card" content={twitter.card} />);
-    }
-    if (twitter.site) {
-      tags.push(<meta key="twitter:site" name="twitter:site" content={twitter.site} />);
-    }
-    if (og.url || canonical) {
-      tags.push(<meta key="og:url" property="og:url" content={og.url || canonical} />);
-    }
-    if (og.title || title) {
-      tags.push(<meta key="og:title" property="og:title" content={og.title || title} />);
-    }
-    if (og.image) {
-      tags.push(<meta key="og:image" property="og:image" content={og.image} />);
-    }
-    if (og.description || description) {
-      tags.push(
-        <meta
-          key="og:description"
-          property="og:description"
-          content={(og.description || description)?.substr(0, maxDescriptionCharacters)}
-        />
-      );
-    }
-    if (og.type) {
-      tags.push(<meta key="og:type" property="og:type" content={og.type} />);
-    }
-    if (og.siteName) {
-      tags.push(<meta key="og:site_name" property="og:site_name" content={og.siteName} />);
-    }
-
-    if (customMetaTags.length > 0) {
-      tags.push(customMetaTags.map(({ key, ...tagProps }, i) => <meta key={`meta-${key || i}`} {...tagProps} />));
-    }
-    if (customLinkTags.length > 0) {
-      tags.push(customLinkTags.map(({ key, ...tagProps }, i) => <link key={`link-${key || i}`} {...tagProps} />));
-    }
-
-    return <Head>{tags}</Head>;
+  if (title) {
+    tags.push(<title key="title">{title}</title>);
   }
-);
+  if (description) {
+    tags.push(
+      <meta key="description" name="description" content={description.substring(0, maxDescriptionCharacters)} />
+    );
+  }
+  if (robots) {
+    tags.push(<meta key="robots" name="robots" content={robots} />);
+  }
+  if (canonical) {
+    tags.push(<link key="canonical" rel="canonical" href={canonical} />);
+  }
+  if (twitter.card) {
+    tags.push(<meta key="twitter:card" name="twitter:card" content={twitter.card} />);
+  }
+  if (twitter.site) {
+    tags.push(<meta key="twitter:site" name="twitter:site" content={twitter.site} />);
+  }
+  if (og.url || canonical) {
+    tags.push(<meta key="og:url" property="og:url" content={og.url || canonical} />);
+  }
+  if (og.title || title) {
+    tags.push(<meta key="og:title" property="og:title" content={og.title || title} />);
+  }
+  if (og.image) {
+    tags.push(<meta key="og:image" property="og:image" content={og.image} />);
+  }
+  if (og.description || description) {
+    tags.push(
+      <meta
+        key="og:description"
+        property="og:description"
+        content={(og.description || description)?.substring(0, maxDescriptionCharacters)}
+      />
+    );
+  }
+  if (og.type) {
+    tags.push(<meta key="og:type" property="og:type" content={og.type} />);
+  }
+  if (og.siteName) {
+    tags.push(<meta key="og:site_name" property="og:site_name" content={og.siteName} />);
+  }
 
-export default SEO;
+  tags.push(<meta property="og:locale" content="ko_KR" />);
+  tags.push(<meta property="og:image:width" content="1200" />);
+  tags.push(<meta property="og:image:height" content="630" />);
+
+  if (customMetaTags.length > 0) {
+    tags.push(customMetaTags.map(({ key, ...tagProps }, i) => <meta key={`meta-${key || i}`} {...tagProps} />));
+  }
+  if (customLinkTags.length > 0) {
+    tags.push(customLinkTags.map(({ key, ...tagProps }, i) => <link key={`link-${key || i}`} {...tagProps} />));
+  }
+
+  return <Head>{tags}</Head>;
+};
+
+export default React.memo(SEO);

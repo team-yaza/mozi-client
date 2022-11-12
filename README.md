@@ -2,11 +2,13 @@
   <br/>
   <img src="./public/logo.png" alt="MOZI" width="200px" height="200px"> 
   <h1>MOZI</h1>
+      <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fteam-yaza%2Fmozi-client&count_bg=%23735AFF&title_bg=%23775EFF&icon=checkmarx.svg&icon_color=%23FFFFFF&title=MOZI&edge_flat=false"/></a>  
      <img src="https://img.shields.io/badge/NGINX-Active-2ea04?&logo=nginx&logoColor=white" alt="NGINX" />
       <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress" alt="Cypress" />
+      
+</div>
      <!-- [![mozi-client](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/zyvbtc/runs) -->
     <!-- <img src="https://img.shields.io/github/v/release/ssafy-mate/ssafy-mate_front-end?color=%23068fc6" alt="GitHub release (latest by date)" /> -->
-</div>
 
 ## 목차
 
@@ -39,9 +41,9 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
   <img src="https://user-images.githubusercontent.com/63354527/198322381-30d774fd-f541-4ead-bc32-3b2ec81b3c64.png" alt="tech stack"/>
 </p>
 
-- **PWA**를 적용하여 웹 브라우저에서 다운로드가 가능하도록 구현하였고 반응형 UI로 크로스 플랫폼을 지원할 수 있도록 했으며, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 백그라운드 동기화 기능을 활용해 웹이지만 사용자가 네이티브 앱을 사용하는 것처럼 사용할 수 있도록 구현했습니다.
-- **Next**의 SSR를 활용해 SEO를 향상시켰고 Vercel 플랫폼을 활용하여 짧은 주기로 지속적 배포를 진행했습니다.
-- **React**를 사용하여 컴포넌트를 재사용하고 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
+- [PWA](https://mozi.vercel.app/blog/thinking-about-pwa)를 적용하여 웹 브라우저에서 다운로드가 가능하도록 구현하였고 반응형 UI로 크로스 플랫폼을 지원할 수 있도록 했으며, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 [백그라운드 동기화 기능](https://mozi.vercel.app/blog/background-sync)을 활용해 웹이지만 사용자가 네이티브 앱을 사용하는 것처럼 사용할 수 있도록 구현했습니다.
+- [Next](https://mozi.vercel.app/blog/rendering-patterns)의 SSR를 활용해 [SEO](https://mozi.vercel.app/blog/seo)를 향상시켰고 [Vercel 플랫폼](https://vercel.com/)을 활용하여 짧은 주기로 지속적 배포를 진행했습니다.
+- [React](https://mozi.vercel.app/blog/thinking-in-react)를 사용하여 컴포넌트를 재사용하고 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
 - **React Query**를 사용하여 Data Fetching 로직을 작성하였고 전역 상태관리자처럼 사용해 데이터를 관리했습니다.
 - **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리합니다.
@@ -52,6 +54,12 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 - **NGINX**를 사용하여 웹서버를 구성했습니다.
 
 <div id="3"></div>
+
+## 시스템 아키텍처
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/63354527/200804672-894f4f1a-2ff5-4804-b68d-61b767df1e77.png" alt="architecture"/>
+</p>
 
 ## 💻 실행 방법
 

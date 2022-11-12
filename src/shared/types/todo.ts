@@ -1,33 +1,25 @@
 export interface Todo {
   id: string;
   title?: string;
-  index: number;
   description?: string;
+  index: number;
+  done: boolean;
   longitude?: number;
   latitude?: number;
   locationName?: string;
-  alarmDate?: string;
-  dueDate?: string;
+  alarmDate?: any;
+  dueDate?: any;
 
-  done: boolean;
   alarmed: boolean;
 
   deletedAt?: Date;
   createdAt: Date;
   updatedAt?: Date;
 
-  // 오프라인 로직에 사용되는 type
-  created?: boolean;
-  updated?: boolean;
-  deleted?: boolean;
-
   offline?: Offline;
-  offlineDeleted?: boolean;
-  offlineForceDeleted?: boolean;
-  forceDeleted?: boolean;
 }
 
-export type Offline = 'created' | 'updated' | 'deleted' | 'forceDeleted';
+export type Offline = 'created' | 'updated' | 'deleted';
 
 export interface TodoSuccessResponse {
   id: string;
@@ -39,16 +31,18 @@ export interface TodoSuccessResponse {
 
 export interface TodoUpdateRequest {
   id: string;
-  index?: number;
   title?: string;
-  done?: boolean;
-  longitude?: number | null;
-  latitude?: number | null;
-  locationName?: string | null;
-  alarmDate?: Date | null;
-  dueDate?: Date | null;
   description?: string;
-  deletedAt?: Date | null;
+  index?: number;
+  done?: boolean;
+  longitude?: number;
+  latitude?: number;
+  locationName?: string;
+  alarmDate?: Date;
+  dueDate?: Date;
+  deletedAt?: Date;
+  alarmed?: boolean;
+  createdAt?: Date;
 }
 
 export interface TodoCreateRequest {

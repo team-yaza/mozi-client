@@ -12,7 +12,10 @@ import {
   // TodoUpdateRequest
 } from '@/shared/types/todo';
 import { getItem, setItem } from '@/store/localStorage';
-import { getSearchSideBarStateFromLocalStorage } from '@/store/localStorage/sidebar';
+import {
+  getSearchSideBarStateFromLocalStorage,
+  setSearchSideBarStateToLocalStorage,
+} from '@/store/localStorage/sidebar';
 import { SEARCHPLACE, SIDEBARARROWLEFT } from '@/components/common/Figure';
 import {
   Container,
@@ -79,9 +82,9 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
     const { coords } = await getCurrentPosition();
 
     const result = await getLocationSearchResult({
-      keyword: e.target.value,
-      latitude: coords.latitude,
       longitude: coords.longitude,
+      latitude: coords.latitude,
+      keyword: e.target.value,
     });
 
     if (e.target.value.length > 0) {
@@ -104,6 +107,11 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
   };
 
   const clickSearchBarHandler = () => setIsSearching(!isSearching);
+
+  const onCloseSideBar = () => {
+    setIsSearchBarOpen((prev) => !prev);
+    setSearchSideBarStateToLocalStorage(!isSearchBarOpen);
+  };
 
   return (
     <Container isSearchBarOpen={isSearchBarOpen}>
@@ -152,7 +160,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
         )}
       </SearchContainer>
       <MapTodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
-      <SideBarToggleButton type="button" onClick={() => setIsSearchBarOpen((prev) => !prev)}>
+      <SideBarToggleButton type="button" onClick={onCloseSideBar}>
         {isSearchBarOpen ? '닫기' : '열기'}
         <IconContainer isSearchBarOpen={isSearchBarOpen}>
           <SIDEBARARROWLEFT />

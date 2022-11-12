@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
@@ -8,7 +9,7 @@ import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { AppLayout, Title, Footer, Header, DropPlaceholder, Skeleton } from '@/components/common';
 import { INBOX, TRASH } from '@/components/common/Figure';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
-import { useCreateTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
+import { useCreateTodoMutation, useUpdateTodoMutation } from '@/hooks/apis/todo/useTodoMutation';
 import { queryClient } from '@/shared/utils/queryClient';
 import { theme } from '@/styles/theme';
 import { Todo } from '@/shared/types/todo';
@@ -20,76 +21,74 @@ const Inbox: NextPageWithLayout = () => {
   const { data: todos, isLoading } = useTodoListQuery(ROUTES.HOME);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
-
-  const onDragStart = () => setIsDragging(true);
-  const onClickHandler = () => createTodo({});
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
     if (todos && result.destination.droppableId === 'todos') {
-      const items = Array.from(todos);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      items.forEach((item: Todo, index) => (item.index = index));
+      const [reorderedItem] = todos.splice(result.source.index, 1);
+      todos.splice(result.destination.index, 0, reorderedItem);
+      todos.forEach((item: Todo, index) => (item.index = index));
 
-      queryClient.setQueriesData([queryKeys.TODOS], items);
+      queryClient.setQueriesData([queryKeys.TODOS], todos);
 
-      items.map((item: any, index) => updateTodo({ ...item, index }));
+      todos.map((item: Todo, index) => updateTodo({ ...item, index }));
 
       // await Promise.all(items.map((item: Todo, index) => todoService.updateTodoAtIndexedDB({ id: item.id, index })));
     } else if (todos && result.destination.droppableId === 'trash') {
-      const items = Array.from(todos);
+      const [deletedTodo] = todos.splice(result.source.index, 1);
 
-      const [deletedItem] = items.splice(result.source.index, 1);
-
-      queryClient.setQueriesData([queryKeys.TODOS], items);
-      deleteTodo(deletedItem.id);
+      queryClient.setQueriesData([queryKeys.TODOS], todos);
+      updateTodo({ ...deletedTodo, deletedAt: new Date() });
     }
 
     setIsDragging(false);
   };
 
   return (
-    <Container>
-      <Header />
-      <Title onClick={onClickHandler} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
+    <>
+      <Head>
+        <title>MOZI | Inbox</title>
+      </Head>
+      <Container>
+        <Header />
+        <Title onClick={() => createTodo({})} icon={<INBOX focused />} title="Inbox" actionText="할 일 추가" />
 
-      {/* DND features */}
+        {/* DND features */}
 
-      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-        <Droppable droppableId="todos">
-          {(provided) => (
-            <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
-              {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />}
-              {provided.placeholder}
-            </TodoListContainer>
-          )}
-        </Droppable>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
+          <Droppable droppableId="todos">
+            {(provided) => (
+              <TodoListContainer ref={provided.innerRef} {...provided.droppableProps}>
+                {isLoading ? <Skeleton /> : <TodoList todos={todos} updateTodo={updateTodo} />}
+                {provided.placeholder}
+              </TodoListContainer>
+            )}
+          </Droppable>
 
-        <Droppable droppableId="trash">
-          {(provided, snapshot) => (
-            <DropPlaceholder
-              ref={provided.innerRef}
-              isDragging={isDragging}
-              active={snapshot.isDraggingOver}
-              borderColor={theme.colors.purple}
-              backgroundColor="#f3d9fa"
-              hoverColor="#cc5de8"
-              text="삭제"
-              icon={<TRASH />}
-              {...provided.droppableProps}
-            >
-              {provided.placeholder}
-            </DropPlaceholder>
-          )}
-        </Droppable>
-      </DragDropContext>
+          <Droppable droppableId="trash">
+            {(provided, snapshot) => (
+              <DropPlaceholder
+                ref={provided.innerRef}
+                isDragging={isDragging}
+                active={snapshot.isDraggingOver}
+                borderColor={theme.colors.purple}
+                backgroundColor="#f3d9fa"
+                hoverColor="#cc5de8"
+                text="삭제"
+                icon={<TRASH />}
+                {...provided.droppableProps}
+              >
+                {provided.placeholder}
+              </DropPlaceholder>
+            )}
+          </Droppable>
+        </DragDropContext>
 
-      {/* 드래그 안할 때는 Footer를 보여줌 */}
-      {!isDragging && <Footer createTodo={createTodo} />}
-    </Container>
+        {/* 드래그 안할 때는 Footer를 보여줌 */}
+        {!isDragging && <Footer createTodo={createTodo} />}
+      </Container>
+    </>
   );
 };
 
