@@ -42,7 +42,7 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
   return (
     <Modal isOpened={isOpened} onClose={onClose} onConfirm={onConfirm}>
       <ContentContainer>
-        <Title htmlFor={titleInputId}>🚩 Create New Todo !!</Title>
+        <Title htmlFor={titleInputId}>🚩 할 일 추가</Title>
         <CommonTextInput
           id={titleInputId}
           ref={titleInputRef}

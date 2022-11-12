@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Caption, Container, Input } from './styles';
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -10,25 +10,21 @@ export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ value, height, onFocus, onBlur, borderRadius, supportsMaxLength, maxLength, ...restTextInputProps }, ref) => {
-    const [isFocused, setIsFocused] = useState(false);
-
     return (
       <>
         <Container
           height={height}
           onFocus={(event: React.FocusEvent<HTMLInputElement>) => {
-            setIsFocused(true);
             onFocus?.(event);
           }}
           onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
-            setIsFocused(false);
             onBlur?.(event);
           }}
           supportsMaxLength={supportsMaxLength}
         >
           <Input ref={ref} value={value} maxLength={maxLength} borderRadius={borderRadius} {...restTextInputProps} />
         </Container>
-        {supportsMaxLength && isFocused && value.length > 0 && (
+        {supportsMaxLength && (
           <Caption>
             {value.length}/{maxLength}
           </Caption>
