@@ -1,6 +1,5 @@
 import { render, RenderOptions } from '@testing-library/react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 
 import { queryClient } from '@/shared/utils/queryClient';
@@ -20,9 +19,7 @@ export const triggerRef = (value = false) => {
 const Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={darkTheme}>
-        <RecoilRoot>{children}</RecoilRoot>
-      </ThemeProvider>
+      <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
     </QueryClientProvider>
   );
 };
