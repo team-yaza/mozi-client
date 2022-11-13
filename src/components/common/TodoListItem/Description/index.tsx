@@ -52,6 +52,7 @@ const Description: React.FC<DescriptionProps> = ({ todo, setIsDoubleClicked, upd
       contentEditable
       suppressContentEditableWarning
       spellCheck={false}
+      data-testid="todoDescription"
     />
   );
 };

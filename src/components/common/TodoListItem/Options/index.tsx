@@ -97,7 +97,7 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
 
       <UndefinedContainer>
         {!todo.locationName && (
-          <UndefinedOption onClick={onClickMap}>
+          <UndefinedOption onClick={onClickMap} data-testid="todoMap">
             <PLACE />
           </UndefinedOption>
         )}
