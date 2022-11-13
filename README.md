@@ -43,7 +43,7 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 
 - [PWA](https://mozi.vercel.app/blog/thinking-about-pwa)를 적용하여 웹 브라우저에서 다운로드가 가능하도록 구현하였고 반응형 UI로 크로스 플랫폼을 지원할 수 있도록 했으며, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 [백그라운드 동기화 기능](https://mozi.vercel.app/blog/background-sync)을 활용해 웹이지만 사용자가 네이티브 앱을 사용하는 것처럼 사용할 수 있도록 구현했습니다.
 - [Next](https://mozi.vercel.app/blog/rendering-patterns)의 SSR를 활용해 [SEO](https://mozi.vercel.app/blog/seo)를 향상시켰고 [Vercel 플랫폼](https://vercel.com/)을 활용하여 짧은 주기로 지속적 배포를 진행했습니다.
-- [React](https://mozi.vercel.app/blog/thinking-in-react)를 사용하여 컴포넌트를 재사용하고 페이지에서 [리렌더링되어야 할 부분과 되지 않아야 할 부분을 생각](https://velog.io/@hyunjine/React-Rendering-Optimization)하며 개발하였고, 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
+- [React](https://mozi.vercel.app/blog/thinking-in-react)를 사용하여 컴포넌트를 재사용하고 페이지에서 [리렌더링되어야 할 부분과 되지 않아야 할 부분을 생각하며 개발](https://velog.io/@hyunjine/React-Rendering-Optimization)하였고, 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
 - **React Query**를 사용하여 Data Fetching 로직을 작성하였고 전역 상태관리자처럼 사용해 데이터를 관리했습니다.
 - **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리합니다.
