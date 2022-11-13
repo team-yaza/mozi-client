@@ -28,6 +28,7 @@ export const UndefinedContainer = styled.div`
   align-items: flex-end;
 
   stroke: ${theme.colors.grey7};
+  cursor: pointer;
 `;
 
 export const UndefinedOption = styled.div`
