@@ -1,6 +1,4 @@
 import { ThemeProvider } from 'styled-components';
-// import { addDecorator } from '@storybook/react';
-// import { withThemesProvider } from 'storybook-addon-styled-component-theme';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { useDarkMode } from 'storybook-dark-mode';
 
