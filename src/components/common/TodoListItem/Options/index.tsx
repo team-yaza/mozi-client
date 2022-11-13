@@ -5,7 +5,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import { Chip, CalendarModal } from '@/components/common';
-import { PLACE, CALENDAR, DEADLINE } from '@/components/common/Figure';
+import { PLACE, CALENDAR, DEADLINE, ALARM } from '@/components/common/Figure';
 import DeleteModal from '@/components/common/DeleteModal';
 import { Todo } from '@/shared/types/todo';
 
@@ -111,6 +111,9 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
             <DEADLINE />
           </UndefinedOption>
         )}
+        <UndefinedOption style={{ marginLeft: '-0.2rem' }}>
+          <ALARM />
+        </UndefinedOption>
       </UndefinedContainer>
 
       <DeleteModal

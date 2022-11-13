@@ -25,6 +25,6 @@ TagChip.args = {
 LocationChip.args = {
   fontColor: '#585858',
   backgroundColor: '#F5F5F5',
-  icon: <PLACE fill="#92909F" />,
+  icon: <PLACE />,
   content: '충남대학교',
 };

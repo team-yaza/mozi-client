@@ -20,6 +20,7 @@ declare module 'styled-components' {
       todo_background: string;
       todo_checkbox: string;
       todolistitem_box_shadow: string;
+      todolistitem_icon: string;
       background: string;
       purple: string;
       header: string;

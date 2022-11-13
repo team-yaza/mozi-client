@@ -1,3 +1,4 @@
+export { default as ALARM } from './ALARM';
 export { default as ARROWLEFT } from './ARROWLEFT';
 export { default as ARROWRIGHT } from './ARROWRIGHT';
 export { default as BOXARROWRIGHT } from './BOXARROWRIGHT';
