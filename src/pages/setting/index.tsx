@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/nextjs';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Title } from '@/components/common';
@@ -11,7 +13,8 @@ import { LogoutButton } from '@/components/setting/LogoutButton';
 import { deleteCookie, getCookie } from '@/shared/utils/cookie';
 import GOOGLE from '@/components/common/Figure/GOOGLE';
 import { flexCenter } from '@/styles/utils';
-import axios from 'axios';
+import { toastError } from '@/shared/utils/toast';
+import { GOOGLE_CALENDAR_SYNC_ERROR } from '@/shared/constants/dialog';
 
 const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => {
   const router = useRouter();
@@ -24,14 +27,19 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
   const onClickGoogleCalendar = async () => {
     const serverUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://mozi-server.com';
 
-    const response = await axios.get(`${serverUrl}/api/v1/migrations/google/url`, {
-      headers: {
-        Authorization: `Bearer ${getCookie('token')}`,
-      },
-    });
+    try {
+      const response = await axios.get(`${serverUrl}/api/v1/migrations/google/url`, {
+        headers: {
+          Authorization: `Bearer ${getCookie('token')}`,
+        },
+      });
 
-    const { data: authUrl } = response;
-    router.push(authUrl);
+      const { data: authUrl } = response;
+      router.push(authUrl);
+    } catch (error) {
+      Sentry.captureException(error);
+      toastError(GOOGLE_CALENDAR_SYNC_ERROR);
+    }
   };
 
   return (
