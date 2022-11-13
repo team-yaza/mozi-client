@@ -8,9 +8,10 @@ import { AppLayout, Title } from '@/components/common';
 import Theme from '@/components/setting/Theme';
 import { SETTING } from '@/components/common/Figure';
 import { LogoutButton } from '@/components/setting/LogoutButton';
-import { deleteCookie } from '@/shared/utils/cookie';
+import { deleteCookie, getCookie } from '@/shared/utils/cookie';
 import GOOGLE from '@/components/common/Figure/GOOGLE';
 import { flexCenter } from '@/styles/utils';
+import axios from 'axios';
 
 const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => {
   const router = useRouter();
@@ -20,8 +21,17 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
     router.push('/login');
   };
 
-  const onClickGoogleCalendar = () => {
-    router.push(process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string);
+  const onClickGoogleCalendar = async () => {
+    const serverUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://mozi-server.com';
+
+    const response = await axios.get(`${serverUrl}/api/v1/migrations/google/url`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('token')}`,
+      },
+    });
+
+    const { data: authUrl } = response;
+    router.push(authUrl);
   };
 
   return (
