@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '@/styles/theme';
+import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ export const DefinedOption = styled.div`
 `;
 
 export const UndefinedContainer = styled.div`
+  position: relative;
   width: 50%;
   display: flex;
   flex-direction: row;
@@ -29,10 +31,12 @@ export const UndefinedContainer = styled.div`
 `;
 
 export const UndefinedOption = styled.div`
+  ${flexCenter};
   position: relative;
 
   width: 2.5rem;
   height: 2.5rem;
 
-  stroke: ${theme.colors.grey3};
+  stroke: ${({ theme }) => theme.color.todolistitem_icon};
+  fill: ${({ theme }) => theme.color.todolistitem_icon};
 `;
