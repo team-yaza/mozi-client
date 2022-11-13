@@ -73,7 +73,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
 
         {/* 위치 선택 확인 버튼 */}
         {!isMapLoading && (
-          <ConfirmContainer onClick={() => setIsModalOpened(true)}>
+          <ConfirmContainer onClick={() => setIsModalOpened(true)} data-testid="mapCheckButton">
             <CONFIRMBUTTON />
           </ConfirmContainer>
         )}

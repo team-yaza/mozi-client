@@ -215,6 +215,7 @@ const Container = styled.div`
 `;
 
 const MapLayout = styled.main`
+  position: relative;
   width: 100%;
   height: calc(100vh - 5.4rem);
 `;

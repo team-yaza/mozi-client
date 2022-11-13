@@ -30,5 +30,11 @@ describe('Inbox', () => {
   it('사용자는 TodoListItem에 장소를 등록할 수 있다.', () => {
     cy.get('[data-testid="todoMap"]').click();
     cy.wait(3000);
+
+    cy.get('[data-testid="mapCheckButton"]').click();
+    cy.get('[data-testid="locationNameInput"]').type('소프트웨어 마에스트로 아남타워');
+
+    // eslint-disable-next-line cypress/no-force
+    cy.get('[data-testid="confirmButton"]').invoke('show').click({ multiple: true, force: true });
   });
 });

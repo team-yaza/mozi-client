@@ -40,7 +40,9 @@ const SetLocationModal: React.FC<SetLocationModalProps> = ({ isOpened, onClose, 
   return (
     <Modal isOpened={isOpened} onClose={onClose} onConfirm={onConfirm}>
       <ContentContainer>
-        <Title htmlFor={locationInputId}>🚩 장소의 이름을 입력해주세요.</Title>
+        <Title htmlFor={locationInputId} data-testid="locationNameInput">
+          🚩 장소의 이름을 입력해주세요.
+        </Title>
         <CommonTextInput
           id={locationInputId}
           ref={locationNameInputRef}
