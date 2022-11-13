@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+import * as Sentry from '@sentry/nextjs';
 
 import fetcher from '@/shared/utils/fetcher';
-import { toastIcon } from '@/shared/utils/toast';
-import { IS_OFFLINE } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@/store/localForage';
 
@@ -13,7 +12,7 @@ const todoService = {
       await todoStore.clear();
       return await Promise.all(todos.map((todo: Todo) => todoStore.setItem(todo.id, todo)));
     } catch (error) {
-      toastIcon(IS_OFFLINE, '🦖');
+      Sentry.captureException(error);
     }
 
     const keys = await todoStore.keys();
