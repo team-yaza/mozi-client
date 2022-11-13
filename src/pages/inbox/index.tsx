@@ -33,12 +33,9 @@ const Inbox: NextPageWithLayout = () => {
       queryClient.setQueriesData([queryKeys.TODOS], todos);
 
       todos.map((item: Todo, index) => updateTodo({ ...item, index }));
-
-      // await Promise.all(items.map((item: Todo, index) => todoService.updateTodoAtIndexedDB({ id: item.id, index })));
     } else if (todos && result.destination.droppableId === 'trash') {
       const [deletedTodo] = todos.splice(result.source.index, 1);
 
-      queryClient.setQueriesData([queryKeys.TODOS], todos);
       updateTodo({ ...deletedTodo, deletedAt: new Date() });
     }
 
