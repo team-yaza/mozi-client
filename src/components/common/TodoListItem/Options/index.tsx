@@ -102,12 +102,12 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
           </UndefinedOption>
         )}
         {!todo.alarmDate && (
-          <UndefinedOption onClick={() => onClickCalendar('alarm')}>
+          <UndefinedOption onClick={() => onClickCalendar('alarm')} data-testid="todoAlarm">
             <CALENDAR />
           </UndefinedOption>
         )}
         {!todo.dueDate && (
-          <UndefinedOption onClick={() => onClickCalendar('due')}>
+          <UndefinedOption onClick={() => onClickCalendar('due')} data-testid="todoDue">
             <DEADLINE />
           </UndefinedOption>
         )}

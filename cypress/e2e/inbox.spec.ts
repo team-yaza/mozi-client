@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-force */
 /* eslint-disable cypress/no-unnecessary-waiting */
 /// <reference types="cypress" />
 
@@ -27,14 +28,30 @@ describe('Inbox', () => {
     cy.contains('소마 최종 발표 준비하기 수정').should('be.visible');
   });
 
-  it('사용자는 TodoListItem에 장소를 등록할 수 있다.', () => {
-    cy.get('[data-testid="todoMap"]').click();
-    cy.wait(3000);
+  // it('사용자는 TodoListItem에 장소를 등록할 수 있다.', () => {
+  //   cy.get('[data-testid="todoMap"]').click();
+  //   cy.wait(3000);
 
-    cy.get('[data-testid="mapCheckButton"]').click();
-    cy.get('[data-testid="locationNameInput"]').type('소프트웨어 마에스트로 아남타워');
+  //   cy.get('[data-testid="mapCheckButton"]').invoke('show').click({ force: true });
+  //   cy.get('[data-testid="locationNameInput"]').type('소프트웨어 마에스트로 아남타워');
 
-    // eslint-disable-next-line cypress/no-force
-    cy.get('[data-testid="confirmButton"]').invoke('show').click({ multiple: true, force: true });
+  //   cy.get('[data-testid="confirmButton"]').eq(2).click({ force: true });
+  // });
+
+  it('사용자는 TodoListItem에 알림날짜를 등록할 수 있다.', () => {
+    cy.get('[data-testid="todoAlarm"]').click();
+
+    cy.get('[data-testid="confirmButton"]').eq(1).click({ force: true });
+  });
+
+  it('사용자는 TodoListItem에 마감일자를 등록할 수 있다.', () => {
+    cy.get('[data-testid="todoDue"]').click();
+
+    cy.get('[data-testid="confirmButton"]').eq(1).click({ force: true });
+  });
+
+  it('사용자는 Enter키를 눌러 TodoListItem 편집을 마무리할 수 있다.', () => {
+    cy.get('a').eq(0).type('{enter}', { force: true });
+    cy.get('[data-testid="todoDescription"]').should('not.exist');
   });
 });
