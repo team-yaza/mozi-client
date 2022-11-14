@@ -5,7 +5,10 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
-import styled, { ThemeProvider } from 'styled-components';
+import {
+  // styled,
+  ThemeProvider,
+} from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -131,7 +134,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
           {getLayout(<Component {...pageProps} setTheme={setTheme} />)}
         </ThemeProvider>
-        <ToggleButton
+        {/* <ToggleButton
           onClick={() => {
             if (theme === 'light') {
               setTheme('dark');
@@ -139,7 +142,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
               setTheme('light');
             }
           }}
-        />
+        /> */}
 
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         {showDevtools && (
@@ -155,16 +158,16 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
 export default MyApp;
 
-const ToggleButton = styled.div`
-  position: absolute;
+// const ToggleButton = styled.div`
+//   position: absolute;
 
-  left: 2rem;
-  bottom: 2rem;
+//   left: 2rem;
+//   bottom: 2rem;
 
-  width: 5rem;
-  height: 5rem;
+//   width: 5rem;
+//   height: 5rem;
 
-  border-radius: 50%;
+//   border-radius: 50%;
 
-  background-color: purple;
-`;
+//   background-color: purple;
+// `;

@@ -10,7 +10,7 @@
      <!-- [![mozi-client](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/zyvbtc/runs) -->
     <!-- <img src="https://img.shields.io/github/v/release/ssafy-mate/ssafy-mate_front-end?color=%23068fc6" alt="GitHub release (latest by date)" /> -->
 
-## 목차
+<!-- ## 목차
 
 1. [**서비스 소개**](#1)
 2. [**기술스택**](#2)
@@ -19,7 +19,7 @@
 5. [**MOZI 공식문서**](https://mozi.vercel.app/blog)
 6. [**디자인**](https://www.figma.com/file/eyC5lWrJFnF0q7g3YSstD0/MOZI?node-id=0%3A1)
 7. [**스토리북**](https://634bb73decf851b7e9bcd559-ozmokojofk.chromatic.com/)
-8. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs)
+8. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs) -->
 
 <div id="1"></div>
 
@@ -33,12 +33,20 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 
 MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](https://mozi.vercel.app/docs/intro) 부분을 읽어보시는것을 추천합니다.
 
+<p>
+
+<img width='18%' src="https://user-images.githubusercontent.com/63354527/201575336-d2801cb8-5479-4435-a425-2c382148c1c4.png" />
+
+<!-- <img width='18%' src="https://user-images.githubusercontent.com/26461307/170093501-ab5ef942-8e30-4273-b9ee-cbcc7d0c4826.png" /> <img width='18%' src="https://user-images.githubusercontent.com/26461307/170093507-2cfd4e4d-aad2-4fd5-afcb-3487bc62b6ae.png" /> <img width='18%' src="https://user-images.githubusercontent.com/26461307/170093512-67840acb-d447-4090-b477-72ea7de49bdd.png" /> <img width='18%' src="https://user-images.githubusercontent.com/26461307/170093514-5910ab12-25e6-4037-ae66-ca5a237da0c4.png" /> -->
+
+</p>
+
 <div id="2"></div>
 
 ## 기술 스택
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/63354527/198322381-30d774fd-f541-4ead-bc32-3b2ec81b3c64.png" alt="tech stack"/>
+  <img src="https://user-images.githubusercontent.com/63354527/201574541-477a69ee-6539-4b33-b435-9b887473df34.png" alt="tech stack"/>
 </p>
 
 - [PWA](https://mozi.vercel.app/blog/thinking-about-pwa)를 적용하여 웹 브라우저에서 다운로드가 가능하도록 구현하였고 반응형 UI로 크로스 플랫폼을 지원할 수 있도록 했으며, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 [백그라운드 동기화 기능](https://mozi.vercel.app/blog/background-sync)을 활용해 웹이지만 사용자가 네이티브 앱을 사용하는 것처럼 사용할 수 있도록 구현했습니다.
