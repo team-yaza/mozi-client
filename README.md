@@ -23,7 +23,7 @@
 
 <div id="1"></div>
 
-## 서비스 소개
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 서비스 소개
 
 **MOZI**는 글을 메모할 때 사용되는 `메모지`에서 뒤에 두글자를 떼어내어 만들어진 이름입니다.
 
@@ -46,7 +46,9 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 
 <div id="2"></div>
 
-## 기술 스택
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 기술 스택
+
+사이코팀 소개
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/63354527/201574541-477a69ee-6539-4b33-b435-9b887473df34.png" alt="tech stack"/>
@@ -72,7 +74,7 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
   <img src="https://user-images.githubusercontent.com/63354527/200804672-894f4f1a-2ff5-4804-b68d-61b767df1e77.png" alt="architecture"/>
 </p>
 
-## 💻 실행 방법
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 실행 방법
 
 개발환경: `Node.js v16.15.1`, `MacOS Monterey 12.2.1`
 
@@ -92,7 +94,7 @@ yarn start
 
 <div id="4"></div>
 
-## 개발자 및 프로젝트에 도움을 주신 분들
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 개발자 및 프로젝트에 도움을 주신 분들
 
 <table>
   <tr>
