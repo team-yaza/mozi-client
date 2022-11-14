@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { Container, Content, IconContainer, DeleteBtn, Wrapper } from './styles';
 import { DELETE } from '@/components/common/Figure';
-import React, { useState } from 'react';
 
 export interface ChipProps {
   type: 'location' | 'date' | 'deadline' | 'tag';

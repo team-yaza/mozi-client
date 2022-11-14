@@ -53,10 +53,13 @@ export const CancelButton = styled.div`
   height: 5.92rem;
 
   border-right: 0.1rem solid ${theme.colors.grey6};
+  cursor: pointer;
 `;
 
 export const ConfirmButton = styled.div`
   ${flexCenter};
   width: 50%;
   height: 5.92rem;
+
+  cursor: pointer;
 `;

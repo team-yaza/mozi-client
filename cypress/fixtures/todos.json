@@ -5,10 +5,7 @@
     "index": 1,
     "done": false,
     "createdAt": "2022-11-05",
-    "alarmed": false,
-    "locationName": "서울특별시 강남구",
-    "alarmDate": "2021-08-01",
-    "dueDate": "2021-08-01"
+    "alarmed": false
   },
   {
     "id": "2",
