@@ -33,6 +33,7 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 
 MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](https://mozi.vercel.app/docs/intro) 부분을 읽어보시는것을 추천합니다.
 
+
 <p align="center">
 
 <img width='18%' src="https://user-images.githubusercontent.com/63354527/201575336-d2801cb8-5479-4435-a425-2c382148c1c4.png" />
@@ -41,6 +42,7 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 <img width='18%' src="https://user-images.githubusercontent.com/63354527/201577319-ef2462ee-6455-49f6-be37-9398f62059a4.png" />
 <img width='18%' src="https://user-images.githubusercontent.com/63354527/201577903-4583e90b-6fd1-48f0-a70b-319512d5cedb.png
 " />
+
 
 </p>
 
