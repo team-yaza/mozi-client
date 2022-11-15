@@ -8,7 +8,7 @@ export const Container = styled.div<{ isSearchBarOpen?: boolean }>`
   left: 0;
 
   width: 36rem;
-  height: 100vh;
+  height: 100%;
   background-color: white;
   z-index: 99999;
 
@@ -163,4 +163,9 @@ export const SearchTodoContainer = styled.div`
 
   background-color: ${({ theme }) => theme.color.recent_search_background};
   transition: background-color 0.3s;
+`;
+
+export const MapTodoListContainer = styled.div`
+  height: calc(100% - 9.5rem);
+  overflow-y: scroll;
 `;
