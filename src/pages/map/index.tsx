@@ -87,12 +87,14 @@ const Map: NextPageWithLayout = () => {
           'border: 1px #735AFF solid; border-radius: 3rem; max-width: 20rem;';
         const spanStyle =
           'font-size: 2rem; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; line-height: 3rem; z-index: 0';
-        const boundary = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; background-color: #000000; border-radius: 50%; opacity: 30%; width: 30rem; height: 30rem;"></div>`;
+        const boundary =
+          '<div style=" background-color: #957AAB; border-radius: 50%; opacity: 30%; width: 100%; height:100%; "></div>';
+        const boundaryBorder = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; width: 30rem; height: 30rem; border: 3px solid #957AAB;border-radius: 50%;">${boundary}</div>`;
         const markerTitle = `<div id=${todo.id} style="${markerTitlestyle}"><span style="${spanStyle}">${todo.title}</span></div>`;
         const markerImg = '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
         const containerStyle =
           'position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;';
-        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg + boundary}</div>`;
+        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg + boundaryBorder}</div>`;
         const marker = createMarker({
           map: naverMap,
           position: createPosition(todo.latitude as number, todo.longitude as number),
