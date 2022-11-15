@@ -61,35 +61,33 @@ const todoService = {
   },
   calculateStatisticsFromIndexedDB: async () => {
     const todos = await getTodosFromIndexedDB();
-
     const statistics: TodoStatistics = { inbox: 0, map: 0, upcoming: 0, logbook: 0, trash: 0 };
-    if (statistics) {
-      return todos.reduce((acc, todo) => {
-        if (todo.deletedAt) {
-          acc.trash += 1;
-        }
 
-        if (todo.done && !todo.deletedAt) {
-          acc.logbook += 1;
-        }
+    return todos.reduce((acc, todo) => {
+      if (todo.deletedAt) {
+        acc.trash += 1;
+      }
 
-        if (todo.latitude && todo.longitude && !todo.deletedAt) {
-          acc.map += 1;
-        }
+      if (todo.done && !todo.deletedAt) {
+        acc.logbook += 1;
+      }
 
-        if (todo.dueDate && !todo.deletedAt) {
-          acc.upcoming += 1;
-        }
+      if (todo.latitude && todo.longitude && !todo.deletedAt) {
+        acc.map += 1;
+      }
 
-        if (!todo.done && !todo.deletedAt) {
-          acc.inbox += 1;
-        }
+      if (todo.alarmDate && !todo.deletedAt) {
+        acc.upcoming += 1;
+      }
 
-        return acc;
-      }, statistics);
-    }
+      console.log(acc);
 
-    return statistics;
+      if (!todo.done && !todo.deletedAt) {
+        acc.inbox += 1;
+      }
+
+      return acc;
+    }, statistics);
   },
 };
 
