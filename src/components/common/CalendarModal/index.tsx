@@ -65,7 +65,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
     else updateTodo({ ...todo, dueDate: nowDate });
   }, [nowDate, type]);
 
-  const onPrevArrowClickHandler = useCallback(() => {
+  const onPrevArrowClickHandler = () => {
     setNowDate(
       new Date(
         nowDate.getFullYear(),
@@ -75,9 +75,9 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
         nowDate.getMinutes()
       )
     );
-  }, [nowDate]);
+  };
 
-  const onNextArrowClickHandler = useCallback(() => {
+  const onNextArrowClickHandler = () => {
     setNowDate(
       new Date(
         nowDate.getFullYear(),
@@ -87,7 +87,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
         nowDate.getMinutes()
       )
     );
-  }, [nowDate]);
+  };
 
   const onHourInputHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
