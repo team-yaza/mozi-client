@@ -181,4 +181,6 @@ yarn start
 
 </p>
 
-  <p align="center"><i>This Project is Sponsored by <b>Software Maestro</b></i></p>
+<p align="center"><i>This Project is Sponsored by <b>Software Maestro</b></i></p>
+
+<p align="center">This work was supported by the Institute of Information & Communications Technology Planning & Evaluation(IITP) grant funded by the Ministry of Science and ICT(MSIT) (IITP-0000-SW Maestro training course).</p>
