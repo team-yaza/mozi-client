@@ -22,7 +22,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "cypress": "cypress open",
-    "test": "jest",
+    "test": "jest --coverage",
     "watch": "jest --watchAll",
     "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook s public",
