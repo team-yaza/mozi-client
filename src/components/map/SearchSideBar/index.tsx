@@ -31,6 +31,7 @@ import {
   SearchResultContainer,
   PlaceName,
   SearchTodoContainer,
+  MapTodoListContainer,
 } from './styles';
 
 interface SearchSideBarProps {
@@ -122,6 +123,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
           onKeyDown={onKeyDown}
           onClick={clickSearchBarHandler}
           placeholder="검색어를 입력하세요."
+          spellCheck={false}
         />
         {isSearching && (
           <SearchResultContainer>
@@ -159,7 +161,10 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
           </SearchResultContainer>
         )}
       </SearchContainer>
-      <MapTodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+
+      <MapTodoListContainer>
+        <MapTodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
+      </MapTodoListContainer>
       <SideBarToggleButton type="button" onClick={onCloseSideBar}>
         {isSearchBarOpen ? '닫기' : '열기'}
         <IconContainer isSearchBarOpen={isSearchBarOpen}>
