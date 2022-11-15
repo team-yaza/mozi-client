@@ -29,6 +29,9 @@ export const ArrowContainer = styled.div`
   width: 2rem;
 
   cursor: pointer;
+
+  stroke: ${({ theme }) => theme.color.icon};
+  transition: stroke 0.3s;
 `;
 
 export const DaysContainer = styled.div`

@@ -61,7 +61,7 @@ const todoService = {
   },
   calculateStatisticsFromIndexedDB: async () => {
     const todos = await getTodosFromIndexedDB();
-    // const statistics = queryClient.getQueryData<TodoStatistics>([queryKeys.GET_TODOLIST_STATISTICS]);
+
     const statistics: TodoStatistics = { inbox: 0, map: 0, upcoming: 0, logbook: 0, trash: 0 };
     if (statistics) {
       return todos.reduce((acc, todo) => {
