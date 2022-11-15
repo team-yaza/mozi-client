@@ -67,15 +67,24 @@ const todoService = {
       return todos.reduce((acc, todo) => {
         if (todo.deletedAt) {
           acc.trash += 1;
-        } else if (todo.done) {
+        }
+
+        if (todo.done && !todo.deletedAt) {
           acc.logbook += 1;
-        } else if (todo.latitude && todo.longitude) {
+        }
+
+        if (todo.latitude && todo.longitude && !todo.deletedAt) {
           acc.map += 1;
-        } else if (todo.dueDate) {
+        }
+
+        if (todo.dueDate && !todo.deletedAt) {
           acc.upcoming += 1;
-        } else {
+        }
+
+        if (!todo.done && !todo.deletedAt) {
           acc.inbox += 1;
         }
+
         return acc;
       }, statistics);
     }
