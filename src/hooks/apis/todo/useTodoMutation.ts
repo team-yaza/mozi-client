@@ -45,8 +45,9 @@ export const useUpdateTodoMutation = () =>
       }),
     {
       onSuccess: async (_, variables) => {
-        queryClient.setQueriesData([queryKeys.TODOS], (data: any) => {
-          return data.map((todo: Todo) => {
+        console.log(_);
+        queryClient.setQueriesData<Todo[]>([queryKeys.TODOS], (data) => {
+          return data?.map((todo: Todo) => {
             if (todo.id === variables.id) {
               return { ...todo, ...variables };
             }

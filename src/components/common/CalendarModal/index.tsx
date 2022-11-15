@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import Modal from '@/components/common/Modal';
 
@@ -46,26 +46,25 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
 }) => {
   const [nowDate, setNowDate] = useState(date);
 
-  const onMeridiemToggle = useCallback(() => {
+  const onMeridiemToggle = () => {
     const nowHour = nowDate.getHours();
     const newHour = nowHour >= HOURS ? nowHour - HOURS : nowHour + HOURS;
     setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), newHour, nowDate.getMinutes()));
-  }, [nowDate]);
+  };
 
-  const onDateClickHandler = useCallback(
-    (year: number, month: number, dateTime: number) => {
-      setNowDate(new Date(year, month, dateTime, nowDate.getHours(), nowDate.getMinutes()));
-    },
-    [nowDate]
-  );
+  const onDateClickHandler = (year: number, month: number, dateTime: number) => {
+    setNowDate(new Date(year, month, dateTime, nowDate.getHours(), nowDate.getMinutes()));
+  };
 
-  const onConfirmHandler = useCallback(() => {
+  console.log(nowDate, '??', typeof nowDate);
+
+  const onConfirmHandler = () => {
     setIsCalendarModalOpen(false);
     if (type === 'alarm') updateTodo({ ...todo, alarmDate: nowDate });
     else updateTodo({ ...todo, dueDate: nowDate });
-  }, [nowDate, type]);
+  };
 
-  const onPrevArrowClickHandler = useCallback(() => {
+  const onPrevArrowClickHandler = () => {
     setNowDate(
       new Date(
         nowDate.getFullYear(),
@@ -75,9 +74,9 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
         nowDate.getMinutes()
       )
     );
-  }, [nowDate]);
+  };
 
-  const onNextArrowClickHandler = useCallback(() => {
+  const onNextArrowClickHandler = () => {
     setNowDate(
       new Date(
         nowDate.getFullYear(),
@@ -87,32 +86,20 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
         nowDate.getMinutes()
       )
     );
-  }, [nowDate]);
+  };
 
-  const onHourInputHandler = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value == '') return;
-      const hour = nowDate.getHours() < HOURS ? Number(e.target.value) : Number(e.target.value) + 12;
-      setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), hour, nowDate.getMinutes()));
-    },
-    [nowDate]
-  );
+  const onHourInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value == '') return;
+    const hour = nowDate.getHours() < HOURS ? Number(e.target.value) : Number(e.target.value) + 12;
+    setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), hour, nowDate.getMinutes()));
+  };
 
-  const onMinuteInputHandler = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value == '') return;
-      setNowDate(
-        new Date(
-          nowDate.getFullYear(),
-          nowDate.getMonth(),
-          nowDate.getDate(),
-          nowDate.getHours(),
-          Number(e.target.value)
-        )
-      );
-    },
-    [nowDate]
-  );
+  const onMinuteInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value == '') return;
+    setNowDate(
+      new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), nowDate.getHours(), Number(e.target.value))
+    );
+  };
 
   return (
     <Modal isOpened={isCalendarModalOpen} onClose={() => setIsCalendarModalOpen(false)} onConfirm={onConfirmHandler}>

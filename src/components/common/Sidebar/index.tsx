@@ -25,6 +25,8 @@ export interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ statistics }) => {
+  console.log(statistics, '?');
+
   const theme = useTheme();
   const [isSideBarOpened, setIsSideBarOpened] = useState(true);
   const [controlIconHovered, setControlIconHovered] = useState(false);
