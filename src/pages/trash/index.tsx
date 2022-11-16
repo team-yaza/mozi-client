@@ -5,14 +5,12 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { queryClient } from '@/shared/utils/queryClient';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { Header, Spinner, Title, AppLayout, Footer, DropPlaceholder } from '@/components/common';
 import TodoList from '@/components/common/TodoList/DraggableTodoList';
 import { theme } from '@/styles/theme';
 import { TRASH } from '@/components/common/Figure';
 import { ROUTES } from '@/shared/constants/routes';
-import { queryKeys } from '@/shared/constants/queryKey';
 import {
   useDeleteAllTodosMutation,
   useCreateTodoMutation,
@@ -30,12 +28,10 @@ const Trash: NextPageWithLayout = () => {
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
+
     if (todos && result.destination.droppableId === 'restore') {
-      const items = Array.from(todos);
+      const [restoredItem] = todos.splice(result.source.index, 1);
 
-      const [restoredItem] = items.splice(result.source.index, 1);
-
-      queryClient.setQueriesData([queryKeys.TODOS], items);
       updateTodo({ ...restoredItem, deletedAt: undefined });
     }
 
