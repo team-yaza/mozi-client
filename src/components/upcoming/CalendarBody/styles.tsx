@@ -8,11 +8,13 @@ export const Container = styled.div`
 export const DatesContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
 
-  padding: 2rem;
+  padding-inline: 2rem;
+  padding-bottom: 3.4rem;
 `;
 
 export const DateContainer = styled.div<{ color?: string }>`
