@@ -4,13 +4,13 @@ import { flexCenter } from '@/styles/utils';
 
 export const Container = styled.footer`
   position: relative;
-  left: 0;
-  bottom: 0;
   ${flexCenter};
 
   height: 6.8rem;
   width: 100%;
 
+  flex-shrink: 0;
+  flex-grow: 0;
   background: ${({ theme }) => theme.color.footer};
   border-top: 0.1rem solid ${({ theme }) => theme.color.footer_border_top};
 

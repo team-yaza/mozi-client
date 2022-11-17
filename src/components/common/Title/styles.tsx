@@ -10,6 +10,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   margin-inline: 3rem;
+  flex-shrink: 0;
 `;
 
 export const LogoContainer = styled.div`

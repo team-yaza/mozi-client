@@ -10,6 +10,7 @@ export const Container = styled.div`
   align-items: center;
 
   padding-right: 3.2rem;
+  flex-shrink: 0;
 
   /* border-bottom: 1px solid ${theme.colors.grey}; */
   background-color: ${({ theme }) => theme.color.header};

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 `;
 
 export const DaysContainer = styled.div`
@@ -12,7 +12,7 @@ export const DaysContainer = styled.div`
 
   border-bottom: ${({ theme }) => `0.1rem solid ${theme.color.calendar_border}`};
 
-  padding-block: 2rem;
+  padding-block: 1rem;
   margin-inline: 2rem;
 
   cursor: default;
