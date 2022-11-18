@@ -20,6 +20,7 @@ export { default as SEARCH } from './SEARCH';
 export { default as SETTING } from './SETTING';
 export { default as SIDEBARARROWLEFT } from './SIDEBARARROWLEFT';
 export { default as TAG } from './TAG';
+export { default as THUMBSUP } from './THUMBSUP';
 export { default as TODAY } from './TODAY';
 export { default as TRASH } from './TRASH';
 export { default as UPCOMING } from './UPCOMING';
