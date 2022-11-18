@@ -22,7 +22,7 @@ export const DateContainer = styled.div<{ color?: string }>`
   height: 10rem;
 
   font-size: 1.3rem;
-  color: ${({ color }) => (color ? color : '#000000')};
+  color: ${({ color, theme }) => (color ? color : theme.color.white)};
 
   cursor: default;
 
@@ -44,7 +44,8 @@ export const DateNumber = styled.span<{ selected: boolean }>`
 
   width: 2rem;
   height: 2rem;
-  background-color: ${({ selected }) => (selected ? '#ECECEC' : '#FFFFFF')};
+  background-color: ${({ selected, theme }) => selected && theme.color.calendar_day_background};
+  transition: background-color 0.3s;
 `;
 
 export const TodosContainer = styled.div`
