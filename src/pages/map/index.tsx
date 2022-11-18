@@ -16,6 +16,7 @@ import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { ROUTES } from '@/shared/constants/routes';
 import { CROSSHAIRS } from '@/components/common/Figure';
 import { screenOut } from '@/styles/utils';
+import THUMBSUP from '@/components/common/Figure/THUMBSUP';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
@@ -183,12 +184,19 @@ const Map: NextPageWithLayout = () => {
         <MapLayout id="map" ref={naverMapRef}>
           {isMapLoading && <Image src="/assets/images/map.png" layout="fill" alt="지도 사진" />}
           {!isMapLoading && (
-            <CurrentLocation onClick={onClickCurrentLocation}>
-              <LogoContainer>
-                <CROSSHAIRS />
-                <CurrentPosition>현위치</CurrentPosition>
-              </LogoContainer>
-            </CurrentLocation>
+            <>
+              <CurrentLocation onClick={onClickCurrentLocation}>
+                <LogoContainer>
+                  <CROSSHAIRS />
+                  <CurrentPosition>현위치</CurrentPosition>
+                </LogoContainer>
+              </CurrentLocation>
+              <Recommend>
+                <LogoContainer>
+                  <THUMBSUP />
+                </LogoContainer>
+              </Recommend>
+            </>
           )}
         </MapLayout>
 
@@ -234,6 +242,10 @@ const CurrentLocation = styled.div`
   border-radius: 0.8rem;
 
   z-index: 10000;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.purple};
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -252,5 +264,30 @@ const LogoContainer = styled.div`
 const CurrentPosition = styled.span`
   ${screenOut};
 `;
+
+const Recommend = styled.div`
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  left: 3rem;
+  bottom: 3rem;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
+  border-radius: 0.8rem;
+
+  z-index: 10000;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.purple};
+  }
+
+  svg {
+    /* stroke: ${({ theme }) => theme.color.crosshair}; */
+    color: ${({ theme }) => theme.color.crosshair};
+    transition: stroke 0.3s;
+  }
+`;
+// const RecommendContainer = styled.div``;
 
 export default Map;
