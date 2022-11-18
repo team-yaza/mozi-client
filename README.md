@@ -2,11 +2,14 @@
   <br/>
   <img src="./public/logo.png" alt="MOZI" width="200px" height="200px"> 
   <h1>MOZI</h1>
-      <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fteam-yaza%2Fmozi-client&count_bg=%23735AFF&title_bg=%23775EFF&icon=checkmarx.svg&icon_color=%23FFFFFF&title=MOZI&edge_flat=false"/></a>  
-     <img src="https://img.shields.io/badge/NGINX-Active-2ea04?&logo=nginx&logoColor=white" alt="NGINX" />
+      <a href="https://hits.seeyoufarm.com">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fteam-yaza%2Fmozi-client&count_bg=%23735AFF&title_bg=%23775EFF&icon=checkmarx.svg&icon_color=%23FFFFFF&title=MOZI&edge_flat=false"/>
+      </a>  
+      <img src="https://img.shields.io/badge/NGINX-Active-2ea04?&logo=nginx&logoColor=white" alt="NGINX" />
       <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress" alt="Cypress" />
       <img src="https://codecov.io/gh/team-yaza/mozi-client/branch/develop/graph/badge.svg?token=BWEXHLD3A1" alt="Cypress" />
-      
+      <img alt="MIT License" src="https://img.shields.io/github/license/team-yaza/mozi-client" />
+   
 </div>
    
 <!-- ## 목차
