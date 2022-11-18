@@ -13,6 +13,12 @@ const locationService = {
       latitude,
       keyword,
     }),
+  getRecommendationResult: async ({ longitude, latitude, keyword }: GetSearchResultParams) =>
+    await fetcher('get', `/location?keyword=${keyword}&longitude=${longitude}&latitude=${latitude}&recommended=true`, {
+      longitude,
+      latitude,
+      keyword,
+    }),
 };
 
 export default locationService;
