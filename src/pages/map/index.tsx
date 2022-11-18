@@ -14,22 +14,25 @@ import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { ROUTES } from '@/shared/constants/routes';
-import { CROSSHAIRS } from '@/components/common/Figure';
+import { CROSSHAIRS, THUMBSUP } from '@/components/common/Figure';
 import { screenOut } from '@/styles/utils';
-import THUMBSUP from '@/components/common/Figure/THUMBSUP';
+import locationService from '@/services/apis/location';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
+  const [isOpenModal, setIsModalOpen] = useState(false);
   const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
+  const [showRecommendedLocation, setShowRecommendedLocation] = useState(false);
   const [bounds, setBounds] = useState<naver.maps.Bounds>();
   const [markers, setMarkers] = useState<Array<naver.maps.Marker>>([]);
-  const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
+  const { naverMap, isMapLoading, createMarker, createPosition, coords, setCoords } = useNaverMap();
 
   const { data: todos } = useTodoListQuery(ROUTES.MAP);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
+
+  // console.log(recommendedLocation, '???');
 
   const onClose = useCallback(() => {
     setIsModalOpen(false);
@@ -42,11 +45,10 @@ const Map: NextPageWithLayout = () => {
     [clickedCoords]
   );
 
-  const deleteAllMarkers = useCallback(() => {
+  const deleteAllMarkers = () => {
     if (!naverMap) return;
-    console.log('delete all markers');
     markers.forEach((marker) => marker.setMap(null));
-  }, [markers]);
+  };
 
   useEffect(() => {
     if (!naverMap) return;
@@ -137,6 +139,48 @@ const Map: NextPageWithLayout = () => {
   }, [todos, naverMap]);
 
   useEffect(() => {
+    console.log('deteced');
+
+    if (showRecommendedLocation === false) {
+      markers.forEach((marker) => {
+        if (marker.getTitle() === '추천 장소') {
+          marker.setMap(null);
+        }
+      });
+      setMarkers(markers.filter((marker) => marker.getTitle() !== '추천 장소'));
+      return;
+    }
+
+    if (naverMap && showRecommendedLocation && coords) {
+      const recommendedMarkers: naver.maps.Marker[] = [];
+
+      (async () => {
+        const recommendedLocation: any = await locationService.getRecommendationResult({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+        console.log(recommendedLocation, '???');
+        recommendedLocation.forEach((recommendedPlace: any) => {
+          const marker = createMarker({
+            title: '추천 장소',
+            map: naverMap,
+            position: createPosition(recommendedPlace.location[1], recommendedPlace.location[0]),
+            zIndex: 1,
+            icon: {
+              content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+              anchor: new naver.maps.Point(11, 11),
+            },
+          });
+
+          recommendedMarkers.push(marker);
+        });
+
+        setMarkers((prev) => [...prev, ...recommendedMarkers]);
+      })();
+    }
+  }, [naverMap, coords, showRecommendedLocation]);
+
+  useEffect(() => {
     let eventListeners: naver.maps.MapEventListener;
 
     const naverMapOnClickHandler = (e: any) => {
@@ -191,7 +235,7 @@ const Map: NextPageWithLayout = () => {
                   <CurrentPosition>현위치</CurrentPosition>
                 </LogoContainer>
               </CurrentLocation>
-              <Recommend>
+              <Recommend onClick={() => setShowRecommendedLocation((prev) => !prev)}>
                 <LogoContainer>
                   <THUMBSUP />
                 </LogoContainer>

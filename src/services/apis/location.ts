@@ -1,9 +1,9 @@
 import fetcher from '@/shared/utils/fetcher';
 
 export interface GetSearchResultParams {
-  longitude: number;
-  latitude: number;
-  keyword: string;
+  longitude?: number;
+  latitude?: number;
+  keyword?: string;
 }
 
 const locationService = {
@@ -13,11 +13,10 @@ const locationService = {
       latitude,
       keyword,
     }),
-  getRecommendationResult: async ({ longitude, latitude, keyword }: GetSearchResultParams) =>
-    await fetcher('get', `/location?keyword=${keyword}&longitude=${longitude}&latitude=${latitude}&recommended=true`, {
+  getRecommendationResult: async ({ longitude, latitude }: GetSearchResultParams) =>
+    await fetcher('get', `/location?longitude=${longitude}&latitude=${latitude}&recommended=true`, {
       longitude,
       latitude,
-      keyword,
     }),
 };
 
