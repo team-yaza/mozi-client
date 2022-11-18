@@ -33,6 +33,7 @@ declare module 'styled-components' {
       calendar_header: string;
       calendar_border: string;
       calendar_body_border: string;
+      calendar_day_background: string;
       crosshair: string;
       chip_background: string;
       chip_color: string;
