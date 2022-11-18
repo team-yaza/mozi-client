@@ -1,20 +1,24 @@
 import styled from 'styled-components';
-import { theme } from '@/styles/theme';
 
-export const Container = styled.div<{ backgroundColor: string }>`
+export const Container = styled.div`
   height: 2.4rem;
 
-  border-radius: 2.4rem;
-
-  background-color: ${({ backgroundColor }) => backgroundColor};
   display: flex;
   justify-content: flex-start;
   align-items: center;
 
+  margin: 0.5rem;
+  border-radius: 2.2rem;
+
   padding-inline: 1rem;
 
-  margin: 0.5rem;
+  background-color: ${({ theme }) => theme.color.chip_background};
 
+  svg {
+    stroke: ${({ theme }) => theme.color.chip_color};
+  }
+
+  transition: background-color 0.3s, stroke 0.3s;
   cursor: default;
 `;
 
@@ -22,10 +26,10 @@ export const Wrapper = styled.div`
   display: flex;
 `;
 
-export const Content = styled.div<{ fontColor: string }>`
+export const Content = styled.div`
   font-size: 1.2rem;
 
-  color: ${({ fontColor }) => fontColor};
+  color: ${({ theme }) => theme.color.chip_color};
 `;
 
 export const IconContainer = styled.div`
@@ -35,11 +39,9 @@ export const IconContainer = styled.div`
   height: 1.6rem;
 
   margin-right: 0.4rem;
-
-  stroke: ${theme.colors.grey7};
 `;
 
-export const DeleteBtn = styled.div`
+export const DeleteButton = styled.div`
   position: relative;
 
   width: 1.2rem;

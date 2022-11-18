@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components';
 export const theme = {
   colors: {
     white: '#ffffff',
+
     black: '#000000',
     black1: '#2C2B31',
     black2: '#1E1C24',
@@ -10,6 +11,7 @@ export const theme = {
     purple: '#735AFF',
     purple1: '#7380F6',
     lightPurple: '#f4f2ff',
+    darkPurple: '#42404E',
     main: '#775EFF',
     grey: '#E9E9E9',
     grey0: '#434248',
@@ -26,6 +28,8 @@ export const theme = {
     grey11: '#484551',
     grey12: '#eeeeee',
     grey13: '#e8e8e8',
+    grey14: '#F5F5F5',
+    grey15: '#d2d2d2',
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
     kakao: '#FEE502',
@@ -125,6 +129,8 @@ export const lightTheme: DefaultTheme = {
     calendar_border: theme.colors.grey12,
     calendar_body_border: theme.colors.grey13,
     crosshair: theme.colors.black3,
+    chip_background: theme.colors.grey14,
+    chip_color: theme.colors.grey7,
   },
 };
 
@@ -161,5 +167,7 @@ export const darkTheme: DefaultTheme = {
     calendar_border: theme.colors.grey11,
     calendar_body_border: theme.colors.grey11,
     crosshair: theme.colors.white,
+    chip_background: theme.colors.darkPurple,
+    chip_color: theme.colors.grey15,
   },
 };

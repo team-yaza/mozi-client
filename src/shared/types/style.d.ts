@@ -34,6 +34,8 @@ declare module 'styled-components' {
       calendar_border: string;
       calendar_body_border: string;
       crosshair: string;
+      chip_background: string;
+      chip_color: string;
     };
     fonts?: {
       h1: string;

@@ -62,8 +62,6 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
               type="location"
               icon={<PLACE />}
               content={todo.locationName}
-              backgroundColor="#F5F5F5"
-              fontColor="#585858"
               onClickHandler={onClickMap}
               onDeleteHander={onDeleteLocationHandler}
             />
@@ -75,8 +73,6 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
               type="date"
               icon={<CALENDAR />}
               content={dateToString(getDate(todo.alarmDate))}
-              backgroundColor="#F5F5F5"
-              fontColor="#585858"
               onClickHandler={() => onClickCalendar('alarm')}
               onDeleteHander={onDeleteAlarmDateHandler}
             />
@@ -88,8 +84,6 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
               type="deadline"
               icon={<DEADLINE />}
               content={dateToString(getDate(todo.dueDate))}
-              backgroundColor="#F5F5F5"
-              fontColor="#585858"
               onClickHandler={() => onClickCalendar('due')}
               onDeleteHander={onDeleteDueDateHandler}
             />
