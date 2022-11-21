@@ -8,9 +8,7 @@ import { getTodosFromIndexedDB, todoStore } from '../store/localForage/index';
 import { Todo } from '../shared/types/todo';
 import { TOKEN } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/location';
-import { urlBase64ToUint8Array } from '../shared/utils/encryption';
-import { checkAlarm } from '../shared/utils/date';
-import { CHECK_ALARM } from '../shared/constants/serviceWorker';
+import { checkMinutes } from '../shared/utils/date';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -20,7 +18,6 @@ clientsClaim();
 cleanupOutdatedCaches();
 
 const ALARM_DISTANCE_STANDARD = 1000; //1 km
-const publicVapidKey = 'BHCoqzR03UrjuAFGPoTDB5t6o05z5K3EYJ1cuZVj9sPF6FxNsS-b7y4ClNaS11L9EUpmT-wUyeZAivwGbkwMAjY';
 // const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
 const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
@@ -29,15 +26,6 @@ let token = '';
 const FLAGIGNORE = 0;
 const FLAGSATIFIED = 1;
 const FLAGUNSATIFIED = -1;
-
-self.addEventListener('push', (event) => {
-  if (!event.data) return;
-  const data = event.data.json();
-  self.registration.showNotification(data.title, {
-    body: data.body,
-    icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
-  });
-});
 
 self.addEventListener('sync', async (event: SyncEvent) => {
   event.waitUntil(
@@ -88,24 +76,11 @@ self.addEventListener('sync', async (event: SyncEvent) => {
   );
 });
 
-let sub: PushSubscription | null = null;
-
-const getSub = async () => {
-  if (sub) return sub;
-  sub = await self.registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-  });
-  return sub;
-};
-
-const checkTodoHandler = async (event: ExtendableMessageEvent) => {
+const checkTodoTemp = async (event: ExtendableMessageEvent) => {
   const localAlarm: Todo[] = [];
   await todoStore.iterate((todo: Todo) => {
     localAlarm.push(todo);
   });
-
-  const subscription = await getSub();
 
   localAlarm.map(async (todo: Todo) => {
     if (todo.alarmed || todo.deletedAt) return;
@@ -119,35 +94,57 @@ const checkTodoHandler = async (event: ExtendableMessageEvent) => {
     }
 
     if (todo.alarmDate) {
-      if (checkAlarm(todo.alarmDate)) timeFlag = FLAGSATIFIED;
+      if (checkMinutes(todo.alarmDate)) timeFlag = FLAGSATIFIED;
       else timeFlag = timeFlag = FLAGUNSATIFIED;
     }
 
     console.log(todo.title, locationFlag, timeFlag);
 
     if ((locationFlag | timeFlag) == FLAGSATIFIED) {
-      await fetch(`${PRODUCTION_SERVER}/webpush/${todo.id}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          subscription: JSON.stringify(subscription),
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      // 알람주는 로직 넣음
+      self.registration.showNotification(todo.title as string, {
+        body: todo.description,
+        icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
       });
+
       await todoStore.setItem(todo.id, { ...todo, alarmed: true });
     }
   });
 };
+
+checkTodoTemp; // ! remove
 
 self.addEventListener('message', (event: ExtendableMessageEvent) => {
   if (event.data.type === TOKEN) {
     token = event.data.token;
     return;
   }
-
-  if (event.data && event.data.type === CHECK_ALARM) {
-    console.log('check notification');
-    event.waitUntil(checkTodoHandler(event));
-  }
 });
+
+const checkAlarm = async () => {
+  const todos = await getTodosFromIndexedDB();
+
+  await Promise.all(
+    todos.map((todo) => {
+      if (todo.alarmed || todo.deletedAt) return;
+
+      if (todo.alarmDate && checkMinutes(todo.alarmDate)) {
+        todoStore.setItem(todo.id, { ...todo, alarmed: true });
+
+        return self.registration.showNotification(todo.title ?? 'MOZI 알림', {
+          body: todo.description ?? `${todo.alarmDate.getHours()}시 ${todo.alarmDate.getMinutes()}분`,
+          icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
+        });
+      }
+    })
+  );
+};
+
+(async () => {
+  let intervalId;
+  try {
+    intervalId = setInterval(async () => await checkAlarm(), 60000);
+  } catch (error) {
+    clearInterval(intervalId);
+  }
+})();
