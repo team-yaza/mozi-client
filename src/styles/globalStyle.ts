@@ -79,4 +79,15 @@ export const GlobalStyle = createGlobalStyle`
     left: 50%;
     transform: translateX(-50%) rotate(135deg);
   }
+
+  .marker:hover {
+    color: ${theme.colors.purple};
+    z-index: 1;
+  }
+
+  .marker.active {
+    background-color:  ${theme.colors.purple};
+    color: white;
+    z-index: 1;
+  }
 `;
