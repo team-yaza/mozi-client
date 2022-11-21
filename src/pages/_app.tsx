@@ -60,20 +60,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   //   });
   // };
 
-  // const setIntervalMinute = (interval: number) => {
-  //   // if (!userPositionRef.current) return;
-  //   const now = new Date();
-  //   const delay = interval - (now.getTime() % interval);
-
-  //   const start = () => {
-  //     console.log('interval start');
-  //     checkAlarm();
-  //     setInterval(checkAlarm, interval);
-  //   };
-
-  //   setTimeout(start, delay);
-  // };
-
   // useEffect(() => {
   //   const getLocationSuccessCallback = (position: GeolocationPosition) => {
   //     setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
@@ -98,10 +84,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   //   userPositionRef.current.longitude = userPosition.longitude;
   //   userPositionRef.current.latitude = userPosition.latitude;
   // }, [userPosition]);
-
-  // useEffect(() => {
-  //   setIntervalMinute(CHECK_ALARM_INTERVAL);
-  // }, []);
 
   useEffect(() => {
     const token = getCookie('token');

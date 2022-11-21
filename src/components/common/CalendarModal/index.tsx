@@ -56,8 +56,6 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
     setNowDate(new Date(year, month, dateTime, nowDate.getHours(), nowDate.getMinutes()));
   };
 
-  console.log(nowDate, '??', typeof nowDate);
-
   const onConfirmHandler = () => {
     setIsCalendarModalOpen(false);
     if (type === 'alarm') updateTodo({ ...todo, alarmDate: nowDate });
