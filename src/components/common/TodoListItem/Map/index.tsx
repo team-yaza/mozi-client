@@ -40,7 +40,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
         map: naverMap,
         position: createPosition(coords.latitude, coords.longitude),
         icon: {
-          content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+          content: '<img src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
           anchor: new naver.maps.Point(11, 11),
         },
       });
