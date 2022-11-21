@@ -48,6 +48,7 @@ const Container = styled.div`
 const CalendarContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;
 
 export default Upcoming;
