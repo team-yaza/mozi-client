@@ -16,7 +16,7 @@ const Footer: React.FC<FooterProps> = ({ createTodo }) => {
 
   const onClickArrowRight = () => {
     switch (router.pathname) {
-      case '/':
+      case '/inbox':
         router.push('/map');
         break;
 
@@ -38,10 +38,6 @@ const Footer: React.FC<FooterProps> = ({ createTodo }) => {
 
       default:
         break;
-    }
-
-    if (router.pathname === '/') {
-      router.push('/map');
     }
   };
 
