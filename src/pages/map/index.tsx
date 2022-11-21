@@ -94,7 +94,7 @@ const Map: NextPageWithLayout = () => {
           '<div style=" background-color: #957AAB; border-radius: 50%; opacity: 30%; width: 100%; height:100%; "></div>';
         const boundaryBorder = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; width: 30rem; height: 30rem; border: 3px solid #957AAB;border-radius: 50%;">${boundary}</div>`;
         const markerTitle = `<div id=${todo.id} style="${markerTitlestyle}"><span style="${spanStyle}">${todo.title}</span></div>`;
-        const markerImg = '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
+        const markerImg = '<img src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
         const containerStyle =
           'position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;';
         const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg + boundaryBorder}</div>`;
@@ -159,15 +159,17 @@ const Map: NextPageWithLayout = () => {
           latitude: coords.latitude,
           longitude: coords.longitude,
         });
-        console.log(recommendedLocation, '???');
+
         recommendedLocation.forEach((recommendedPlace: any) => {
+          console.log(recommendedPlace);
           const marker = createMarker({
             title: '추천 장소',
             map: naverMap,
             position: createPosition(recommendedPlace.location[1], recommendedPlace.location[0]),
             zIndex: 1,
             icon: {
-              content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+              // content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+              content: `<div class="marker">${recommendedPlace.name}</div>`,
               anchor: new naver.maps.Point(11, 11),
             },
           });
