@@ -9,11 +9,9 @@ interface AlarmModalProps {
 
 const AlarmModal: React.FC<AlarmModalProps> = ({ isOpened, setIsOpened }) => {
   const [alarmType, setAlarmType] = useState('');
-  const [distance, setDistance] = useState('');
+  const [distance, setDistance] = useState(1);
 
   alarmType;
-  distance;
-  setDistance;
 
   const options = ['선택안함', '시간', '장소', '시간 & 장소'];
 
@@ -39,9 +37,15 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ isOpened, setIsOpened }) => {
         <Place>🗺️ 장소 알림 범위</Place>
 
         <ButtonContainer>
-          <Button>1km</Button>
-          <Button>5km</Button>
-          <Button>10km</Button>
+          <Button selected={distance === 1} onClick={() => setDistance(1)}>
+            1km
+          </Button>
+          <Button selected={distance === 5} onClick={() => setDistance(5)}>
+            5km
+          </Button>
+          <Button selected={distance === 10} onClick={() => setDistance(10)}>
+            10km
+          </Button>
         </ButtonContainer>
       </Container>
     </Modal>
