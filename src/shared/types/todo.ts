@@ -8,8 +8,8 @@ export interface Todo {
   latitude?: number;
   locationName?: string;
 
-  alarmDate?: Date;
-  dueDate?: Date;
+  alarmDate?: any;
+  dueDate?: any;
 
   alarmType?: 'time' | 'place' | 'both';
   distanceType?: 'short' | 'medium' | 'long';
