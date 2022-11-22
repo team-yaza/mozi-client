@@ -52,10 +52,11 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Select = styled.select`
-  width: 100%;
+  width: 95%;
   outline: none;
 
-  margin-inline: 2rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
   margin-bottom: 1rem;
   padding-block: 1rem;
 
