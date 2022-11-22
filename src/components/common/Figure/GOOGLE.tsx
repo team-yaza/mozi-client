@@ -3,7 +3,13 @@ import { SvgWrap } from './styles';
 const GOOGLE: React.FC = () => {
   return (
     <SvgWrap>
-      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 48 48"
+        width="30"
+        height="30"
+      >
         <defs>
           <path
             id="a"

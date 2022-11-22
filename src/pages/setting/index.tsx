@@ -92,10 +92,11 @@ const GoogleCalendarButton = styled.button`
   margin-top: 2rem;
   padding-block: 1rem;
 
-  background-color: white;
   border: 0.1rem solid ${({ theme }) => theme.color.grey};
   border-radius: 0.5rem;
+
   color: black;
+  background-color: white;
 
   font-size: 1.6rem;
 
