@@ -62,7 +62,7 @@ export const Select = styled.select`
   font-size: 1.6rem;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ selected: boolean }>`
   ${flexCenter};
   width: 8rem;
   padding: 1.5rem;
@@ -73,6 +73,6 @@ export const Button = styled.button`
   border: none;
 
   color: black;
-  background-color: ${theme.colors.lightPurple};
+  background-color: ${({ selected }) => (selected ? `${theme.colors.purple1}` : `${theme.colors.lightPurple}`)};
   cursor: pointer;
 `;
