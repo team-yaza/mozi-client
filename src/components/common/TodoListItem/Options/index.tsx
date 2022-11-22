@@ -81,8 +81,9 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
         {todo.dueDate && (
           <DefinedOption>
             <Chip
+              color="#ff7b7b"
               type="deadline"
-              icon={<DEADLINE />}
+              icon={<DEADLINE fill="#FF7B7B" stroke="#FF7B7B" />}
               content={dateToString(getDate(todo.dueDate))}
               onClickHandler={() => onClickCalendar('due')}
               onDeleteHander={onDeleteDueDateHandler}

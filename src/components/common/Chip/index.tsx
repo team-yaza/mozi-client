@@ -8,11 +8,12 @@ export interface ChipProps {
   Modal?: React.ReactNode;
   isModalOpen?: boolean;
   content: string;
+  color?: string;
   onClickHandler?: () => void;
   onDeleteHander?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const Chip: React.FC<ChipProps> = ({ icon, Modal, content, onClickHandler, onDeleteHander }) => {
+const Chip: React.FC<ChipProps> = ({ icon, Modal, content, onClickHandler, onDeleteHander, color }) => {
   const [focused, setFocused] = useState<boolean>(false);
 
   const onChipClicked = () => {
@@ -24,7 +25,7 @@ const Chip: React.FC<ChipProps> = ({ icon, Modal, content, onClickHandler, onDel
     <Wrapper>
       <Container onClick={onChipClicked}>
         <IconContainer>{icon}</IconContainer>
-        <Content>{content}</Content>
+        <Content style={{ color }}>{content}</Content>
         {focused && (
           <DeleteButton onClick={onDeleteHander}>
             <DELETE />
