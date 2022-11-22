@@ -58,7 +58,7 @@ MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](http
 - [React](https://mozi.vercel.app/blog/thinking-in-react)를 사용하여 컴포넌트를 재사용하고 페이지에서 [리렌더링되어야 할 부분과 되지 않아야 할 부분을 생각하며 개발](https://velog.io/@hyunjine/React-Rendering-Optimization)하였고, 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
 - **React Query**를 사용하여 Data Fetching 로직을 작성하였고 전역 상태관리자처럼 사용해 데이터를 관리했습니다.
-- **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리합니다.
+- **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리하여, 애플리케이션에 테마를 추가하기 쉽도록 확장 가능하게 설계했습니다.
 - **Cypress**를 사용하여 사용자의 행동을 시뮬레이션하여 E2E 테스트를 진행했습니다.
 - **Jest**를 사용하여 TDD(테스트 주도 개발)를 부분적으로 적용하여 각 모듈에 대한 단위 테스트를 진행했습니다.
 - **Storybook**를 사용하여 [CDD(컴포넌트 주도 개발)](https://hyunjinee.tistory.com/75)을 진행했습니다.
