@@ -9,6 +9,7 @@ export { default as CATEGORY } from './CATEGORY';
 export { default as CROSSHAIRS } from './CROSSHAIRS';
 export { default as DEADLINE } from './DEADLINE';
 export { default as FOOTERCALENDAR } from './FOOTERCALENDAR';
+export { default as GOOGLE } from './GOOGLE';
 export { default as HAMBURGER } from './HAMBURGER';
 export { default as INBOX } from './INBOX';
 export { default as LOGBOOK } from './LOGBOOK';
