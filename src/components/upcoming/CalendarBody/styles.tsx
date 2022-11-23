@@ -54,8 +54,8 @@ export const TodosContainer = styled.div`
   margin-top: 0.5rem;
 `;
 
-export const TodoTitle = styled.span`
-  color: #735aff;
+export const TodoTitle = styled.span<{ type: 'alarm' | 'deadline' }>`
+  color: ${({ type }) => (type === 'deadline' ? '#FF6161' : '#7380F6')};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
