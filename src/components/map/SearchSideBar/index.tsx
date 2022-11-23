@@ -115,7 +115,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
   };
 
   return (
-    <Container isSearchBarOpen={isSearchBarOpen}>
+    <Container isSearchBarOpen={isSearchBarOpen} data-testid="searchSidebar">
       <SearchContainer isSeraching={isSearching}>
         <SearchInput
           value={keyword}
@@ -124,6 +124,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
           onClick={clickSearchBarHandler}
           placeholder="검색어를 입력하세요."
           spellCheck={false}
+          data-testid="searchInput"
         />
         {isSearching && (
           <SearchResultContainer>
@@ -165,7 +166,7 @@ const SearchSideBar: React.FC<SearchSideBarProps> = ({ setCoords, todos, updateT
       <MapTodoListContainer>
         <MapTodoList todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
       </MapTodoListContainer>
-      <SideBarToggleButton type="button" onClick={onCloseSideBar}>
+      <SideBarToggleButton type="button" onClick={onCloseSideBar} data-testid="sidebarToggleButton">
         {isSearchBarOpen ? '닫기' : '열기'}
         <IconContainer isSearchBarOpen={isSearchBarOpen}>
           <SIDEBARARROWLEFT />

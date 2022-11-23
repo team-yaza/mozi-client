@@ -237,7 +237,7 @@ const Map: NextPageWithLayout = () => {
                   <CurrentPosition>현위치</CurrentPosition>
                 </LogoContainer>
               </CurrentLocation>
-              <Recommend onClick={() => setShowRecommendedLocation((prev) => !prev)}>
+              <Recommend onClick={() => setShowRecommendedLocation((prev) => !prev)} data-testid="recommendButton">
                 <LogoContainer>
                   <THUMBSUP />
                 </LogoContainer>
