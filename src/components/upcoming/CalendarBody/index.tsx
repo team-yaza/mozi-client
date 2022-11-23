@@ -49,7 +49,10 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({ todos, currentDate, setCurr
                   {filteredTodos
                     .filter((todo) => todo.title)
                     .map((todo) => (
-                      <TodoTitle>• {todo.title}</TodoTitle>
+                      <>
+                        {dateDiff(todo.alarmDate, value) && <TodoTitle type="alarm">• {todo.title}</TodoTitle>}
+                        {dateDiff(todo.dueDate, value) && <TodoTitle type="deadline">• {todo.title}</TodoTitle>}
+                      </>
                     ))}
                 </TodosContainer>
               </DateContainer>
@@ -66,7 +69,10 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({ todos, currentDate, setCurr
                   {filteredTodos
                     .filter((todo) => todo.title)
                     .map((todo) => (
-                      <TodoTitle>• {todo.title}</TodoTitle>
+                      <>
+                        {dateDiff(todo.alarmDate, value) && <TodoTitle type="alarm">• {todo.title}</TodoTitle>}
+                        {dateDiff(todo.dueDate, value) && <TodoTitle type="deadline">• {todo.title}</TodoTitle>}
+                      </>
                     ))}
                 </TodosContainer>
               </DateContainer>
@@ -83,7 +89,10 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({ todos, currentDate, setCurr
                   {filteredTodos
                     .filter((todo) => todo.title)
                     .map((todo) => (
-                      <TodoTitle>• {todo.title}</TodoTitle>
+                      <>
+                        {dateDiff(todo.alarmDate, value) && <TodoTitle type="alarm">• {todo.title}</TodoTitle>}
+                        {dateDiff(todo.dueDate, value) && <TodoTitle type="deadline">• {todo.title}</TodoTitle>}
+                      </>
                     ))}
                 </TodosContainer>
               </DateContainer>
@@ -96,7 +105,10 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({ todos, currentDate, setCurr
                   {filteredTodos
                     .filter((todo) => todo.title)
                     .map((todo) => (
-                      <TodoTitle>• {todo.title}</TodoTitle>
+                      <>
+                        {dateDiff(todo.alarmDate, value) && <TodoTitle type="alarm">• {todo.title}</TodoTitle>}
+                        {dateDiff(todo.dueDate, value) && <TodoTitle type="deadline">• {todo.title}</TodoTitle>}
+                      </>
                     ))}
                 </TodosContainer>
               </DateContainer>
