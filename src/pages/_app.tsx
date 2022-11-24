@@ -26,14 +26,8 @@ import {
 } from '@/shared/constants/application';
 import { trackCurrentPosition } from '@/shared/utils/location';
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
-import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
 import { Location } from '@/shared/types/location';
-// import { Location } from '@/shared/types/location';
-// import { trackCurrentPosition } from '@/shared/utils/location';
-// import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
-// import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
-// import { CHECK_ALARM_INTERVAL } from '@/shared/constants/delay';
-// import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
+import { UPDATE_LOCATION } from '@/shared/constants/serviceWorker';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -56,9 +50,9 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   const router = useRouter();
 
-  const checkAlarm = () => {
+  const updateLocation = () => {
     sendMessageToServiceWorker({
-      type: CHECK_ALARM,
+      type: UPDATE_LOCATION,
       latitude: userPosition?.latitude,
       longitude: userPosition?.longitude,
     });
@@ -83,7 +77,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   useEffect(() => {
     if (!userPosition || !navigator.serviceWorker.controller) return;
     console.log('location check');
-    checkAlarm();
+    updateLocation();
   }, [userPosition]);
 
   useEffect(() => {
