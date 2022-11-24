@@ -6,9 +6,11 @@ import { cleanupOutdatedCaches } from 'workbox-precaching';
 import './cache';
 import { getTodosFromIndexedDB, todoStore } from '../store/localForage/index';
 import { Todo } from '../shared/types/todo';
-import { TOKEN } from '../shared/constants/serviceWorker';
+import { TOKEN, UPDATE_LOCATION } from '../shared/constants/serviceWorker';
 import { getDistance } from '../shared/utils/location';
 import { checkMinutes } from '../shared/utils/date';
+import { allAlarmConditionsSatisfied } from './alarm';
+import { Location } from '../shared/types/location';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -22,6 +24,11 @@ const ALARM_DISTANCE_STANDARD = 1000; //1 km
 const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
 let token = '';
+
+const location: Location = {
+  longitude: 0,
+  latitude: 0,
+};
 
 const FLAGIGNORE = 0;
 const FLAGSATIFIED = 1;
@@ -115,26 +122,41 @@ const checkTodoTemp = async (event: ExtendableMessageEvent) => {
 checkTodoTemp; // ! remove
 
 self.addEventListener('message', (event: ExtendableMessageEvent) => {
-  if (event.data.type === TOKEN) {
+  const {
+    data: { type },
+  } = event;
+
+  if (type === TOKEN) {
     token = event.data.token;
     return;
   }
+
+  if (type === UPDATE_LOCATION) {
+    const {
+      data: { longitude, latitude },
+    } = event;
+
+    location.longitude = longitude;
+    location.latitude = latitude;
+    return;
+  }
 });
+
+const alarm = async (todo: Todo) => {
+  self.registration.showNotification(todo.title ?? 'MOZI 알림', {
+    body: todo.description ?? `${todo.alarmDate?.getHours()}시 ${todo.alarmDate?.getMinutes()}분`,
+    icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
+  });
+};
 
 const checkAlarm = async () => {
   const todos = await getTodosFromIndexedDB();
 
   await Promise.all(
     todos.map((todo) => {
-      if (todo.alarmed || todo.deletedAt) return;
-
-      if (todo.alarmDate && checkMinutes(todo.alarmDate)) {
+      if (allAlarmConditionsSatisfied(todo, location)) {
         todoStore.setItem(todo.id, { ...todo, alarmed: true });
-
-        return self.registration.showNotification(todo.title ?? 'MOZI 알림', {
-          body: todo.description ?? `${todo.alarmDate.getHours()}시 ${todo.alarmDate.getMinutes()}분`,
-          icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
-        });
+        alarm(todo);
       }
     })
   );

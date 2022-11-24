@@ -1,44 +1,38 @@
-import { getDistance } from '@/shared/utils/location';
+import { getDistance } from '../shared/utils/location';
 import { Todo } from '../shared/types/todo';
+import { Location } from '../shared/types/location';
 
 type condition = 'time' | 'place';
 
-interface UserState {
-  date: Date;
-  longitude: number;
-  latitude: number;
-}
+const standard = {
+  short: 1,
+  medium: 5,
+  long: 10,
+};
 
 const alarmConditionChecker = {
-  time(todo: Todo, state: UserState): boolean {
+  time(todo: Todo): boolean {
     if (!todo.alarmDate) return false;
 
-    const { date } = state;
-    const diff = (todo.alarmDate.getTime() - date.getTime()) / 1000 / 60;
+    const diff = (todo.alarmDate.getTime() - new Date().getTime()) / 1000;
 
-    return 0 <= diff && diff <= 1;
+    return 0 <= diff && diff <= 60;
   },
 
-  place(todo: Todo, state: UserState): boolean {
+  place(todo: Todo, location: Location): boolean {
     if (!todo.longitude || !todo.latitude || !todo.distanceType) return false;
 
-    const { longitude, latitude } = state;
+    const { longitude, latitude } = location;
     const distance = getDistance(todo.latitude, todo.longitude, latitude, longitude);
 
-    const standard = {
-      short: 1,
-      medium: 5,
-      long: 10,
-    }[todo.distanceType];
-
-    return distance <= standard;
+    return distance <= standard[todo.distanceType];
   },
 };
 
-export const allAlarmConditionsSatisfied = (todo: Todo, state: UserState): boolean => {
+export const allAlarmConditionsSatisfied = (todo: Todo, location: Location): boolean => {
   if (todo.alarmed || todo.deletedAt || !todo.alarmType) return false;
 
   const conditions: condition[] = todo.alarmType === 'both' ? ['time', 'place'] : [todo.alarmType];
 
-  return conditions.every((condition) => alarmConditionChecker[condition](todo, state));
+  return conditions.every((condition) => alarmConditionChecker[condition](todo, location));
 };
