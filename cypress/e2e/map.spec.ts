@@ -24,12 +24,12 @@ describe('Map', () => {
   //   cy.get('[data-testid="recommendButton"]').should('be.visible');
   // });
 
-  it('사용자는 원하는 장소를 검색할 수 있다.', () => {
-    cy.get('[data-testid="sidebarToggleButton"]').click();
-    cy.get('[data-testid="searchInput"]').type('카페');
-    cy.get('[data-testid="searchInput"]').should('have.value', '카페');
+  // it('사용자는 원하는 장소를 검색할 수 있다.', () => {
+  //   cy.get('[data-testid="sidebarToggleButton"]').click();
+  //   cy.get('[data-testid="searchInput"]').type('카페');
+  //   cy.get('[data-testid="searchInput"]').should('have.value', '카페');
 
-    // cy.get('[data-testid="searchButton"]').click();
-    // cy.get('[data-testid="searchResult"]').should('be.visible');
-  });
+  //   // cy.get('[data-testid="searchButton"]').click();
+  //   // cy.get('[data-testid="searchResult"]').should('be.visible');
+  // });
 });
