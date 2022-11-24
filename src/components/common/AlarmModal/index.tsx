@@ -36,6 +36,10 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, up
       return;
     }
 
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+
     const optionType = {
       장소: 'place',
       시간: 'time',
