@@ -64,11 +64,9 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
     const sendLocationToServiceWorker = async () => {
       const { coords } = await getCurrentPosition();
 
-      console.log(coords, '???');
-
       setUserPosition({
-        latitude: coords?.latitude,
-        longitude: coords?.longitude,
+        latitude: coords.latitude,
+        longitude: coords.longitude,
       });
     };
 

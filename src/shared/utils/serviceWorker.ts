@@ -54,22 +54,3 @@ export const sendAuthTokenToServiceWorker = () => {
 export const sendMessageToServiceWorker = (message: any) => {
   navigator.serviceWorker.controller?.postMessage(message);
 };
-
-//     // registration.pushManager.subscribe
-//     // navigator.serviceWorker.controller.postMessage({
-//     //   type: 'SET_INTERVAL',
-//     //   latitude: myLocationRef.current.latitude,
-//     //   longitude: myLocationRef.current.longitude,
-//     // });
-//     navigator.serviceWorker.controller?.postMessage({
-//       type: 'TOKEN',
-//       token: getCookie('token'),
-//     });
-//     await registration.sync.register(SYNC_TODOS);
-//     const tags = await registration.sync.getTags();
-//     console.log(tags);
-//   } catch (e) {
-//     console.log(e);
-//     console.log('싱크이벤트 등록 에러');
-//   }
-// }
