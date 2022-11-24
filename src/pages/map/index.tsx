@@ -73,8 +73,7 @@ const Map: NextPageWithLayout = () => {
       ({ coords }) => {
         setCoords({ latitude: coords.latitude, longitude: coords.longitude });
       },
-      (error) => console.error(error),
-      { enableHighAccuracy: true }
+      (error) => console.error(error)
     );
   }, [setCoords]);
 
@@ -201,8 +200,7 @@ const Map: NextPageWithLayout = () => {
       ({ coords }) => {
         setCoords({ latitude: coords.latitude, longitude: coords.longitude });
       },
-      (error) => console.error(error),
-      { enableHighAccuracy: true }
+      (error) => console.error(error)
     );
   };
 
