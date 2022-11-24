@@ -15,8 +15,7 @@ interface AlarmModalProps {
 const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, updateTodo }) => {
   const [alarmType, setAlarmType] = useState('선택안함');
   const [distanceType, setDistanceType] = useState('medium');
-
-  const options = ['선택안함', 'place', 'time', 'both'];
+  const options = ['선택안함', '장소', '시간', '시간 & 장소'];
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAlarmType(e.target.value);
@@ -27,7 +26,13 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, up
       return;
     }
 
-    updateTodo({ ...todo, alarmType, distanceType });
+    const optionType = {
+      장소: 'place',
+      시간: 'time',
+      '시간 & 장소': 'both',
+    } as any;
+
+    updateTodo({ ...todo, alarmType: optionType[alarmType], distanceType });
     setIsOpened(false);
   };
 
