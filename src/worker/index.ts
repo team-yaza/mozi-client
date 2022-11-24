@@ -20,8 +20,8 @@ clientsClaim();
 cleanupOutdatedCaches();
 
 const ALARM_DISTANCE_STANDARD = 1000; //1 km
-// const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
-const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
+const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
+// const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
 let token = '';
 
@@ -126,6 +126,7 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
     data: { type },
   } = event;
 
+  console.log(event.data, 'datat');
   if (type === TOKEN) {
     token = event.data.token;
     return;
@@ -154,9 +155,10 @@ const checkAlarm = async () => {
 
   await Promise.all(
     todos.map((todo) => {
+      console.log(todo, location, '?');
       if (allAlarmConditionsSatisfied(todo, location)) {
-        todoStore.setItem(todo.id, { ...todo, alarmed: true });
         alarm(todo);
+        return todoStore.setItem(todo.id, { ...todo, alarmed: true });
       }
     })
   );
@@ -165,7 +167,7 @@ const checkAlarm = async () => {
 (async () => {
   let intervalId;
   try {
-    intervalId = setInterval(async () => await checkAlarm(), 60000);
+    intervalId = setInterval(async () => await checkAlarm(), 10000);
   } catch (error) {
     clearInterval(intervalId);
   }
