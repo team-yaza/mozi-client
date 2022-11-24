@@ -24,7 +24,6 @@ import {
   OG_IMAGE_WIDTH,
   OG_LOCALE,
 } from '@/shared/constants/application';
-// import { trackCurrentPosition } from '@/shared/utils/location';
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
 import { Location } from '@/shared/types/location';
 import { UPDATE_LOCATION } from '@/shared/constants/serviceWorker';
@@ -61,30 +60,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
     });
   };
   updateLocation;
-  // useEffect(() => {
-  //   const getLocationSuccessCallback = (position: GeolocationPosition) => {
-  //     console.log('getLocationSuccessCallback');
-  //     setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-  //   };
-
-  //   const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
-  //     if (positionError.PERMISSION_DENIED) {
-  //       return;
-  //     }
-
-  //     console.log('getLocationErrorCallback');
-  //     // Sentry.captureException(positionError);
-  //     trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  //   };
-
-  //   trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  // }, [userPosition, setUserPosition, trackCurrentPosition]);
-
-  // useEffect(() => {
-  //   if (!userPosition || !navigator.serviceWorker.controller) return;
-  //   console.log('location check');
-  //   updateLocation();
-  // }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');
