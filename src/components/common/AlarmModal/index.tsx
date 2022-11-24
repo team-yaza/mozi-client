@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Modal from '@/components/common/Modal';
@@ -16,6 +16,16 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, up
   const [alarmType, setAlarmType] = useState('선택안함');
   const [distanceType, setDistanceType] = useState('medium');
   const options = ['선택안함', '장소', '시간', '시간 & 장소'];
+
+  useEffect(() => {
+    if (todo.alarmType) {
+      setAlarmType(todo.alarmType);
+    }
+
+    if (todo.distanceType) {
+      setDistanceType(todo.distanceType);
+    }
+  }, [todo]);
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAlarmType(e.target.value);

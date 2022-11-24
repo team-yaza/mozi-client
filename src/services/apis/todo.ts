@@ -80,8 +80,6 @@ const todoService = {
         acc.upcoming += 1;
       }
 
-      console.log(acc);
-
       if (!todo.done && !todo.deletedAt) {
         acc.inbox += 1;
       }
