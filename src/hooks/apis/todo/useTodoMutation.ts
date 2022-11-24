@@ -45,7 +45,6 @@ export const useUpdateTodoMutation = () =>
       }),
     {
       onSuccess: async (_, variables) => {
-        console.log(_);
         queryClient.setQueriesData<Todo[]>([queryKeys.TODOS], (data) => {
           return data?.map((todo: Todo) => {
             if (todo.id === variables.id) {
@@ -59,7 +58,7 @@ export const useUpdateTodoMutation = () =>
         await syncTodos();
       },
       onError: (error) => {
-        console.log(TODO_UPDATE_FAILED);
+        toastError(TODO_UPDATE_FAILED);
         Sentry.captureException(error);
       },
     }

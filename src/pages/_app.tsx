@@ -76,7 +76,6 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   useEffect(() => {
     if (!userPosition || !navigator.serviceWorker.controller) return;
-    console.log('location check');
     updateLocation();
   }, [userPosition]);
 

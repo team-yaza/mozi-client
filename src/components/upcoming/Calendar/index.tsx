@@ -29,8 +29,6 @@ const Calendar: React.FC<CalendarProps> = ({ todos, nowDate, setNowDate }) => {
     setNowDate(new Date(year, month, dateTime));
   };
 
-  console.log(getCalendarDates(nowDate), '?');
-
   const onPrevArrowClickHandler = () => {
     setNowDate(
       new Date(

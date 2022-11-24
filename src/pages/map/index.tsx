@@ -159,7 +159,6 @@ const Map: NextPageWithLayout = () => {
         });
 
         recommendedLocation.forEach((recommendedPlace: any) => {
-          console.log(recommendedPlace);
           const marker = createMarker({
             title: '추천 장소',
             map: naverMap,
