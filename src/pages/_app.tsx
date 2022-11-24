@@ -5,10 +5,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
-import {
-  // styled,
-  ThemeProvider,
-} from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -24,16 +21,6 @@ import {
   OG_IMAGE_WIDTH,
   OG_LOCALE,
 } from '@/shared/constants/application';
-import { trackCurrentPosition } from '@/shared/utils/location';
-import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
-import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
-import { Location } from '@/shared/types/location';
-// import { Location } from '@/shared/types/location';
-// import { trackCurrentPosition } from '@/shared/utils/location';
-// import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
-// import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
-// import { CHECK_ALARM_INTERVAL } from '@/shared/constants/delay';
-// import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -52,39 +39,39 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
-  const [userPosition, setUserPosition] = useState<Location>();
+  // const [userPosition, setUserPosition] = useState<Location>();
 
   const router = useRouter();
 
-  const checkAlarm = () => {
-    sendMessageToServiceWorker({
-      type: CHECK_ALARM,
-      latitude: userPosition?.latitude,
-      longitude: userPosition?.longitude,
-    });
-  };
+  // const checkAlarm = () => {
+  //   sendMessageToServiceWorker({
+  //     type: CHECK_ALARM,
+  //     latitude: userPosition?.latitude,
+  //     longitude: userPosition?.longitude,
+  //   });
+  // };
 
-  useEffect(() => {
-    const getLocationSuccessCallback = (position: GeolocationPosition) => {
-      setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-    };
-    const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
-      if (positionError.PERMISSION_DENIED) {
-        return;
-      }
+  // useEffect(() => {
+  //   const getLocationSuccessCallback = (position: GeolocationPosition) => {
+  //     setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+  //   };
+  //   const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
+  //     if (positionError.PERMISSION_DENIED) {
+  //       return;
+  //     }
 
-      // Sentry.captureException(positionError);
-      trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-    };
+  //     // Sentry.captureException(positionError);
+  //     trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  //   };
 
-    trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  }, [userPosition, setUserPosition, trackCurrentPosition]);
+  //   trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  // }, [userPosition, setUserPosition, trackCurrentPosition]);
 
-  useEffect(() => {
-    if (!userPosition || !navigator.serviceWorker.controller) return;
-    console.log('location check');
-    checkAlarm();
-  }, [userPosition]);
+  // useEffect(() => {
+  //   if (!userPosition || !navigator.serviceWorker.controller) return;
+  //   console.log('location check');
+  //   checkAlarm();
+  // }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');

@@ -32,8 +32,6 @@ const Map: NextPageWithLayout = () => {
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
 
-  // console.log(recommendedLocation, '???');
-
   const onClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
