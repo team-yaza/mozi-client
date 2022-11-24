@@ -64,11 +64,9 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
     const sendLocationToServiceWorker = async () => {
       const { coords } = await getCurrentPosition();
 
-      console.log(coords, '브라우저에서 포지션 가져옴');
-
       setUserPosition({
-        latitude: coords?.latitude,
-        longitude: coords?.longitude,
+        latitude: coords.latitude,
+        longitude: coords.longitude,
       });
     };
 
