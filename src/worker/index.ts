@@ -7,8 +7,6 @@ import './cache';
 import { getTodosFromIndexedDB, todoStore } from '../store/localForage/index';
 import { Todo } from '../shared/types/todo';
 import { TOKEN, UPDATE_LOCATION } from '../shared/constants/serviceWorker';
-import { getDistance } from '../shared/utils/location';
-import { checkMinutes } from '../shared/utils/date';
 import { allAlarmConditionsSatisfied } from './alarm';
 import { Location } from '../shared/types/location';
 
@@ -19,7 +17,6 @@ self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
 
-const ALARM_DISTANCE_STANDARD = 1000; //1 km
 // const PRODUCTION_SERVER = 'http://localhost:3001/api/v1';
 const PRODUCTION_SERVER = 'https://mozi-server.com/api/v1';
 
@@ -29,10 +26,6 @@ const location: Location = {
   longitude: 0,
   latitude: 0,
 };
-
-const FLAGIGNORE = 0;
-const FLAGSATIFIED = 1;
-const FLAGUNSATIFIED = -1;
 
 self.addEventListener('sync', async (event: SyncEvent) => {
   event.waitUntil(
@@ -83,45 +76,9 @@ self.addEventListener('sync', async (event: SyncEvent) => {
   );
 });
 
-const checkTodoTemp = async (event: ExtendableMessageEvent) => {
-  const localAlarm: Todo[] = [];
-  await todoStore.iterate((todo: Todo) => {
-    localAlarm.push(todo);
-  });
-
-  localAlarm.map(async (todo: Todo) => {
-    if (todo.alarmed || todo.deletedAt) return;
-
-    let locationFlag = FLAGIGNORE;
-    let timeFlag = FLAGIGNORE;
-    if (todo.locationName && todo.latitude && todo.longitude) {
-      const distance = getDistance(todo.latitude, todo.longitude, event.data.latitude, event.data.longitude);
-      if (distance < ALARM_DISTANCE_STANDARD) locationFlag = FLAGSATIFIED;
-      else locationFlag = FLAGUNSATIFIED;
-    }
-
-    if (todo.alarmDate) {
-      if (checkMinutes(todo.alarmDate)) timeFlag = FLAGSATIFIED;
-      else timeFlag = timeFlag = FLAGUNSATIFIED;
-    }
-
-    console.log(todo.title, locationFlag, timeFlag);
-
-    if ((locationFlag | timeFlag) == FLAGSATIFIED) {
-      // 알람주는 로직 넣음
-      self.registration.showNotification(todo.title as string, {
-        body: todo.description,
-        icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
-      });
-
-      await todoStore.setItem(todo.id, { ...todo, alarmed: true });
-    }
-  });
-};
-
-checkTodoTemp; // ! remove
-
 self.addEventListener('message', (event: ExtendableMessageEvent) => {
+  console.log(event.data, 'datat');
+
   const {
     data: { type },
   } = event;
@@ -143,6 +100,7 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
 });
 
 const alarm = async (todo: Todo) => {
+  console.log('알람 울림', todo);
   self.registration.showNotification(todo.title ?? 'MOZI 알림', {
     body: todo.description ?? `${todo.alarmDate?.getHours()}시 ${todo.alarmDate?.getMinutes()}분`,
     icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
@@ -154,9 +112,10 @@ const checkAlarm = async () => {
 
   await Promise.all(
     todos.map((todo) => {
+      console.log(todo, location, 'checkAlarm');
       if (allAlarmConditionsSatisfied(todo, location)) {
-        todoStore.setItem(todo.id, { ...todo, alarmed: true });
         alarm(todo);
+        return todoStore.setItem(todo.id, { ...todo, alarmed: true });
       }
     })
   );
@@ -165,7 +124,7 @@ const checkAlarm = async () => {
 (async () => {
   let intervalId;
   try {
-    intervalId = setInterval(async () => await checkAlarm(), 60000);
+    intervalId = setInterval(async () => await checkAlarm(), 10000);
   } catch (error) {
     clearInterval(intervalId);
   }

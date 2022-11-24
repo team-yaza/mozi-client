@@ -27,6 +27,7 @@ import {
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
 import { Location } from '@/shared/types/location';
 import { UPDATE_LOCATION } from '@/shared/constants/serviceWorker';
+import { getCurrentPosition } from '@/shared/utils/location';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -46,20 +47,39 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
   const [userPosition, setUserPosition] = useState<Location>();
-  setUserPosition;
 
   const router = useRouter();
 
   const updateLocation = () => {
     console.log('Location Update Fetched!', userPosition?.longitude, userPosition?.latitude);
-
+    console.log(new Date());
     sendMessageToServiceWorker({
       type: UPDATE_LOCATION,
       latitude: userPosition?.latitude,
       longitude: userPosition?.longitude,
     });
   };
-  updateLocation;
+
+  useEffect(() => {
+    const sendLocationToServiceWorker = async () => {
+      const { coords } = await getCurrentPosition();
+
+      console.log(coords, '브라우저에서 포지션 가져옴');
+
+      setUserPosition({
+        latitude: coords?.latitude,
+        longitude: coords?.longitude,
+      });
+    };
+
+    const id = setInterval(sendLocationToServiceWorker, 10000);
+
+    return () => clearTimeout(id);
+  }, []);
+
+  useEffect(() => {
+    updateLocation();
+  }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');
