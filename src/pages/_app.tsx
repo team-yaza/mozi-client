@@ -24,7 +24,7 @@ import {
   OG_IMAGE_WIDTH,
   OG_LOCALE,
 } from '@/shared/constants/application';
-import { trackCurrentPosition } from '@/shared/utils/location';
+// import { trackCurrentPosition } from '@/shared/utils/location';
 import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
 import { Location } from '@/shared/types/location';
 import { UPDATE_LOCATION } from '@/shared/constants/serviceWorker';
@@ -47,37 +47,44 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
   const [userPosition, setUserPosition] = useState<Location>();
+  setUserPosition;
 
   const router = useRouter();
 
   const updateLocation = () => {
+    console.log('Location Update Fetched!', userPosition?.longitude, userPosition?.latitude);
+
     sendMessageToServiceWorker({
       type: UPDATE_LOCATION,
       latitude: userPosition?.latitude,
       longitude: userPosition?.longitude,
     });
   };
+  updateLocation;
+  // useEffect(() => {
+  //   const getLocationSuccessCallback = (position: GeolocationPosition) => {
+  //     console.log('getLocationSuccessCallback');
+  //     setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+  //   };
 
-  useEffect(() => {
-    const getLocationSuccessCallback = (position: GeolocationPosition) => {
-      setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-    };
-    const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
-      if (positionError.PERMISSION_DENIED) {
-        return;
-      }
+  //   const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
+  //     if (positionError.PERMISSION_DENIED) {
+  //       return;
+  //     }
 
-      // Sentry.captureException(positionError);
-      trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-    };
+  //     console.log('getLocationErrorCallback');
+  //     // Sentry.captureException(positionError);
+  //     trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  //   };
 
-    trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  }, [userPosition, setUserPosition, trackCurrentPosition]);
+  //   trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  // }, [userPosition, setUserPosition, trackCurrentPosition]);
 
-  useEffect(() => {
-    if (!userPosition || !navigator.serviceWorker.controller) return;
-    updateLocation();
-  }, [userPosition]);
+  // useEffect(() => {
+  //   if (!userPosition || !navigator.serviceWorker.controller) return;
+  //   console.log('location check');
+  //   updateLocation();
+  // }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');

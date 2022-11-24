@@ -28,8 +28,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
           setCoords({ latitude: coords.latitude, longitude: coords.longitude });
           setMarkerCoords({ latitude: coords.latitude, longitude: coords.longitude });
         },
-        (error) => console.error(error),
-        { enableHighAccuracy: true }
+        (error) => console.error(error)
       );
     }
   }, [todo, setCoords]);
