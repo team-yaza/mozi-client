@@ -130,7 +130,7 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
         date={calendarModalState === 'alarm' ? getDate(todo.alarmDate) : getDate(todo.dueDate)}
       />
 
-      <AlarmModal isOpened={alarmModalState} setIsOpened={setAlarmModalState} />
+      <AlarmModal todo={todo} isOpened={alarmModalState} setIsOpened={setAlarmModalState} updateTodo={updateTodo} />
     </Container>
   );
 };
