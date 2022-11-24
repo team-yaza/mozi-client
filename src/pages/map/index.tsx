@@ -139,8 +139,6 @@ const Map: NextPageWithLayout = () => {
   }, [todos, naverMap]);
 
   useEffect(() => {
-    console.log('deteced');
-
     if (showRecommendedLocation === false) {
       markers.forEach((marker) => {
         if (marker.getTitle() === '추천 장소') {

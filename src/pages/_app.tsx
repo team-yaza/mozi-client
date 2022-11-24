@@ -24,6 +24,10 @@ import {
   OG_IMAGE_WIDTH,
   OG_LOCALE,
 } from '@/shared/constants/application';
+import { trackCurrentPosition } from '@/shared/utils/location';
+import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
+import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
+import { Location } from '@/shared/types/location';
 // import { Location } from '@/shared/types/location';
 // import { trackCurrentPosition } from '@/shared/utils/location';
 // import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
@@ -48,42 +52,39 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
-  // const [userPosition, setUserPosition] = useState<Location>();
+  const [userPosition, setUserPosition] = useState<Location>();
 
   const router = useRouter();
 
-  // const checkAlarm = () => {
-  //   sendMessageToServiceWorker({
-  //     type: CHECK_ALARM,
-  //     latitude: userPosition.latitude,
-  //     longitude: userPosition.longitude,
-  //   });
-  // };
+  const checkAlarm = () => {
+    sendMessageToServiceWorker({
+      type: CHECK_ALARM,
+      latitude: userPosition?.latitude,
+      longitude: userPosition?.longitude,
+    });
+  };
 
-  // useEffect(() => {
-  //   const getLocationSuccessCallback = (position: GeolocationPosition) => {
-  //     setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-  //   };
-  //   const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
-  //     if (positionError.PERMISSION_DENIED) {
-  //       // 나중에 여기서 브라우저ㅓ권한달라고 요청
-  //       return;
-  //     }
+  useEffect(() => {
+    const getLocationSuccessCallback = (position: GeolocationPosition) => {
+      setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+    };
+    const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
+      if (positionError.PERMISSION_DENIED) {
+        return;
+      }
 
-  //     Sentry.captureException(positionError);
-  //     // trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  //   };
+      // Sentry.captureException(positionError);
+      trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+    };
 
-  //   trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  // }, [setUserPosition, trackCurrentPosition]);
+    trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
+  }, [userPosition, setUserPosition, trackCurrentPosition]);
 
-  // useEffect(() => {
-  //   if (!userPosition || !navigator.serviceWorker.controller) return;
-  //   console.log('location check');
-  //   checkAlarm();
-  //   userPositionRef.current.longitude = userPosition.longitude;
-  //   userPositionRef.current.latitude = userPosition.latitude;
-  // }, [userPosition]);
+  useEffect(() => {
+    if (!userPosition || !navigator.serviceWorker.controller) return;
+    console.log('location check');
+    checkAlarm();
+  }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');
