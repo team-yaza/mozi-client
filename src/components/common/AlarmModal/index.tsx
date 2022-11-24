@@ -22,6 +22,10 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, up
     if (todo.alarmType) {
       setAlarmType(todo.alarmType);
     }
+
+    if (todo.distanceType) {
+      setDistanceType(todo.distanceType);
+    }
   }, [todo]);
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
