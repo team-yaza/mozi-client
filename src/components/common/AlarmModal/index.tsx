@@ -69,13 +69,13 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, up
 
         <ButtonContainer>
           <Button selected={distanceType === 'short'} onClick={() => setDistanceType('short')}>
-            1km
+            200m
           </Button>
           <Button selected={distanceType === 'medium'} onClick={() => setDistanceType('medium')}>
-            5km
+            400m
           </Button>
           <Button selected={distanceType === 'long'} onClick={() => setDistanceType('long')}>
-            10km
+            600m
           </Button>
         </ButtonContainer>
       </Container>
