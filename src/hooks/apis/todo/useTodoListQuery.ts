@@ -58,7 +58,7 @@ export const useTodoListStatistics = () => {
               acc.map += 1;
             }
 
-            if (todo.alarmDate && !todo.deletedAt) {
+            if ((todo.alarmDate || todo.dueDate) && !todo.deletedAt) {
               acc.upcoming += 1;
             }
 
