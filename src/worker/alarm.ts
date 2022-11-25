@@ -5,9 +5,9 @@ import { Location } from '../shared/types/location';
 type condition = 'time' | 'place';
 
 const standard = {
-  short: 1,
-  medium: 5,
-  long: 10,
+  short: 1000,
+  medium: 5000,
+  long: 10000,
 };
 
 const alarmConditionChecker = {
