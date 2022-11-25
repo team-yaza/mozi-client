@@ -28,9 +28,9 @@ const location: Location = {
 };
 
 const standard = {
-  short: 1000,
-  medium: 5000,
-  long: 10000,
+  short: 200,
+  medium: 400,
+  long: 600,
 };
 
 self.addEventListener('sync', async (event: SyncEvent) => {
