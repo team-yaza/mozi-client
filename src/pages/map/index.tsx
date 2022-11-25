@@ -50,6 +50,13 @@ const Map: NextPageWithLayout = () => {
     markers.forEach((marker) => marker.setMap(null));
   };
 
+  const getDistance = (type: string | undefined) => {
+    if (type === 'short') return 30;
+    else if (type === 'medium') return 60;
+    else if (type === 'long') return 90;
+    else return 0;
+  };
+
   useEffect(() => {
     if (!naverMap) return;
 
@@ -82,6 +89,7 @@ const Map: NextPageWithLayout = () => {
       deleteAllMarkers();
       const newMarkers: naver.maps.Marker[] = [];
       todos.forEach((todo: Todo) => {
+        const distance = getDistance(todo.distanceType);
         const markerTitlestyle =
           'position: absolute; bottom: 4.5rem;' +
           'background-color: #FFFFFF; visibility:hidden; padding-inline: 1rem;' +
@@ -91,12 +99,14 @@ const Map: NextPageWithLayout = () => {
           'font-size: 2rem; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; line-height: 3rem; z-index: 0';
         const boundary =
           '<div style=" background-color: #957AAB; border-radius: 50%; opacity: 30%; width: 100%; height:100%; "></div>';
-        const boundaryBorder = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; width: 30rem; height: 30rem; border: 3px solid #957AAB;border-radius: 50%;">${boundary}</div>`;
+        const boundaryBorder = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; width: ${distance}rem; height: ${distance}rem; border: 3px solid #957AAB;border-radius: 50%;">${boundary}</div>`;
         const markerTitle = `<div id=${todo.id} style="${markerTitlestyle}"><span style="${spanStyle}">${todo.title}</span></div>`;
         const markerImg = '<img src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
         const containerStyle =
           'position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;';
-        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg + boundaryBorder}</div>`;
+        const markerContainer = `<div style='${containerStyle}'>${
+          markerTitle + markerImg + (todo.distanceType ? boundaryBorder : '')
+        }</div>`;
         const marker = createMarker({
           map: naverMap,
           position: createPosition(todo.latitude as number, todo.longitude as number),
@@ -119,17 +129,20 @@ const Map: NextPageWithLayout = () => {
           }
           const marker = document.getElementById(todo.id);
           const boundary = document.getElementById(`b_${todo.id}`);
-          if (!marker || !boundary) return;
+          if (!marker) return;
 
           if (marker.style.visibility === 'hidden') {
             marker.style.visibility = 'visible';
-            boundary.style.visibility = 'visible';
             bringForward();
           } else {
             marker.style.visibility = 'hidden';
-            boundary.style.visibility = 'hidden';
             sendBack();
           }
+
+          if (!boundary) return;
+
+          if (boundary.style.visibility === 'hidden') boundary.style.visibility = 'visible';
+          else boundary.style.visibility = 'hidden';
         });
         newMarkers.push(marker);
       });
