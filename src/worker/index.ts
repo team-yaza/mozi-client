@@ -7,8 +7,8 @@ import './cache';
 import { getTodosFromIndexedDB, todoStore } from '../store/localForage/index';
 import { Todo } from '../shared/types/todo';
 import { TOKEN, UPDATE_LOCATION } from '../shared/constants/serviceWorker';
-import { allAlarmConditionsSatisfied } from './alarm';
 import { Location } from '../shared/types/location';
+import { getDistance } from '../shared/utils/location';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -25,6 +25,12 @@ let token = '';
 const location: Location = {
   longitude: 0,
   latitude: 0,
+};
+
+const standard = {
+  short: 1000,
+  medium: 5000,
+  long: 10000,
 };
 
 self.addEventListener('sync', async (event: SyncEvent) => {
@@ -119,9 +125,36 @@ const checkAlarm = async () => {
 
   await Promise.all(
     todos.map((todo) => {
-      if (allAlarmConditionsSatisfied(todo, location)) {
-        alarm(todo);
-        return todoStore.setItem(todo.id, { ...todo, alarmed: true });
+      if (todo.alarmed || todo.deletedAt || !todo.alarmType) return false;
+
+      if (todo.alarmType === 'time' && todo.alarmDate) {
+        const diff = (todo.alarmDate.getTime() - new Date().getTime()) / 1000;
+
+        if (0 <= diff && diff <= 60) {
+          alarm(todo);
+          return todoStore.setItem(todo.id, { ...todo, alarmed: true });
+        }
+      }
+
+      if (todo.alarmType === 'place' && todo.locationName && todo.distanceType && todo.latitude && todo.longitude) {
+        const { longitude, latitude } = location;
+        const distance = getDistance(todo.latitude, todo.longitude, latitude, longitude);
+
+        if (distance <= standard[todo.distanceType]) {
+          alarm(todo);
+          return todoStore.setItem(todo.id, { ...todo, alarmed: true });
+        }
+      }
+
+      if (todo.alarmType === 'both' && todo.latitude && todo.longitude && todo.distanceType) {
+        const diff = (todo.alarmDate.getTime() - new Date().getTime()) / 1000;
+        const { longitude, latitude } = location;
+        const distance = getDistance(todo.latitude, todo.longitude, latitude, longitude);
+
+        if (0 <= diff && diff <= 60 && distance <= standard[todo.distanceType]) {
+          alarm(todo);
+          return todoStore.setItem(todo.id, { ...todo, alarmed: true });
+        }
       }
     })
   );
