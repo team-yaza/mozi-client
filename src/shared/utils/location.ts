@@ -35,5 +35,5 @@ export const trackCurrentPosition = (
   successCallback: PositionCallback,
   errorCallback: PositionErrorCallback | null | undefined
 ) => {
-  navigator.geolocation.watchPosition(successCallback, errorCallback, { enableHighAccuracy: true, timeout: 3000 });
+  navigator.geolocation.watchPosition(successCallback, errorCallback, { timeout: 3000 });
 };

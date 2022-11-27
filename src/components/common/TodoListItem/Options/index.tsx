@@ -5,9 +5,10 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import { Chip, CalendarModal } from '@/components/common';
-import { PLACE, CALENDAR, DEADLINE } from '@/components/common/Figure';
+import { PLACE, CALENDAR, DEADLINE, ALARM } from '@/components/common/Figure';
 import DeleteModal from '@/components/common/DeleteModal';
 import { Todo } from '@/shared/types/todo';
+import AlarmModal from '@/components/common/AlarmModal';
 
 interface OptionsProps {
   todo: Todo;
@@ -16,10 +17,11 @@ interface OptionsProps {
 }
 
 const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState<boolean>(false);
-  const [CalendarModalState, setCalendarModalState] = useState<'alarm' | 'due'>('alarm');
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const [calendarModalState, setCalendarModalState] = useState<'alarm' | 'due'>('alarm');
   const [deleteModalState, setDeleteModalState] = useState<'location' | 'alarm' | 'due'>('location');
+  const [alarmModalState, setAlarmModalState] = useState(false);
 
   const onClickMap = () => setIsMapOpened((prevState) => !prevState);
 
@@ -60,8 +62,6 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
               type="location"
               icon={<PLACE />}
               content={todo.locationName}
-              backgroundColor="#F5F5F5"
-              fontColor="#585858"
               onClickHandler={onClickMap}
               onDeleteHander={onDeleteLocationHandler}
             />
@@ -73,8 +73,6 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
               type="date"
               icon={<CALENDAR />}
               content={dateToString(getDate(todo.alarmDate))}
-              backgroundColor="#F5F5F5"
-              fontColor="#585858"
               onClickHandler={() => onClickCalendar('alarm')}
               onDeleteHander={onDeleteAlarmDateHandler}
             />
@@ -83,11 +81,10 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
         {todo.dueDate && (
           <DefinedOption>
             <Chip
+              color="#ff7b7b"
               type="deadline"
-              icon={<DEADLINE />}
+              icon={<DEADLINE fill="#FF7B7B" stroke="#FF7B7B" />}
               content={dateToString(getDate(todo.dueDate))}
-              backgroundColor="#F5F5F5"
-              fontColor="#585858"
               onClickHandler={() => onClickCalendar('due')}
               onDeleteHander={onDeleteDueDateHandler}
             />
@@ -97,20 +94,23 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
 
       <UndefinedContainer>
         {!todo.locationName && (
-          <UndefinedOption onClick={onClickMap}>
+          <UndefinedOption onClick={onClickMap} data-testid="todoMap">
             <PLACE />
           </UndefinedOption>
         )}
         {!todo.alarmDate && (
-          <UndefinedOption onClick={() => onClickCalendar('alarm')}>
+          <UndefinedOption onClick={() => onClickCalendar('alarm')} data-testid="todoAlarm">
             <CALENDAR />
           </UndefinedOption>
         )}
         {!todo.dueDate && (
-          <UndefinedOption onClick={() => onClickCalendar('due')}>
+          <UndefinedOption onClick={() => onClickCalendar('due')} data-testid="todoDue">
             <DEADLINE />
           </UndefinedOption>
         )}
+        <UndefinedOption style={{ marginLeft: '-0.2rem' }} onClick={() => setAlarmModalState(true)}>
+          <ALARM />
+        </UndefinedOption>
       </UndefinedContainer>
 
       <DeleteModal
@@ -126,9 +126,11 @@ const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) =
         isCalendarModalOpen={isCalendarModalOpen}
         updateTodo={updateTodo}
         setIsCalendarModalOpen={setIsCalendarModalOpen}
-        type={CalendarModalState}
-        date={CalendarModalState === 'alarm' ? getDate(todo.alarmDate) : getDate(todo.dueDate)}
+        type={calendarModalState}
+        date={calendarModalState === 'alarm' ? getDate(todo.alarmDate) : getDate(todo.dueDate)}
       />
+
+      <AlarmModal todo={todo} isOpened={alarmModalState} setIsOpened={setAlarmModalState} updateTodo={updateTodo} />
     </Container>
   );
 };

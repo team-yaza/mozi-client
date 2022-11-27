@@ -1,16 +1,19 @@
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/nextjs';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import { AppLayout, Title } from '@/components/common';
 import Theme from '@/components/setting/Theme';
-import { SETTING } from '@/components/common/Figure';
+import { SETTING, GOOGLE } from '@/components/common/Figure';
 import { LogoutButton } from '@/components/setting/LogoutButton';
-import { deleteCookie } from '@/shared/utils/cookie';
-import GOOGLE from '@/components/common/Figure/GOOGLE';
+import { deleteCookie, getCookie } from '@/shared/utils/cookie';
 import { flexCenter } from '@/styles/utils';
+import { toastError } from '@/shared/utils/toast';
+import { GOOGLE_CALENDAR_SYNC_ERROR } from '@/shared/constants/dialog';
 
 const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => {
   const router = useRouter();
@@ -20,8 +23,22 @@ const Setting: NextPageWithLayout<{ setTheme: () => void }> = ({ setTheme }) => 
     router.push('/login');
   };
 
-  const onClickGoogleCalendar = () => {
-    router.push(process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string);
+  const onClickGoogleCalendar = async () => {
+    const serverUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://mozi-server.com';
+
+    try {
+      const response = await axios.get(`${serverUrl}/api/v1/migrations/google/url`, {
+        headers: {
+          Authorization: `Bearer ${getCookie('token')}`,
+        },
+      });
+
+      const { data: authUrl } = response;
+      router.push(authUrl);
+    } catch (error) {
+      Sentry.captureException(error);
+      toastError(GOOGLE_CALENDAR_SYNC_ERROR);
+    }
   };
 
   return (
@@ -75,10 +92,11 @@ const GoogleCalendarButton = styled.button`
   margin-top: 2rem;
   padding-block: 1rem;
 
-  background-color: white;
   border: 0.1rem solid ${({ theme }) => theme.color.grey};
   border-radius: 0.5rem;
+
   color: black;
+  background-color: white;
 
   font-size: 1.6rem;
 

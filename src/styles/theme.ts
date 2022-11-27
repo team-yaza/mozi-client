@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components';
 export const theme = {
   colors: {
     white: '#ffffff',
+
     black: '#000000',
     black1: '#2C2B31',
     black2: '#1E1C24',
@@ -10,6 +11,7 @@ export const theme = {
     purple: '#735AFF',
     purple1: '#7380F6',
     lightPurple: '#f4f2ff',
+    darkPurple: '#42404E',
     main: '#775EFF',
     grey: '#E9E9E9',
     grey0: '#434248',
@@ -26,6 +28,10 @@ export const theme = {
     grey11: '#484551',
     grey12: '#eeeeee',
     grey13: '#e8e8e8',
+    grey14: '#F5F5F5',
+    grey15: '#d2d2d2',
+    grey16: '#4c4a5d',
+    grey17: '#ececec',
     darkGrey: '#92909F',
     lightGrey: '#FEFEFE',
     kakao: '#FEE502',
@@ -111,6 +117,7 @@ export const lightTheme: DefaultTheme = {
     todo_background: theme.colors.white,
     todo_checkbox: '#AEAEAE',
     todolistitem_box_shadow: theme.boxSahdow.light,
+    todolistitem_icon: theme.colors.grey7,
     background: theme.colors.white,
     purple: theme.colors.purple,
     header: theme.colors.white,
@@ -123,7 +130,10 @@ export const lightTheme: DefaultTheme = {
     calendar_header: theme.colors.grey11,
     calendar_border: theme.colors.grey12,
     calendar_body_border: theme.colors.grey13,
+    calendar_day_background: theme.colors.grey17,
     crosshair: theme.colors.black3,
+    chip_background: theme.colors.grey14,
+    chip_color: theme.colors.grey7,
   },
 };
 
@@ -146,6 +156,7 @@ export const darkTheme: DefaultTheme = {
     todo_background: '#25232C',
     todo_checkbox: '#797687',
     todolistitem_box_shadow: theme.boxSahdow.dark,
+    todolistitem_icon: theme.colors.darkGrey,
     background: theme.colors.black2,
     purple: theme.colors.purple,
     header: theme.colors.black2,
@@ -158,6 +169,9 @@ export const darkTheme: DefaultTheme = {
     calendar_header: theme.colors.white,
     calendar_border: theme.colors.grey11,
     calendar_body_border: theme.colors.grey11,
+    calendar_day_background: theme.colors.grey16,
     crosshair: theme.colors.white,
+    chip_background: theme.colors.darkPurple,
+    chip_color: theme.colors.grey15,
   },
 };

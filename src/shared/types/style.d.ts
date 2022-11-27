@@ -20,6 +20,7 @@ declare module 'styled-components' {
       todo_background: string;
       todo_checkbox: string;
       todolistitem_box_shadow: string;
+      todolistitem_icon: string;
       background: string;
       purple: string;
       header: string;
@@ -32,7 +33,10 @@ declare module 'styled-components' {
       calendar_header: string;
       calendar_border: string;
       calendar_body_border: string;
+      calendar_day_background: string;
       crosshair: string;
+      chip_background: string;
+      chip_color: string;
     };
     fonts?: {
       h1: string;

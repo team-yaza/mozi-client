@@ -5,7 +5,10 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { ReactElement, ReactNode, useEffect, useState, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
-import styled, { ThemeProvider } from 'styled-components';
+import {
+  // styled,
+  ThemeProvider,
+} from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -21,12 +24,10 @@ import {
   OG_IMAGE_WIDTH,
   OG_LOCALE,
 } from '@/shared/constants/application';
-// import { Location } from '@/shared/types/location';
-// import { trackCurrentPosition } from '@/shared/utils/location';
-// import { CHECK_ALARM } from '@/shared/constants/serviceWorker';
-// import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
-// import { CHECK_ALARM_INTERVAL } from '@/shared/constants/delay';
-// import { GET_LOCATION_ERROR } from '@/shared/constants/dialog';
+import { sendMessageToServiceWorker } from '@/shared/utils/serviceWorker';
+import { Location } from '@/shared/types/location';
+import { UPDATE_LOCATION } from '@/shared/constants/serviceWorker';
+import { getCurrentPosition } from '@/shared/utils/location';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -45,60 +46,38 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
   const [theme, setTheme] = useState('light');
   const [showDevtools, setShowDevtools] = useState(false);
-  // const [userPosition, setUserPosition] = useState<Location>();
+  const [userPosition, setUserPosition] = useState<Location>();
 
   const router = useRouter();
 
-  // const checkAlarm = () => {
-  //   sendMessageToServiceWorker({
-  //     type: CHECK_ALARM,
-  //     latitude: userPosition.latitude,
-  //     longitude: userPosition.longitude,
-  //   });
-  // };
+  const updateLocation = () => {
+    console.log('Location Update Fetched!', userPosition?.longitude, userPosition?.latitude);
+    console.log(new Date());
+    sendMessageToServiceWorker({
+      type: UPDATE_LOCATION,
+      latitude: userPosition?.latitude,
+      longitude: userPosition?.longitude,
+    });
+  };
 
-  // const setIntervalMinute = (interval: number) => {
-  //   // if (!userPositionRef.current) return;
-  //   const now = new Date();
-  //   const delay = interval - (now.getTime() % interval);
+  useEffect(() => {
+    const sendLocationToServiceWorker = async () => {
+      const { coords } = await getCurrentPosition();
 
-  //   const start = () => {
-  //     console.log('interval start');
-  //     checkAlarm();
-  //     setInterval(checkAlarm, interval);
-  //   };
+      setUserPosition({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+    };
 
-  //   setTimeout(start, delay);
-  // };
+    const id = setInterval(sendLocationToServiceWorker, 10000);
 
-  // useEffect(() => {
-  //   const getLocationSuccessCallback = (position: GeolocationPosition) => {
-  //     setUserPosition({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-  //   };
-  //   const getLocationErrorCallback = (positionError: GeolocationPositionError) => {
-  //     if (positionError.PERMISSION_DENIED) {
-  //       // 나중에 여기서 브라우저ㅓ권한달라고 요청
-  //       return;
-  //     }
+    return () => clearTimeout(id);
+  }, []);
 
-  //     Sentry.captureException(positionError);
-  //     // trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  //   };
-
-  //   trackCurrentPosition(getLocationSuccessCallback, getLocationErrorCallback);
-  // }, [setUserPosition, trackCurrentPosition]);
-
-  // useEffect(() => {
-  //   if (!userPosition || !navigator.serviceWorker.controller) return;
-  //   console.log('location check');
-  //   checkAlarm();
-  //   userPositionRef.current.longitude = userPosition.longitude;
-  //   userPositionRef.current.latitude = userPosition.latitude;
-  // }, [userPosition]);
-
-  // useEffect(() => {
-  //   setIntervalMinute(CHECK_ALARM_INTERVAL);
-  // }, []);
+  useEffect(() => {
+    updateLocation();
+  }, [userPosition]);
 
   useEffect(() => {
     const token = getCookie('token');
@@ -131,7 +110,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
           {getLayout(<Component {...pageProps} setTheme={setTheme} />)}
         </ThemeProvider>
-        <ToggleButton
+        {/* <ToggleButton
           onClick={() => {
             if (theme === 'light') {
               setTheme('dark');
@@ -139,7 +118,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
               setTheme('light');
             }
           }}
-        />
+        /> */}
 
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         {showDevtools && (
@@ -155,16 +134,16 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
 export default MyApp;
 
-const ToggleButton = styled.div`
-  position: absolute;
+// const ToggleButton = styled.div`
+//   position: absolute;
 
-  left: 2rem;
-  bottom: 2rem;
+//   left: 2rem;
+//   bottom: 2rem;
 
-  width: 5rem;
-  height: 5rem;
+//   width: 5rem;
+//   height: 5rem;
 
-  border-radius: 50%;
+//   border-radius: 50%;
 
-  background-color: purple;
-`;
+//   background-color: purple;
+// `;

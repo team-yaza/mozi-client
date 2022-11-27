@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+import * as Sentry from '@sentry/nextjs';
 
 import fetcher from '@/shared/utils/fetcher';
-import { toastIcon } from '@/shared/utils/toast';
-import { IS_OFFLINE } from '@/shared/constants/dialog';
 import { Todo, TodoCreateRequest, TodoStatistics, TodoUpdateRequest } from '@/shared/types/todo';
 import { todoStore, findMaximumIndexAtTodoStore, getTodosFromIndexedDB } from '@/store/localForage';
 
@@ -13,7 +12,7 @@ const todoService = {
       await todoStore.clear();
       return await Promise.all(todos.map((todo: Todo) => todoStore.setItem(todo.id, todo)));
     } catch (error) {
-      toastIcon(IS_OFFLINE, '🦖');
+      Sentry.captureException(error);
     }
 
     const keys = await todoStore.keys();
@@ -62,26 +61,31 @@ const todoService = {
   },
   calculateStatisticsFromIndexedDB: async () => {
     const todos = await getTodosFromIndexedDB();
-    // const statistics = queryClient.getQueryData<TodoStatistics>([queryKeys.GET_TODOLIST_STATISTICS]);
     const statistics: TodoStatistics = { inbox: 0, map: 0, upcoming: 0, logbook: 0, trash: 0 };
-    if (statistics) {
-      return todos.reduce((acc, todo) => {
-        if (todo.deletedAt) {
-          acc.trash += 1;
-        } else if (todo.done) {
-          acc.logbook += 1;
-        } else if (todo.latitude && todo.longitude) {
-          acc.map += 1;
-        } else if (todo.dueDate) {
-          acc.upcoming += 1;
-        } else {
-          acc.inbox += 1;
-        }
-        return acc;
-      }, statistics);
-    }
 
-    return statistics;
+    return todos.reduce((acc, todo) => {
+      if (todo.deletedAt) {
+        acc.trash += 1;
+      }
+
+      if (todo.done && !todo.deletedAt) {
+        acc.logbook += 1;
+      }
+
+      if (todo.latitude && todo.longitude && !todo.deletedAt) {
+        acc.map += 1;
+      }
+
+      if (todo.alarmDate && !todo.deletedAt) {
+        acc.upcoming += 1;
+      }
+
+      if (!todo.done && !todo.deletedAt) {
+        acc.inbox += 1;
+      }
+
+      return acc;
+    }, statistics);
   },
 };
 

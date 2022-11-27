@@ -1,7 +1,6 @@
 import { SvgWrap } from './styles';
-import { FigureProps } from '@/shared/types/figure';
 
-const PLACE: React.FC<FigureProps> = () => {
+const PLACE: React.FC = () => {
   return (
     <SvgWrap>
       <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">

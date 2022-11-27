@@ -2,15 +2,17 @@
   <br/>
   <img src="./public/logo.png" alt="MOZI" width="200px" height="200px"> 
   <h1>MOZI</h1>
-      <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fteam-yaza%2Fmozi-client&count_bg=%23735AFF&title_bg=%23775EFF&icon=checkmarx.svg&icon_color=%23FFFFFF&title=MOZI&edge_flat=false"/></a>  
-     <img src="https://img.shields.io/badge/NGINX-Active-2ea04?&logo=nginx&logoColor=white" alt="NGINX" />
+      <a href="https://hits.seeyoufarm.com">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fteam-yaza%2Fmozi-client&count_bg=%23735AFF&title_bg=%23775EFF&icon=checkmarx.svg&icon_color=%23FFFFFF&title=MOZI&edge_flat=false"/>
+      </a>  
+      <img src="https://img.shields.io/badge/NGINX-Active-2ea04?&logo=nginx&logoColor=white" alt="NGINX" />
       <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress" alt="Cypress" />
-      
+      <img src="https://codecov.io/gh/team-yaza/mozi-client/branch/develop/graph/badge.svg?token=BWEXHLD3A1" alt="Cypress" />
+      <img alt="MIT License" src="https://img.shields.io/github/license/team-yaza/mozi-client" />
+   
 </div>
-     <!-- [![mozi-client](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/zyvbtc/develop&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/zyvbtc/runs) -->
-    <!-- <img src="https://img.shields.io/github/v/release/ssafy-mate/ssafy-mate_front-end?color=%23068fc6" alt="GitHub release (latest by date)" /> -->
-
-## 목차
+   
+<!-- ## 목차
 
 1. [**서비스 소개**](#1)
 2. [**기술스택**](#2)
@@ -19,11 +21,11 @@
 5. [**MOZI 공식문서**](https://mozi.vercel.app/blog)
 6. [**디자인**](https://www.figma.com/file/eyC5lWrJFnF0q7g3YSstD0/MOZI?node-id=0%3A1)
 7. [**스토리북**](https://634bb73decf851b7e9bcd559-ozmokojofk.chromatic.com/)
-8. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs)
+8. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs) -->
 
 <div id="1"></div>
 
-## 서비스 소개
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 서비스 소개
 
 **MOZI**는 글을 메모할 때 사용되는 `메모지`에서 뒤에 두글자를 떼어내어 만들어진 이름입니다.
 
@@ -33,35 +35,45 @@ MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면
 
 MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](https://mozi.vercel.app/docs/intro) 부분을 읽어보시는것을 추천합니다.
 
+<p align="center">
+
+<img width='18%' src="https://user-images.githubusercontent.com/63354527/201575336-d2801cb8-5479-4435-a425-2c382148c1c4.png" />
+<img width='18%' src="https://user-images.githubusercontent.com/63354527/201576998-43de5e8a-3a1c-4fb9-9cd4-f41574cb67c9.png" />
+<img width='18%' src="https://user-images.githubusercontent.com/63354527/201577169-1dbb5e3b-5f96-4f0f-bd1d-3088dd2e1c84.png" />
+<img width='18%' src="https://user-images.githubusercontent.com/63354527/201577319-ef2462ee-6455-49f6-be37-9398f62059a4.png" />
+<img width='18%' src="https://user-images.githubusercontent.com/63354527/201577903-4583e90b-6fd1-48f0-a70b-319512d5cedb.png" />
+
+</p>
+
 <div id="2"></div>
 
-## 기술 스택
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 기술 스택
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/63354527/198322381-30d774fd-f541-4ead-bc32-3b2ec81b3c64.png" alt="tech stack"/>
+  <img src="https://user-images.githubusercontent.com/63354527/201574541-477a69ee-6539-4b33-b435-9b887473df34.png" alt="tech stack"/>
 </p>
 
 - [PWA](https://mozi.vercel.app/blog/thinking-about-pwa)를 적용하여 웹 브라우저에서 다운로드가 가능하도록 구현하였고 반응형 UI로 크로스 플랫폼을 지원할 수 있도록 했으며, PWA에서 활용할 수 있는 핵심 기능인 웹 푸시와 [백그라운드 동기화 기능](https://mozi.vercel.app/blog/background-sync)을 활용해 웹이지만 사용자가 네이티브 앱을 사용하는 것처럼 사용할 수 있도록 구현했습니다.
 - [Next](https://mozi.vercel.app/blog/rendering-patterns)의 SSR를 활용해 [SEO](https://mozi.vercel.app/blog/seo)를 향상시켰고 [Vercel 플랫폼](https://vercel.com/)을 활용하여 짧은 주기로 지속적 배포를 진행했습니다.
-- [React](https://mozi.vercel.app/blog/thinking-in-react)를 사용하여 컴포넌트를 재사용하고 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
+- [React](https://mozi.vercel.app/blog/thinking-in-react)를 사용하여 컴포넌트를 재사용하고 페이지에서 [리렌더링되어야 할 부분과 되지 않아야 할 부분을 생각하며 개발](https://velog.io/@hyunjine/React-Rendering-Optimization)하였고, 사용자와 상호작용이 많은 페이지를 효율적으로 구현했습니다.
 - **TypeScript**를 사용하여 타입 안정성을 보장하고, 코드의 가독성을 높였습니다.
 - **React Query**를 사용하여 Data Fetching 로직을 작성하였고 전역 상태관리자처럼 사용해 데이터를 관리했습니다.
-- **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리합니다.
+- **styled-components**를 사용하여 애플리케이션의 스타일을 체계적으로 관리하여, 애플리케이션에 테마를 추가하기 쉽도록 확장 가능하게 설계했습니다.
 - **Cypress**를 사용하여 사용자의 행동을 시뮬레이션하여 E2E 테스트를 진행했습니다.
 - **Jest**를 사용하여 TDD(테스트 주도 개발)를 부분적으로 적용하여 각 모듈에 대한 단위 테스트를 진행했습니다.
-- **Storybook**를 사용하여 CDD(컴포넌트 주도 개발)을 진행했습니다.
+- **Storybook**를 사용하여 [CDD(컴포넌트 주도 개발)](https://hyunjinee.tistory.com/75)을 진행했습니다.
 - **Docker**를 사용하여 애플리케이션을 컨테니어화하여 배포를 진행합니다.
 - **NGINX**를 사용하여 웹서버를 구성했습니다.
 
 <div id="3"></div>
 
-## 시스템 아키텍처
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 시스템 아키텍처
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/63354527/200804672-894f4f1a-2ff5-4804-b68d-61b767df1e77.png" alt="architecture"/>
 </p>
 
-## 💻 실행 방법
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 실행 방법
 
 개발환경: `Node.js v16.15.1`, `MacOS Monterey 12.2.1`
 
@@ -81,7 +93,7 @@ yarn start
 
 <div id="4"></div>
 
-## 개발자 및 프로젝트에 도움을 주신 분들
+## <img height="25px" src="https://user-images.githubusercontent.com/63354527/201579700-89054ca7-c1cd-45f5-87fb-b1535ba06b3b.svg" /> 개발자 및 프로젝트에 도움을 주신 분들
 
 <table>
   <tr>
@@ -166,3 +178,13 @@ yarn start
     </td>
   </tr>
 </table>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/63354527/201853029-e92aa913-882f-47b7-be43-5878cb3af169.png" width="30%" >
+</p>
+
+<br/>
+
+<p align="center"><i>This Project is Sponsored by <b>Software Maestro</b></i></p>
+
+<p align="center">This work was supported by the Institute of Information & Communications Technology Planning & Evaluation(IITP) grant funded by the Ministry of Science and ICT(MSIT) (IITP-2022-SW Maestro training course).</p>

@@ -1,3 +1,3 @@
-export const SYNC_TODOS = 'sync-todos' as const;
-export const TOKEN = 'token' as const;
-export const CHECK_ALARM = 'CHECK_ALARM' as const;
+export const SYNC_TODOS = 'sync-todos';
+export const TOKEN = 'token';
+export const UPDATE_LOCATION = 'UPDATE_LOCATION';

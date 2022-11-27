@@ -60,7 +60,7 @@ export const dateDiff = (date1?: Date | string, date2?: Date | string) => {
   return true;
 };
 
-export const checkAlarm = (todoDate: string) => {
+export const checkMinutes = (todoDate: string) => {
   const nowDate = new Date();
   const alarmDate = new Date(todoDate);
 

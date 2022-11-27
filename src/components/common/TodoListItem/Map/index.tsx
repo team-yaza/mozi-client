@@ -28,8 +28,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
           setCoords({ latitude: coords.latitude, longitude: coords.longitude });
           setMarkerCoords({ latitude: coords.latitude, longitude: coords.longitude });
         },
-        (error) => console.error(error),
-        { enableHighAccuracy: true }
+        (error) => console.error(error)
       );
     }
   }, [todo, setCoords]);
@@ -40,7 +39,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
         map: naverMap,
         position: createPosition(coords.latitude, coords.longitude),
         icon: {
-          content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+          content: '<img src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
           anchor: new naver.maps.Point(11, 11),
         },
       });
@@ -73,7 +72,7 @@ const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {
 
         {/* 위치 선택 확인 버튼 */}
         {!isMapLoading && (
-          <ConfirmContainer onClick={() => setIsModalOpened(true)}>
+          <ConfirmContainer onClick={() => setIsModalOpened(true)} data-testid="mapCheckButton">
             <CONFIRMBUTTON />
           </ConfirmContainer>
         )}

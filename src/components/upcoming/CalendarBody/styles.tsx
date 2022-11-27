@@ -8,11 +8,13 @@ export const Container = styled.div`
 export const DatesContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
 
-  padding: 2rem;
+  padding-inline: 2rem;
+  padding-bottom: 3.4rem;
 `;
 
 export const DateContainer = styled.div<{ color?: string }>`
@@ -20,7 +22,7 @@ export const DateContainer = styled.div<{ color?: string }>`
   height: 10rem;
 
   font-size: 1.3rem;
-  color: ${({ color }) => (color ? color : '#000000')};
+  color: ${({ color, theme }) => (color ? color : theme.color.white)};
 
   cursor: default;
 
@@ -42,7 +44,8 @@ export const DateNumber = styled.span<{ selected: boolean }>`
 
   width: 2rem;
   height: 2rem;
-  background-color: ${({ selected }) => (selected ? '#ECECEC' : '#FFFFFF')};
+  background-color: ${({ selected, theme }) => selected && theme.color.calendar_day_background};
+  transition: background-color 0.3s;
 `;
 
 export const TodosContainer = styled.div`
@@ -51,8 +54,8 @@ export const TodosContainer = styled.div`
   margin-top: 0.5rem;
 `;
 
-export const TodoTitle = styled.span`
-  color: #735aff;
+export const TodoTitle = styled.span<{ type: 'alarm' | 'deadline' }>`
+  color: ${({ type }) => (type === 'deadline' ? '#FF6161' : '#7380F6')};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

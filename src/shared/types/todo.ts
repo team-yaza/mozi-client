@@ -7,8 +7,12 @@ export interface Todo {
   longitude?: number;
   latitude?: number;
   locationName?: string;
+
   alarmDate?: any;
   dueDate?: any;
+
+  alarmType?: 'time' | 'place' | 'both';
+  distanceType?: 'short' | 'medium' | 'long';
 
   alarmed: boolean;
 

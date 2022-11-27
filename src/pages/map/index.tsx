@@ -14,21 +14,25 @@ import { Location } from '@/shared/types/location';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { useTodoListQuery } from '@/hooks/apis/todo/useTodoListQuery';
 import { ROUTES } from '@/shared/constants/routes';
-import { CROSSHAIRS } from '@/components/common/Figure';
+import { CROSSHAIRS, THUMBSUP } from '@/components/common/Figure';
 import { screenOut } from '@/styles/utils';
+import locationService from '@/services/apis/location';
 
 const Map: NextPageWithLayout = () => {
   const naverMapRef = useRef<HTMLDivElement>(null);
-  const [isOpenModal, setIsModalOpen] = useState<boolean>(false);
+  const [isOpenModal, setIsModalOpen] = useState(false);
   const [clickedCoords, setClickedCoords] = useState<Location>({ longitude: -1, latitude: -1 });
+  const [showRecommendedLocation, setShowRecommendedLocation] = useState(false);
   const [bounds, setBounds] = useState<naver.maps.Bounds>();
   const [markers, setMarkers] = useState<Array<naver.maps.Marker>>([]);
-  const { naverMap, isMapLoading, createMarker, createPosition, setCoords } = useNaverMap();
+  const { naverMap, isMapLoading, createMarker, createPosition, coords, setCoords } = useNaverMap();
 
   const { data: todos } = useTodoListQuery(ROUTES.MAP);
   const { mutate: createTodo } = useCreateTodoMutation();
   const { mutate: updateTodo } = useUpdateTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
+
+  // console.log(recommendedLocation, '???');
 
   const onClose = useCallback(() => {
     setIsModalOpen(false);
@@ -41,11 +45,17 @@ const Map: NextPageWithLayout = () => {
     [clickedCoords]
   );
 
-  const deleteAllMarkers = useCallback(() => {
+  const deleteAllMarkers = () => {
     if (!naverMap) return;
-    console.log('delete all markers');
     markers.forEach((marker) => marker.setMap(null));
-  }, [markers]);
+  };
+
+  const getDistance = (type: string | undefined) => {
+    if (type === 'short') return 30;
+    else if (type === 'medium') return 60;
+    else if (type === 'long') return 90;
+    else return 0;
+  };
 
   useEffect(() => {
     if (!naverMap) return;
@@ -70,8 +80,7 @@ const Map: NextPageWithLayout = () => {
       ({ coords }) => {
         setCoords({ latitude: coords.latitude, longitude: coords.longitude });
       },
-      (error) => console.error(error),
-      { enableHighAccuracy: true }
+      (error) => console.error(error)
     );
   }, [setCoords]);
 
@@ -80,6 +89,7 @@ const Map: NextPageWithLayout = () => {
       deleteAllMarkers();
       const newMarkers: naver.maps.Marker[] = [];
       todos.forEach((todo: Todo) => {
+        const distance = getDistance(todo.distanceType);
         const markerTitlestyle =
           'position: absolute; bottom: 4.5rem;' +
           'background-color: #FFFFFF; visibility:hidden; padding-inline: 1rem;' +
@@ -87,12 +97,16 @@ const Map: NextPageWithLayout = () => {
           'border: 1px #735AFF solid; border-radius: 3rem; max-width: 20rem;';
         const spanStyle =
           'font-size: 2rem; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; line-height: 3rem; z-index: 0';
-        const boundary = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; background-color: #000000; border-radius: 50%; opacity: 30%; width: 30rem; height: 30rem;"></div>`;
+        const boundary =
+          '<div style=" background-color: #957AAB; border-radius: 50%; opacity: 30%; width: 100%; height:100%; "></div>';
+        const boundaryBorder = `<div id="b_${todo.id}" style="visibility: hidden; position: absolute; z-index: -1; width: ${distance}rem; height: ${distance}rem; border: 3px solid #957AAB;border-radius: 50%;">${boundary}</div>`;
         const markerTitle = `<div id=${todo.id} style="${markerTitlestyle}"><span style="${spanStyle}">${todo.title}</span></div>`;
-        const markerImg = '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
+        const markerImg = '<img src="/assets/svgs/marker.svg" draggable="false" unselectable="on">';
         const containerStyle =
           'position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;';
-        const markerContainer = `<div style='${containerStyle}'>${markerTitle + markerImg + boundary}</div>`;
+        const markerContainer = `<div style='${containerStyle}'>${
+          markerTitle + markerImg + (todo.distanceType ? boundaryBorder : '')
+        }</div>`;
         const marker = createMarker({
           map: naverMap,
           position: createPosition(todo.latitude as number, todo.longitude as number),
@@ -115,23 +129,67 @@ const Map: NextPageWithLayout = () => {
           }
           const marker = document.getElementById(todo.id);
           const boundary = document.getElementById(`b_${todo.id}`);
-          if (!marker || !boundary) return;
+          if (!marker) return;
 
           if (marker.style.visibility === 'hidden') {
             marker.style.visibility = 'visible';
-            boundary.style.visibility = 'visible';
             bringForward();
           } else {
             marker.style.visibility = 'hidden';
-            boundary.style.visibility = 'hidden';
             sendBack();
           }
+
+          if (!boundary) return;
+
+          if (boundary.style.visibility === 'hidden') boundary.style.visibility = 'visible';
+          else boundary.style.visibility = 'hidden';
         });
         newMarkers.push(marker);
       });
       setMarkers(newMarkers);
     }
   }, [todos, naverMap]);
+
+  useEffect(() => {
+    if (showRecommendedLocation === false) {
+      markers.forEach((marker) => {
+        if (marker.getTitle() === '추천 장소') {
+          marker.setMap(null);
+        }
+      });
+      setMarkers(markers.filter((marker) => marker.getTitle() !== '추천 장소'));
+      return;
+    }
+
+    if (naverMap && showRecommendedLocation && coords) {
+      const recommendedMarkers: naver.maps.Marker[] = [];
+
+      (async () => {
+        const recommendedLocation: any = await locationService.getRecommendationResult({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+
+        recommendedLocation.forEach((recommendedPlace: any) => {
+          const marker = createMarker({
+            title: '추천 장소',
+            map: naverMap,
+            position: createPosition(recommendedPlace.location[1], recommendedPlace.location[0]),
+            zIndex: 1,
+            icon: {
+              // content: '<img class="marker" src="/assets/svgs/marker.svg" draggable="false" unselectable="on">',
+              content: `<div class="marker">${recommendedPlace.name}</div>`,
+              anchor: new naver.maps.Point(11, 11),
+            },
+          });
+
+          recommendedMarkers.push(marker);
+        });
+
+        setMarkers((prev) => [...prev, ...recommendedMarkers]);
+      })();
+    }
+  }, [naverMap, coords, showRecommendedLocation]);
 
   useEffect(() => {
     let eventListeners: naver.maps.MapEventListener;
@@ -155,8 +213,7 @@ const Map: NextPageWithLayout = () => {
       ({ coords }) => {
         setCoords({ latitude: coords.latitude, longitude: coords.longitude });
       },
-      (error) => console.error(error),
-      { enableHighAccuracy: true }
+      (error) => console.error(error)
     );
   };
 
@@ -181,12 +238,19 @@ const Map: NextPageWithLayout = () => {
         <MapLayout id="map" ref={naverMapRef}>
           {isMapLoading && <Image src="/assets/images/map.png" layout="fill" alt="지도 사진" />}
           {!isMapLoading && (
-            <CurrentLocation onClick={onClickCurrentLocation}>
-              <LogoContainer>
-                <CROSSHAIRS />
-                <CurrentPosition>현위치</CurrentPosition>
-              </LogoContainer>
-            </CurrentLocation>
+            <>
+              <CurrentLocation onClick={onClickCurrentLocation}>
+                <LogoContainer>
+                  <CROSSHAIRS />
+                  <CurrentPosition>현위치</CurrentPosition>
+                </LogoContainer>
+              </CurrentLocation>
+              <Recommend onClick={() => setShowRecommendedLocation((prev) => !prev)} data-testid="recommendButton">
+                <LogoContainer>
+                  <THUMBSUP />
+                </LogoContainer>
+              </Recommend>
+            </>
           )}
         </MapLayout>
 
@@ -215,6 +279,7 @@ const Container = styled.div`
 `;
 
 const MapLayout = styled.main`
+  position: relative;
   width: 100%;
   height: calc(100vh - 5.4rem);
 `;
@@ -231,6 +296,10 @@ const CurrentLocation = styled.div`
   border-radius: 0.8rem;
 
   z-index: 10000;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.purple};
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -249,5 +318,30 @@ const LogoContainer = styled.div`
 const CurrentPosition = styled.span`
   ${screenOut};
 `;
+
+const Recommend = styled.div`
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  left: 3rem;
+  bottom: 3rem;
+
+  background-color: ${({ theme }) => theme.color.background};
+  transition: background-color 0.3s;
+  border-radius: 0.8rem;
+
+  z-index: 10000;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.purple};
+  }
+
+  svg {
+    /* stroke: ${({ theme }) => theme.color.crosshair}; */
+    color: ${({ theme }) => theme.color.crosshair};
+    transition: stroke 0.3s;
+  }
+`;
+// const RecommendContainer = styled.div``;
 
 export default Map;

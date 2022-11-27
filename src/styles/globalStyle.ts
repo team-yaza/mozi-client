@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
+import { theme } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -48,5 +49,45 @@ export const GlobalStyle = createGlobalStyle`
   svg {
     display: block;
     max-width: 100%;
+  }
+
+  .marker {
+    white-space: nowrap;
+    position: relative;
+    display: flex;
+    padding: 1.1rem 1.6rem 1.2rem;
+    background-color: white;
+    border-radius: 0.99rem;
+    border: 0.12rem solid ${theme.colors.purple};
+    font-weight: 600;
+    font-size: 1.5rem;
+    height: 4rem;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .marker::before {
+    position: absolute;
+    bottom: -6px;
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-top-right-radius: 2px;
+
+    border-top: 0.12rem solid ${theme.colors.purple};
+    border-right: 0.12rem solid ${theme.colors.purple};
+    background-color: white;
+    left: 50%;
+    transform: translateX(-50%) rotate(135deg);
+  }
+
+  .marker:hover {
+    color: ${theme.colors.purple};
+    z-index: 1;
+  }
+
+  .marker.active {
+    background-color:  ${theme.colors.purple};
+    color: white;
+    z-index: 1;
   }
 `;

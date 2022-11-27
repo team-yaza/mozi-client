@@ -48,12 +48,21 @@ export const useTodoListStatistics = () => {
           (acc, todo: Todo) => {
             if (todo.deletedAt) {
               acc.trash += 1;
-            } else if (todo.done) {
+            }
+
+            if (todo.done && !todo.deletedAt) {
               acc.logbook += 1;
-            } else if (todo.latitude && todo.longitude) {
+            }
+
+            if (todo.latitude && todo.longitude && !todo.deletedAt) {
               acc.map += 1;
-              acc.inbox += 1;
-            } else {
+            }
+
+            if ((todo.alarmDate || todo.dueDate) && !todo.deletedAt) {
+              acc.upcoming += 1;
+            }
+
+            if (!todo.done && !todo.deletedAt) {
               acc.inbox += 1;
             }
             return acc;

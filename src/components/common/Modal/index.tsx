@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import {
@@ -24,12 +24,23 @@ const Modal: React.FC<ModalProps> = ({ type = 'modal', isOpened, onClose, onConf
   if (!modalRef) return null;
 
   const renderModalConfirmText = () => {
-    // if (confirmText) return confirmText;
     if (type === 'modal') return '확인';
     if (type === 'alert') return '삭제';
   };
 
-  // renderModalActionText;
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      e.stopPropagation();
+
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   return createPortal(
     <Container isOpened={isOpened}>
@@ -40,7 +51,9 @@ const Modal: React.FC<ModalProps> = ({ type = 'modal', isOpened, onClose, onConf
         <ModalContent>{children}</ModalContent>
         <ModalActionContainer>
           <CancelButton onClick={onClose}>취소</CancelButton>
-          <ConfirmButton onClick={onConfirm}>{renderModalConfirmText()}</ConfirmButton>
+          <ConfirmButton onClick={onConfirm} data-testid="confirmButton">
+            {renderModalConfirmText()}
+          </ConfirmButton>
         </ModalActionContainer>
       </ModalInner>
     </Container>,

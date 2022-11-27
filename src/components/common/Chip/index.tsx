@@ -1,28 +1,19 @@
-import { Container, Content, IconContainer, DeleteBtn, Wrapper } from './styles';
-import { DELETE } from '@/components/common/Figure';
 import React, { useState } from 'react';
+import { Container, Content, IconContainer, DeleteButton, Wrapper } from './styles';
+import { DELETE } from '@/components/common/Figure';
 
 export interface ChipProps {
   type: 'location' | 'date' | 'deadline' | 'tag';
-  backgroundColor: string;
-  fontColor: string;
   icon: React.ReactNode;
   Modal?: React.ReactNode;
   isModalOpen?: boolean;
   content: string;
+  color?: string;
   onClickHandler?: () => void;
   onDeleteHander?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const Chip: React.FC<ChipProps> = ({
-  backgroundColor,
-  fontColor,
-  icon,
-  Modal,
-  content,
-  onClickHandler,
-  onDeleteHander,
-}) => {
+const Chip: React.FC<ChipProps> = ({ icon, Modal, content, onClickHandler, onDeleteHander, color }) => {
   const [focused, setFocused] = useState<boolean>(false);
 
   const onChipClicked = () => {
@@ -32,13 +23,13 @@ const Chip: React.FC<ChipProps> = ({
 
   return (
     <Wrapper>
-      <Container backgroundColor={backgroundColor} onClick={onChipClicked}>
+      <Container onClick={onChipClicked}>
         <IconContainer>{icon}</IconContainer>
-        <Content fontColor={fontColor}>{content}</Content>
+        <Content style={{ color }}>{content}</Content>
         {focused && (
-          <DeleteBtn onClick={onDeleteHander}>
+          <DeleteButton onClick={onDeleteHander}>
             <DELETE />
-          </DeleteBtn>
+          </DeleteButton>
         )}
       </Container>
       {Modal}

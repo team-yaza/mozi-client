@@ -20,7 +20,6 @@ const Upcoming: NextPageWithLayout = () => {
       <Title icon={<UPCOMING />} title="Upcoming">
         <Navigator currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </Title>
-
       <CalendarContainer>
         <CalendarHeader />
         <CalendarBody currentDate={currentDate} setCurrentDate={setCurrentDate} todos={todos || []} />
@@ -36,7 +35,7 @@ Upcoming.getLayout = function getLayout(page: ReactElement) {
 
 const Container = styled.div`
   position: relative;
-  height: 100%;
+
   width: 100%;
 
   display: flex;
@@ -47,8 +46,9 @@ const Container = styled.div`
 `;
 
 const CalendarContainer = styled.div`
-  position: relative;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export default Upcoming;

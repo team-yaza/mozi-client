@@ -74,6 +74,19 @@ const TodoListItem = ({
 
   useOnClickOutside(containerRef, onClickOutsideHandler);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        setIsMapOpened(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [setIsMapOpened]);
+
   const onClickHandler = () => {
     if (isDoubleClicked) return;
     setIsFocused(index);
