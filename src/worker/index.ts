@@ -104,11 +104,7 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
 });
 
 const getDescription = (todo: Todo) => {
-  return (
-    todo.description ||
-    (todo.alarmDate && `${todo.alarmDate?.getHours()}시 ${todo.alarmDate?.getMinutes()}분`) ||
-    todo.locationName
-  );
+  return todo.description || todo.alarmDate || todo.locationName;
 };
 
 const alarm = async (todo: Todo) => {
