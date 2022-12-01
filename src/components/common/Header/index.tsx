@@ -6,13 +6,13 @@ import { Container, SettingContainer } from './styles';
 const Header: React.FC = () => {
   const router = useRouter();
 
-  const onClickSettingHandler = () => {
+  const onClick = () => {
     router.push('/setting');
   };
 
   return (
     <Container>
-      <SettingContainer onClick={onClickSettingHandler}>
+      <SettingContainer onClick={onClick}>
         <SETTING width="20" height="20" />
       </SettingContainer>
     </Container>
