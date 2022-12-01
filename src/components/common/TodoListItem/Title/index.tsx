@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { debounce } from '@/shared/utils/debounce';
-// import { TodoUpdateRequest } from '@/shared/types/todo';
+import { TodoUpdateRequest } from '@/shared/types/todo';
 import { Container } from './styles';
 import { Todo } from '@/shared/types/todo';
 
@@ -10,7 +11,7 @@ interface TitleProps {
   todo: Todo;
   isDoubleClicked: boolean;
   setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const Title: React.FC<TitleProps> = ({ todo, isDoubleClicked, setIsDoubleClicked, updateTodo }) => {

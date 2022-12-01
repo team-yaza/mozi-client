@@ -1,17 +1,17 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { useNaverMap } from '@/hooks/useNaverMap';
-// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { CONFIRMBUTTON } from '@/components/common/Figure';
 import Spinner from '@/components/common/Spinner';
 import SetLocationModal from '@/components/common/SetLocationModal';
 import { Container, SpinnerContainer, ConfirmContainer } from './styles';
-import { Todo } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 
 interface MapProps {
   todo: Todo;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const Map: React.FC<MapProps> = ({ todo, updateTodo }) => {

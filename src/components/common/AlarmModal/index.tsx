@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import Modal from '@/components/common/Modal';
 import { Button, ButtonContainer, Container, Option, Place, Select, Title } from './styles';
-import { Todo } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 
 interface AlarmModalProps {
   isOpened: boolean;
   todo: Todo;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, updateTodo }) => {
@@ -46,7 +47,11 @@ const AlarmModal: React.FC<AlarmModalProps> = ({ todo, isOpened, setIsOpened, up
       '시간 & 장소': 'both',
     } as any;
 
-    updateTodo({ ...todo, alarmType: optionType[alarmType], distanceType });
+    updateTodo({
+      ...todo,
+      alarmType: optionType[alarmType],
+      distanceType: distanceType as 'short' | 'medium' | 'long',
+    });
     setIsOpened(false);
   };
 

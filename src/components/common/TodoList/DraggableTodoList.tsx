@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { Draggable } from 'react-beautiful-dnd';
 
-import {
-  Todo,
-  // TodoUpdateRequest
-} from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import TodoListItem from '@/components/common/TodoListItem/index';
 import { Container } from './styles';
 
 interface TodoListProps {
   todos?: Todo[];
-  updateTodo: UseMutateFunction<any, any, any, any>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
   deleteTodo?: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 

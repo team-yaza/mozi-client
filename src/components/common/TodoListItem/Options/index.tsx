@@ -1,19 +1,19 @@
 import { useCallback, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
-// import { TodoUpdateRequest } from '@/shared/types/todo';
 import { dateToString } from '@/shared/utils/date';
 import { Container, DefinedContainer, DefinedOption, UndefinedContainer, UndefinedOption } from './styles';
 import { Chip, CalendarModal } from '@/components/common';
 import { PLACE, CALENDAR, DEADLINE, ALARM } from '@/components/common/Figure';
 import DeleteModal from '@/components/common/DeleteModal';
-import { Todo } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import AlarmModal from '@/components/common/AlarmModal';
 
 interface OptionsProps {
   todo: Todo;
   setIsMapOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const Options: React.FC<OptionsProps> = ({ todo, setIsMapOpened, updateTodo }) => {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
-import Modal from '@/components/common/Modal';
+import { AxiosError } from 'axios';
 
 import { getYearAndMonth, getCalendarDates, getDateToHour, getDateToMin } from '@/shared/utils/date';
 import { NEXTARROW, PREVARROW, STOPWATCH } from '@/components/common/Figure';
-// import { TodoUpdateRequest } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
+import Modal from '@/components/common/Modal';
 import {
   Container,
   Header,
@@ -20,7 +21,6 @@ import {
   HourInput,
   MinuteInput,
 } from './styles';
-import { Todo } from '@/shared/types/todo';
 
 interface CalendarModalProps {
   todo: Todo;
@@ -28,7 +28,7 @@ interface CalendarModalProps {
   type: 'alarm' | 'due';
   isCalendarModalOpen: boolean;
   setIsCalendarModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const HOURS = 12;
