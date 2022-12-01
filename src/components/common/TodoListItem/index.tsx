@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
+import { AxiosError } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import Title from './Title';
@@ -7,10 +8,7 @@ import Description from './Description';
 import Map from './Map';
 import Options from './Options';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import {
-  Todo,
-  // TodoUpdateRequest
-} from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import { DEADLINE, PLACE, CALENDAR } from '@/components/common/Figure';
 import { debounce } from '@/shared/utils/debounce';
 import { CheckBox, Container, DescriptionContainer, IconContainer, Icons, MainContainer } from './styles';
@@ -21,7 +19,7 @@ interface TodoListItemProps {
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<number>>;
   setIsEditing?: Dispatch<SetStateAction<number>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
   deleteTodo?: UseMutateFunction<unknown, unknown, string, unknown>;
 }
 

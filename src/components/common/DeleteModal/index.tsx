@@ -1,16 +1,17 @@
 import Image from 'next/image';
+import { AxiosError } from 'axios';
+
 import Modal from '@/components/common/Modal';
 import { Container, Header, Content } from './styles';
 import { UseMutateFunction } from '@tanstack/react-query';
-// import { TodoUpdateRequest } from '@/shared/types/todo';
-import { Todo } from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 
 interface DeleteModalProps {
   todo: Todo;
   type: 'alarm' | 'due' | 'location';
   isOpened: boolean;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({ todo, type, isOpened, setIsOpened, updateTodo }) => {
@@ -21,9 +22,10 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ todo, type, isOpened, setIsOp
   };
 
   const confirmHandler = () => {
-    if (type === 'location') updateTodo({ ...todo, locationName: null, latitude: null, longitude: null });
-    else if (type === 'alarm') updateTodo({ ...todo, alarmDate: null });
-    else if (type === 'due') updateTodo({ ...todo, dueDate: null });
+    if (type === 'location')
+      updateTodo({ ...todo, locationName: undefined, latitude: undefined, longitude: undefined });
+    else if (type === 'alarm') updateTodo({ ...todo, alarmDate: undefined });
+    else if (type === 'due') updateTodo({ ...todo, dueDate: undefined });
     setIsOpened(false);
   };
 

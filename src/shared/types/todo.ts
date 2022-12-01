@@ -47,6 +47,8 @@ export interface TodoUpdateRequest {
   deletedAt?: Date;
   alarmed?: boolean;
   createdAt?: Date;
+  alarmType?: 'time' | 'place' | 'both';
+  distanceType?: 'short' | 'medium' | 'long';
 }
 
 export interface TodoCreateRequest {

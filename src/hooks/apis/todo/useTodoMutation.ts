@@ -5,9 +5,9 @@ import * as Sentry from '@sentry/nextjs';
 import todoService from '@/services/apis/todo';
 import { syncTodos } from '@/shared/utils/sync';
 import { queryClient } from '@/shared/utils/queryClient';
-import { Todo, TodoUpdateRequest, TodoCreateRequest } from '@/shared/types/todo';
 import { queryKeys } from '@/shared/constants/queryKey';
 import { toastError } from '@/shared/utils/toast';
+import { Todo, TodoUpdateRequest, TodoCreateRequest } from '@/shared/types/todo';
 import { TODO_CREATE_FAILED, TODO_DELETE_FAILED, TODO_UPDATE_FAILED } from '@/shared/constants/dialog';
 
 export const useCreateTodoMutation = () =>
@@ -45,7 +45,7 @@ export const useUpdateTodoMutation = () =>
       }),
     {
       onSuccess: async (_, variables) => {
-        queryClient.setQueriesData<Todo[]>([queryKeys.TODOS], (data) => {
+        queryClient.setQueriesData<any>([queryKeys.TODOS], (data: any) => {
           return data?.map((todo: Todo) => {
             if (todo.id === variables.id) {
               return { ...todo, ...variables };

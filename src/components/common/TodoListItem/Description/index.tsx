@@ -1,10 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
-import {
-  Todo,
-  // TodoUpdateRequest
-} from '@/shared/types/todo';
+import { Todo, TodoUpdateRequest } from '@/shared/types/todo';
 import { debounce } from '@/shared/utils/debounce';
 import { Container } from './styles';
 
@@ -12,7 +10,7 @@ interface DescriptionProps {
   todo: Todo;
   description?: string;
   setIsDoubleClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  updateTodo: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  updateTodo: UseMutateFunction<Partial<Todo>, AxiosError, TodoUpdateRequest>;
 }
 
 const Description: React.FC<DescriptionProps> = ({ todo, setIsDoubleClicked, updateTodo }) => {
