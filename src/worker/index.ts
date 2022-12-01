@@ -104,12 +104,10 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
 });
 
 const getDescription = (todo: Todo) => {
-  return todo.description || todo.alarmDate || todo.locationName;
+  return todo.description || todo.locationName;
 };
 
 const alarm = async (todo: Todo) => {
-  console.log('알람 울림', todo);
-
   self.registration.showNotification(todo.title ?? 'MOZI 알림', {
     body: getDescription(todo),
     icon: 'https://avatars.githubusercontent.com/u/104609929?s=200&v=4',
