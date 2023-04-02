@@ -11,17 +11,6 @@
       <img alt="MIT License" src="https://img.shields.io/github/license/team-yaza/mozi-client" />
    
 </div>
-   
-<!-- ## 목차
-
-1. [**서비스 소개**](#1)
-2. [**기술스택**](#2)
-3. [**실행 방법**](#3)
-4. [**개발자 및 프로젝트에 도움을 주신 분들**](#4)
-5. [**MOZI 공식문서**](https://mozi.vercel.app/blog)
-6. [**디자인**](https://www.figma.com/file/eyC5lWrJFnF0q7g3YSstD0/MOZI?node-id=0%3A1)
-7. [**스토리북**](https://634bb73decf851b7e9bcd559-ozmokojofk.chromatic.com/)
-8. [**팀 노션**](https://roomy-phone-06d.notion.site/MOZI-92625391b533460fb797bbce9f8839dfs) -->
 
 <div id="1"></div>
 
@@ -33,7 +22,7 @@ MOZI는 할 일을 잊지 않기 위한 시간/장소 기반 TODO서비스 입�
 
 MOZI는 PWA의 형태로 제작되어서 웹에 접속 가능한 환경이라면 어디서든 접속 및 다운로드 할 수 있으며, 오프라인 동기화 기능을 제공하여 인터넷이 연결되지 않은 환경에서도 사용할 수 있습니다.
 
-MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](https://mozi.vercel.app/docs/intro) 부분을 읽어보시는것을 추천합니다.
+MOZI의 사용법이 궁금하시다면 [MOZI 공식문서의 튜토리얼](https://mozi.vercel.app/docs/MOZI) 부분을 읽어보시는것을 추천합니다.
 
 <p align="center">
 
